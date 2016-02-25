@@ -1,0 +1,2 @@
+# strider
+JavaFx travel advisor
