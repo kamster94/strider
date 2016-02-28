@@ -1,4 +1,4 @@
-package presentationLayer;
+package countryWarnings;
 	
 import javafx.application.Application;
 import javafx.stage.Stage;
