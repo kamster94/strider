@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="517.0" prefWidth="590.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="presentationLayer.SampleController">
+   <children>
+      <Button fx:id="znajdzButton" layoutX="240.0" layoutY="40.0" mnemonicParsing="false" prefHeight="11.0" prefWidth="111.0" text="Znajdz" />
+      <TextField fx:id="krajTextField" layoutX="36.0" layoutY="40.0" />
+      <TextArea fx:id="ostrzezenieTextArea" layoutX="36.0" layoutY="98.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="381.0" prefWidth="523.0" />
+   </children>
+</AnchorPane>
