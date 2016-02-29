@@ -73,11 +73,58 @@ public class SampleController implements Initializable{
 					
 					informationTextArea.setText(""); //czyszczenie poprzednich wyszukan
 					
-					for (Element link : elems3) 
-					informationTextArea.appendText(link.text() + newLine); //odczytywanie tekstu ze zrodla do TextArea
+					for (Element link : elems3) {
 						
-					for (Element link : elems4) 
-					informationTextArea.appendText(link.text() + newLine); //odczytywanie tekstu ze zrodla do TextArea
+						Elements linkChildren = link.children();
+						
+						for (Element elem : linkChildren) {
+
+							if(elem.tagName().equals("a")){
+							
+							Elements linkGrandChildren = elem.children();
+							for (Element elem2 : linkGrandChildren) {
+ 
+								if(elem2.tagName().equals("h3"))
+							    informationTextArea.appendText(elem2.text().toUpperCase() + newLine);
+								
+							}
+			        
+							}
+					        if(elem.tagName().equals("div"))
+						    informationTextArea.appendText(elem.text() + newLine);
+					        
+					        
+					    }
+					
+				//	informationTextArea.appendText(link.text() + newLine); //odczytywanie tekstu ze zrodla do TextArea
+					
+						informationTextArea.appendText(newLine);
+								
+					
+					}
+					
+					
+					for (Element link : elems4) {
+						
+						Elements linkChildren = link.children();
+						
+						for (Element elem : linkChildren) {
+					        
+					        if(elem.tagName().equals("h3"))
+					        informationTextArea.appendText(elem.text().toUpperCase() + newLine);
+					        if(elem.tagName().equals("div"))
+						    informationTextArea.appendText(elem.text() + newLine);
+					        
+					        
+					    }
+					
+				//	informationTextArea.appendText(link.text() + newLine); //odczytywanie tekstu ze zrodla do TextArea
+					
+						informationTextArea.appendText(newLine);
+								
+					}
+					
+					
 					
 					informationTextArea.selectPositionCaret(0); //przewiniecie do poczatku tekstu w TextArea
 						
