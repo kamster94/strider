@@ -23,87 +23,67 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+
 public class SampleController implements Initializable{
 
     @FXML
-    private Button znajdzButton;
+    private Button findButton;
 
     @FXML
-    private TextField krajTextField;
-
-    @FXML
-    private TextArea ostrzezenieTextArea;
+    private TextArea informationTextArea;
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		
-		ostrzezenieTextArea.setWrapText(true);
+		informationTextArea.setWrapText(true);
 
-		znajdzButton.setOnAction(new EventHandler<ActionEvent>() {
+		findButton.setOnAction(new EventHandler<ActionEvent>() {
 	        @Override
 	        public void handle(ActionEvent arg0) {
 	        	   
-	        		String textFromkrajTextField = krajTextField.getText(); 
-	        		//String, ktory wpisaliscie do TextFielda - poprawnie: Z duzej litery nazwa dowolnego panstwa
+	        		String textFromCountryNameBox = Main.box.getEditor().getText(); 
 	        		String url = "http://www.polakzagranica.msz.gov.pl";	   
 	        	    Document document;
-			
-	               try {
-					document = Jsoup.connect(url)
-					.userAgent("Mozilla/5.0 (Windows; U; WindowsNT 5.1; en-US; rv1.8.1.6) Gecko/20070725 Firefox/2.0.0.6")
-					.referrer("http://www.google.com")		
-					.get();					
-					Elements elems = document.select("option");
-					String newLine = System.getProperty("line.separator");
-					
-					//jak wejdziecie sobie na pierwszy url i w zrodlo strony, bedzie tam lista opcji z panstwami/
-					//ta liste kopiuje do tych dwoch tablic - nazwe panstwa oraz koncowke adresu, ktora
-					//pozniej dodaje do urla i wyszukuje na jej podstawie info o panstwach
-					
-					 String[] countryNames = new String[elems.size()];
-					 String[] countryHtmls = new String[elems.size()];
-					 
-					int i = 0;					
-					for (Element link : elems) {
-						countryNames[i] = link.text();
-						countryHtmls[i] = link.attr("value");
-						i++;
-						}
-													
-					int check = 0;  //jak tekscik, ktory wpisaliscie bedzie poprawna nazwa panstwa, check na 1
+	        	    String newLine = System.getProperty("line.separator");
+	        	    int checkForMatchingCountry = 0;  
 					int num=0;
+	        	    	        	  	
+	               try {
+			
 					
-					for(i = 0; i < countryNames.length; i++){
+					for(int i = 0; i < Main.countryNames.size(); i++){ //petla do szukania wpisanego kraju
 						
-						if(textFromkrajTextField.equals(countryNames[i])){
-							check = 1;
+							if(textFromCountryNameBox.equals(Main.countryNames.get(i))){
+							checkForMatchingCountry = 1;
 							num = i;
 						}
 						
 						
 					}
 					
-					if(check == 1){
-					url+=countryHtmls[num];
+					if(checkForMatchingCountry == 1){
+					url+=Main.countryHtmls.get(num);
 					document = Jsoup.connect(url)
 					.userAgent("Mozilla/5.0 (Windows; U; WindowsNT 5.1; en-US; rv1.8.1.6) Gecko/20070725 Firefox/2.0.0.6")
 					.referrer("http://www.google.com")		
 					.get();
-					Elements elems2 = document.select("p");
-					ostrzezenieTextArea.setText(""); //czyszczenie poprzednich wyszukan
 					
-					for (Element link : elems2) 
-					ostrzezenieTextArea.appendText(link.text() + newLine); //zczytywanie tekstu ze zrodla do TextArea
+					Elements elems3 = document.select(("div[class=warning]"));//ostrzezenia o panstwie
+					Elements elems4 = document.select(("div[class=item]")); //informacje o panstwie
 					
-					ostrzezenieTextArea.selectPositionCaret(0); //przewiniecie do poczatku tekstu w TextArea
+					informationTextArea.setText(""); //czyszczenie poprzednich wyszukan
+					
+					for (Element link : elems3) 
+					informationTextArea.appendText(link.text() + newLine); //odczytywanie tekstu ze zrodla do TextArea
+						
+					for (Element link : elems4) 
+					informationTextArea.appendText(link.text() + newLine); //odczytywanie tekstu ze zrodla do TextArea
+					
+					informationTextArea.selectPositionCaret(0); //przewiniecie do poczatku tekstu w TextArea
 						
 					}else
-						ostrzezenieTextArea.setText("Prosze wpisac poprawnie nazwe Panstwa");
+					informationTextArea.setText("Prosze wpisac poprawnie nazwe Panstwa");
 				
-					
-					
-					
-					
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
