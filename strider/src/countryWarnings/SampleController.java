@@ -71,7 +71,7 @@ public class SampleController implements Initializable{
 					Elements elems3 = document.select(("div[class=warning]"));//ostrzezenia o panstwie
 					Elements elems4 = document.select(("div[class=item]")); //informacje o panstwie
 					
-					informationTextArea.setText(""); //czyszczenie poprzednich wyszukan
+					informationTextArea.setText(""); ////czyszczenie poprzednich wyszukan
 					
 					for (Element link : elems3) {
 						
