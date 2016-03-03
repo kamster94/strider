@@ -1,0 +1,69 @@
+.root
+{	
+	-fx-background: white; 
+	-fx-body-color: white;
+}
+.button
+{
+	-fx-text-fill: deepskyblue; 
+	-fx-border-color: rgb(210,210,210);
+
+}
+.scroll-pane
+{
+	-fx-background-color: lightgrey;
+}
+.scroll-pane .scroll-bar
+{
+	-fx-background-color: white; 
+	-fx-border-color: white;
+}
+.scroll-bar .thumb
+{
+	-fx-background-color: lightgrey;
+}
+.scroll-bar .increment-arrow
+{
+	-fx-background-color: lightgrey;
+}
+.scroll-bar .decrement-arrow
+{
+	-fx-background-color: lightgrey;
+}
+.titled-pane .title
+{
+	-fx-background-color: white;
+	
+}
+.titled-pane
+{
+	-fx-background: rgb(210,210,210);
+	-fx-border-color: rgb(210,210,210);
+	-fx-animated: true;
+	-fx-text-fill: deepskyblue;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
