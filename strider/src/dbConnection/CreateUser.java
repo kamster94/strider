@@ -21,11 +21,12 @@ public class CreateUser {
 	}
 	
 	public boolean verifyDataValidity(){
-		if (!email.contains("@")) return false;
-		if (currency.length()!=3) return false;
-		if (userName.length()>15) return false;
-		if (password.length()<5) return false;
-		else return true;
+		if (userName.length() > 32) return false;
+		if (!email.contains("@") || email.length() > 32) return false;
+		if (password.length() < 6 || password.length() > 32) return false;
+		if (city.length() > 32) return false;
+		if (currency.length() != 3) return false;
+		return true;
 	}
 	
 	public boolean checkEmailAvailability(){
