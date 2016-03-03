@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@ta_mainwindow.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@ta_mainwindow.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="desktopGui.NewAccountWindowController">
    <bottom>
       <HBox alignment="CENTER" spacing="10.0" BorderPane.alignment="CENTER">
          <children>
@@ -54,7 +54,7 @@
                   <Label fx:id="labelcity" text="City" />
                   <TextField fx:id="textfieldcity" />
                   <Label fx:id="labelcountry" text="Country" />
-                  <TextField fx:id="textfieldcountry" />
+                  <ChoiceBox fx:id="choiceboxcountry" prefWidth="150.0" />
                   <Separator orientation="VERTICAL" prefHeight="37.0" prefWidth="50.0" visible="false" />
                   <Label fx:id="labelcurrency" text="Currency" />
                   <ChoiceBox fx:id="choiceboxcurrency" prefWidth="150.0" />
