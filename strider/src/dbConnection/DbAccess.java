@@ -50,7 +50,7 @@ public class DbAccess {
 	}
 	
 	private void connectToDb() throws SQLException{
-		connectionString = "jdbc:sqlanywhere:uid="+login+";pwd="+password+";eng=demo12;database=demo;host=5.134.69.28:15144";
+		connectionString = "jdbc:sqlanywhere:uid="+login+";pwd="+password+";eng=traveladvisordb;database=traveladvisordb;host=5.134.69.28:15144";
 		connection = DriverManager.getConnection(connectionString); 
 	}
 	
