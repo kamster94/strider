@@ -29,11 +29,11 @@ public class CreateUser {
 	}
 	
 	public List<String> getCountries(){
-		return dbConnection.getStringsFromDb("TODO: sql", Arrays.asList(email));	
+		return dbConnection.getStringsFromDb("SELECT * FROM DBA.Country", Arrays.asList("CountryName"));	
 	}
 	
 	public List<String> getCurrencies(){
-		return dbConnection.getStringsFromDb("TODO: sql", Arrays.asList(email));	
+		return dbConnection.getStringsFromDb("SELECT * FROM DBA.Currency", Arrays.asList("CurrencyShortcut"));	
 	}
 	
 	public boolean verifyDataValidity(){
@@ -47,11 +47,11 @@ public class CreateUser {
 	}
 	
 	public boolean checkEmailAvailability(){
-		return dbConnection.pushToDb("TODO: sql", Arrays.asList(email));
+		return dbConnection.checkBoolInDb("SELECT DBA.fCheckIfExist(?)", Arrays.asList(email));
 	}
 	
 	public boolean sendToDb(){
-		return dbConnection.pushToDb("TODO: sql", Arrays.asList(userName, password, city, email, Integer.toString(countryId), Integer.toString(currencyId)));
+		return dbConnection.pushToDb("CALL DBA.pAddToUsers (@email = ?, @haslo = ?, @username = ?, @idcurrency = ?, @idcountry = ?, @idcity = ?)", Arrays.asList(email, password, userName, Integer.toString(currencyId), Integer.toString(countryId), city));
 	}
 
 }

@@ -6,7 +6,6 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.FileHandler;
@@ -96,12 +95,38 @@ public class DbAccess {
 		}
 	}
 	
-	public boolean pushToDb(String sql, List<Object> params){
+	public boolean pushToDb(String sql, List<String> params){
 		try {
 			connectToDb();
-			Statement statement = connection.createStatement();
+			PreparedStatement statement = connection.prepareStatement(sql);
+			int index = 1;
+			for (String param : params){
+				statement.setString(index, param);
+				index++;
+			}
 			statement.executeUpdate(sql);
 			return true;
+		} catch(SQLException e){
+			connectionLogger.log(Level.SEVERE, e.toString());
+			return false;
+		}     
+	}
+	
+	public boolean checkBoolInDb(String sql, List<String> params){
+		try {
+			connectToDb();
+			PreparedStatement statement = connection.prepareStatement(sql);
+			int index = 1;
+			for (String param : params){
+				statement.setString(index, param);
+				index++;
+			}
+	        ResultSet result = statement.executeQuery();
+			if (result.next()){
+				if (result.getInt(0) == 0) return false;
+				else return true;
+			}
+			else return false;
 		} catch(SQLException e){
 			connectionLogger.log(Level.SEVERE, e.toString());
 			return false;
