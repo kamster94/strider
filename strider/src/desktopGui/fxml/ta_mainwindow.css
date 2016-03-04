@@ -1,69 +1,163 @@
+/**************/
+/*****ROOT*****/
+/**************/
+
 .root
 {	
-	-fx-background: white; 
-	-fx-body-color: white;
-}
-.button
-{
-	-fx-text-fill: deepskyblue; 
-	-fx-border-color: rgb(210,210,210);
-
-}
-.scroll-pane
-{
-	-fx-background-color: lightgrey;
-}
-.scroll-pane .scroll-bar
-{
-	-fx-background-color: white; 
+	-fx-background-color: white;
 	-fx-border-color: white;
 }
+
+/***************/
+/*****LABEL*****/
+/***************/
+
+.label
+{
+	-fx-text-fill: cornflowerblue;
+}
+
+.label-panetype
+{
+	-fx-text-fill: cornflowerblue;
+	-fx-underline: true;
+}
+/**************/
+/*****VBOX*****/
+/**************/
+
+.vbox
+{
+	-fx-background-color: white;
+	-fx-border-color: white;
+}
+
+.back-vbox
+{
+	-fx-background-color: white;
+	-fx-border-color: white;
+}
+
+/********************/
+/*****STACK PANE*****/
+/********************/
+.stack-pane
+{
+	-fx-background-color: white;
+}
+
+
+
+/*****************/
+/*****BUTTONS*****/
+/*****************/
+
+.button
+{
+	-fx-text-fill: cornflowerblue;
+	-fx-border-color: white;
+	-fx-background-color: white;
+}
+
+.button:hover
+{
+	-fx-border-color: rgb(200,200,235);
+}
+
+.button:armed
+{
+	-fx-background-color: cornflowerblue;
+	-fx-border-color: cornflowerblue;
+	-fx-text-fill:white;
+}
+
+.toggle-button:selected
+{
+	-fx-background-color: cornflowerblue;
+	-fx-border-color: cornflowerblue;
+	-fx-text-fill: white;
+}
+
+/********************/
+/*****SPLIT PANE*****/
+/********************/
+
+.split-pane
+{
+	-fx-background-color: white;
+	-fx-border-color: white;
+}
+
+.split-pane .split-pane-divider
+{
+	-fx-background-color: white;
+	-fx-border-color: white;
+
+}
+
+/**********************/
+/*****SCROLL PANES*****/
+/**********************/
+
+.scroll-pane .viewport
+{
+	-fx-background-color: transparent;
+}
+
+.scroll-pane
+{
+	-fx-background-color: white;
+	-fx-border-color: lightgray;
+}
+
+.scroll-pane .scroll-bar
+{
+	-fx-background-color: white;
+	-fx-border-color: white;
+}
+
+/*********************/
+/*****SCROLL BARS*****/
+/*********************/
+
 .scroll-bar .thumb
 {
-	-fx-background-color: lightgrey;
+	-fx-background-color: lightgray;
 }
+
 .scroll-bar .increment-arrow
 {
-	-fx-background-color: lightgrey;
+	-fx-background-color: lightgray;
 }
+
 .scroll-bar .decrement-arrow
 {
-	-fx-background-color: lightgrey;
+	-fx-background-color: lightgray;
 }
+
+/**********************/
+/*****TITLED PANES*****/
+/**********************/
+
 .titled-pane .title
 {
+	-fx-background-color: cornflowerblue;
+	-fx-border-color: cornflowerblue;
+}
+
+.titled-pane .content
+{
+	-fx-border-color: white;
 	-fx-background-color: white;
 	
 }
+
 .titled-pane
 {
-	-fx-background: rgb(210,210,210);
-	-fx-border-color: rgb(210,210,210);
+	-fx-background-color: white;
+	-fx-border-color: white;
 	-fx-animated: true;
-	-fx-text-fill: deepskyblue;
+	-fx-text-fill: white;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 

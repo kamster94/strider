@@ -120,11 +120,14 @@ public class NewAccountWindowController implements Initializable, EventHandler<A
 					if(addstatus)
 					{
 						//Dodalismy usera do bazy poprawnie
+						System.out.println("Correctly added new user to DB.");
 					}
 					else
 					{
+						System.out.println("Couldn't add new user to DB.");
 						//dobrywieczor, cos sie, cos sie popsulo
 					}
+					NewAccountWindow.closeWindow();
 				}
 				else
 				{
