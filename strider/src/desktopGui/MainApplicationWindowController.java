@@ -15,6 +15,7 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public class MainApplicationWindowController implements Initializable, EventHandler<ActionEvent>
@@ -85,7 +86,14 @@ public class MainApplicationWindowController implements Initializable, EventHand
 	@FXML
 	private Label mwailabelcurrencystate;
 
+    @FXML
+    private ScrollPane mwpaneadditionalinformation;
+	
 	final ToggleGroup tg = new ToggleGroup();
+	
+	final Image mszlogoimage = new Image("desktopGui/textures/ta_msz.png");
+	final Image mwikilogoimage = new Image("desktopGui/textures/ta_mwiki.png");
+	
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1)
@@ -102,6 +110,13 @@ public class MainApplicationWindowController implements Initializable, EventHand
 		mwtogglebuttonadditionalinformation.setToggleGroup(tg);
 		mwtogglebuttontravelhistory.setToggleGroup(tg);
 		mwtogglebuttonreviewhotels.setToggleGroup(tg);
+		
+		mwaiimageviewmszlogo.setImage(mszlogoimage);
+		mwaiimageviewmediawikilogo.setImage(mwikilogoimage);
+		
+		mwpaneadditionalinformation.setDisable(true);
+		mwpaneadditionalinformation.setVisible(false);
+		
 	}
 
 	@Override
@@ -111,6 +126,19 @@ public class MainApplicationWindowController implements Initializable, EventHand
 		{
 			MainApplicationWindow.closeWindow();
 		}
+		else if(arg0.getSource() == mwtogglebuttonadditionalinformation)
+		{
+			if(mwtogglebuttonadditionalinformation.isSelected())
+			{
+				mwpaneadditionalinformation.setDisable(false);
+				mwpaneadditionalinformation.setVisible(true);
+			}
+			else
+			{
+				mwpaneadditionalinformation.setDisable(true);
+				mwpaneadditionalinformation.setVisible(false);
+			}
 		
+		}
 	}
 }
