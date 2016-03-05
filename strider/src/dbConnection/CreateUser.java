@@ -13,6 +13,7 @@ public class CreateUser {
 	private String currency; 
 	private int currencyId;
 	private DbAccess dbConnection;
+	private int cityId;
 	
 	public CreateUser(){
 		dbConnection = new DbAccess("Kamster","sql");
@@ -26,6 +27,13 @@ public class CreateUser {
 		this.password = password;
 		this.currency = currency;
 		this.currencyId = currencyId;
+		cityId = dbConnection.getIntFromDb("SELECT IDCity FROM DBA.City WHERE CityName = '" + city + "' AND IDCountry = " + countryId);
+		if (cityId == -1) {
+			int count = dbConnection.getIntFromDb("SELECT COUNT(*) FROM DBA.City");
+			count++;
+			dbConnection.pushToDb("INSERT INTO DBA.City (IDCountry, IDCity, CityName) VALUES (" + countryId + ", " + count + ", '" + city + "')", null);
+			cityId = count;
+		}
 	}
 	
 	public List<String> getCountries(){
@@ -51,7 +59,7 @@ public class CreateUser {
 	}
 	
 	public boolean sendToDb(){
-		return dbConnection.pushToDb("CALL DBA.pAddToUsers (@email = ?, @haslo = ?, @username = ?, @idcurrency = ?, @idcountry = ?, @idcity = ?)", Arrays.asList(email, password, userName, Integer.toString(currencyId), Integer.toString(countryId), city));
+		return dbConnection.pushToDb("CALL DBA.pAddToUsers (@email = ?, @haslo = ?, @username = ?, @idcurrency = ?, @idcountry = ?, @idcity = ?)", Arrays.asList(email, password, userName, Integer.toString(currencyId), Integer.toString(countryId), Integer.toString(cityId)));
 	}
 
 }

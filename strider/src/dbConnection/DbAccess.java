@@ -132,4 +132,23 @@ public class DbAccess {
 			return false;
 		}     
 	}
+	
+	public int getIntFromDb(String sql){
+		try {
+			connectToDb();
+			PreparedStatement statement = connection.prepareStatement(sql);
+	        ResultSet result = statement.executeQuery();
+	        int value = -1;
+	        if (result.next()) {
+	    		value = result.getInt(0);
+	        }
+	        result.close();
+	        statement.close();
+	        connection.close();
+	        return value;
+		} catch (SQLException e) {
+			connectionLogger.log(Level.SEVERE, e.toString());
+			return -1;
+		}
+	}
 }
