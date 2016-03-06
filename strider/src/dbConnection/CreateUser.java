@@ -12,8 +12,8 @@ public class CreateUser {
 	private String password;
 	private String currency; 
 	private int currencyId;
-	private DbAccess dbConnection;
 	private int cityId;
+	private DbAccess dbConnection;
 	
 	public CreateUser(){
 		dbConnection = new DbAccess("Kamster","sql");
