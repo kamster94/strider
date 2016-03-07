@@ -81,7 +81,7 @@ public class NewAccountWindowController implements Initializable, EventHandler<A
 		//Wypelnianie choiceboxow od waluty i panstw
 		choiceboxcurrency.getItems().addAll(cuser.getCurrencies()); 
 		choiceboxcountry.getItems().addAll(cuser.getCountries());
-		choiceboxcity.getItems().addAll(cuser.getCities());
+		choiceboxcity.getItems().addAll(cuser.getCities(197));
 		
 		//Poczatkowe zaznaczenie w choiceboxach
 		choiceboxcurrency.setValue("PLN");

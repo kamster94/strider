@@ -34,7 +34,8 @@ public class CreateUser {
 		return dbConnection.getStringsFromDb("SELECT * FROM DBA.Country", Arrays.asList("CountryName"));	
 	}
 	
-	public List<String> getCities(){
+	public List<String> getCities(int countryId){
+		System.out.println(countryId);
 		return dbConnection.getStringsFromDb("SELECT * FROM DBA.City WHERE IDCountry = " + countryId, Arrays.asList("CityName"));	
 	}
 	
