@@ -84,7 +84,7 @@ public class NewAccountWindowController implements Initializable, EventHandler<A
 		{
 			public void changed(ObservableValue ov, Number value, Number new_value)
 			{
-				choiceboxcity.getItems().removeAll();
+				choiceboxcity.getItems().removeAll(choiceboxcity.getItems());
 				choiceboxcity.getItems().addAll(cuser.getCities(choiceboxcountry.getSelectionModel().getSelectedIndex()));
 			}
 		});
