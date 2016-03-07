@@ -4,6 +4,8 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import dbConnection.CreateUser;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -78,10 +80,19 @@ public class NewAccountWindowController implements Initializable, EventHandler<A
 		
 		cuser = new CreateUser();
 		
+		choiceboxcountry.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>()
+		{
+			public void changed(ObservableValue ov, Number value, Number new_value)
+			{
+				choiceboxcity.getItems().removeAll();
+				choiceboxcity.getItems().addAll(cuser.getCities(choiceboxcountry.getSelectionModel().getSelectedIndex()));
+			}
+		});
+			
 		//Wypelnianie choiceboxow od waluty i panstw
 		choiceboxcurrency.getItems().addAll(cuser.getCurrencies()); 
 		choiceboxcountry.getItems().addAll(cuser.getCountries());
-		choiceboxcity.getItems().addAll(cuser.getCities(197));
+		choiceboxcity.getItems().addAll(cuser.getCities(197)); // miasta dla Polszy jak by co
 		
 		//Poczatkowe zaznaczenie w choiceboxach
 		choiceboxcurrency.setValue("PLN");
