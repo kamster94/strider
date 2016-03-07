@@ -10,6 +10,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -50,9 +51,6 @@ public class NewAccountWindowController implements Initializable, EventHandler<A
 	private Label labelcity;
 
 	@FXML
-	private TextField textfieldcity;
-
-	@FXML
 	private Label labelcountry;
 
 	@FXML
@@ -67,22 +65,28 @@ public class NewAccountWindowController implements Initializable, EventHandler<A
 	@FXML
 	private ChoiceBox<String> choiceboxcountry;
 	
+	@FXML
+	private ChoiceBox<String> choiceboxcity;
+	
+	private CreateUser cuser;
+	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1)
-	{
+	{	
 		//Ukrywamy label o zajetosci maila
 		labelemailtaken.setVisible(false);
 		
+		cuser = new CreateUser();
 		
 		//Wypelnianie choiceboxow od waluty i panstw
-		//TODO: Wypelnic danymi z bazy?
-		choiceboxcurrency.getItems().addAll("PLN", "USD", "EURO"); 
-		choiceboxcountry.getItems().addAll("Albania", "Polska", "Uganda");
-		
+		choiceboxcurrency.getItems().addAll(cuser.getCurrencies()); 
+		choiceboxcountry.getItems().addAll(cuser.getCountries());
+		choiceboxcity.getItems().addAll(cuser.getCities());
 		
 		//Poczatkowe zaznaczenie w choiceboxach
 		choiceboxcurrency.setValue("PLN");
 		choiceboxcountry.setValue("Polska");
+		choiceboxcity.setValue("Warszawa");
 		
 		buttoncancel.setOnAction(this);
 		buttoncreate.setOnAction(this);
@@ -96,16 +100,18 @@ public class NewAccountWindowController implements Initializable, EventHandler<A
 		{
 			//TODO: Dodac sprawdzenie zeby zaden textfield nie byl pusty top kek
 			
-			CreateUser cuser = new CreateUser(textfieldusername.getText(), textfieldcity.getText(), textfieldemail.getText(), choiceboxcountry.getValue().toString(), textfieldpassword.getText(), choiceboxcurrency.getValue().toString());
-				
-			/*
-			System.out.println("Username : " + textfieldusername.getText());
-			System.out.println("City : " + textfieldcity.getText());
-			System.out.println("Email : " + textfieldemail.getText());
-			System.out.println("Country : " + choiceboxcountry.getValue().toString());
-			System.out.println("Password : " + textfieldpassword.getText());
-			System.out.println("Currency : " + choiceboxcurrency.getValue().toString());
-			*/
+			System.out.println(choiceboxcurrency.getValue());
+			System.out.println(choiceboxcurrency.getSelectionModel().getSelectedIndex());
+			//CreateUser cuser = new CreateUser(, , choiceboxcountry.getValue().toString(), textfieldpassword.getText(), choiceboxcurrency.getValue().toString());
+			
+			cuser.setData(textfieldusername.getText(), 
+					      choiceboxcity.getValue(), 
+					      choiceboxcity.getSelectionModel().getSelectedIndex(), 
+					      textfieldemail.getText(), 
+					      choiceboxcountry.getSelectionModel().getSelectedIndex(), 
+					      textfieldpassword.getText(), 
+					      choiceboxcurrency.getValue(), 
+					      choiceboxcurrency.getSelectionModel().getSelectedIndex());
 				
 			if(cuser.verifyDataValidity())
 			{

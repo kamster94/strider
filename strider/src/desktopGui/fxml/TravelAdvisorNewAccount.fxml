@@ -52,7 +52,7 @@
             <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0" HBox.hgrow="ALWAYS">
                <children>
                   <Label fx:id="labelcity" text="City" />
-                  <TextField fx:id="textfieldcity" />
+                  <ChoiceBox fx:id="choiceboxcity" prefWidth="150.0" />
                   <Label fx:id="labelcountry" text="Country" />
                   <ChoiceBox fx:id="choiceboxcountry" prefWidth="150.0" />
                   <Separator orientation="VERTICAL" prefHeight="37.0" prefWidth="50.0" visible="false" />
