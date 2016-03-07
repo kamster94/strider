@@ -95,15 +95,11 @@ public class DbAccess {
 		}
 	}
 	
-	public boolean pushToDb(String sql, List<String> params){
+	public boolean pushToDb(String sql){
 		try {
 			connectToDb();
 			PreparedStatement statement = connection.prepareStatement(sql);
-			int index = 1;
-			for (String param : params){
-				statement.setString(index, param);
-				index++;
-			}
+			connectionLogger.log(Level.SEVERE, sql);
 			statement.executeUpdate(sql);
 			return true;
 		} catch(SQLException e){

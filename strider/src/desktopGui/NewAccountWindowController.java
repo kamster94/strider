@@ -114,7 +114,7 @@ public class NewAccountWindowController implements Initializable, EventHandler<A
 			System.out.println(choiceboxcurrency.getValue());
 			System.out.println(choiceboxcurrency.getSelectionModel().getSelectedIndex());
 			//CreateUser cuser = new CreateUser(, , choiceboxcountry.getValue().toString(), textfieldpassword.getText(), choiceboxcurrency.getValue().toString());
-			
+
 			cuser.setData(textfieldusername.getText(), 
 					      choiceboxcity.getValue(), 
 					      choiceboxcity.getSelectionModel().getSelectedIndex(), 
@@ -155,6 +155,7 @@ public class NewAccountWindowController implements Initializable, EventHandler<A
 			else
 			{
 				//TODO: Wywal okno z bledem	
+				System.out.println("CHUJ MAS£O TRZAS£O");
 			}
 		}
 		else if(arg0.getSource() == buttoncancel)

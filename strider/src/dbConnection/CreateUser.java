@@ -35,7 +35,6 @@ public class CreateUser {
 	}
 	
 	public List<String> getCities(int countryId){
-		System.out.println(countryId);
 		return dbConnection.getStringsFromDb("SELECT * FROM DBA.City WHERE IDCountry = " + countryId, Arrays.asList("CityName"));	
 	}
 	
@@ -54,11 +53,11 @@ public class CreateUser {
 	}
 	
 	public boolean checkEmailAvailability(){
-		return dbConnection.checkBoolInDb("SELECT DBA.fCheckIfExist(?)", Arrays.asList(email));
+		return !dbConnection.checkBoolInDb("SELECT DBA.fCheckIfExist(?)", Arrays.asList(email));
 	}
 	
 	public boolean sendToDb(){
-		return dbConnection.pushToDb("CALL DBA.pAddToUsers (@email = ?, @haslo = ?, @username = ?, @idcurrency = ?, @idcountry = ?, @idcity = ?)", Arrays.asList(email, password, userName, Integer.toString(currencyId), Integer.toString(countryId), Integer.toString(cityId)));
+		return dbConnection.pushToDb("CALL DBA.pAddToUsers (@email = '" + email + "', @haslo = '" + password + "', @username = '" + userName + "', @idcurrency = " + currencyId + ", @idcountry = " + countryId + ", @idcity = " + cityId +")");
 	}
 
 }
