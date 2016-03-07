@@ -19,25 +19,23 @@ public class CreateUser {
 		dbConnection = new DbAccess("Kamster","sql");
 	}
 	
-	public void setData(String userName, String city, String email, int countryId, String password, String currency, int currencyId){
+	public void setData(String userName, String city, int cityId, String email, int countryId, String password, String currency, int currencyId){
 		this.userName = userName;
 		this.city = city;
+		this.cityId = cityId;
 		this.email = email;
 		this.countryId = countryId;
 		this.password = password;
 		this.currency = currency;
 		this.currencyId = currencyId;
-		cityId = dbConnection.getIntFromDb("SELECT IDCity FROM DBA.City WHERE CityName = '" + city + "' AND IDCountry = " + countryId);
-		if (cityId == -1) {
-			int count = dbConnection.getIntFromDb("SELECT COUNT(*) FROM DBA.City");
-			count++;
-			dbConnection.pushToDb("INSERT INTO DBA.City (IDCountry, IDCity, CityName) VALUES (" + countryId + ", " + count + ", '" + city + "')", null);
-			cityId = count;
-		}
 	}
 	
 	public List<String> getCountries(){
 		return dbConnection.getStringsFromDb("SELECT * FROM DBA.Country", Arrays.asList("CountryName"));	
+	}
+	
+	public List<String> getCities(){
+		return dbConnection.getStringsFromDb("SELECT * FROM DBA.City WHERE IDCountry = " + countryId, Arrays.asList("CityName"));	
 	}
 	
 	public List<String> getCurrencies(){

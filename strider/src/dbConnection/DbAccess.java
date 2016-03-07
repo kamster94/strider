@@ -28,7 +28,7 @@ public class DbAccess {
 		this.password = password;
 		try {  
 			FileHandler fh;  
-	        fh = new FileHandler("connectionLog.log");  
+	        fh = new FileHandler("logs/connectionLog.log");  
 	        connectionLogger.addHandler(fh);
 	        connectionLogger.setUseParentHandlers(false);
 	        SimpleFormatter formatter = new SimpleFormatter();  
