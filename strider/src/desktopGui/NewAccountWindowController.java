@@ -79,6 +79,7 @@ public class NewAccountWindowController implements Initializable, EventHandler<A
 		labelemailtaken.setVisible(false);
 		
 		cuser = new CreateUser();
+		cuser.start();
 		
 		choiceboxcountry.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>()
 		{

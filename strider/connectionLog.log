@@ -1,6 +1,4 @@
-mar 08, 2016 12:15:55 AM dbConnection.DbAccess checkBoolInDb
-SEVERE: java.sql.SQLException: [Sybase][JDBC Driver][SQL Anywhere]Table 'Uzytkownik' not found
-mar 08, 2016 12:15:56 AM dbConnection.DbAccess pushToDb
-SEVERE: CALL DBA.pAddToUsers (@email = ?, @haslo = ?, @username = ?, @idcurrency = ?, @idcountry = ?, @idcity = ?)
-mar 08, 2016 12:15:56 AM dbConnection.DbAccess pushToDb
-SEVERE: java.sql.SQLException: [Sybase][JDBC Driver][SQL Anywhere]Not enough values for host variables
+mar 14, 2016 9:43:03 PM dbConnection.DbAccess checkBoolInDb
+SEVERE: java.sql.SQLException: Column number 0 is invalid
+mar 14, 2016 9:43:03 PM dbConnection.DbAccess pushToDb
+SEVERE: CALL DBA.pAddToUsers (@email = 'hlep@gmai.com', @haslo = 'zaq1@wsx', @username = 'Hlep', @idcurrency = 125, @idcountry = 197, @idcity = 1927)

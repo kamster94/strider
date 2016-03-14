@@ -3,7 +3,7 @@ package dbConnection;
 import java.util.Arrays;
 import java.util.List;
 
-public class CreateUser {
+public class CreateUser extends Thread{
 	
 	private String userName;
 	private String city;
@@ -13,10 +13,13 @@ public class CreateUser {
 	private String currency; 
 	private int currencyId;
 	private int cityId;
-	private DbAccess dbConnection;
+	//private DbAccess dbConnection;
 	
 	public CreateUser(){
-		dbConnection = new DbAccess("Kamster","sql");
+		//dbConnection = new DbAccess("Kamster","sql");
+	}
+	
+	public void run(){
 	}
 	
 	public void setData(String userName, String city, int cityId, String email, int countryId, String password, String currency, int currencyId){
@@ -31,15 +34,21 @@ public class CreateUser {
 	}
 	
 	public List<String> getCountries(){
-		return dbConnection.getStringsFromDb("SELECT * FROM DBA.Country", Arrays.asList("CountryName"));	
+		DbAccess dbConnection = new DbAccess("Kamster","sql");
+		dbConnection.start();
+		return dbConnection.getStringsFromDb("SELECT CountryName FROM DBA.Country", Arrays.asList("CountryName"));	
 	}
 	
 	public List<String> getCities(int countryId){
-		return dbConnection.getStringsFromDb("SELECT * FROM DBA.City WHERE IDCountry = " + countryId, Arrays.asList("CityName"));	
+		DbAccess dbConnection = new DbAccess("Kamster","sql");
+		dbConnection.start();
+		return dbConnection.getStringsFromDb("SELECT CityName FROM DBA.City WHERE IDCountry = " + countryId, Arrays.asList("CityName"));	
 	}
 	
 	public List<String> getCurrencies(){
-		return dbConnection.getStringsFromDb("SELECT * FROM DBA.Currency", Arrays.asList("CurrencyShortcut"));	
+		DbAccess dbConnection = new DbAccess("Kamster","sql");
+		dbConnection.start();
+		return dbConnection.getStringsFromDb("SELECT CurrencyShortcut FROM DBA.Currency", Arrays.asList("CurrencyShortcut"));	
 	}
 	
 	public boolean verifyDataValidity(){
@@ -53,10 +62,14 @@ public class CreateUser {
 	}
 	
 	public boolean checkEmailAvailability(){
+		DbAccess dbConnection = new DbAccess("Kamster","sql");
+		dbConnection.start();
 		return !dbConnection.checkBoolInDb("SELECT DBA.fCheckIfExist(?)", Arrays.asList(email));
 	}
 	
 	public boolean sendToDb(){
+		DbAccess dbConnection = new DbAccess("Kamster","sql");
+		dbConnection.start();
 		return dbConnection.pushToDb("CALL DBA.pAddToUsers (@email = '" + email + "', @haslo = '" + password + "', @username = '" + userName + "', @idcurrency = " + currencyId + ", @idcountry = " + countryId + ", @idcity = " + cityId +")");
 	}
 

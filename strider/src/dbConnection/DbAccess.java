@@ -13,7 +13,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
-public class DbAccess {
+public class DbAccess extends Thread{
 	
 	public static Logger connectionLogger = Logger.getLogger("connectionLog"); 
 	
@@ -39,6 +39,14 @@ public class DbAccess {
 	        e.printStackTrace();  
 	    } 
 	}
+	
+	public void run(){
+		try {
+			connectToDb();
+		} catch (SQLException e) {
+			connectionLogger.log(Level.SEVERE, e.toString());
+		}
+    }
 	
 	public void setLogin(String login){
 		this.login = login;
