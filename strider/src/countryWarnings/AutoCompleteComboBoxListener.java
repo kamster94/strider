@@ -103,8 +103,7 @@ public class AutoCompleteComboBoxListener<T> {
             }
         }
 
-        String s = comboBox.getEditor().getText();
-        System.out.println("Found? " + found);
+        String s = comboBox.getEditor().getText();      
         if (!found && affect) {
             comboBox.getSelectionModel().clearSelection();
             comboBox.getEditor().setText(s);
