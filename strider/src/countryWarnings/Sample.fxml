@@ -6,7 +6,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="599.0" prefWidth="957.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="countryWarnings.SampleController">
    <children>
-      <Button fx:id="findButton" layoutX="251.0" layoutY="40.0" mnemonicParsing="false" prefHeight="11.0" prefWidth="111.0" text="Znajdz" />
+      <Button fx:id="findCountryButton" layoutX="251.0" layoutY="40.0" mnemonicParsing="false" prefHeight="11.0" prefWidth="111.0" text="Znajdz" />
       <Button fx:id="findCityButton" layoutX="703.0" layoutY="40.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="111.0" text="Znajdz" />
       <WebView fx:id="cityWebView" layoutX="479.0" layoutY="98.0" prefHeight="384.0" prefWidth="391.0" />
       <WebView fx:id="countryWebView" layoutX="29.0" layoutY="98.0" prefHeight="384.0" prefWidth="391.0" />

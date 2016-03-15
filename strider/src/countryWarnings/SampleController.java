@@ -52,7 +52,7 @@ import dbConnection.DbAccess;
 public class SampleController implements Initializable{
 
     @FXML
-    private Button findButton;
+    private Button findCountryButton;
 
     @FXML
     private Button findCityButton;
@@ -71,7 +71,7 @@ public class SampleController implements Initializable{
 		
 		
 		
-		findButton.setOnAction(new EventHandler<ActionEvent>() {
+		findCountryButton.setOnAction(new EventHandler<ActionEvent>() {
 	        @Override
 	        public void handle(ActionEvent arg0) {
 	        	    String newLine = System.getProperty("line.separator");
@@ -81,7 +81,7 @@ public class SampleController implements Initializable{
 	        		String url = "http://www.polakzagranica.msz.gov.pl";	   
 	        		Document document;
 	        		String cityNamesSql = "SELECT C.CityName FROM DBA.City C inner join DBA.Country Cr on C.IDCountry = Cr.IDCountry "
-   	   	        	+ "where Cr.CountryName = '" +  textFromCountryNameBox +"'";
+   	   	        	+ "where Cr.CountryName = '" +  textFromCountryNameBox +"' order by 1 asc";
    	   	            checkForMatchingCountry = 0;
    	   	            num = 0;
 	        	    
@@ -202,8 +202,14 @@ public class SampleController implements Initializable{
 	        @Override
 	        public void handle(ActionEvent arg0) {
 	        	
+	        	//laczenie z mediawiki w celu sciagniecia i parsowania informacji o ciekawych miejscach 
+	        	//w okolicach wybranego miasta
+	        	
 	        	String htmlString = ""; 
 	        	String textFromCityNameBox = Main.cityBox.getEditor().getText();
+	        	
+	        	textFromCityNameBox = textFromCityNameBox.replaceAll(" ", "_");
+	        	        	
         		String url = "https://pl.wikipedia.org/w/api.php?action=query&list=geosearch&gsradius=10000&gspage=";
         		String url2 =  "&gslimit=100&gsprop=type|name|&format=json";	   
         		url += textFromCityNameBox;
@@ -215,7 +221,6 @@ public class SampleController implements Initializable{
         	      BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
         	      String jsonText = readAll(rd);
         	      JSONObject json = new JSONObject(jsonText);
-        	     // System.out.println(jsonText);
 
         	      JSONArray arr  = json.getJSONObject("query").getJSONArray("geosearch");
 				  
