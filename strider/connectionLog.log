@@ -1,4 +1,0 @@
-mar 14, 2016 9:43:03 PM dbConnection.DbAccess checkBoolInDb
-SEVERE: java.sql.SQLException: Column number 0 is invalid
-mar 14, 2016 9:43:03 PM dbConnection.DbAccess pushToDb
-SEVERE: CALL DBA.pAddToUsers (@email = 'hlep@gmai.com', @haslo = 'zaq1@wsx', @username = 'Hlep', @idcurrency = 125, @idcountry = 197, @idcity = 1927)
