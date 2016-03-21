@@ -1,5 +1,6 @@
 package desktopGui;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -9,7 +10,13 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
@@ -107,15 +114,11 @@ public class NewAccountWindowController implements Initializable, EventHandler<A
 	@Override
 	public void handle(ActionEvent arg0)
 	{
-		
 		if(arg0.getSource() == buttoncreate)
 		{
-			//TODO: Dodac sprawdzenie zeby zaden textfield nie byl pusty top kek
+			//System.out.println(choiceboxcurrency.getValue());
+			//System.out.println(choiceboxcurrency.getSelectionModel().getSelectedIndex());
 			
-			System.out.println(choiceboxcurrency.getValue());
-			System.out.println(choiceboxcurrency.getSelectionModel().getSelectedIndex());
-			//CreateUser cuser = new CreateUser(, , choiceboxcountry.getValue().toString(), textfieldpassword.getText(), choiceboxcurrency.getValue().toString());
-
 			cuser.setData(textfieldusername.getText(), 
 					      choiceboxcity.getValue(), 
 					      choiceboxcity.getSelectionModel().getSelectedIndex(), 
@@ -138,25 +141,59 @@ public class NewAccountWindowController implements Initializable, EventHandler<A
 					if(addstatus)
 					{
 						//Dodalismy usera do bazy poprawnie
-						System.out.println("Correctly added new user to DB.");
+						try 
+						{
+							Stage primaryStage = new Stage();
+							BorderPane root = (BorderPane)FXMLLoader.load(getClass().getResource("fxml/TravelAdvisorMainWindow.fxml"));
+						
+							Scene scene = new Scene(root, 800, 600);
+							scene.getStylesheets().add(getClass().getResource("fxml/ta_mainwindow.css").toExternalForm());
+							primaryStage.setScene(scene);
+							primaryStage.setTitle("Travel Advisor");
+							primaryStage.show();
+						} 
+						catch (IOException e) 
+						{
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						finally
+						{
+							NewAccountWindow.closeWindow();
+						}
 					}
 					else
 					{
-						System.out.println("Couldn't add new user to DB.");
-						//dobrywieczor, cos sie, cos sie popsulo
+						Alert alertuseraddfailure = new Alert(AlertType.WARNING);
+						alertuseraddfailure.setTitle("Couldn't add a new user");
+						alertuseraddfailure.setHeaderText("Couldn't add a new user to the database.");
+						alertuseraddfailure.setContentText("Please check if provided user details are correct.");
+
+						alertuseraddfailure.showAndWait();
 					}
 					NewAccountWindow.closeWindow();
 				}
 				else
 				{
 					//Email zajety, pokazujemy napis
-					labelemailtaken.setVisible(true);
+					//labelemailtaken.setVisible(true); //Madziula tego nie chce? Jak chce to mozna to z powrotem wykorzystac
+					
+					Alert alertemailtaken = new Alert(AlertType.WARNING);
+					alertemailtaken.setTitle("Email already taken");
+					alertemailtaken.setHeaderText("This email is already used by another account.");
+					alertemailtaken.setContentText("Please make sure your email is unique.");
+
+					alertemailtaken.showAndWait();
 				}
 			}
 			else
 			{
-				//TODO: Wywal okno z bledem	
-				System.out.println("CHUJ MAS£O TRZAS£O");
+				Alert alertuseraddfailure = new Alert(AlertType.WARNING);
+				alertuseraddfailure.setTitle("Database connection error");
+				alertuseraddfailure.setHeaderText("Couldn't add new user to the database.");
+				alertuseraddfailure.setContentText("Please check your internet connection.");
+
+				alertuseraddfailure.showAndWait();
 			}
 		}
 		else if(arg0.getSource() == buttoncancel)

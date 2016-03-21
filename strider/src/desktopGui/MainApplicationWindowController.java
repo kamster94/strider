@@ -10,11 +10,13 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ScrollPane;
@@ -134,6 +136,10 @@ public class MainApplicationWindowController implements Initializable, EventHand
 		
 		 Platform.runLater(() -> {
 		new AutoCompleteComboBoxListener(countryBox); 
+ 
+		 });
+		 Platform.runLater(() -> {
+
 		new AutoCompleteComboBoxListener(cityBox); 
 		 });
 	}
@@ -143,7 +149,13 @@ public class MainApplicationWindowController implements Initializable, EventHand
 	{
 		if(arg0.getSource() == mwbuttonexit)
 		{
-			MainApplicationWindow.closeWindow();
+			//MainApplicationWindow.closeWindow();
+			Alert alertuseraddfailure = new Alert(AlertType.WARNING);
+			alertuseraddfailure.setTitle("Database connection error");
+			alertuseraddfailure.setHeaderText("Couldn't add new user to the database.");
+			alertuseraddfailure.setContentText("Please check your internet connection.");
+
+			alertuseraddfailure.showAndWait();
 		}
 		else if(arg0.getSource() == mwtogglebuttonadditionalinformation)
 		{
