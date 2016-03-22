@@ -149,13 +149,7 @@ public class MainApplicationWindowController implements Initializable, EventHand
 	{
 		if(arg0.getSource() == mwbuttonexit)
 		{
-			//MainApplicationWindow.closeWindow();
-			Alert alertuseraddfailure = new Alert(AlertType.WARNING);
-			alertuseraddfailure.setTitle("Database connection error");
-			alertuseraddfailure.setHeaderText("Couldn't add new user to the database.");
-			alertuseraddfailure.setContentText("Please check your internet connection.");
-
-			alertuseraddfailure.showAndWait();
+			MainApplicationWindow.closeWindow();
 		}
 		else if(arg0.getSource() == mwtogglebuttonadditionalinformation)
 		{
