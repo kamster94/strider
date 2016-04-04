@@ -48,6 +48,16 @@ public class DbAccess extends Thread{
 		}
     }
 	
+	public boolean testConnection(){
+		try {
+			connectToDb();
+			return true;
+		} catch (SQLException e) {
+			connectionLogger.log(Level.SEVERE, e.toString());
+			return false;
+		}
+    }
+	
 	public void setLogin(String login){
 		this.login = login;
 	}
