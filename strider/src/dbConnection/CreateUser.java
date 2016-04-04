@@ -22,6 +22,11 @@ public class CreateUser extends Thread{
 	public void run(){
 	}
 	
+	public boolean testDb(){
+		DbAccess dbConnection = new DbAccess("Kamster","sql");
+		return dbConnection.testConnection();
+		}
+	
 	public void setData(String userName, String city, int cityId, String email, int countryId, String password, String currency, int currencyId){
 		this.userName = userName;
 		this.city = city;
@@ -51,13 +56,13 @@ public class CreateUser extends Thread{
 		return dbConnection.getStringsFromDb("SELECT CurrencyShortcut FROM DBA.Currency", Arrays.asList("CurrencyShortcut"));	
 	}
 	
-	public boolean verifyDataValidity(){
-		if (userName.length() > 32) return false;
-		if (!email.contains("@") || email.length() > 32) return false;
-		if (password.length() < 6 || password.length() > 32) return false;
-		if (city.length() > 32) return false;
-		if (currency.length() != 3) return false;
-		return true;
+	public int verifyDataValidity(){
+		if (userName.length() > 32) return 1;
+		if (!email.contains("@") || email.length() > 32) return 2;
+		if (password.length() < 6 || password.length() > 32) return 3;
+		if (city.length() > 32) return 4;
+		if (currency.length() != 3) return 5;
+		return 0;
 		
 	}
 	
