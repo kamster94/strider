@@ -155,7 +155,7 @@
             </VBox>
             <StackPane prefHeight="150.0" prefWidth="200.0">
                <children>
-                  <ScrollPane fx:id="mwpaneadditionalinformation" fitToHeight="true" fitToWidth="true" prefHeight="200.0" prefWidth="200.0">
+                  <ScrollPane fx:id="mwpaneadditionalinformation" fitToHeight="true" fitToWidth="true" hvalue="1.0" prefHeight="200.0" prefWidth="200.0">
                      <content>
                         <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0" styleClass="vbox">
                            <children>
@@ -231,9 +231,9 @@
                                              </padding>
                                              <children>
                                                 <Label fx:id="mwailabelcurrencyname" text="Currency" />
-                                                <WebView fx:id="currencyWebView" minHeight="200.0" minWidth="200.0" prefHeight="200.0" prefWidth="200.0" />
+                                                <WebView fx:id="currencyWebView" minHeight="-1.0" minWidth="200.0" prefHeight="-1.0" prefWidth="200.0" />
                                                 <Label fx:id="mwailabelcurrencystate" text="Weather" />
-                                                <WebView fx:id="weatherWebView" minHeight="200.0" minWidth="200.0" prefHeight="200.0" prefWidth="200.0" />
+                                                <WebView fx:id="weatherWebView" minHeight="-1.0" minWidth="200.0" prefHeight="-1.0" prefWidth="200.0" />
                                              </children>
                                           </VBox>
                                        </children>
