@@ -3,7 +3,6 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
-<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
@@ -23,12 +22,13 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.web.WebView?>
 
 <BorderPane fx:id="mainborderpane" prefHeight="600.0" prefWidth="800.0" stylesheets="@ta_mainwindow.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="desktopGui.MainApplicationWindowController">
    <top>
       <HBox alignment="CENTER" spacing="10.0" styleClass="upperhbox" BorderPane.alignment="CENTER">
          <children>
-            <Label fx:id="mwlabelwelcomemessage" alignment="CENTER" contentDisplay="CENTER" text="ja pierydole jak to głupie kurestwo sie tnie">
+            <Label fx:id="mwlabelwelcomemessage" alignment="CENTER" contentDisplay="CENTER" text="przepraszam jaki jest kod pocztowy mojej dupy">
                <font>
                   <Font size="14.0" />
                </font>
@@ -155,7 +155,7 @@
             </VBox>
             <StackPane prefHeight="150.0" prefWidth="200.0">
                <children>
-                  <ScrollPane fx:id="mwpaneadditionalinformation" disable="true" fitToHeight="true" fitToWidth="true" prefHeight="200.0" prefWidth="200.0" visible="false">
+                  <ScrollPane fx:id="mwpaneadditionalinformation" fitToHeight="true" fitToWidth="true" prefHeight="200.0" prefWidth="200.0">
                      <content>
                         <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0" styleClass="vbox">
                            <children>
@@ -168,19 +168,26 @@
                                  <children>
                                     <VBox fx:id="vboxleftside" prefHeight="200.0" prefWidth="100.0" spacing="10.0" HBox.hgrow="ALWAYS">
                                        <children>
-                                          <Label fx:id="mwailabelcountry" text="Country" />
-                                          <ComboBox fx:id="countryBox" minWidth="200.0" />
+                                          <VBox fx:id="vboxcountrybox" spacing="10.0">
+                                             <children>
+                                                <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                                   <children>
+                                                      <Label fx:id="mwailabelcountry" text="Country" />
+                                                      <Button fx:id="findCountryButton" minWidth="100.0" mnemonicParsing="false" text="Find" />
+                                                   </children>
+                                                   <padding>
+                                                      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                                   </padding>
+                                                </HBox>
+                                             </children>
+                                          </VBox>
                                           <Separator maxHeight="25.0" minHeight="25.0" orientation="VERTICAL" prefHeight="25.0" visible="false" />
                                           <ImageView fx:id="mwaiimageviewmszlogo" fitHeight="50.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
                                                 <Image url="@ta_msz.png" />
                                              </image>
                                           </ImageView>
-                                          <ScrollPane fx:id="mwaiscrollpanemsz" minHeight="200.0" minWidth="400.0" prefHeight="200.0" prefWidth="200.0" vbarPolicy="ALWAYS" VBox.vgrow="ALWAYS">
-                                             <content>
-                                                <Label text="MSZ" />
-                                             </content>
-                                          </ScrollPane>
+                                          <WebView fx:id="countryWebView" minHeight="200.0" minWidth="400.0" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
                                        </children>
                                        <padding>
                                           <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -188,19 +195,26 @@
                                     </VBox>
                                     <VBox fx:id="vboxrightside" prefHeight="200.0" prefWidth="100.0" spacing="10.0" HBox.hgrow="ALWAYS">
                                        <children>
-                                          <Label fx:id="mwailabelcity" text="City" />
-                                          <ComboBox fx:id="cityBox" minWidth="200.0" />
+                                          <VBox fx:id="vboxcitybox" spacing="10.0">
+                                             <children>
+                                                <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                                   <children>
+                                                      <Label fx:id="mwailabelcity" text="City" />
+                                                      <Button fx:id="findCityButton" minWidth="100.0" mnemonicParsing="false" text="Find" />
+                                                   </children>
+                                                   <padding>
+                                                      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                                   </padding>
+                                                </HBox>
+                                             </children>
+                                          </VBox>
                                           <Label fx:id="mwailabelcitydoesntexist" maxHeight="25.0" minHeight="25.0" prefHeight="25.0" text="This city doesn't exist." />
                                           <ImageView fx:id="mwaiimageviewmediawikilogo" fitHeight="50.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
                                                 <Image url="@ta_mwiki.png" />
                                              </image>
                                           </ImageView>
-                                          <ScrollPane fx:id="mwaiscrollpanemediawiki" minHeight="200.0" minWidth="400.0" prefHeight="200.0" prefWidth="200.0" vbarPolicy="ALWAYS" VBox.vgrow="ALWAYS">
-                                             <content>
-                                                <Label text="MEDIAWIKI" />
-                                             </content>
-                                          </ScrollPane>
+                                          <WebView fx:id="cityWebView" minHeight="200.0" minWidth="400.0" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
                                        </children>
                                        <padding>
                                           <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -211,14 +225,15 @@
                                           <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                        </padding>
                                        <children>
-                                          <Button fx:id="mwaibuttonok" minHeight="50.0" minWidth="250.0" mnemonicParsing="false" text="OK" />
                                           <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="10.0" VBox.vgrow="ALWAYS">
                                              <padding>
                                                 <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                              </padding>
                                              <children>
-                                                <Label fx:id="mwailabelcurrencyname" text="TODO: CURRENCY NAME" />
-                                                <Label fx:id="mwailabelcurrencystate" text="TODO: KURS WALUTY" />
+                                                <Label fx:id="mwailabelcurrencyname" text="Currency" />
+                                                <WebView fx:id="currencyWebView" minHeight="200.0" minWidth="200.0" prefHeight="200.0" prefWidth="200.0" />
+                                                <Label fx:id="mwailabelcurrencystate" text="Weather" />
+                                                <WebView fx:id="weatherWebView" minHeight="200.0" minWidth="200.0" prefHeight="200.0" prefWidth="200.0" />
                                              </children>
                                           </VBox>
                                        </children>
@@ -232,11 +247,11 @@
                         </VBox>
                      </content>
                   </ScrollPane>
-                  <ScrollPane fx:id="mwpanecreatenewtravel" fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" StackPane.alignment="TOP_LEFT">
+                  <ScrollPane fx:id="mwpanecreatenewtravel" disable="true" fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" visible="false" StackPane.alignment="TOP_LEFT">
                      <content>
                         <StackPane alignment="TOP_LEFT">
                            <children>
-                              <VBox fx:id="newtravelwizard_2" prefHeight="200.0" prefWidth="100.0" visible="false">
+                              <VBox fx:id="newtravelwizard_2" disable="true" prefHeight="200.0" prefWidth="100.0" visible="false">
                                  <children>
                                     <HBox prefHeight="100.0" prefWidth="200.0" spacing="5.0">
                                        <children>
@@ -313,7 +328,7 @@
                                     </HBox>
                                  </children>
                               </VBox>
-                              <VBox fx:id="newtravelwizard_1" prefHeight="302.0" prefWidth="399.0" spacing="10.0" visible="false">
+                              <VBox fx:id="newtravelwizard_1" disable="true" prefHeight="302.0" prefWidth="399.0" spacing="10.0" visible="false">
                                  <children>
                                     <Label text="My travels" />
                                     <ListView prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
@@ -449,7 +464,6 @@
                                                                            <children>
                                                                               <Label text="Additional notes" />
                                                                               <TextArea maxHeight="200.0" VBox.vgrow="ALWAYS" />
-                                                                              <Button minWidth="100.0" mnemonicParsing="false" text="Add" />
                                                                            </children>
                                                                            <padding>
                                                                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
@@ -472,6 +486,7 @@
                                                                <children>
                                                                   <Label text="Worth seeing" />
                                                                   <ChoiceBox prefWidth="150.0" />
+                                                                  <Button minWidth="100.0" mnemonicParsing="false" text="Add attraction" />
                                                                </children>
                                                                <padding>
                                                                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -597,7 +612,6 @@
                                                                            <children>
                                                                               <Label text="Additional notes" />
                                                                               <TextArea maxHeight="200.0" VBox.vgrow="ALWAYS" />
-                                                                              <Button minWidth="100.0" mnemonicParsing="false" text="Add" />
                                                                            </children>
                                                                            <padding>
                                                                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
@@ -624,6 +638,7 @@
                                                                   <ChoiceBox prefWidth="150.0" />
                                                                   <Label text="Link to reservation" />
                                                                   <Button minWidth="50.0" mnemonicParsing="false" text="..." />
+                                                                  <Button minWidth="100.0" mnemonicParsing="false" text="Add hotel" />
                                                                </children>
                                                                <padding>
                                                                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -727,7 +742,6 @@
                                                                            <children>
                                                                               <Label text="Additional notes" />
                                                                               <TextArea maxHeight="200.0" VBox.vgrow="ALWAYS" />
-                                                                              <Button minWidth="100.0" mnemonicParsing="false" text="Add" />
                                                                            </children>
                                                                            <padding>
                                                                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
@@ -752,6 +766,7 @@
                                                                   <ChoiceBox prefWidth="150.0" />
                                                                   <Label text="Link to reservation" />
                                                                   <Button minWidth="50.0" mnemonicParsing="false" text="..." />
+                                                                  <Button minWidth="100.0" mnemonicParsing="false" text="Add transport" />
                                                                </children>
                                                                <padding>
                                                                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />

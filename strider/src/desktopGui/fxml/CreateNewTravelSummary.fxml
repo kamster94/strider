@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Pagination?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+
+<BorderPane xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="desktopGui.DraggableCalendarTestController">
+   <center>
+      <VBox>
+         <children>
+            <HBox spacing="10.0" VBox.vgrow="NEVER">
+               <children>
+                  <Label text="Day name " />
+               </children>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
+            </HBox>
+            <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="365.0" prefWidth="591.0" VBox.vgrow="ALWAYS">
+               <content>
+                  <HBox prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <VBox alignment="TOP_CENTER">
+                           <children>
+                              <Label minHeight="50.0" text="7:00" />
+                              <Label minHeight="50.0" text="8:00" />
+                              <Label minHeight="50.0" text="9:00" />
+                              <Label minHeight="50.0" text="10:00" />
+                              <Label minHeight="50.0" text="11:00" />
+                           </children>
+                           <padding>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </padding>
+                        </VBox>
+                        <VBox fx:id="thinglist" HBox.hgrow="ALWAYS">
+                           <children>
+                              <HBox fx:id="thing" alignment="CENTER_LEFT" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="50.0" spacing="10.0" VBox.vgrow="NEVER">
+                                 <children>
+                                    <Label text="Label" />
+                                    <Separator prefWidth="200.0" HBox.hgrow="ALWAYS" />
+                                    <Button mnemonicParsing="false" text="Remove" />
+                                 </children>
+                              </HBox>
+                           </children>
+                           <padding>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </padding>
+                        </VBox>
+                     </children>
+                  </HBox>
+               </content>
+            </ScrollPane>
+            <HBox alignment="CENTER" spacing="10.0" VBox.vgrow="NEVER">
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
+               <children>
+                  <Pagination pageCount="5" HBox.hgrow="ALWAYS" />
+               </children>
+            </HBox>
+            <HBox spacing="10.0" VBox.vgrow="NEVER">
+               <children>
+                  <HBox spacing="10.0" HBox.hgrow="ALWAYS">
+                     <children>
+                        <VBox spacing="10.0" HBox.hgrow="NEVER">
+                           <children>
+                              <Label text="Price per person" />
+                              <Label text="Overall price" />
+                           </children>
+                           <padding>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </padding>
+                        </VBox>
+                        <VBox spacing="10.0" HBox.hgrow="ALWAYS">
+                           <children>
+                              <Label text="5000" />
+                              <Label text="64664646464" />
+                           </children>
+                           <padding>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </padding>
+                        </VBox>
+                     </children>
+                  </HBox>
+                  <HBox alignment="BOTTOM_RIGHT" HBox.hgrow="ALWAYS">
+                     <children>
+                        <Button minWidth="100.0" mnemonicParsing="false" text="Finish" />
+                     </children>
+                  </HBox>
+               </children>
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
+            </HBox>
+         </children>
+      </VBox>
+   </center>
+</BorderPane>
