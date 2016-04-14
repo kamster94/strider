@@ -2,11 +2,18 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.image.Image?>
@@ -17,11 +24,11 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="600.0" prefWidth="800.0" stylesheets="@ta_mainwindow.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="desktopGui.MainApplicationWindowController">
+<BorderPane fx:id="mainborderpane" prefHeight="600.0" prefWidth="800.0" stylesheets="@ta_mainwindow.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="desktopGui.MainApplicationWindowController">
    <top>
       <HBox alignment="CENTER" spacing="10.0" styleClass="upperhbox" BorderPane.alignment="CENTER">
          <children>
-            <Label fx:id="mwlabelwelcomemessage" alignment="CENTER" contentDisplay="CENTER" text="Welcome, welcome to City17">
+            <Label fx:id="mwlabelwelcomemessage" alignment="CENTER" contentDisplay="CENTER" text="ja pierydole jak to głupie kurestwo sie tnie">
                <font>
                   <Font size="14.0" />
                </font>
@@ -148,7 +155,7 @@
             </VBox>
             <StackPane prefHeight="150.0" prefWidth="200.0">
                <children>
-                  <ScrollPane fx:id="mwpaneadditionalinformation" fitToHeight="true" fitToWidth="true" hvalue="0.54" prefHeight="200.0" prefWidth="200.0">
+                  <ScrollPane fx:id="mwpaneadditionalinformation" disable="true" fitToHeight="true" fitToWidth="true" prefHeight="200.0" prefWidth="200.0" visible="false">
                      <content>
                         <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0" styleClass="vbox">
                            <children>
@@ -223,6 +230,557 @@
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                            </padding>
                         </VBox>
+                     </content>
+                  </ScrollPane>
+                  <ScrollPane fx:id="mwpanecreatenewtravel" fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" StackPane.alignment="TOP_LEFT">
+                     <content>
+                        <StackPane alignment="TOP_LEFT">
+                           <children>
+                              <VBox fx:id="newtravelwizard_2" prefHeight="200.0" prefWidth="100.0" visible="false">
+                                 <children>
+                                    <HBox prefHeight="100.0" prefWidth="200.0" spacing="5.0">
+                                       <children>
+                                          <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="5.0" HBox.hgrow="ALWAYS">
+                                             <children>
+                                                <Label text="Start date" />
+                                                <DatePicker prefWidth="150.0" />
+                                             </children>
+                                             <padding>
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                             </padding>
+                                          </VBox>
+                                          <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="5.0" HBox.hgrow="ALWAYS">
+                                             <children>
+                                                <Label text="End date" />
+                                                <DatePicker prefWidth="150.0" />
+                                             </children>
+                                             <padding>
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                             </padding>
+                                          </VBox>
+                                       </children>
+                                       <padding>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </padding>
+                                    </HBox>
+                                    <HBox prefHeight="100.0" prefWidth="200.0" spacing="5.0">
+                                       <children>
+                                          <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="5.0" HBox.hgrow="ALWAYS">
+                                             <children>
+                                                <Label text="City" />
+                                                <ChoiceBox prefWidth="150.0" />
+                                             </children>
+                                             <padding>
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                             </padding>
+                                          </VBox>
+                                          <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="5.0" HBox.hgrow="ALWAYS">
+                                             <children>
+                                                <Label text="Companion number" />
+                                                <ChoiceBox prefWidth="150.0" />
+                                             </children>
+                                             <padding>
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                             </padding>
+                                          </VBox>
+                                       </children>
+                                       <padding>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </padding>
+                                    </HBox>
+                                    <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0" VBox.vgrow="ALWAYS">
+                                       <children>
+                                          <HBox alignment="BOTTOM_LEFT" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+                                             <children>
+                                                <Button fx:id="newtravelwizard_2_cancel" minWidth="100.0" mnemonicParsing="false" text="Cancel" />
+                                             </children>
+                                             <padding>
+                                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                             </padding>
+                                          </HBox>
+                                          <HBox alignment="BOTTOM_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="10.0" HBox.hgrow="ALWAYS">
+                                             <children>
+                                                <Button fx:id="newtravelwizard_2_next" minWidth="100.0" mnemonicParsing="false" text="Next" />
+                                             </children>
+                                             <padding>
+                                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                             </padding>
+                                          </HBox>
+                                       </children>
+                                       <padding>
+                                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                       </padding>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                              <VBox fx:id="newtravelwizard_1" prefHeight="302.0" prefWidth="399.0" spacing="10.0" visible="false">
+                                 <children>
+                                    <Label text="My travels" />
+                                    <ListView prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
+                                    <HBox alignment="CENTER_RIGHT">
+                                       <children>
+                                          <Button fx:id="newtravelwizard_1_createnewtravel" minWidth="100.0" mnemonicParsing="false" text="Create new travel" />
+                                       </children>
+                                       <padding>
+                                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                       </padding>
+                                    </HBox>
+                                 </children>
+                                 <padding>
+                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                 </padding>
+                              </VBox>
+                              <VBox fx:id="newtravelwizard_3" disable="true" prefHeight="200.0" prefWidth="100.0" visible="false">
+                                 <children>
+                                    <HBox VBox.vgrow="ALWAYS">
+                                       <children>
+                                          <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" HBox.hgrow="ALWAYS">
+                                             <tabs>
+                                                <Tab text="Attraction">
+                                                   <content>
+                                                      <HBox prefHeight="100.0" prefWidth="200.0">
+                                                         <children>
+                                                            <VBox prefHeight="200.0" prefWidth="100.0" spacing="5.0" HBox.hgrow="ALWAYS">
+                                                               <children>
+                                                                  <VBox prefHeight="200.0" prefWidth="100.0" VBox.vgrow="NEVER">
+                                                                     <children>
+                                                                        <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="NEVER">
+                                                                           <children>
+                                                                              <VBox prefWidth="100.0" spacing="5.0" HBox.hgrow="ALWAYS">
+                                                                                 <children>
+                                                                                    <Label text="Name" />
+                                                                                    <TextField />
+                                                                                 </children>
+                                                                                 <padding>
+                                                                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                                                                 </padding>
+                                                                              </VBox>
+                                                                              <VBox prefHeight="200.0" prefWidth="100.0" spacing="5.0" HBox.hgrow="ALWAYS">
+                                                                                 <children>
+                                                                                    <Label text="Street" />
+                                                                                    <TextField />
+                                                                                 </children>
+                                                                                 <padding>
+                                                                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                                                                 </padding>
+                                                                              </VBox>
+                                                                              <VBox prefHeight="200.0" prefWidth="100.0" spacing="5.0" HBox.hgrow="ALWAYS">
+                                                                                 <children>
+                                                                                    <Label text="Number" />
+                                                                                    <TextField />
+                                                                                 </children>
+                                                                                 <padding>
+                                                                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                                                                 </padding>
+                                                                              </VBox>
+                                                                           </children>
+                                                                        </HBox>
+                                                                        <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="NEVER">
+                                                                           <children>
+                                                                              <VBox prefHeight="200.0" prefWidth="100.0" spacing="5.0" HBox.hgrow="ALWAYS">
+                                                                                 <children>
+                                                                                    <Label text="Zip Code" />
+                                                                                    <TextField maxWidth="100.0" />
+                                                                                 </children>
+                                                                                 <padding>
+                                                                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                                                                 </padding>
+                                                                              </VBox>
+                                                                              <VBox prefHeight="200.0" prefWidth="100.0" spacing="5.0" HBox.hgrow="ALWAYS">
+                                                                                 <children>
+                                                                                    <Label text="City" />
+                                                                                    <ChoiceBox prefWidth="150.0" />
+                                                                                 </children>
+                                                                                 <padding>
+                                                                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                                                                 </padding>
+                                                                              </VBox>
+                                                                           </children>
+                                                                        </HBox>
+                                                                        <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="NEVER">
+                                                                           <children>
+                                                                              <VBox prefHeight="200.0" prefWidth="100.0" spacing="5.0" HBox.hgrow="ALWAYS">
+                                                                                 <children>
+                                                                                    <Label text="Open" />
+                                                                                    <ChoiceBox prefWidth="150.0" />
+                                                                                 </children>
+                                                                                 <padding>
+                                                                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                                                                 </padding>
+                                                                              </VBox>
+                                                                              <VBox prefHeight="200.0" prefWidth="100.0" spacing="5.0" HBox.hgrow="ALWAYS">
+                                                                                 <children>
+                                                                                    <Label text="Closed" />
+                                                                                    <ChoiceBox prefWidth="150.0" />
+                                                                                 </children>
+                                                                                 <padding>
+                                                                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                                                                 </padding>
+                                                                              </VBox>
+                                                                           </children>
+                                                                        </HBox>
+                                                                        <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="NEVER">
+                                                                           <children>
+                                                                              <VBox prefHeight="200.0" prefWidth="100.0" spacing="5.0" HBox.hgrow="ALWAYS">
+                                                                                 <children>
+                                                                                    <Label text="Price" />
+                                                                                    <ChoiceBox prefWidth="150.0" />
+                                                                                 </children>
+                                                                                 <padding>
+                                                                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                                                                 </padding>
+                                                                              </VBox>
+                                                                              <VBox prefHeight="200.0" prefWidth="100.0" spacing="5.0" HBox.hgrow="ALWAYS">
+                                                                                 <children>
+                                                                                    <Label text="Currency" />
+                                                                                    <ChoiceBox prefWidth="150.0" />
+                                                                                 </children>
+                                                                                 <padding>
+                                                                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                                                                 </padding>
+                                                                              </VBox>
+                                                                           </children>
+                                                                        </HBox>
+                                                                     </children>
+                                                                  </VBox>
+                                                                  <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                                                                     <children>
+                                                                        <VBox prefHeight="200.0" prefWidth="100.0" spacing="5.0" HBox.hgrow="ALWAYS">
+                                                                           <children>
+                                                                              <Label text="Additional notes" />
+                                                                              <TextArea maxHeight="200.0" VBox.vgrow="ALWAYS" />
+                                                                              <Button minWidth="100.0" mnemonicParsing="false" text="Add" />
+                                                                           </children>
+                                                                           <padding>
+                                                                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                                                           </padding>
+                                                                        </VBox>
+                                                                     </children>
+                                                                  </HBox>
+                                                                  <Label text="Current attractions" />
+                                                                  <ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="200.0" vbarPolicy="ALWAYS" VBox.vgrow="ALWAYS">
+                                                                     <content>
+                                                                        <ListView />
+                                                                     </content>
+                                                                  </ScrollPane>
+                                                               </children>
+                                                               <padding>
+                                                                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                                               </padding>
+                                                            </VBox>
+                                                            <VBox alignment="TOP_CENTER" prefWidth="175.0" spacing="10.0" HBox.hgrow="NEVER">
+                                                               <children>
+                                                                  <Label text="Worth seeing" />
+                                                                  <ChoiceBox prefWidth="150.0" />
+                                                               </children>
+                                                               <padding>
+                                                                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                                               </padding>
+                                                               <HBox.margin>
+                                                                  <Insets />
+                                                               </HBox.margin>
+                                                            </VBox>
+                                                         </children>
+                                                      </HBox>
+                                                   </content>
+                                                </Tab>
+                                                <Tab text="Hotel">
+                                                   <content>
+                                                      <HBox prefHeight="100.0" prefWidth="200.0">
+                                                         <children>
+                                                            <VBox prefHeight="200.0" prefWidth="100.0" spacing="5.0" HBox.hgrow="ALWAYS">
+                                                               <children>
+                                                                  <VBox prefHeight="200.0" prefWidth="100.0" VBox.vgrow="NEVER">
+                                                                     <children>
+                                                                        <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="NEVER">
+                                                                           <children>
+                                                                              <VBox prefWidth="100.0" spacing="5.0" HBox.hgrow="ALWAYS">
+                                                                                 <children>
+                                                                                    <Label text="Name" />
+                                                                                    <TextField />
+                                                                                 </children>
+                                                                                 <padding>
+                                                                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                                                                 </padding>
+                                                                              </VBox>
+                                                                              <VBox prefHeight="200.0" prefWidth="100.0" spacing="5.0" HBox.hgrow="ALWAYS">
+                                                                                 <children>
+                                                                                    <Label text="Street" />
+                                                                                    <TextField />
+                                                                                 </children>
+                                                                                 <padding>
+                                                                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                                                                 </padding>
+                                                                              </VBox>
+                                                                              <VBox prefHeight="200.0" prefWidth="100.0" spacing="5.0" HBox.hgrow="ALWAYS">
+                                                                                 <children>
+                                                                                    <Label text="Number" />
+                                                                                    <TextField />
+                                                                                 </children>
+                                                                                 <padding>
+                                                                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                                                                 </padding>
+                                                                              </VBox>
+                                                                           </children>
+                                                                        </HBox>
+                                                                        <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="NEVER">
+                                                                           <children>
+                                                                              <VBox prefHeight="200.0" prefWidth="100.0" spacing="5.0" HBox.hgrow="ALWAYS">
+                                                                                 <children>
+                                                                                    <Label text="Zip Code" />
+                                                                                    <TextField maxWidth="100.0" />
+                                                                                 </children>
+                                                                                 <padding>
+                                                                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                                                                 </padding>
+                                                                              </VBox>
+                                                                              <VBox prefHeight="200.0" prefWidth="100.0" spacing="5.0" HBox.hgrow="ALWAYS">
+                                                                                 <children>
+                                                                                    <Label text="City" />
+                                                                                    <ChoiceBox prefWidth="150.0" />
+                                                                                 </children>
+                                                                                 <padding>
+                                                                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                                                                 </padding>
+                                                                              </VBox>
+                                                                           </children>
+                                                                        </HBox>
+                                                                        <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="NEVER">
+                                                                           <children>
+                                                                              <VBox prefHeight="200.0" prefWidth="100.0" spacing="5.0" HBox.hgrow="ALWAYS">
+                                                                                 <children>
+                                                                                    <Label text="Arrival" />
+                                                                                    <DatePicker prefWidth="150.0" />
+                                                                                 </children>
+                                                                                 <padding>
+                                                                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                                                                 </padding>
+                                                                              </VBox>
+                                                                              <VBox prefHeight="200.0" prefWidth="100.0" spacing="5.0" HBox.hgrow="ALWAYS">
+                                                                                 <children>
+                                                                                    <Label text="Departure" />
+                                                                                    <DatePicker prefWidth="150.0" />
+                                                                                 </children>
+                                                                                 <padding>
+                                                                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                                                                 </padding>
+                                                                              </VBox>
+                                                                           </children>
+                                                                        </HBox>
+                                                                        <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="NEVER">
+                                                                           <children>
+                                                                              <VBox prefHeight="200.0" prefWidth="100.0" spacing="5.0" HBox.hgrow="ALWAYS">
+                                                                                 <children>
+                                                                                    <Label text="Price / Night" />
+                                                                                    <ChoiceBox prefWidth="150.0" />
+                                                                                 </children>
+                                                                                 <padding>
+                                                                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                                                                 </padding>
+                                                                              </VBox>
+                                                                              <VBox prefHeight="200.0" prefWidth="100.0" spacing="5.0" HBox.hgrow="ALWAYS">
+                                                                                 <children>
+                                                                                    <Label text="Currency" />
+                                                                                    <ChoiceBox prefWidth="150.0" />
+                                                                                 </children>
+                                                                                 <padding>
+                                                                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                                                                 </padding>
+                                                                              </VBox>
+                                                                           </children>
+                                                                        </HBox>
+                                                                     </children>
+                                                                  </VBox>
+                                                                  <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                                                                     <children>
+                                                                        <VBox prefHeight="200.0" prefWidth="100.0" spacing="5.0" HBox.hgrow="ALWAYS">
+                                                                           <children>
+                                                                              <Label text="Additional notes" />
+                                                                              <TextArea maxHeight="200.0" VBox.vgrow="ALWAYS" />
+                                                                              <Button minWidth="100.0" mnemonicParsing="false" text="Add" />
+                                                                           </children>
+                                                                           <padding>
+                                                                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                                                           </padding>
+                                                                        </VBox>
+                                                                     </children>
+                                                                  </HBox>
+                                                                  <Label text="Current hotels" />
+                                                                  <ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="200.0" vbarPolicy="ALWAYS" VBox.vgrow="ALWAYS">
+                                                                     <content>
+                                                                        <ListView />
+                                                                     </content>
+                                                                  </ScrollPane>
+                                                               </children>
+                                                               <padding>
+                                                                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                                               </padding>
+                                                            </VBox>
+                                                            <VBox alignment="TOP_CENTER" prefWidth="175.0" spacing="10.0" HBox.hgrow="NEVER">
+                                                               <children>
+                                                                  <Label text="Book" />
+                                                                  <ChoiceBox prefWidth="150.0" />
+                                                                  <Label text="Reviewed hotels" />
+                                                                  <ChoiceBox prefWidth="150.0" />
+                                                                  <Label text="Link to reservation" />
+                                                                  <Button minWidth="50.0" mnemonicParsing="false" text="..." />
+                                                               </children>
+                                                               <padding>
+                                                                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                                               </padding>
+                                                               <HBox.margin>
+                                                                  <Insets />
+                                                               </HBox.margin>
+                                                            </VBox>
+                                                         </children>
+                                                      </HBox>
+                                                   </content>
+                                                </Tab>
+                                                <Tab text="Transport">
+                                                   <content>
+                                                      <HBox prefHeight="100.0" prefWidth="200.0">
+                                                         <children>
+                                                            <VBox prefHeight="200.0" prefWidth="100.0" spacing="5.0" HBox.hgrow="ALWAYS">
+                                                               <children>
+                                                                  <VBox prefHeight="200.0" prefWidth="100.0" VBox.vgrow="NEVER">
+                                                                     <children>
+                                                                        <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="NEVER">
+                                                                           <children>
+                                                                              <VBox prefHeight="200.0" prefWidth="100.0" spacing="5.0" HBox.hgrow="ALWAYS">
+                                                                                 <children>
+                                                                                    <Label text="From" />
+                                                                                    <ChoiceBox prefWidth="150.0" />
+                                                                                 </children>
+                                                                                 <padding>
+                                                                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                                                                 </padding>
+                                                                              </VBox>
+                                                                              <VBox prefHeight="200.0" prefWidth="100.0" spacing="5.0" HBox.hgrow="ALWAYS">
+                                                                                 <children>
+                                                                                    <Label text="To" />
+                                                                                    <ChoiceBox prefWidth="150.0" />
+                                                                                 </children>
+                                                                                 <padding>
+                                                                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                                                                 </padding>
+                                                                              </VBox>
+                                                                           </children>
+                                                                        </HBox>
+                                                                        <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="NEVER">
+                                                                           <children>
+                                                                              <VBox prefHeight="200.0" prefWidth="100.0" spacing="5.0" HBox.hgrow="ALWAYS">
+                                                                                 <children>
+                                                                                    <Label text="Date" />
+                                                                                    <DatePicker prefWidth="150.0" />
+                                                                                 </children>
+                                                                                 <padding>
+                                                                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                                                                 </padding>
+                                                                              </VBox>
+                                                                              <VBox prefHeight="200.0" prefWidth="100.0" spacing="5.0" HBox.hgrow="ALWAYS">
+                                                                                 <children>
+                                                                                    <Label text="Time" />
+                                                                                    <ChoiceBox prefWidth="150.0" />
+                                                                                 </children>
+                                                                                 <padding>
+                                                                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                                                                 </padding>
+                                                                              </VBox>
+                                                                           </children>
+                                                                        </HBox>
+                                                                        <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="NEVER">
+                                                                           <children>
+                                                                              <VBox prefHeight="200.0" prefWidth="100.0" spacing="5.0" HBox.hgrow="ALWAYS">
+                                                                                 <children>
+                                                                                    <Label text="Transport type" VBox.vgrow="NEVER" />
+                                                                                    <ChoiceBox prefWidth="150.0" />
+                                                                                 </children>
+                                                                                 <padding>
+                                                                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                                                                 </padding>
+                                                                              </VBox>
+                                                                              <VBox prefHeight="200.0" prefWidth="100.0" spacing="5.0" HBox.hgrow="ALWAYS">
+                                                                                 <children>
+                                                                                    <Label text="Price" />
+                                                                                    <ChoiceBox prefWidth="150.0" />
+                                                                                 </children>
+                                                                                 <padding>
+                                                                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                                                                 </padding>
+                                                                              </VBox>
+                                                                              <VBox prefHeight="200.0" prefWidth="100.0" spacing="5.0" HBox.hgrow="ALWAYS">
+                                                                                 <children>
+                                                                                    <Label text="Currency" />
+                                                                                    <ChoiceBox prefWidth="150.0" />
+                                                                                 </children>
+                                                                                 <padding>
+                                                                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                                                                 </padding>
+                                                                              </VBox>
+                                                                           </children>
+                                                                        </HBox>
+                                                                     </children>
+                                                                  </VBox>
+                                                                  <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                                                                     <children>
+                                                                        <VBox prefHeight="200.0" prefWidth="100.0" spacing="5.0" HBox.hgrow="ALWAYS">
+                                                                           <children>
+                                                                              <Label text="Additional notes" />
+                                                                              <TextArea maxHeight="200.0" VBox.vgrow="ALWAYS" />
+                                                                              <Button minWidth="100.0" mnemonicParsing="false" text="Add" />
+                                                                           </children>
+                                                                           <padding>
+                                                                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                                                           </padding>
+                                                                        </VBox>
+                                                                     </children>
+                                                                  </HBox>
+                                                                  <Label text="Current transports" />
+                                                                  <ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="200.0" vbarPolicy="ALWAYS" VBox.vgrow="ALWAYS">
+                                                                     <content>
+                                                                        <ListView />
+                                                                     </content>
+                                                                  </ScrollPane>
+                                                               </children>
+                                                               <padding>
+                                                                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                                               </padding>
+                                                            </VBox>
+                                                            <VBox alignment="TOP_CENTER" prefWidth="175.0" spacing="10.0" HBox.hgrow="NEVER">
+                                                               <children>
+                                                                  <Label text="Book" />
+                                                                  <ChoiceBox prefWidth="150.0" />
+                                                                  <Label text="Link to reservation" />
+                                                                  <Button minWidth="50.0" mnemonicParsing="false" text="..." />
+                                                               </children>
+                                                               <padding>
+                                                                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                                               </padding>
+                                                               <HBox.margin>
+                                                                  <Insets />
+                                                               </HBox.margin>
+                                                            </VBox>
+                                                         </children>
+                                                      </HBox>
+                                                   </content>
+                                                </Tab>
+                                             </tabs>
+                                          </TabPane>
+                                          <VBox prefHeight="200.0" prefWidth="50.0" HBox.hgrow="NEVER" />
+                                       </children>
+                                    </HBox>
+                                    <HBox prefWidth="200.0" spacing="10.0" VBox.vgrow="NEVER">
+                                       <children>
+                                          <Button fx:id="newtravelwizard_3_back" minWidth="100.0" mnemonicParsing="false" text="Back" />
+                                       </children>
+                                       <padding>
+                                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                       </padding>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </StackPane>
                      </content>
                   </ScrollPane>
                </children>

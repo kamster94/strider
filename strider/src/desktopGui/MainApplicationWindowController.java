@@ -23,6 +23,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 
 public class MainApplicationWindowController implements Initializable, EventHandler<ActionEvent>
@@ -91,6 +92,9 @@ public class MainApplicationWindowController implements Initializable, EventHand
     private ScrollPane mwpaneadditionalinformation;
     
     @FXML
+    private ScrollPane mwpanecreatenewtravel;
+    
+    @FXML
     private VBox vboxleftside;
     
     @FXML
@@ -102,6 +106,30 @@ public class MainApplicationWindowController implements Initializable, EventHand
     @FXML
     private ComboBox<?> cityBox;
 	
+    @FXML
+    private BorderPane mainborderpane;
+    
+    @FXML
+    private VBox newtravelwizard_2;
+
+    @FXML
+    private VBox newtravelwizard_1;
+
+    @FXML
+    private VBox newtravelwizard_3;
+    
+    @FXML
+    private Button newtravelwizard_1_createnewtravel;
+
+    @FXML
+    private Button newtravelwizard_2_cancel;
+
+    @FXML
+    private Button newtravelwizard_2_next;
+    
+    @FXML
+    private Button newtravelwizard_3_back;
+    
 	final ToggleGroup tg = new ToggleGroup();
 	
 	final Image mszlogoimage = new Image("desktopGui/textures/ta_msz.png");
@@ -119,6 +147,11 @@ public class MainApplicationWindowController implements Initializable, EventHand
 		mwtogglebuttontravelhistory.setOnAction(this);
 		mwtogglebuttonreviewhotels.setOnAction(this);
 		mwbuttonexit.setOnAction(this);
+
+		newtravelwizard_1_createnewtravel.setOnAction(this);
+		newtravelwizard_2_cancel.setOnAction(this);
+		newtravelwizard_2_next.setOnAction(this);
+		newtravelwizard_3_back.setOnAction(this);
 		
 		mwtogglebuttoncreatenewtravel.setToggleGroup(tg);
 		mwtogglebuttonviewcurrenttravel.setToggleGroup(tg);
@@ -132,18 +165,21 @@ public class MainApplicationWindowController implements Initializable, EventHand
 		mwpaneadditionalinformation.setDisable(true);
 		mwpaneadditionalinformation.setVisible(false);
 		
-		countryBox.setItems(countryData); 
+		mwpanecreatenewtravel.setDisable(true);
+		mwpanecreatenewtravel.setVisible(false);
 		
-		 Platform.runLater(() -> {
-		new AutoCompleteComboBoxListener(countryBox); 
- 
-		 });
-		 Platform.runLater(() -> {
-
-		new AutoCompleteComboBoxListener(cityBox); 
-		 });
+		countryBox.setItems(countryData); 
 	}
-
+	
+	//TODO: Ogarn¹æ jak dodaæ te pierdolone uzupe³niajki ¿eby javafx nie sra³o errorami
+	/*
+	public void doshit()
+	{
+		new AutoCompleteComboBoxListener(countryBox);
+		new AutoCompleteComboBoxListener(cityBox);
+	}
+	 */
+	
 	@Override
 	public void handle(ActionEvent arg0) 
 	{
@@ -151,7 +187,45 @@ public class MainApplicationWindowController implements Initializable, EventHand
 		{
 			MainApplicationWindow.closeWindow();
 		}
-		else if(arg0.getSource() == mwtogglebuttonadditionalinformation)
+		else if(arg0.getSource() == newtravelwizard_1_createnewtravel)
+		{
+			newtravelwizard_1.setDisable(true);
+			newtravelwizard_1.setVisible(false);
+			
+			newtravelwizard_2.setDisable(false);
+			newtravelwizard_2.setVisible(true);
+			
+			
+		}
+		else if(arg0.getSource() == newtravelwizard_2_cancel)
+		{
+			newtravelwizard_1.setDisable(false);
+			newtravelwizard_1.setVisible(true);
+			
+			newtravelwizard_2.setDisable(true);
+			newtravelwizard_2.setVisible(false);
+		}
+		else if(arg0.getSource() == newtravelwizard_2_next)
+		{
+			newtravelwizard_2.setDisable(true);
+			newtravelwizard_2.setVisible(false);
+			
+			newtravelwizard_3.setDisable(false);
+			newtravelwizard_3.setVisible(true);
+		}
+		else if(arg0.getSource() == newtravelwizard_3_back)
+		{			
+			newtravelwizard_3.setDisable(true);
+			newtravelwizard_3.setVisible(false);
+			
+			newtravelwizard_2.setDisable(false);
+			newtravelwizard_2.setVisible(true);
+		}
+		else if(arg0.getSource() == mwtogglebuttoncreatenewtravel ||
+				arg0.getSource() == mwtogglebuttonviewcurrenttravel ||
+				arg0.getSource() == mwtogglebuttonadditionalinformation ||
+				arg0.getSource() == mwtogglebuttontravelhistory ||
+				arg0.getSource() == mwtogglebuttonreviewhotels)
 		{
 			if(mwtogglebuttonadditionalinformation.isSelected())
 			{
@@ -163,7 +237,28 @@ public class MainApplicationWindowController implements Initializable, EventHand
 				mwpaneadditionalinformation.setDisable(true);
 				mwpaneadditionalinformation.setVisible(false);
 			}
-		
+			
+			if(mwtogglebuttoncreatenewtravel.isSelected())
+			{
+				mwpanecreatenewtravel.setDisable(false);
+				mwpanecreatenewtravel.setVisible(true);
+				newtravelwizard_1.setDisable(false);
+				newtravelwizard_1.setVisible(true);
+			}
+			else
+			{
+				mwpanecreatenewtravel.setDisable(true);
+				mwpanecreatenewtravel.setVisible(false);
+				
+				newtravelwizard_1.setDisable(true);
+				newtravelwizard_1.setVisible(false);
+				
+				newtravelwizard_2.setDisable(true);
+				newtravelwizard_2.setVisible(false);
+				
+				newtravelwizard_3.setDisable(true);
+				newtravelwizard_3.setVisible(false);
+			}
 		}
 	}
 }
