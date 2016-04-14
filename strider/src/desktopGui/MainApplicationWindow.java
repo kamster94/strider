@@ -40,7 +40,7 @@ public class MainApplicationWindow extends Application
 			primaryStage.setTitle("Travel Advisor");
             primaryStage.show();
 			 */
-            mycontroller.doshit();
+            //mycontroller.doshit();
             
 		} 
 		catch(Exception e) 
