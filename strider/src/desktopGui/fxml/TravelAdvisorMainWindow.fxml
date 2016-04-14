@@ -231,9 +231,9 @@
                                              </padding>
                                              <children>
                                                 <Label fx:id="mwailabelcurrencyname" text="Currency" />
-                                                <WebView fx:id="currencyWebView" minHeight="50.0" minWidth="200.0" prefHeight="-1.0" prefWidth="200.0" />
+                                                <WebView fx:id="currencyWebView" minHeight="50.0" minWidth="200.0" prefHeight="-1.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
                                                 <Label fx:id="mwailabelcurrencystate" text="Weather" />
-                                                <WebView fx:id="weatherWebView" minHeight="50.0" minWidth="200.0" prefHeight="-1.0" prefWidth="200.0" />
+                                                <WebView fx:id="weatherWebView" minHeight="50.0" minWidth="200.0" prefHeight="-1.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
                                              </children>
                                           </VBox>
                                        </children>
