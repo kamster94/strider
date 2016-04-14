@@ -57,10 +57,10 @@ public class CreateUser extends Thread{
 	}
 	
 	public int verifyDataValidity(){
-		if (userName.length() > 32) return 1;
+		if (userName.length() > 32) return 1;	//Chappi: Nie sprawdzamy czy dlugosc username jest wieksza od czegos jak w haslo?
 		if (!email.contains("@") || email.length() > 32) return 2;
 		if (password.length() < 6 || password.length() > 32) return 3;
-		if (city.length() > 32) return 4;
+		if (city.length() > 32) return 4;		//Chappi: Ditto
 		if (currency.length() != 3) return 5;
 		return 0;
 		

@@ -128,7 +128,7 @@ public class NewAccountWindowController implements Initializable, EventHandler<A
 					      choiceboxcurrency.getValue(), 
 					      choiceboxcurrency.getSelectionModel().getSelectedIndex());
 				
-			if(cuser.verifyDataValidity())
+			if(cuser.verifyDataValidity() == 0)
 			{
 				if(cuser.checkEmailAvailability())
 				{
@@ -186,12 +186,48 @@ public class NewAccountWindowController implements Initializable, EventHandler<A
 					alertemailtaken.showAndWait();
 				}
 			}
-			else
+			else if(cuser.verifyDataValidity() == 1)
 			{
 				Alert alertuseraddfailure = new Alert(AlertType.WARNING);
-				alertuseraddfailure.setTitle("Database connection error");
-				alertuseraddfailure.setHeaderText("Couldn't add new user to the database.");
-				alertuseraddfailure.setContentText("Please check your internet connection.");
+				alertuseraddfailure.setTitle("Invalid username");
+				alertuseraddfailure.setHeaderText("Your username is too long.");
+				alertuseraddfailure.setContentText("Please make sure your username does not exceed 32 characters.");
+
+				alertuseraddfailure.showAndWait();
+			}
+			else if(cuser.verifyDataValidity() == 2)
+			{
+				Alert alertuseraddfailure = new Alert(AlertType.WARNING);
+				alertuseraddfailure.setTitle("Invalid email");
+				alertuseraddfailure.setHeaderText("Your username is invalid.");
+				alertuseraddfailure.setContentText("Please make sure your email is in correct format and does not exceed 32 characters.");
+
+				alertuseraddfailure.showAndWait();
+			}
+			else if(cuser.verifyDataValidity() == 3)
+			{
+				Alert alertuseraddfailure = new Alert(AlertType.WARNING);
+				alertuseraddfailure.setTitle("Invalid password");
+				alertuseraddfailure.setHeaderText("Your password length is invalid.");
+				alertuseraddfailure.setContentText("Please make sure your password is between 6 and 32 characters.");
+
+				alertuseraddfailure.showAndWait();
+			}
+			else if(cuser.verifyDataValidity() == 4)
+			{
+				Alert alertuseraddfailure = new Alert(AlertType.WARNING);
+				alertuseraddfailure.setTitle("Invalid city");
+				alertuseraddfailure.setHeaderText("Your city name is too long.");
+				alertuseraddfailure.setContentText("Please make sure your city name does not exceed 32 characters.");
+
+				alertuseraddfailure.showAndWait();
+			}
+			else if(cuser.verifyDataValidity() == 5)
+			{
+				Alert alertuseraddfailure = new Alert(AlertType.WARNING);
+				alertuseraddfailure.setTitle("Invalid currenct");
+				alertuseraddfailure.setHeaderText("Your currency length is invalid.");
+				alertuseraddfailure.setContentText("Please make sure your currency name is exactly 3 characters.");
 
 				alertuseraddfailure.showAndWait();
 			}
