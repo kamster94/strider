@@ -29,8 +29,8 @@ public class MainApplicationWindow extends Application
 	 public static ObservableList countryData;
 	 public static ObservableList cityData;
 	 static public DbAccess dataBaseAccess;
-	 
-	 
+	 public static ComboBox cityBox;
+	 public static ComboBox countryBox;
 	 
 	 
 	 
@@ -72,8 +72,8 @@ public class MainApplicationWindow extends Application
             mystage.getScene().getStylesheets().add(getClass().getResource("fxml/ta_mainwindow.css").toExternalForm());
             mystage.show();
             
-			ComboBox cityBox = new ComboBox();	
-			ComboBox countryBox = new ComboBox();
+			cityBox = new ComboBox();	
+			countryBox = new ComboBox();
 			
 			new AutoCompleteComboBoxListener(cityBox);
 			new AutoCompleteComboBoxListener(countryBox);

@@ -222,7 +222,7 @@ public class MainApplicationWindowController implements Initializable, EventHand
 	        	    String newLine = System.getProperty("line.separator");
 	        		String htmlString = "";
 	        	    String finalmente = "<font face='WildWest'>";        	
-	        		String textFromCountryNameBox = Main.countryBox.getEditor().getText(); 
+	        		String textFromCountryNameBox = MainApplicationWindow.countryBox.getEditor().getText(); 
 	        		String url = "http://www.polakzagranica.msz.gov.pl";	   
 	        		Document document;
 	        		String cityNamesSql = "SELECT C.CityName FROM DBA.City C inner join DBA.Country Cr on C.IDCountry = Cr.IDCountry "
@@ -230,12 +230,11 @@ public class MainApplicationWindowController implements Initializable, EventHand
    	   	            checkForMatchingCountry = 0;
    	   	            num = 0;
    	   	            setCurrency(textFromCountryNameBox);
-	        	    
 	        	    	        	  	
 	               try {								
-	            	   for(int i = 0; i < Main.countryNames.size(); i++){ //petla do szukania wpisanego kraju
+	            	   for(int i = 0; i < MainApplicationWindow.countryNames.size(); i++){ //petla do szukania wpisanego kraju
 				
-							if(textFromCountryNameBox.equals(Main.countryNames.get(i))){
+							if(textFromCountryNameBox.equals(MainApplicationWindow.countryNames.get(i))){
 							checkForMatchingCountry = 1;
 							num = i;							
 							}											
@@ -259,7 +258,7 @@ public class MainApplicationWindowController implements Initializable, EventHand
 				   	 	      rs.close();
 				   	 	      stmt.close();
 				   	 	      con.close();
-				   	 	      Main.cityBox.setItems(cityData); 
+				   	 	  MainApplicationWindow.cityBox.setItems(cityData); 
 				   	   	        	
 				   	   	      } catch (SQLException e1) {
 				   	   		
@@ -268,7 +267,7 @@ public class MainApplicationWindowController implements Initializable, EventHand
 						
 					//parsowanie informacji z MSZ	
 						
-					url+=Main.countryHtmls.get(num);
+					url+=MainApplicationWindow.countryHtmls.get(num);
 					document = Jsoup.connect(url)
 					.userAgent("Mozilla/5.0 (Windows; U; WindowsNT 5.1; en-US; rv1.8.1.6) Gecko/20070725 Firefox/2.0.0.6")
 					.referrer("http://www.google.com")		
@@ -276,7 +275,6 @@ public class MainApplicationWindowController implements Initializable, EventHand
 					
 					Elements elems3 = document.select(("div[class=warning]"));//ostrzezenia o panstwie
 					Elements elems4 = document.select(("div[class=item]")); //informacje o panstwie
-					
 					
 					for (Element link : elems3) {
 						
@@ -309,7 +307,6 @@ public class MainApplicationWindowController implements Initializable, EventHand
 					        
 					        if(elem.tagName().equals("div"))
 						    finalmente += elem.text() + "</br>";
-					        
 					    }
 						finalmente += "</br></font>";								
 					}
@@ -322,15 +319,12 @@ public class MainApplicationWindowController implements Initializable, EventHand
 	  				File newHtmlFile = new File("./htmls/" + textFromCountryNameBox + ".html");
 	  				FileUtils.writeStringToFile(newHtmlFile, htmlString);
 
-						
 					}else{
 					//jesli wpisano cos innego niz nazwe panstwa z listy
 					finalmente ="<b>Prosze wpisac poprawnie nazwe Panstwa<b>";
 
 					}
 					//zaladuj html do WebView
-					
-					
 				} catch(NullPointerException e1){
 					finalmente ="<b>Prosze wpisac poprawnie nazwe Panstwa<b>";
 				} catch (IOException e) {
@@ -338,8 +332,6 @@ public class MainApplicationWindowController implements Initializable, EventHand
 				} finally{
 					countryWebView.getEngine().loadContent(finalmente);
 				}
-
-            
 	        }
 	    });
 		
@@ -352,7 +344,7 @@ public class MainApplicationWindowController implements Initializable, EventHand
 	        	//w okolicach wybranego miasta
 	        	
 	        	String htmlString = ""; 
-	        	String textFromCityNameBox = Main.cityBox.getEditor().getText();
+	        	String textFromCityNameBox = MainApplicationWindow.cityBox.getEditor().getText();
 	        	
 	        	textFromCityNameBox = textFromCityNameBox.replaceAll(" ", "_");
 	        	        	
