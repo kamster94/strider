@@ -245,8 +245,8 @@ public class MainApplicationWindowController implements Initializable, EventHand
 						//Laczenie z baza danych do wyciagniecia listy miast na podstawie wybranego panstwa  	
 						try {	    
 				   	   	     
-							  String connectionString = "jdbc:sqlanywhere:uid=DBA;pwd=sql";
-				   	   	      //String connectionString = "jdbc:sqlanywhere:uid="+"Artureczek"+";pwd="+"debil"+";eng=traveladvisordb;database=traveladvisordb;host=5.134.69.28:15144";
+							  //String connectionString = "jdbc:sqlanywhere:uid=DBA;pwd=sql";
+				   	   	      String connectionString = "jdbc:sqlanywhere:uid="+"Artureczek"+";pwd="+"debil"+";eng=traveladvisordb;database=traveladvisordb;host=5.134.69.28:15144";
 				   	 	      Connection con = DriverManager.getConnection(connectionString);					 	         			  
 							  Statement stmt = con.createStatement();
 						      ResultSet rs = stmt.executeQuery(cityNamesSql);
@@ -459,8 +459,8 @@ public class MainApplicationWindowController implements Initializable, EventHand
   	   	    //  String currencySQL = "Select * from Currency C";
 	   	     
   	   	 
-  	   	      String connectionString = "jdbc:sqlanywhere:uid=Artureczek;pwd=debil";
- 	   	      //String connectionString = "jdbc:sqlanywhere:uid="+"Artureczek"+";pwd="+"debil"+";eng=traveladvisordb;database=traveladvisordb;host=5.134.69.28:15144";
+  	   	     // String connectionString = "jdbc:sqlanywhere:uid=Artureczek;pwd=debil";
+ 	   	      String connectionString = "jdbc:sqlanywhere:uid="+"Artureczek"+";pwd="+"debil"+";eng=traveladvisordb;database=traveladvisordb;host=5.134.69.28:15144";
  	 	      Connection con = DriverManager.getConnection(connectionString);					 	         			  
 			  Statement stmt = con.createStatement();
 		      ResultSet rs = stmt.executeQuery(currencySQL);
