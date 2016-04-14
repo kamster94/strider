@@ -63,7 +63,6 @@ public class Main extends Application {
 			 dataBaseAccess = new DbAccess("Artureczek","debil");
 			 countryNames = new ArrayList<String>(dataBaseAccess.getStringsFromDb("SELECT * FROM DBA.Country", Arrays.asList("CountryName")));
 			 countryHtmls = new ArrayList<String>(dataBaseAccess.getStringsFromDb("SELECT * FROM DBA.Country", Arrays.asList("MSZlink")));
-		//	 System.out.println("");
 			 countryData = FXCollections.observableArrayList(); //Do sugestii wyszukiwania krajow
 				
 				for(int j=0; j<countryNames.size(); j++){
@@ -95,7 +94,7 @@ public class Main extends Application {
 			AnchorPane root = (AnchorPane)FXMLLoader.load(getClass().getResource("Sample.fxml"));
 			root.getChildren().add(countryBox);
 			root.getChildren().add(cityBox);
-			Scene scene = new Scene(root,935,520);
+			Scene scene = new Scene(root,1135,520);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
 			primaryStage.show();
