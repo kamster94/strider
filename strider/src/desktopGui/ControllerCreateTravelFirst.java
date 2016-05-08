@@ -44,9 +44,6 @@ public class ControllerCreateTravelFirst implements Initializable, ControlledScr
 		
 		backtohome.setGraphic(homeico);
 		createnewtravel.setGraphic(nextico);
-		
-		
-		
 	}
 	
 	@Override
@@ -67,9 +64,4 @@ public class ControllerCreateTravelFirst implements Initializable, ControlledScr
 			myController.setScreen(WindowMain.NEWTRAVEL_2);
 		}
 	}
-
-
-
-
-
 }

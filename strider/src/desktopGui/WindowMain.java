@@ -3,9 +3,7 @@ package desktopGui;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
 import org.jsoup.nodes.Document;
-
 import countryWarnings.AutoCompleteComboBoxListener;
 import dbConnection.DbAccess;
 import desktopGui.old.MainApplicationWindowController;
@@ -40,6 +38,9 @@ public class WindowMain extends Application
 	public static ComboBox<String> countryBox;
 	static public DbAccess dataBaseAccess;
 	
+    public static final String SPLASH_SCREEN = "splash";
+	public static final String SPLASH_SCREEN_FXML = "fxml/fxml_splashscreen.fxml"; 
+	
     public static final String MAIN_SCREEN = "main";
 	public static final String MAIN_SCREEN_FXML = "fxml/fxml_main.fxml"; 
 	
@@ -52,16 +53,33 @@ public class WindowMain extends Application
 	public static final String NEWTRAVEL_2 = "newtravel2";
 	public static final String NEWTRAVEL_2_FXML = "fxml/fxml_createtravel_second.fxml";
 	
+	public static final String NEWTRAVEL_3 = "newtravel3";
+	public static final String NEWTRAVEL_3_FXML = "fxml/fxml_createtravel_third.fxml";
+	
+	public static final String TRAVEL_SUMMARY = "travelsummary";
+	public static final String TRAVEL_SUMMARY_FXML = "fxml/fxml_travelsummary.fxml";
+	
 	@Override
 	public void start(Stage primaryStage) throws Exception 
 	{
+		//To jest ca³y pierdolony clue tego ¿eby to chujstwo dzia³a³o
+		//Jeœli te trzy linijki wsadzimy za kodem z main container to zanim sie wykonaj¹, controlery pod-okien ju¿ bêd¹ chcia³y 
+		//te pierdolone podpowiadajki a to daje nullchujwdupeexception
+		
+		setupComboBoxData();
+		cityBox = getCityBox();
+		countryBox = getCountryBox();
+		
 		ScreensController mainContainer = new ScreensController();
+		mainContainer.loadScreen(WindowMain.SPLASH_SCREEN, WindowMain.SPLASH_SCREEN_FXML);
 		mainContainer.loadScreen(WindowMain.MAIN_SCREEN, WindowMain.MAIN_SCREEN_FXML);
 		mainContainer.loadScreen(WindowMain.ADDINFO_SCREEN, WindowMain.ADDINFO_SCREEN_FXML);
 		mainContainer.loadScreen(WindowMain.NEWTRAVEL_1, WindowMain.NEWTRAVEL_1_FXML);
 		mainContainer.loadScreen(WindowMain.NEWTRAVEL_2, WindowMain.NEWTRAVEL_2_FXML);
+		mainContainer.loadScreen(WindowMain.NEWTRAVEL_3, WindowMain.NEWTRAVEL_3_FXML);
+		mainContainer.loadScreen(WindowMain.TRAVEL_SUMMARY, WindowMain.TRAVEL_SUMMARY_FXML);
 		
-		mainContainer.setScreen(WindowMain.MAIN_SCREEN);
+		mainContainer.setScreen(WindowMain.SPLASH_SCREEN);
 
 		root = new StackPane();
 		root.getChildren().addAll(mainContainer);
@@ -70,9 +88,6 @@ public class WindowMain extends Application
 		primaryStage.show(); 
 		
 		mystage = primaryStage;
-		
-		//Uncumment this if running without database
-		setupComboBoxData();
 	}
 	
 	public void setupComboBoxData()
@@ -84,6 +99,7 @@ public class WindowMain extends Application
 		try
 		{
 			dataBaseAccess = new DbAccess("Artureczek","debil");
+		
 			countryNames = new ArrayList<String>(dataBaseAccess.getStringsFromDb("SELECT * FROM DBA.Country", Arrays.asList("CountryName")));
 			countryHtmls = new ArrayList<String>(dataBaseAccess.getStringsFromDb("SELECT * FROM DBA.Country", Arrays.asList("MSZlink")));
 			countryData = FXCollections.observableArrayList(); //Do sugestii wyszukiwania krajow
@@ -102,18 +118,18 @@ public class WindowMain extends Application
 	
 	public static ComboBox<String> getCityBox()
 	{
-		cityBox = new ComboBox<String>();	
+		ComboBox<String> cityBox = new ComboBox<String>();	
 
-		new AutoCompleteComboBoxListener(cityBox);
+		new AutoCompleteComboBoxListener<String>(cityBox);
 		
 		return cityBox;
 	}
 	
 	public static ComboBox<String> getCountryBox()
 	{
-		countryBox = new ComboBox<String>();
+		ComboBox<String> countryBox = new ComboBox<String>();
 		
-		new AutoCompleteComboBoxListener(countryBox);
+		new AutoCompleteComboBoxListener<String>(countryBox);
 		countryBox.setItems(countryData);
 		
 		return countryBox;

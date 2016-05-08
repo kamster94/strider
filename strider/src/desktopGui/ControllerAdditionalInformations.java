@@ -94,10 +94,9 @@ public class ControllerAdditionalInformations implements Initializable, Controll
     @FXML
     private Button backtohome;
     
-    @FXML
+
     private ComboBox<String> citybox;
-    
-    @FXML
+
     private ComboBox<String> countrybox;
     
     
@@ -124,6 +123,16 @@ public class ControllerAdditionalInformations implements Initializable, Controll
 		findCityButton.setOnAction(this);
 		findCountryButton.setOnAction(this);
 		
+
+
+		citybox = WindowMain.getCityBox();
+		countrybox = WindowMain.getCountryBox();
+		vboxcitybox.getChildren().add(citybox);
+		vboxcountrybox.getChildren().add(countrybox);
+	}
+	
+	public void getComboBoxes()
+	{
 		//fuck the police
 		vboxcitybox.getChildren().add(WindowMain.getCityBox());
 		vboxcountrybox.getChildren().add(WindowMain.getCountryBox());
@@ -391,6 +400,8 @@ public class ControllerAdditionalInformations implements Initializable, Controll
   	   	    //  String currencySQL = "Select * from Currency C";
   	   	    //String connectionString = "jdbc:sqlanywhere:uid=Artureczek;pwd=debil";
   	   		String connectionString = "jdbc:sqlanywhere:uid="+"Artureczek"+";pwd="+"debil"+";eng=traveladvisordb;database=traveladvisordb;host=5.134.69.28:15144";
+  	   	//	String	connectionString = "jdbc:sqlanywhere:uid=DBA;pwd=sql";
+  	   		
   	   		Connection con = DriverManager.getConnection(connectionString);					 	         			  
   	   		Statement stmt = con.createStatement();
   	   		ResultSet rs = stmt.executeQuery(currencySQL);

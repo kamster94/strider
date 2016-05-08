@@ -31,7 +31,7 @@ public class CalendarTest extends Application
 
 		
 			mystage = primaryStage;
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("fxml/calendar.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("calendar.fxml"));
 		try 
 		{
 			
@@ -40,7 +40,7 @@ public class CalendarTest extends Application
 
             
             mystage.setScene(new Scene(root, 800, 600));
-            mystage.getScene().getStylesheets().add(getClass().getResource("fxml/ta_mainwindow.css").toExternalForm());
+            mystage.getScene().getStylesheets().add(getClass().getResource("ta_mainwindow.css").toExternalForm());
             mystage.show();
 
             

@@ -31,6 +31,9 @@ public class ControllerMain implements Initializable, ControlledScreen, EventHan
     private Button button_history;
 
     @FXML
+    private Button buttonoptions;
+    
+    @FXML
     private Button button_exit;
 	
     @FXML
@@ -41,16 +44,35 @@ public class ControllerMain implements Initializable, ControlledScreen, EventHan
 	
 	final Image imglogotext = new Image("desktopGui/textures/ta_title.png");
 	final Image imglogopalms = new Image("desktopGui/textures/ta_palms.png");
-
+	final Image icon_exit = new Image("desktopGui/textures/button_exit.png");
+	final Image icon_newtravel = new Image("desktopGui/textures/button_newtravel.png");
+	final Image icon_options = new Image("desktopGui/textures/button_options.png");
+	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) 
 	{
 		imageviewlogotext.setImage(imglogotext);
 		imageviewlogobottom.setImage(imglogopalms);
 		
+		ImageView exitico = new ImageView(icon_exit);
+		exitico.setFitWidth(21);
+		exitico.setFitHeight(35);
+		
+		ImageView newtravelico = new ImageView(icon_newtravel);
+		newtravelico.setFitWidth(35);
+		newtravelico.setFitHeight(35);
+		
+		ImageView optionsico = new ImageView(icon_options);
+		optionsico.setFitWidth(35);
+		optionsico.setFitHeight(35);
+		
 		button_exit.setOnAction(this);
+		button_exit.setGraphic(exitico);
 		button_additionalinfo.setOnAction(this);
 		button_createtravel.setOnAction(this);
+		button_createtravel.setGraphic(newtravelico);
+		buttonoptions.setOnAction(this);
+		buttonoptions.setGraphic(optionsico);
 	}
 	
 	@Override

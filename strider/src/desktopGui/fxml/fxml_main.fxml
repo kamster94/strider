@@ -13,7 +13,6 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
 <StackPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="desktopGui.ControllerMain">
    <children>
       <VBox alignment="CENTER" spacing="10.0" stylesheets="@ta_mainwindow.css">
@@ -84,7 +83,7 @@
                            <content>
                               <VBox alignment="TOP_CENTER" spacing="10.0">
                                  <children>
-                                    <Button maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" text="TODO: Options?" VBox.vgrow="ALWAYS">
+                                    <Button fx:id="buttonoptions" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" text="Options" VBox.vgrow="ALWAYS">
                                        <font>
                                           <Font size="20.0" />
                                        </font>

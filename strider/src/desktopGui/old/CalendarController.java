@@ -116,7 +116,7 @@ public class CalendarController implements Initializable, EventHandler<ActionEve
 		{
 			if((getHoursLeft() > 0) && (spinnerduration.getValue() <= getHoursLeft()))
 			{
-				//addActivity("Activity", spinnerduration.getValue());
+				addActivity("Activity", spinnerduration.getValue(), 0);
 			}
 		}
 	}
@@ -200,7 +200,7 @@ public class CalendarController implements Initializable, EventHandler<ActionEve
 		Activity act = new Activity(name + (activitylist.size() + 1), actstart, duration);
 		ActivityBox actbox = new ActivityBox(act);
 		
-		//rightvbox.getChildren().add(actbox);
+		activitybox.getChildren().add(actbox);
 		activitylist.add(act);
 	}
 	
