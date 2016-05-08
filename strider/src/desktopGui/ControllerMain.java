@@ -50,12 +50,13 @@ public class ControllerMain implements Initializable, ControlledScreen, EventHan
 		
 		button_exit.setOnAction(this);
 		button_additionalinfo.setOnAction(this);
+		button_createtravel.setOnAction(this);
 	}
 	
 	@Override
-	public void setScreenParent(ScreensController screenParent) {
-			myController = screenParent; 
-		
+	public void setScreenParent(ScreensController screenParent) 
+	{
+		myController = screenParent; 
 	}
 
 	@Override
@@ -65,6 +66,10 @@ public class ControllerMain implements Initializable, ControlledScreen, EventHan
 		{
 			System.out.println("KEK");
 			myController.setScreen(WindowMain.ADDINFO_SCREEN);
+		}
+		else if(arg0.getSource() == button_createtravel)
+		{
+			myController.setScreen(WindowMain.NEWTRAVEL_1);
 		}
 		else if(arg0.getSource() == button_exit)
 		{

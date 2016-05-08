@@ -46,13 +46,21 @@ public class WindowMain extends Application
 	public static final String ADDINFO_SCREEN = "additionalinfo";
 	public static final String ADDINFO_SCREEN_FXML = "fxml/fxml_additionalinformations.fxml";
 
+	public static final String NEWTRAVEL_1 = "newtravel1";
+	public static final String NEWTRAVEL_1_FXML = "fxml/fxml_createtravel_first.fxml";
+	
+	public static final String NEWTRAVEL_2 = "newtravel2";
+	public static final String NEWTRAVEL_2_FXML = "fxml/fxml_createtravel_second.fxml";
+	
 	@Override
 	public void start(Stage primaryStage) throws Exception 
 	{
 		ScreensController mainContainer = new ScreensController();
 		mainContainer.loadScreen(WindowMain.MAIN_SCREEN, WindowMain.MAIN_SCREEN_FXML);
 		mainContainer.loadScreen(WindowMain.ADDINFO_SCREEN, WindowMain.ADDINFO_SCREEN_FXML);
-
+		mainContainer.loadScreen(WindowMain.NEWTRAVEL_1, WindowMain.NEWTRAVEL_1_FXML);
+		mainContainer.loadScreen(WindowMain.NEWTRAVEL_2, WindowMain.NEWTRAVEL_2_FXML);
+		
 		mainContainer.setScreen(WindowMain.MAIN_SCREEN);
 
 		root = new StackPane();
