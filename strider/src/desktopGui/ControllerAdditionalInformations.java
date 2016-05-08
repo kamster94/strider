@@ -29,6 +29,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -93,6 +94,13 @@ public class ControllerAdditionalInformations implements Initializable, Controll
     @FXML
     private Button backtohome;
     
+    @FXML
+    private ComboBox<String> citybox;
+    
+    @FXML
+    private ComboBox<String> countrybox;
+    
+    
 	final Image mszlogoimage = new Image("desktopGui/textures/ta_msz.png");
 	final Image mwikilogoimage = new Image("desktopGui/textures/ta_mwiki.png");
 	
@@ -140,7 +148,7 @@ public class ControllerAdditionalInformations implements Initializable, Controll
         	//w okolicach wybranego miasta
         	
         	String htmlString = ""; 
-        	String textFromCityNameBox = WindowMain.cityBox.getEditor().getText();
+        	String textFromCityNameBox = citybox.getEditor().getText();
         	
         	textFromCityNameBox = textFromCityNameBox.replaceAll(" ", "_");
         	        	
@@ -198,7 +206,7 @@ public class ControllerAdditionalInformations implements Initializable, Controll
 			String newLine = System.getProperty("line.separator");
     		String htmlString = "";
     	    String finalmente = "<font face='WildWest'>";        	
-    		String textFromCountryNameBox = WindowMain.countryBox.getEditor().getText(); 
+    		String textFromCountryNameBox = countrybox.getEditor().getText(); 
     		String url = "http://www.polakzagranica.msz.gov.pl";	   
     		Document document;
     		String cityNamesSql = "SELECT C.CityName FROM DBA.City C inner join DBA.Country Cr on C.IDCountry = Cr.IDCountry "
@@ -236,7 +244,7 @@ public class ControllerAdditionalInformations implements Initializable, Controll
 		   	 	     	rs.close();
 		   	 	     	stmt.close();
 		   	 	     	con.close();
-		   	 	     	WindowMain.cityBox.setItems(cityData); 
+		   	 	     	citybox.setItems(cityData); 
     				} 
     				catch (SQLException e1) 
     				{
@@ -381,7 +389,7 @@ public class ControllerAdditionalInformations implements Initializable, Controll
   	   		String currencySQL = "Select C.CurrencyShortcut from DBA.Currency C inner join DBA.CountrysCurrency CC on C.IDCurrency = CC.IDCurrency"
   	   	      				   + " inner join DBA.Country CR on CC.IDCountry = CR.IDCountry where CR.CountryName = '" + country + "'";
   	   	    //  String currencySQL = "Select * from Currency C";
-  	   	     // String connectionString = "jdbc:sqlanywhere:uid=Artureczek;pwd=debil";
+  	   	    //String connectionString = "jdbc:sqlanywhere:uid=Artureczek;pwd=debil";
   	   		String connectionString = "jdbc:sqlanywhere:uid="+"Artureczek"+";pwd="+"debil"+";eng=traveladvisordb;database=traveladvisordb;host=5.134.69.28:15144";
   	   		Connection con = DriverManager.getConnection(connectionString);					 	         			  
   	   		Statement stmt = con.createStatement();

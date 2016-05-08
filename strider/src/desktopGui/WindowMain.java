@@ -63,7 +63,7 @@ public class WindowMain extends Application
 		
 		mystage = primaryStage;
 		
-		//Uncumment this is running without database
+		//Uncumment this if running without database
 		setupComboBoxData();
 	}
 	
