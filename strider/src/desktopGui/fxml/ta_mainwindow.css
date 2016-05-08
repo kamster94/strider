@@ -15,6 +15,7 @@
 .label
 {
 	-fx-text-fill: cornflowerblue;
+	-fx-border-color:cornflowerblue;
 }
 
 .label-panetype
@@ -38,6 +39,15 @@
 	-fx-border-color: white;
 }
 
+/*********** */
+/*HBOX */
+
+.hbox
+{
+	-fx-background-color: white;
+	-fx-border-color: cornflowerblue;
+}
+
 /********************/
 /*****STACK PANE*****/
 /********************/
@@ -55,13 +65,14 @@
 .button
 {
 	-fx-text-fill: cornflowerblue;
-	-fx-border-color: white;
+	-fx-border-color: rgb(200,200,235);
 	-fx-background-color: white;
 }
 
 .button:hover
 {
-	-fx-border-color: rgb(200,200,235);
+	-fx-background-color: cornflowerblue;
+	-fx-text-fill: white;
 }
 
 .button:armed
