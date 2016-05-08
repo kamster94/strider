@@ -1,4 +1,4 @@
-package desktopGui;
+package desktopGui.old;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -45,7 +45,10 @@ public class MainApplicationWindow extends Application
             mystage.getScene().getStylesheets().add(getClass().getResource("fxml/ta_mainwindow.css").toExternalForm());
             mystage.show();
             
-            giveMeTheFuckingComboBoxes();
+            
+           //setupComboBoxData();
+           AddComboBoxesToAdditionalInformations();
+           AddComboBoxesToCreateTravelSetup();
 		} 
 		catch(Exception e) 
 		{
@@ -53,7 +56,7 @@ public class MainApplicationWindow extends Application
 		}
 	}
 	
-	public void giveMeTheFuckingComboBoxes()
+	public void setupComboBoxData()
 	{
 		Document document;
 		citiesOfCountries = new ArrayList<String>();
@@ -76,7 +79,12 @@ public class MainApplicationWindow extends Application
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+	}
+	
+	
+	
+	public void AddComboBoxesToAdditionalInformations()
+	{
 		cityBox = new ComboBox<String>();	
 		countryBox = new ComboBox<String>();
 		
@@ -84,9 +92,24 @@ public class MainApplicationWindow extends Application
 		new AutoCompleteComboBoxListener(countryBox);
 		countryBox.setItems(countryData);
 		
-		mycontroller.getVboxCitybox().getChildren().add(cityBox);
-		mycontroller.getVboxCountrybox().getChildren().add(countryBox);
+		mycontroller.getAdditionalInformationVboxCitybox().getChildren().add(cityBox);
+		mycontroller.getAdditionalInformationVboxCountrybox().getChildren().add(countryBox);
 	}
+	
+	public void AddComboBoxesToCreateTravelSetup()
+	{
+		cityBox = new ComboBox<String>();	
+		countryBox = new ComboBox<String>();
+		
+		new AutoCompleteComboBoxListener(cityBox);
+		new AutoCompleteComboBoxListener(countryBox);
+		countryBox.setItems(countryData);
+		
+		mycontroller.getCreateTravelVboxCitybox().getChildren().add(cityBox);
+		mycontroller.getCreateTravelVboxCountrybox().getChildren().add(countryBox);
+	}
+
+	
 	
 	public static void closeWindow()
 	{

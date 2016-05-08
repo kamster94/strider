@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.web.WebView?>
+
+<StackPane prefHeight="600.0" prefWidth="800.0" stylesheets="@ta_mainwindow.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="desktopGui.ControllerAdditionalInformations">
+   <children>
+      <VBox spacing="10.0">
+         <children>
+            <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="600.0" prefWidth="800.0" VBox.vgrow="ALWAYS">
+               <content>
+                  <VBox spacing="10.0" styleClass="vbox">
+                     <children>
+                        <Label styleClass="label-panetype" text="Additional information">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                        <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                           <children>
+                              <VBox fx:id="vboxleftside" prefHeight="200.0" prefWidth="100.0" spacing="10.0" HBox.hgrow="ALWAYS">
+                                 <children>
+                                    <VBox fx:id="vboxcountrybox" spacing="10.0">
+                                       <children>
+                                          <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                             <children>
+                                                <Label fx:id="mwailabelcountry" text="Country" />
+                                                <Button fx:id="findCountryButton" minWidth="100.0" mnemonicParsing="false" text="Find" />
+                                             </children>
+                                             <padding>
+                                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                             </padding>
+                                          </HBox>
+                                       </children>
+                                    </VBox>
+                                    <Separator maxHeight="25.0" minHeight="25.0" orientation="VERTICAL" prefHeight="25.0" visible="false" />
+                                    <ImageView fx:id="mwaiimageviewmszlogo" fitHeight="50.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@PZ%20-%20Travel%20Advisor/ta_msz.png" />
+                                       </image>
+                                    </ImageView>
+                                    <WebView fx:id="countryWebView" minHeight="200.0" minWidth="400.0" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
+                                 </children>
+                                 <padding>
+                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                 </padding>
+                              </VBox>
+                              <VBox fx:id="vboxrightside" prefHeight="200.0" prefWidth="100.0" spacing="10.0" HBox.hgrow="ALWAYS">
+                                 <children>
+                                    <VBox fx:id="vboxcitybox" spacing="10.0">
+                                       <children>
+                                          <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                             <children>
+                                                <Label fx:id="mwailabelcity" text="City" />
+                                                <Button fx:id="findCityButton" minWidth="100.0" mnemonicParsing="false" text="Find" />
+                                             </children>
+                                             <padding>
+                                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                             </padding>
+                                          </HBox>
+                                       </children>
+                                    </VBox>
+                                    <Label fx:id="mwailabelcitydoesntexist" maxHeight="25.0" minHeight="25.0" prefHeight="25.0" text="This city doesn't exist." />
+                                    <ImageView fx:id="mwaiimageviewmediawikilogo" fitHeight="50.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@PZ%20-%20Travel%20Advisor/ta_mwiki.png" />
+                                       </image>
+                                    </ImageView>
+                                    <WebView fx:id="cityWebView" minHeight="200.0" minWidth="400.0" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
+                                 </children>
+                                 <padding>
+                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                 </padding>
+                              </VBox>
+                              <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" spacing="10.0" HBox.hgrow="ALWAYS">
+                                 <padding>
+                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                 </padding>
+                                 <children>
+                                    <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="10.0" VBox.vgrow="ALWAYS">
+                                       <padding>
+                                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                       </padding>
+                                       <children>
+                                          <Label fx:id="mwailabelcurrencyname" text="Currency" />
+                                          <WebView fx:id="currencyWebView" minHeight="50.0" minWidth="200.0" prefHeight="-1.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
+                                          <Label fx:id="mwailabelcurrencystate" text="Weather" />
+                                          <WebView fx:id="weatherWebView" minHeight="50.0" minWidth="200.0" prefHeight="-1.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+                     </children>
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
+                  </VBox>
+               </content>
+            </ScrollPane>
+            <Button fx:id="backtohome" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" VBox.vgrow="NEVER" />
+         </children>
+         <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </padding>
+      </VBox>
+   </children>
+</StackPane>

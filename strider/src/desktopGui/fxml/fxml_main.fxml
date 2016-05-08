@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Accordion?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+
+<StackPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="desktopGui.ControllerMain">
+   <children>
+      <VBox alignment="CENTER" spacing="10.0" stylesheets="@ta_mainwindow.css">
+         <children>
+            <ImageView fx:id="imageviewlogotext" fitHeight="200.0" fitWidth="400.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@ta_title.png" />
+               </image>
+            </ImageView>
+            <ScrollPane fitToHeight="true" fitToWidth="true" VBox.vgrow="ALWAYS">
+               <content>
+                  <Accordion>
+                     <panes>
+                        <TitledPane animated="false" text="Travel">
+                           <content>
+                              <VBox alignment="TOP_CENTER" spacing="10.0">
+                                 <children>
+                                    <Button fx:id="button_createtravel" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" text="Create new travel" VBox.vgrow="ALWAYS">
+                                       <font>
+                                          <Font size="20.0" />
+                                       </font>
+                                    </Button>
+                                    <Button fx:id="button_viewcurtravel" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" text="View current travel" VBox.vgrow="ALWAYS">
+                                       <font>
+                                          <Font size="20.0" />
+                                       </font>
+                                    </Button>
+                                    <Button fx:id="button_additionalinfo" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" text="Additional information" VBox.vgrow="ALWAYS">
+                                       <font>
+                                          <Font size="20.0" />
+                                       </font>
+                                    </Button>
+                                    <Button fx:id="button_history" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" text="Travel history" VBox.vgrow="ALWAYS">
+                                       <font>
+                                          <Font size="20.0" />
+                                       </font>
+                                    </Button>
+                                 </children>
+                                 <padding>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </padding>
+                              </VBox>
+                           </content>
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </TitledPane>
+                        <TitledPane animated="false" text="Accomodation">
+                           <content>
+                              <VBox alignment="TOP_CENTER" spacing="10.0">
+                                 <children>
+                                    <Button maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" text="Review hotels" VBox.vgrow="ALWAYS">
+                                       <font>
+                                          <Font size="20.0" />
+                                       </font>
+                                    </Button>
+                                 </children>
+                                 <padding>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </padding>
+                              </VBox>
+                           </content>
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </TitledPane>
+                        <TitledPane animated="false" text="Settings">
+                           <content>
+                              <VBox alignment="TOP_CENTER" spacing="10.0">
+                                 <children>
+                                    <Button maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" text="TODO: Options?" VBox.vgrow="ALWAYS">
+                                       <font>
+                                          <Font size="20.0" />
+                                       </font>
+                                    </Button>
+                                 </children>
+                                 <padding>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </padding>
+                              </VBox>
+                           </content>
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </TitledPane>
+                     </panes>
+                  </Accordion>
+               </content>
+            </ScrollPane>
+            <HBox alignment="BOTTOM_CENTER" spacing="10.0" VBox.vgrow="NEVER">
+               <children>
+                  <Button fx:id="button_exit" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" text="Exit" HBox.hgrow="ALWAYS">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Button>
+                  <Separator visible="false" HBox.hgrow="ALWAYS" />
+                  <ImageView fx:id="imageviewlogobottom" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@ta_palms.png" />
+                     </image>
+                  </ImageView>
+               </children>
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+            </HBox>
+         </children>
+         <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="25.0" />
+         </padding>
+      </VBox>
+   </children>
+</StackPane>

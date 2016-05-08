@@ -1,4 +1,4 @@
-package desktopGui;
+package desktopGui.old;
 
 import java.io.IOException;
 import java.net.URL;
@@ -65,7 +65,9 @@ public class MainApplicationWindowController implements Initializable, EventHand
 	public static ComboBox<String> countryBox;
 	
 	public static AdditionalInformationsController addinfocontroller;
+	public static CreateTravelController createtravelcontroller;
 	private VBox AdditionalInformationVBox;
+	private VBox CreateTravelVBox;
 	public  MainApplicationWindow myparent;
 	
     @Override
@@ -94,19 +96,38 @@ public class MainApplicationWindowController implements Initializable, EventHand
 			e.printStackTrace();
 		}
 		addinfocontroller = (AdditionalInformationsController) fxmlLoader.getController();
+		
+		fxmlLoader = new FXMLLoader(getClass().getResource("fxml/fxml_mainwindow_newtravel_1.fxml"));
+		try
+		{
+			CreateTravelVBox = (VBox)fxmlLoader.load();
+		}
+		catch(IOException e)
+		{
+			e.printStackTrace();
+		}
+		createtravelcontroller = (CreateTravelController) fxmlLoader.getController();
 	}
 
-	public VBox getVboxCitybox()
+	public VBox getAdditionalInformationVboxCitybox()
 	{
 		return addinfocontroller.vboxcitybox;
 	}
 	
-	public VBox getVboxCountrybox()
+	public VBox getAdditionalInformationVboxCountrybox()
 	{
 		return addinfocontroller.vboxcountrybox;
 	}
 	
-    
+	public VBox getCreateTravelVboxCitybox()
+	{
+		return createtravelcontroller.getCityBox();
+	}
+	
+	public VBox getCreateTravelVboxCountrybox()
+	{
+		return createtravelcontroller.getCountryBox();
+	}
 	@Override
 	public void handle(ActionEvent arg0) 
 	{
@@ -127,6 +148,12 @@ public class MainApplicationWindowController implements Initializable, EventHand
 				AdditionalInformationVBox.setFillWidth(true);
 				changeme.setContent(AdditionalInformationVBox);
 			}
+			else if(mwtogglebuttoncreatenewtravel.isSelected())
+			{
+				CreateTravelVBox.setFillWidth(true);
+				changeme.setContent(CreateTravelVBox);
+			}
+			
 		}
 	}
 }
