@@ -48,22 +48,33 @@ public class DbAccess extends Thread{
 		}
     }
 	
-	public boolean testConnection(){
-		try {
-			connectToDb();
-			return true;
-		} catch (SQLException e) {
-			connectionLogger.log(Level.SEVERE, e.toString());
-			return false;
-		}
-    }
-	
 	public void setLogin(String login){
 		this.login = login;
 	}
 	
 	public void setPassword(String password){
 		this.password = password;
+	}
+	
+	public boolean testConnection(){
+		try {
+			connectToDb();
+			return true;
+		} catch (SQLException e) {
+			connectionLogger.log(Level.SEVERE, e.toString());
+			return connectToLocal();
+		}
+    }
+	
+	private boolean connectToLocal(){
+		try {
+			connectionString = "jdbc:sqlanywhere:uid="+login +";pwd="+password+";eng=traveladvisordb";
+			connection = DriverManager.getConnection(connectionString);
+			return true;
+		} catch (SQLException e) {
+			connectionLogger.log(Level.SEVERE, e.toString());
+			return false;
+		}
 	}
 	
 	private void connectToDb() throws SQLException{
