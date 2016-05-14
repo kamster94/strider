@@ -53,9 +53,6 @@ public class WindowMain extends Application
 	public static final String NEWTRAVEL_2 = "newtravel2";
 	public static final String NEWTRAVEL_2_FXML = "fxml/fxml_createtravel_second.fxml";
 	
-	public static final String NEWTRAVEL_3 = "newtravel3";
-	public static final String NEWTRAVEL_3_FXML = "fxml/fxml_createtravel_third.fxml";
-	
 	public static final String TRAVEL_SUMMARY = "travelsummary";
 	public static final String TRAVEL_SUMMARY_FXML = "fxml/fxml_travelsummary.fxml";
 	
@@ -76,7 +73,6 @@ public class WindowMain extends Application
 		mainContainer.loadScreen(WindowMain.ADDINFO_SCREEN, WindowMain.ADDINFO_SCREEN_FXML);
 		mainContainer.loadScreen(WindowMain.NEWTRAVEL_1, WindowMain.NEWTRAVEL_1_FXML);
 		mainContainer.loadScreen(WindowMain.NEWTRAVEL_2, WindowMain.NEWTRAVEL_2_FXML);
-		mainContainer.loadScreen(WindowMain.NEWTRAVEL_3, WindowMain.NEWTRAVEL_3_FXML);
 		mainContainer.loadScreen(WindowMain.TRAVEL_SUMMARY, WindowMain.TRAVEL_SUMMARY_FXML);
 		
 		mainContainer.setScreen(WindowMain.SPLASH_SCREEN);
@@ -98,7 +94,7 @@ public class WindowMain extends Application
 		
 		try
 		{
-			dataBaseAccess = new DbAccess("Artureczek","debil");
+			dataBaseAccess = new DbAccess("adriank","debil");
 		
 			countryNames = new ArrayList<String>(dataBaseAccess.getStringsFromDb("SELECT * FROM DBA.Country", Arrays.asList("CountryName")));
 			countryHtmls = new ArrayList<String>(dataBaseAccess.getStringsFromDb("SELECT * FROM DBA.Country", Arrays.asList("MSZlink")));

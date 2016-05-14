@@ -78,7 +78,7 @@ public class ControllerTravelSummary implements Initializable, ControlledScreen,
 		}
 		else if(arg0.getSource() == buttonprevious)
 		{
-			myController.setScreen(WindowMain.NEWTRAVEL_3);
+			myController.setScreen(WindowMain.NEWTRAVEL_2);
 		}
 	}
 

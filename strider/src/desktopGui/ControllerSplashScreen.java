@@ -7,6 +7,8 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -21,7 +23,13 @@ public class ControllerSplashScreen implements Initializable, ControlledScreen, 
     private ImageView imageviewlogotitle;
 
     @FXML
-    private Button buttoncontinue;
+    private TextField textfieldusername;
+
+    @FXML
+    private PasswordField passwordfieldpassword;
+
+    @FXML
+    private Button buttonlogin;
     
 	final Image imglogotext = new Image("desktopGui/textures/ta_title.png");
 	final Image imglogopalms = new Image("desktopGui/textures/ta_palms.png");
@@ -33,7 +41,7 @@ public class ControllerSplashScreen implements Initializable, ControlledScreen, 
 		imageviewlogo.setImage(imglogopalms);
 		imageviewlogotitle.setImage(imglogotext);
 		
-		buttoncontinue.setOnAction(this);
+		buttonlogin.setOnAction(this);
 
 		/*
 		ImageView continueico = new ImageView(icon_next);
@@ -52,7 +60,7 @@ public class ControllerSplashScreen implements Initializable, ControlledScreen, 
 	@Override
 	public void handle(ActionEvent arg0) 
 	{
-		if(arg0.getSource() == buttoncontinue)
+		if(arg0.getSource() == buttonlogin)
 		{
 			myController.setScreen(WindowMain.MAIN_SCREEN);
 		}
