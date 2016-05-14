@@ -46,7 +46,7 @@ public class CityInformation {
 				
 				Elements elems = document.select(("span[class=latitude]"));
 				Elements elems2 = document.select(("span[class=longitude]"));
-		
+				
 				coordinations = new LatLong(Double.parseDouble(elems.get(1).text().replaceAll(",",".")), 
 												 Double.parseDouble(elems2.get(1).text().replaceAll(",",".")));
 			

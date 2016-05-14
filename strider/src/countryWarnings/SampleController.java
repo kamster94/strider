@@ -91,9 +91,8 @@ public class SampleController implements Initializable{
   
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		
-		
-		
+
+				
 		findCountryButton.setOnAction(new EventHandler<ActionEvent>() {
 	        @Override
 	        public void handle(ActionEvent arg0) {
@@ -137,9 +136,7 @@ public class SampleController implements Initializable{
 		showMapBttn.setOnAction(new EventHandler<ActionEvent>() {
 	        @Override
 	        public void handle(ActionEvent arg0) {
-	    
-	        	changeToMap();
-	        	
+	        changeToMap();	        		       	        	
 	        }
 	    });
 
@@ -202,40 +199,26 @@ public class SampleController implements Initializable{
 	  }
 		
 	private static void changeToMap(){
-		
-		try{
-        
-	    Main.mapOptions.center(cityInformation.coordinations)
-	            .mapType(MapTypeIdEnum.ROADMAP)
-	            .overviewMapControl(false)
-	            .panControl(false)
-	            .rotateControl(false)
-	            .scaleControl(false)
-	            .streetViewControl(false)
-	            .zoomControl(false)
-	            .zoom(12);
+      
+		Platform.runLater(new Runnable() {
+			  @Override public void run() {
+				  Main.mapOptions.center(CityInformation.coordinations)
+		            .mapType(MapTypeIdEnum.ROADMAP)
+		            .overviewMapControl(false)
+		            .panControl(false)
+		            .rotateControl(false)
+		            .scaleControl(false)
+		            .streetViewControl(false)
+		            .zoomControl(false)
+		            .zoom(12);
 
-	    Main.map = Main.mapView.createMap(Main.mapOptions);
-		
-		}catch (NullPointerException e){
+		    Main.map = Main.mapView.createMap(Main.mapOptions);		
+			Main.mainStage.setScene(Main.scene2);
+			Main.mainStage.show();
 			
-		Main.mapOptions.center(new LatLong(52.1356, 21.0030))
-            .mapType(MapTypeIdEnum.ROADMAP)
-            .overviewMapControl(false)
-            .panControl(false)
-            .rotateControl(false)
-            .scaleControl(false)
-            .streetViewControl(false)
-            .zoomControl(false)
-            .zoom(12);
-
-		Main.map = Main.mapView.createMap(Main.mapOptions);
-			
-		}
-		
-		Main.mainStage.setScene(Main.scene2);
-		Main.mainStage.show();
-		
+			  }
+			});
+	   
 	}
 	
 
