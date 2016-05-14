@@ -92,7 +92,6 @@ public class Main extends Application implements MapComponentInitializedListener
 	 public static Stage mainStage;
 	 public static Scene scene2;
 	 public static Scene scene;
-	 public static LatLong latLong;
 	 public static  MapOptions mapOptions;
 	@Override
 
@@ -100,6 +99,7 @@ public class Main extends Application implements MapComponentInitializedListener
 	public void start(Stage primaryStage) {
 		
 		mainStage = primaryStage;
+		
 		ToolBar tb = new ToolBar();
 		BorderPane bp = new BorderPane();
 		Document document;
@@ -178,7 +178,8 @@ public class Main extends Application implements MapComponentInitializedListener
 	        tb.getItems().addAll(wroc, from, to, wyznacz);
 	        bp.setTop(tb);	
 	        bp.setCenter(mapView);
-			scene2 = new Scene(bp);
+			scene2 = new Scene(bp, 1135,570);
+	
 			
 			
 			AnchorPane root = (AnchorPane)FXMLLoader.load(getClass().getResource("Sample.fxml"));

@@ -23,7 +23,7 @@ public class CityInformation {
 	
 	public String cityName;
 	private String cityURL;
-	public LatLong coordinations;
+	public static LatLong coordinations = new LatLong(52.1356, 21.0030);
 	
 	public CityInformation(String name){
 		
@@ -47,13 +47,12 @@ public class CityInformation {
 				Elements elems = document.select(("span[class=latitude]"));
 				Elements elems2 = document.select(("span[class=longitude]"));
 		
-				this.coordinations = new LatLong(Double.parseDouble(elems.get(1).text().replaceAll(",",".")), 
+				coordinations = new LatLong(Double.parseDouble(elems.get(1).text().replaceAll(",",".")), 
 												 Double.parseDouble(elems2.get(1).text().replaceAll(",",".")));
 			
 		
-		 } catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+		 } catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 	
