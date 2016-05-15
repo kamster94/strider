@@ -14,6 +14,8 @@ import java.util.ResourceBundle;
 import org.jsoup.nodes.Document;
 
 import dbConnection.DbAccess;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -137,6 +139,29 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) 
 	{
+		
+		a_listview_attractions.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() 
+		{
+			@Override
+			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue)
+			{
+				DbAccess dataBaseAccess = new DbAccess("adriank", "debil");
+				String sql2 = "Select * from DBA.Attraction where AttractionName = '" + newValue + "'";
+				String zipcode = dataBaseAccess.getSingeStringFromDb(sql2, "ZipCode");
+				String streetName = dataBaseAccess.getSingeStringFromDb(sql2, "StreetName");
+				String streetNumber = dataBaseAccess.getSingeStringFromDb(sql2, "StreetNumber");
+				String openTime = dataBaseAccess.getSingeStringFromDb(sql2, "OpeningTime");
+				String closeTime = dataBaseAccess.getSingeStringFromDb(sql2, "ClosingTime");
+				
+				a_textfield_name.setText(newValue);
+				a_textfield_zipcode.setText(zipcode);
+				a_textfield_street.setText(streetName);
+				a_textfieldnumber.setText(streetNumber);
+				a_textfield_open.setText(openTime);
+				a_textfield_closed.setText(closeTime);	
+			}
+		});
+		
 		a_combobox_countryfrom = WindowMain.getCountryBox();
 		a_combobox_cityfrom = WindowMain.getCityBox();
 		//a_combobox_countryfrom.setEditable(false);
