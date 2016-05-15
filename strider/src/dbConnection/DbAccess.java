@@ -28,7 +28,7 @@ public class DbAccess extends Thread{
 		this.password = password;
 		try {  
 			FileHandler fh;  
-	        fh = new FileHandler("connectionLog.log");  
+	        fh = new FileHandler("connectionLog.log", true);  
 	        connectionLogger.addHandler(fh);
 	        connectionLogger.setUseParentHandlers(false);
 	        SimpleFormatter formatter = new SimpleFormatter();  

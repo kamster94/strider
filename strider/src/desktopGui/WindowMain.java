@@ -1,8 +1,14 @@
 package desktopGui;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.FileHandler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
+
 import org.jsoup.nodes.Document;
 import countryWarnings.AutoCompleteComboBoxListener;
 import dbConnection.DbAccess;
@@ -51,9 +57,27 @@ public class WindowMain extends Application
 	public static final String TRAVEL_SUMMARY = "travelsummary";
 	public static final String TRAVEL_SUMMARY_FXML = "fxml/fxml_travelsummary.fxml";
 	
+	public static Logger guiLog = Logger.getLogger("guiLog"); 
+	
 	@Override
 	public void start(Stage primaryStage) throws Exception 
 	{
+		//Pozwalam sobie dodaæ log by ³atwiej odczytywaæ b³êdy i komunikaty
+		//k.
+		
+		try {  
+			FileHandler fh;  
+	        fh = new FileHandler("guiLog.log", true);  
+	        guiLog.addHandler(fh);
+	        guiLog.setUseParentHandlers(false);
+	        SimpleFormatter formatter = new SimpleFormatter();  
+	        fh.setFormatter(formatter);  
+	    } catch (SecurityException e) {  
+	        e.printStackTrace();  
+	    } catch (IOException e) {  
+	        e.printStackTrace();  
+	    }
+		
 		//To jest ca³y pierdolony clue tego ¿eby to chujstwo dzia³a³o
 		//Jeœli te trzy linijki wsadzimy za kodem z main container to zanim sie wykonaj¹, controlery pod-okien ju¿ bêd¹ chcia³y 
 		//te pierdolone podpowiadajki a to daje nullchujwdupeexception
@@ -94,11 +118,11 @@ public class WindowMain extends Application
 			dataBaseAccess = new DbAccess("adriank","debil");
 			if(dataBaseAccess.testConnection() == false)
 			{
-				System.out.println("Can't connect to online database :<");
+				guiLog.log(Level.SEVERE, "Can't connect to online database :<");
 			}
 			else
 			{
-				System.out.println("Connection to online database succesfull!");
+				guiLog.log(Level.SEVERE, "Connection to online database succesfull!");
 			}
 			countryNames = new ArrayList<String>(dataBaseAccess.getStringsFromDb("SELECT * FROM DBA.Country", Arrays.asList("CountryName")));
 			countryHtmls = new ArrayList<String>(dataBaseAccess.getStringsFromDb("SELECT * FROM DBA.Country", Arrays.asList("MSZlink")));
@@ -111,8 +135,7 @@ public class WindowMain extends Application
 		} 
 		catch (Exception e) 
 		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			guiLog.log(Level.SEVERE, e.toString());
 		}
 	}
 	

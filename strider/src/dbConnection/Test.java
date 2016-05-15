@@ -8,9 +8,8 @@ public class Test {
 
 	public static void main(String[] args) {
 		DbAccess test = new DbAccess("Kamster","sql");
-		List<String> lista = new ArrayList<String>(test.getStringsFromDb("SELECT * FROM DBA.City", Arrays.asList("CityName")));
-		for (String a : lista){
-			System.out.println(a);
-		}
+		int create = test.getIntFromDb("CALL DBA.fAddToUsers (@email = 'kam@test.pl',"
+				+ " @haslo = 'trudnehaslo', @username = 'testkamster', @idcurrency = 1, @idcountry = 1, @idcity = 1)");
+		System.out.println(create);
 	}
 }
