@@ -14,6 +14,7 @@ import java.util.ResourceBundle;
 import org.jsoup.nodes.Document;
 
 import dbConnection.DbAccess;
+import dbHandlers.DatabaseHandlerAttractionAdder;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -37,6 +38,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.scene.web.WebView;
+import travel.AttractionDetails;
 import travel.TravelFramework;
 
 public class ControllerCreateTravelSecond implements Initializable, ControlledScreen, EventHandler<ActionEvent>
@@ -306,7 +308,13 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 		{
 			if(acheckInputCompletion() == true)
 			{
-				AttractionDetails ad = new AttractionDetails()
+				AttractionDetails ad = new AttractionDetails(a_listview_attractions.getSelectionModel().getSelectedIndex(), a_combobox_countryfrom.getSelectionModel().getSelectedIndex(), a_combobox_cityfrom.getSelectionModel().getSelectedIndex(), a_combobox_attrcurrency.getSelectionModel().getSelectedIndex(), Integer.parseInt(a_textfield_price.getText()), a_textarea_notes.getText());
+				DatabaseHandlerAttractionAdder dhaa = new DatabaseHandlerAttractionAdder();
+				dhaa.setAttraction(ad);
+				dhaa.pushAttractionToDatabase();
+				
+				
+				
 			}
 		}
 		else if(event.getSource() == button_previous)

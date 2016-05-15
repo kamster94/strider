@@ -2,13 +2,14 @@ package travel;
 
 public class AttractionDetails 
 {
+	private int id_attraction;
 	private int id_country;
 	private int id_city;
 	private int id_currency;
 	private float price;
 	private String notes;
 	
-	public AttractionDetails(int id_countryx, int id_cityx, int id_currencyx, float pricex, String notesx) 
+	public AttractionDetails(int id_attraction, int id_countryx, int id_cityx, int id_currencyx, float pricex, String notesx) 
 	{
 		id_country = id_countryx;
 		id_city = id_cityx;
@@ -16,7 +17,10 @@ public class AttractionDetails
 		price = pricex;
 		notes = notesx;
 	}
-	
+	public int getAttractionId()
+	{
+		return id_attraction;
+	}
 	public int getCountryId()
 	{
 		return id_country;

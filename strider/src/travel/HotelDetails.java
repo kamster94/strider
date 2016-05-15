@@ -14,7 +14,6 @@ public class HotelDetails
 	private int id_country;
 	private int id_city;
 
-	
 	public HotelDetails(int id_hotelx, int id_currencyx, float pricex, String linkx, String notesx, LocalDate arrivaldatex, LocalDate leavingdatex, int id_countryx, int id_cityx) 
 	{
 		id_hotel = id_hotelx;
@@ -49,6 +48,20 @@ public class HotelDetails
 	}
 	public LocalDate getArrivalDate()
 	{
-		
+		return arrivaldate;
+	}
+	public LocalDate getLeavingDate()
+	{
+		return leavingdate;
+	}
+	public int getCountryId()
+	{
+		return id_country;
+	}
+	public int getCityId()
+	{
+		return id_city;
 	}
 }
+
+

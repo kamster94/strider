@@ -3,6 +3,7 @@ package dbHandlers;
 import java.sql.Date;
 
 import dbConnection.DbAccess;
+import travel.AttractionDetails;
 import travel.Travel;
 import trpClasses.Trip;
 
@@ -39,5 +40,5 @@ public class DatabaseHandlerTripAdder
 		System.out.println(addstatus);
 		
 		return tripID;
-		}
+	}
 }
