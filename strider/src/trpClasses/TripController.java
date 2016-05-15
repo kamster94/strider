@@ -31,7 +31,9 @@ public class TripController {
 						
 	}
 	
-	public void pushToDB(){
+	public int pushToDB(){
+		
+		int tripID = 0;
 		
 		dataBaseAccess = new DbAccess("Artureczek","debil");
 		
@@ -42,6 +44,13 @@ public class TripController {
 		dataBaseAccess.pushToDb(pushSql + "1, " + this.arrivalCountryID + "," + this.arrivalCityID
 				 + "," + this.leaveCountryID  + "," + this.leaveCityID  + "," +  this.trip.tripName 
 				 + "," + beginDate + "," + endDate + ")");
+		
+		
+		tripID = new Integer(dataBaseAccess.getIntFromDb("SELECT MAX(IDTrip) FROM Trip"));
+		
+		return tripID;
+		
+		
 		
 	}
 	
