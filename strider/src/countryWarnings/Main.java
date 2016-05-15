@@ -108,7 +108,7 @@ public class Main extends Application implements MapComponentInitializedListener
 		countryData = FXCollections.observableArrayList();
 		 try {
 			 
-			 dataBaseAccess = new DbAccess("Artureczek","debil");
+			 dataBaseAccess = DbAccess.getInstance();
 			 countryNames = new ArrayList<String>(dataBaseAccess.getStringsFromDb("SELECT * FROM DBA.Country", Arrays.asList("CountryName")));
 			 countryHtmls = new ArrayList<String>(dataBaseAccess.getStringsFromDb("SELECT * FROM DBA.Country", Arrays.asList("MSZlink")));
 			 countryData = FXCollections.observableArrayList(); //Do sugestii wyszukiwania krajow

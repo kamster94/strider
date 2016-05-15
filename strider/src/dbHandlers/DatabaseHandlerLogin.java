@@ -9,11 +9,12 @@ public class DatabaseHandlerLogin {
 	public User user;
 	
 	public DatabaseHandlerLogin(){
+		dataBaseAccess = DbAccess.getInstance();
 	}
 	
 	
 	public int loginUser(String email, String password){
-		int status = DbAccess.getInstance().getIntFromDb("SELECT DBA.fCheckUser(@email = '" + email + "', @haslo = '" + password + "')");
+		int status = dataBaseAccess.getIntFromDb("SELECT DBA.fCheckUser('" + email + "', '" + password + "')");
 		
 		System.out.println("CALL DBA.fCheckUser(@email = '" + email + "', @haslo = '" + password + "')");
 		
