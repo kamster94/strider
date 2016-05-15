@@ -12,6 +12,7 @@ public class DatabaseHandlerLogin {
 		dataBaseAccess = new DbAccess("adriank","sql");
 	}
 	
+	
 	public int loginUser(String email, String password){
 		int status = dataBaseAccess.getIntFromDb("SELECT DBA.fCheckUser(@email = '" + email + "', @haslo = '" + password + "')");
 		
