@@ -29,6 +29,7 @@ public class DatabaseHandlerHotelAdder {
 				+ hotel.getCountryId() + ", " + hotel.getCityId() + ", " + hotel.getCountryId() + ", " + hotel.getCityId() + ", "
 				+ hotel.getCurrencyId() + ", '" + Date.valueOf(hotel.getArrivalDate()) + "', '" + Date.valueOf(hotel.getLeavingDate()) + "', "
 				+ hotel.getPrice() + ", '" + hotel.getLink() + "', '" + hotel.getNotes() + "')";
+		System.out.println(sql);
 		int status = dbConnection.getIntFromDb(sql);
 		if (status == 1) return true;
 		else return false;
