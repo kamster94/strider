@@ -131,35 +131,7 @@ public class ControllerCreateTravelFirst implements Initializable, ControlledScr
 		
 		citybox_target = WindowMain.getCityBox();
 		countrybox_target = WindowMain.getCountryBox();
-		
-		citybox_source.setPrefWidth(200);
-		citybox_source.setPrefHeight(50);
-		citybox_source.setMinWidth(Control.USE_PREF_SIZE);
-		citybox_source.setMinHeight(Control.USE_PREF_SIZE);
-		citybox_source.setMaxWidth(Control.USE_PREF_SIZE);
-		citybox_source.setMaxHeight(Control.USE_PREF_SIZE);
-		
-		countrybox_source.setPrefWidth(200);
-		countrybox_source.setPrefHeight(50);
-		countrybox_source.setMinWidth(Control.USE_PREF_SIZE);
-		countrybox_source.setMinHeight(Control.USE_PREF_SIZE);
-		countrybox_source.setMaxWidth(Control.USE_PREF_SIZE);
-		countrybox_source.setMaxHeight(Control.USE_PREF_SIZE);
-		
-		citybox_target.setPrefWidth(200);
-		citybox_target.setPrefHeight(50);
-		citybox_target.setMinWidth(Control.USE_PREF_SIZE);
-		citybox_target.setMinHeight(Control.USE_PREF_SIZE);
-		citybox_target.setMaxWidth(Control.USE_PREF_SIZE);
-		citybox_target.setMaxHeight(Control.USE_PREF_SIZE);	
-		
-		countrybox_target.setPrefWidth(200);
-		countrybox_target.setPrefHeight(50);
-		countrybox_target.setMinWidth(Control.USE_PREF_SIZE);
-		countrybox_target.setMinHeight(Control.USE_PREF_SIZE);
-		countrybox_target.setMaxWidth(Control.USE_PREF_SIZE);
-		countrybox_target.setMaxHeight(Control.USE_PREF_SIZE);		
-		
+
 		vboxcountryboxsource.getChildren().add(countrybox_source);
 		vboxcityboxsource.getChildren().add(citybox_source);
 		
@@ -283,11 +255,8 @@ public class ControllerCreateTravelFirst implements Initializable, ControlledScr
 					TravelFramework.getInstance().print();
 					System.out.println(TravelFramework.getInstance().getCurrentTravel().getId());
 				}
-				
-				
+				myController.setScreen(WindowMain.NEWTRAVEL_2);	
 			}
-			
-			myController.setScreen(WindowMain.NEWTRAVEL_2);
 		}
 		else if(arg0.getSource() == buttonfindcitiessource)
 		{

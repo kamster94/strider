@@ -13,7 +13,7 @@ public class DatabaseHandlerAttractionAdder {
 	
 	private AttractionDetails attr;
 	public static DbAccess dataBaseAccess;
-	private static String pushSql = "CALL DBA.fAddAttraction(";
+	private static String pushSql = "CALL DBA.fAddAttractionDetails(";
 	
 	public void setAttraction(AttractionDetails trav)
 	{
@@ -30,8 +30,7 @@ public class DatabaseHandlerAttractionAdder {
 		boolean addstatus = dataBaseAccess.pushToDb(pushSql + "1, " + TravelFramework.getInstance().getCurrentTravel().getId() + "," + attr.getAttractionId() + "," + attr.getCountryId()
 				 + "," + attr.getCityId()  + "," + attr.getCountryId()  + "," + attr.getCityId()  + "," + attr.getCurrencyId()
 				 + "," +  attr.getPrice()  + ",'" + attr.getNotes() + "')");
-			System.out.println(addstatus);
-		attractionID = dataBaseAccess.getIntFromDb("SELECT MAX(IDTrip) FROM DBA.Trip");
+
 			
 		System.out.println(addstatus);
 		

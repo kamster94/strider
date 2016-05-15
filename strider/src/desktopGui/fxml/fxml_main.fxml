@@ -104,11 +104,7 @@
             </ScrollPane>
             <HBox alignment="BOTTOM_CENTER" spacing="10.0" VBox.vgrow="NEVER">
                <children>
-                  <Button fx:id="button_exit" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" text="Exit" HBox.hgrow="ALWAYS">
-                     <font>
-                        <Font size="20.0" />
-                     </font>
-                  </Button>
+                  <Button fx:id="button_exit" mnemonicParsing="false" text="Exit" HBox.hgrow="ALWAYS" />
                   <Separator visible="false" HBox.hgrow="ALWAYS" />
                   <ImageView fx:id="imageviewlogobottom" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
                      <image>
