@@ -115,8 +115,7 @@ public class WindowMain extends Application
 		
 		try
 		{
-			dataBaseAccess = new DbAccess("adriank","debil");
-			if(dataBaseAccess.testConnection() == false)
+			if(DbAccess.getInstance().testConnection() == false)
 			{
 				guiLog.log(Level.SEVERE, "Can't connect to online database :<");
 			}
@@ -124,8 +123,8 @@ public class WindowMain extends Application
 			{
 				guiLog.log(Level.SEVERE, "Connection to online database succesfull!");
 			}
-			countryNames = new ArrayList<String>(dataBaseAccess.getStringsFromDb("SELECT * FROM DBA.Country", Arrays.asList("CountryName")));
-			countryHtmls = new ArrayList<String>(dataBaseAccess.getStringsFromDb("SELECT * FROM DBA.Country", Arrays.asList("MSZlink")));
+			countryNames = new ArrayList<String>(DbAccess.getInstance().getStringsFromDb("SELECT * FROM DBA.Country", Arrays.asList("CountryName")));
+			countryHtmls = new ArrayList<String>(DbAccess.getInstance().getStringsFromDb("SELECT * FROM DBA.Country", Arrays.asList("MSZlink")));
 			countryData = FXCollections.observableArrayList(); //Do sugestii wyszukiwania krajow
 		
 			for(int j=0; j<countryNames.size(); j++)

@@ -8,11 +8,9 @@ import travel.Travel;
 import travel.TravelFramework;
 import trpClasses.Attraction;
 
-public class DatabaseHandlerAttractionAdder {
-
-	
+public class DatabaseHandlerAttractionAdder
+{
 	private AttractionDetails attr;
-	public static DbAccess dataBaseAccess;
 	private static String pushSql = "CALL DBA.fAddAttractionDetails(";
 	
 	public void setAttraction(AttractionDetails trav)
@@ -23,11 +21,8 @@ public class DatabaseHandlerAttractionAdder {
 	public int pushAttractionToDatabase()
 	{
 		int attractionID = 0;
-			
-		dataBaseAccess = new DbAccess("adriank","debil");
 
-			
-		boolean addstatus = dataBaseAccess.pushToDb(pushSql + "1, " + TravelFramework.getInstance().getCurrentTravel().getId() + "," + attr.getAttractionId() + "," + attr.getCountryId()
+		boolean addstatus = DbAccess.getInstance().pushToDb(pushSql + "1, " + TravelFramework.getInstance().getCurrentTravel().getId() + "," + attr.getAttractionId() + "," + attr.getCountryId()
 				 + "," + attr.getCityId()  + "," + attr.getCountryId()  + "," + attr.getCityId()  + "," + attr.getCurrencyId()
 				 + "," +  attr.getPrice()  + ",'" + attr.getNotes() + "')");
 

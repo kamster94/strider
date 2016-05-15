@@ -25,17 +25,15 @@ public class DatabaseHandlerTripAdder
 	{
 		int tripID = 0;
 			
-		dataBaseAccess = new DbAccess("adriank","debil");
-			
 		Date beginDate = Date.valueOf(curtravel.getStartDate());
 		Date endDate = Date.valueOf(curtravel.getEndDate());
 
 			
-		boolean addstatus = dataBaseAccess.pushToDb(pushSql + "1, " + curtravel.getCountryDestinationId() + "," + curtravel.getCityDestinationId()
+		boolean addstatus = DbAccess.getInstance().pushToDb(pushSql + "1, " + curtravel.getCountryDestinationId() + "," + curtravel.getCityDestinationId()
 	    + "," + curtravel.getCountryOriginId()  + "," + curtravel.getCityOriginId()  + ",'" +  curtravel.getName() 
 	    + "','" + beginDate + "','" + endDate + "'," + curtravel.getCompanionsNumber() + ")");
 			
-		tripID = dataBaseAccess.getIntFromDb("SELECT MAX(IDTrip) FROM DBA.Trip");
+		tripID = DbAccess.getInstance().getIntFromDb("SELECT MAX(IDTrip) FROM DBA.Trip");
 			
 		System.out.println(addstatus);
 		
