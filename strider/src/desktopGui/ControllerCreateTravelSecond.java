@@ -35,23 +35,84 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 	
    // @FXML private ControllerTabTransport pagetransport;
 	
+    ////////////ATTRACTION
     @FXML
     private TabPane tabpane;
-
     @FXML
     private Tab tabattraction;
-
+    @FXML
+    private VBox a_vbox_country_from;
+    @FXML
+    private VBox a_vbox_city_from;
+    @FXML
+    private TextField a_textfield_zipcode;
+    @FXML
+    private TextField a_textfield_name;
+    @FXML
+    private TextField a_textfield_street;
+    @FXML
+    private TextField textfieldnumber;
+    @FXML
+    private TextField a_textfield_open;
+    @FXML
+    private TextField a_textfield_closed;
+    @FXML
+    private TextField a_textfield_price;
+    @FXML
+    private ComboBox<?> a_comboboxmycurrency;
+    @FXML
+    private ComboBox<?> a_combobox_attrcurrency;
+    @FXML
+    private TextArea a_textarea_notes;
+    @FXML
+    private ListView<?> a_listview_attractions;
+    @FXML
+    private Button a_button_add;
     @FXML
     private Tab tabhotel;
-
+    @FXML
+    private VBox vboxcountrybox1;
+    @FXML
+    private VBox vboxcitybox1;
+    @FXML
+    private TextField textfieldzipcode1;
+    @FXML
+    private TextField textfieldname1;
+    @FXML
+    private TextField textfieldstreet1;
+    @FXML
+    private TextField textfieldnumber1;
+    @FXML
+    private TextField textfieldprice1;
+    @FXML
+    private ComboBox<?> comboboxcurrency1;
+    @FXML
+    private TextArea textareanotes1;
+    @FXML
+    private ListView<?> listviewattractions1;
     @FXML
     private Tab tabtransport;
-
+    @FXML
+    private VBox vboxcountrybox2;
+    @FXML
+    private VBox vboxcitybox2;
+    @FXML
+    private TextField textfieldprice2;
+    @FXML
+    private ComboBox<?> comboboxcurrency2;
+    @FXML
+    private TextArea textareanotes2;
+    @FXML
+    private ListView<?> listviewattractions2;
     @FXML
     private Button button_previous;
-
     @FXML
     private Button button_summary;
+    
+    /////////////////////////////////////
+    
+    
+    
     
     /*
     public static void getData()
@@ -82,9 +143,9 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 			}
 		});
 		
-		tabattraction.setOnSelectionChanged(this);
-		tabhotel.setOnSelectionChanged(this);
-		tabtransport.setOnSelectionChanged(this);
+		//tabattraction.setOnSelectionChanged(this);
+		//tabhotel.setOnSelectionChanged(this);
+		//tabtransport.setOnSelectionChanged(this);
 	}
 	
 	@Override
@@ -96,18 +157,7 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 	@Override
 	public void handle(Event arg0) 
 	{
-		if(tabattraction.isSelected())
-		{
-			System.out.println("Changen attraction");
-		}
-		else if(tabhotel.isSelected())
-		{
-			System.out.println("changehn hotel");
-		}
-		else if(tabtransport.isSelected())
-		{
-			System.out.println("changen transpor");
-		}
+
 		
 	}
 

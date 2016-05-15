@@ -240,6 +240,7 @@ public class ControllerCreateTravelFirst implements Initializable, ControlledScr
 		}
 		else if(arg0.getSource() == buttonnext)
 		{
+			/*
 			if(checkInputCompletion() == true)
 			{
 				if(TravelFramework.getInstance().hasTravel())
@@ -283,8 +284,11 @@ public class ControllerCreateTravelFirst implements Initializable, ControlledScr
 					TravelFramework.getInstance().print();
 					System.out.println(TravelFramework.getInstance().getCurrentTravel().getId());
 				}
-				myController.setScreen(WindowMain.NEWTRAVEL_2);
+				
+				
 			}
+			*/
+			myController.setScreen(WindowMain.NEWTRAVEL_2);
 		}
 		else if(arg0.getSource() == buttonfindcitiessource)
 		{
