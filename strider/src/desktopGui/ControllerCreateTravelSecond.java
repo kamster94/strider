@@ -2,8 +2,17 @@ package desktopGui;
 
 
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ResourceBundle;
 
+import org.jsoup.nodes.Document;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -25,7 +34,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.web.WebView;
 import travel.TravelFramework;
 
-public class ControllerCreateTravelSecond implements Initializable, ControlledScreen, EventHandler<Event>
+public class ControllerCreateTravelSecond implements Initializable, ControlledScreen, EventHandler<ActionEvent>
 {
 	ScreensController myController;
 	
@@ -38,76 +47,80 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
     ////////////ATTRACTION
     @FXML
     private TabPane tabpane;
+
     @FXML
     private Tab tabattraction;
+
     @FXML
     private VBox a_vbox_country_from;
+
+    @FXML
+    private Button a_button_findcities;
+
     @FXML
     private VBox a_vbox_city_from;
+
+    @FXML
+    private Button a_button_findattractions;
+
     @FXML
     private TextField a_textfield_zipcode;
+
     @FXML
     private TextField a_textfield_name;
+
     @FXML
     private TextField a_textfield_street;
+
     @FXML
-    private TextField textfieldnumber;
+    private TextField a_textfieldnumber;
+
     @FXML
     private TextField a_textfield_open;
+
     @FXML
     private TextField a_textfield_closed;
+
     @FXML
     private TextField a_textfield_price;
+
     @FXML
-    private ComboBox<?> a_comboboxmycurrency;
+    private ComboBox<String> a_comboboxmycurrency;
+
     @FXML
-    private ComboBox<?> a_combobox_attrcurrency;
+    private ComboBox<String> a_combobox_attrcurrency;
+
     @FXML
     private TextArea a_textarea_notes;
+
     @FXML
     private ListView<?> a_listview_attractions;
+
     @FXML
     private Button a_button_add;
+
     @FXML
     private Tab tabhotel;
-    @FXML
-    private VBox vboxcountrybox1;
-    @FXML
-    private VBox vboxcitybox1;
-    @FXML
-    private TextField textfieldzipcode1;
-    @FXML
-    private TextField textfieldname1;
-    @FXML
-    private TextField textfieldstreet1;
-    @FXML
-    private TextField textfieldnumber1;
-    @FXML
-    private TextField textfieldprice1;
-    @FXML
-    private ComboBox<?> comboboxcurrency1;
-    @FXML
-    private TextArea textareanotes1;
-    @FXML
-    private ListView<?> listviewattractions1;
+
     @FXML
     private Tab tabtransport;
-    @FXML
-    private VBox vboxcountrybox2;
-    @FXML
-    private VBox vboxcitybox2;
-    @FXML
-    private TextField textfieldprice2;
-    @FXML
-    private ComboBox<?> comboboxcurrency2;
-    @FXML
-    private TextArea textareanotes2;
-    @FXML
-    private ListView<?> listviewattractions2;
+
     @FXML
     private Button button_previous;
+
     @FXML
     private Button button_summary;
+    
+    @FXML
+    private ComboBox<String> a_combobox_countryfrom;
+    @FXML
+    private ComboBox<String> a_combobox_cityfrom;
+    @FXML
+    private ComboBox<String> a_combobox_countryto;
+    @FXML
+    private ComboBox<String> a_combobox_cityto;
+    
+    
     
     /////////////////////////////////////
     
@@ -127,21 +140,21 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) 
 	{
-		button_previous.setOnAction(new EventHandler<ActionEvent>()
-		{
-			public void handle(ActionEvent arg0) 
-			{
-				myController.setScreen(WindowMain.NEWTRAVEL_1);
-			}
-		});
+		a_combobox_countryfrom = WindowMain.getCountryBox();
+		a_combobox_cityfrom = WindowMain.getCityBox();
 		
-		button_summary.setOnAction(new EventHandler<ActionEvent>()
-		{
-			public void handle(ActionEvent arg0) 
-			{
-				myController.setScreen(WindowMain.TRAVEL_SUMMARY);
-			}
-		});
+		a_vbox_country_from.getChildren().add(a_combobox_countryfrom);
+		a_vbox_city_from.getChildren().add(a_combobox_cityfrom);
+
+		a_vbox_country_from.getChildren().get(1).toFront();
+		a_vbox_city_from.getChildren().get(1).toFront();
+		
+		a_button_findcities.setOnAction(this);
+		
+		
+		button_previous.setOnAction(this);
+		
+		button_summary.setOnAction(this);
 		
 		//tabattraction.setOnSelectionChanged(this);
 		//tabhotel.setOnSelectionChanged(this);
@@ -155,11 +168,75 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 	}
 
 	@Override
-	public void handle(Event arg0) 
+	public void handle(ActionEvent event) 
 	{
+		if(event.getSource() == button_previous)
+		{
+			myController.setScreen(WindowMain.NEWTRAVEL_1);
+		}
+		else if(event.getSource() == button_summary)
+		{
+			myController.setScreen(WindowMain.TRAVEL_SUMMARY);
+		}
+		else if(event.getSource() == a_button_findcities)
+		{
+			String newLine = System.getProperty("line.separator");
+    		String htmlString = "";
+    	    String finalmente = "<font face='WildWest'>";        	
+    		String textFromCountryNameBox = a_combobox_countryfrom.getEditor().getText(); 
+    		String url = "http://www.polakzagranica.msz.gov.pl";	   
+    		Document document;
+    		String cityNamesSql = "SELECT C.CityName FROM DBA.City C inner join DBA.Country Cr on C.IDCountry = Cr.IDCountry "
+    							+ "where Cr.CountryName = '" +  textFromCountryNameBox +"' order by 1 asc";
+    		int checkForMatchingCountry = 0;
+    		int num = 0;
 
+ 						
+    			for(int i = 0; i < WindowMain.countryNames.size(); i++)
+    			{ //petla do szukania wpisanego kraju
+    				if(textFromCountryNameBox.equals(WindowMain.countryNames.get(i)))
+    				{
+    					checkForMatchingCountry = 1;
+    					num = i;							
+					}											
+    			}
+    			//jesli wybrano miasto z listy dostepnych panstw
+    			if(checkForMatchingCountry == 1)
+    			{
+    				//Laczenie z baza danych do wyciagniecia listy miast na podstawie wybranego panstwa  	
+    				try 
+    				{	    
+    					//String connectionString = "jdbc:sqlanywhere:uid=DBA;pwd=sql";
+		   	   	      	String connectionString = "jdbc:sqlanywhere:uid="+"Artureczek"+";pwd="+"debil"+";eng=traveladvisordb;database=traveladvisordb;host=5.134.69.28:15144";
+		   	 	     	Connection con = DriverManager.getConnection(connectionString);					 	         			  
+		   	 	     	Statement stmt = con.createStatement();
+		   	 	     	ResultSet rs = stmt.executeQuery(cityNamesSql);
+		   	 	     	ObservableList cityData = FXCollections.observableArrayList();  
+		   	 	       
+		   	 	     	while (rs.next())
+		   	 	     		cityData.add(rs.getString("CityName"));
+		   	
+		   	 	     	rs.close();
+		   	 	     	stmt.close();
+		   	 	     	con.close();
+		   	 	     	a_combobox_cityfrom.setItems(cityData); 
+    				} 
+    				catch (SQLException e1) 
+    				{
+    					e1.printStackTrace();
+		   			}	
+
+    			}
+    			else
+    			{
+    				//jesli wpisano cos innego niz nazwe panstwa z listy
+    				finalmente ="<b>Prosze wpisac poprawnie nazwe Panstwa<b>";
+    			}
+    			//zaladuj html do WebView
+		}
 		
 	}
+
 
 
 }
