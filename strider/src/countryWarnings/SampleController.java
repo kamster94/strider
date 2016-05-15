@@ -201,7 +201,8 @@ public class SampleController implements Initializable{
 	private static void changeToMap(){
       
 		Platform.runLater(new Runnable() {
-			  @Override public void run() {
+			
+			@Override public void run() {
 				  Main.mapOptions.center(CityInformation.coordinations)
 		            .mapType(MapTypeIdEnum.ROADMAP)
 		            .overviewMapControl(false)
