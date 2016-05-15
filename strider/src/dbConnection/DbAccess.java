@@ -176,4 +176,23 @@ public class DbAccess extends Thread{
 			return -1;
 		}
 	}
+	
+	public String getSingeStringFromDb(String sql){
+		try {
+			connectToDb();
+			PreparedStatement statement = connection.prepareStatement(sql);
+	        ResultSet result = statement.executeQuery();
+	        String value = "";
+	        if (result.next()) {
+	    		value = result.getString(0);
+	        }
+	        result.close();
+	        statement.close();
+	        connection.close();
+	        return value;
+		} catch (SQLException e) {
+			connectionLogger.log(Level.SEVERE, e.toString());
+			return "";
+		}
+	}
 }
