@@ -1,7 +1,10 @@
 package desktopGui;
 
 import java.net.URL;
+import java.util.Arrays;
 import java.util.ResourceBundle;
+
+import dbConnection.DbAccess;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -23,7 +26,7 @@ public class ControllerSplashScreen implements Initializable, ControlledScreen, 
     private ImageView imageviewlogotitle;
 
     @FXML
-    private TextField textfieldusername;
+    private TextField textfieldemail;
 
     @FXML
     private PasswordField passwordfieldpassword;
@@ -62,6 +65,18 @@ public class ControllerSplashScreen implements Initializable, ControlledScreen, 
 	{
 		if(arg0.getSource() == buttonlogin)
 		{
+			textfieldemail.getText();
+			passwordfieldpassword.getText();
+			DbAccess dataBaseAccess = new DbAccess("adriank", "debil");
+			
+			String sql = "CALL DBA.fCheckUser('" + textfieldemail.getText() + "','" + passwordfieldpassword.getText() + ",)";
+			//boolean userexists = dataBaseAccess.
+			
+			dataBaseAccess.start();
+			boolean loginstatus = dataBaseAccess.checkBoolInDb(sql, Arrays.asList("UserData"));
+					
+			System.out.println(loginstatus);
+					
 			myController.setScreen(WindowMain.MAIN_SCREEN);
 		}
 	}

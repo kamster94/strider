@@ -154,6 +154,7 @@ public class DbAccess extends Thread{
 			return true;
 		} catch(SQLException e){
 			connectionLogger.log(Level.SEVERE, e.toString());
+			e.printStackTrace();
 			return false;
 		}     
 	}
@@ -186,7 +187,7 @@ public class DbAccess extends Thread{
 	        ResultSet result = statement.executeQuery();
 	        int value = -1;
 	        if (result.next()) {
-	    		value = result.getInt(0);
+	    		value = result.getInt(1);
 	        }
 	        result.close();
 	        statement.close();

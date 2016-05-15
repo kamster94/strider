@@ -13,19 +13,14 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.web.WebView?>
 
-<StackPane prefHeight="600.0" prefWidth="800.0" stylesheets="@ta_mainwindow.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="desktopGui.ControllerAdditionalInformations">
+<StackPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="desktopGui.ControllerAdditionalInformations">
    <children>
       <VBox spacing="10.0">
          <children>
-            <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="600.0" prefWidth="800.0" VBox.vgrow="ALWAYS">
+            <ScrollPane fitToHeight="true" fitToWidth="true" hvalue="1.0" prefHeight="600.0" prefWidth="800.0" VBox.vgrow="ALWAYS">
                <content>
                   <VBox spacing="10.0" styleClass="vbox">
                      <children>
-                        <Label styleClass="label-panetype" text="Additional information">
-                           <font>
-                              <Font size="15.0" />
-                           </font>
-                        </Label>
                         <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
                            <children>
                               <VBox fx:id="vboxleftside" prefHeight="200.0" prefWidth="100.0" spacing="10.0" HBox.hgrow="ALWAYS">
@@ -34,11 +29,8 @@
                                        <children>
                                           <HBox alignment="CENTER_LEFT" spacing="10.0">
                                              <children>
-                                                <Label fx:id="mwailabelcountry" text="Country">
-                                                   <font>
-                                                      <Font size="15.0" />
-                                                   </font></Label>
-                                                <Button fx:id="findCountryButton" minWidth="100.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" text="Find" />
+                                                <Label fx:id="mwailabelcountry" text="Country" />
+                                                <Button fx:id="findCountryButton" mnemonicParsing="false" text="Find" />
                                              </children>
                                              <padding>
                                                 <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -64,11 +56,8 @@
                                        <children>
                                           <HBox alignment="CENTER_LEFT" spacing="10.0">
                                              <children>
-                                                <Label fx:id="mwailabelcity" text="City">
-                                                   <font>
-                                                      <Font size="15.0" />
-                                                   </font></Label>
-                                                <Button fx:id="findCityButton" mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" text="Find" />
+                                                <Label fx:id="mwailabelcity" text="City" />
+                                                <Button fx:id="findCityButton" mnemonicParsing="false" text="Find" />
                                              </children>
                                              <padding>
                                                 <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -76,7 +65,7 @@
                                           </HBox>
                                        </children>
                                     </VBox>
-                                    <Label fx:id="mwailabelcitydoesntexist" maxHeight="25.0" minHeight="25.0" prefHeight="25.0" text="This city doesn't exist.">
+                                    <Label fx:id="mwailabelcitydoesntexist" maxHeight="25.0" minHeight="25.0" prefHeight="25.0" text="This city doesn't exist." visible="false">
                                        <font>
                                           <Font size="16.0" />
                                        </font></Label>
@@ -101,15 +90,9 @@
                                           <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                        </padding>
                                        <children>
-                                          <Label fx:id="mwailabelcurrencyname" text="Currency">
-                                             <font>
-                                                <Font size="15.0" />
-                                             </font></Label>
+                                          <Label fx:id="mwailabelcurrencyname" text="Currency" />
                                           <WebView fx:id="currencyWebView" minHeight="50.0" minWidth="200.0" prefHeight="-1.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
-                                          <Label fx:id="mwailabelcurrencystate" text="Weather">
-                                             <font>
-                                                <Font size="15.0" />
-                                             </font></Label>
+                                          <Label fx:id="mwailabelcurrencystate" text="Weather" />
                                           <WebView fx:id="weatherWebView" minHeight="50.0" minWidth="200.0" prefHeight="-1.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
                                        </children>
                                     </VBox>
@@ -124,10 +107,7 @@
                   </VBox>
                </content>
             </ScrollPane>
-            <Button fx:id="backtohome" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" text="Home" VBox.vgrow="NEVER">
-               <font>
-                  <Font size="20.0" />
-               </font></Button>
+            <Button fx:id="backtohome" mnemonicParsing="false" text="Home" VBox.vgrow="NEVER" />
          </children>
          <padding>
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
