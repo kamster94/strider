@@ -105,6 +105,11 @@ public class ControllerCreateTravelFirst implements Initializable, ControlledScr
 		buttonfindcitiessource.setOnAction(this);
 		buttonfindcitiesdestination.setOnAction(this);
 
+		
+		
+		
+		
+		
 		//fuck the police
 		citybox_source = WindowMain.getCityBox();
 		countrybox_source = WindowMain.getCountryBox();

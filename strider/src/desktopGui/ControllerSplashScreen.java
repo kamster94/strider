@@ -58,15 +58,14 @@ public class ControllerSplashScreen implements Initializable, ControlledScreen, 
 	{
 		if(arg0.getSource() == buttonlogin)
 		{
-			textfieldemail.getText();
-			passwordfieldpassword.getText();
-			DatabaseHandlerLogin dhl = new DatabaseHandlerLogin();
+			//textfieldemail.getText();
+			//passwordfieldpassword.getText();
+			//DatabaseHandlerLogin dhl = new DatabaseHandlerLogin();
 			
-			int status = dhl.loginUser(textfieldemail.getText(), passwordfieldpassword.getText());
-			System.out.println("Login Status: " + status);
+		//	int status = dhl.loginUser(textfieldemail.getText(), passwordfieldpassword.getText());
+			//System.out.println("Login Status: " + status);
 			
 			//-1 U¿ytkownik istnieje, z³e has³o!
-			
 			myController.setScreen(WindowMain.MAIN_SCREEN);
 		}
 	}
