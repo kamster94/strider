@@ -108,6 +108,57 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
     private Tab tabhotel;
 
     @FXML
+    private VBox vboxcountry;
+
+    @FXML
+    private Button h_button_findcities;
+
+    @FXML
+    private VBox vboxcity;
+
+    @FXML
+    private Button h_button_findhotels;
+
+    @FXML
+    private TextField h_textfield_zipcode;
+
+    @FXML
+    private TextField h_textfield_name;
+
+    @FXML
+    private TextField h_textfield_street;
+
+    @FXML
+    private TextField h_textfield_number;
+
+    @FXML
+    private DatePicker h_datepicker_arrival;
+
+    @FXML
+    private DatePicker h_datepicker_departure;
+
+    @FXML
+    private TextField h_textfield_pricepernite;
+
+    @FXML
+    private ComboBox<String> h_combobox_mycurrency;
+
+    @FXML
+    private ComboBox<String> h_combobox_currency;
+
+    @FXML
+    private TextArea h_textarea_notes;
+
+    @FXML
+    private ListView<String> h_listview_hotels;
+
+    @FXML
+    private ComboBox<String> h_combobox_book;
+
+    @FXML
+    private ComboBox<String> h_combobox_rated;
+
+    @FXML
     private Tab tabtransport;
 
     @FXML
@@ -117,9 +168,20 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
     private Button button_summary;
     
     @FXML
+    private VBox h_vboxcity;
+    @FXML
+    private VBox h_vboxcountry;
+    
+    
+    @FXML
     private ComboBox<String> a_combobox_countryfrom;
     @FXML
     private ComboBox<String> a_combobox_cityfrom;
+    
+    @FXML
+    private ComboBox<String> h_combobox_country;
+    @FXML
+    private ComboBox<String> h_combobox_city;
 
     /////////////////////////////////////
     
@@ -162,8 +224,43 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 			}
 		});
 		
+		h_listview_hotels.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>()
+		{
+			@Override
+			public void changed(ObservableValue<? extends String> observable, String oldvalue, String newvalue) 
+			{
+				DbAccess dataBaseAccess = new DbAccess("adriank", "debil");
+				String sql2 = "Select * from DBA.Hotel where HotelName =" +"'" + newvalue + "'";
+				String zipcode = dataBaseAccess.getSingeStringFromDb(sql2, "ZipCode");
+				String streetName = dataBaseAccess.getSingeStringFromDb(sql2, "StreetName");
+				String streetNumber = dataBaseAccess.getSingeStringFromDb(sql2, "StreetNumber");
+				
+				h_textfield_name.setText(newvalue);
+				h_textfield_zipcode.setText(zipcode);
+				h_textfield_street.setText(streetName);
+				h_textfield_number.setText(streetNumber);
+				
+				
+			}
+		});
+		
 		a_combobox_countryfrom = WindowMain.getCountryBox();
 		a_combobox_cityfrom = WindowMain.getCityBox();
+		
+		h_combobox_country = WindowMain.getCountryBox();
+		h_combobox_city = WindowMain.getCityBox();
+		
+		h_vboxcountry.getChildren().add(h_combobox_country);
+		h_vboxcity.getChildren().add(h_combobox_city);
+		
+		h_vboxcountry.getChildren().get(1).toFront();
+		h_vboxcity.getChildren().get(1).toFront();
+		
+		h_button_findcities.setOnAction(this);
+		h_button_findhotels.setOnAction(this);
+		
+		
+		
 		//a_combobox_countryfrom.setEditable(false);
 		//a_combobox_cityfrom.setEditable(false);
 		
@@ -177,21 +274,24 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 		button_previous.setOnAction(this);
 		button_summary.setOnAction(this);
 		a_button_findattractions.setOnAction(this);
+		a_button_add.setOnAction(this);
 		//tabattraction.setOnSelectionChanged(this);
 		//tabhotel.setOnSelectionChanged(this);
 		//tabtransport.setOnSelectionChanged(this);
 	}
 	
-	public void checkIfDisableControls()
+	private boolean acheckInputCompletion()
 	{
-		if(a_combobox_countryfrom.getSelectionModel().isEmpty() == true)
+		if(a_combobox_countryfrom.getValue() != null &&
+			a_combobox_cityfrom.getValue() != null &&
+			a_textfield_price.getText() != null &&
+			a_comboboxmycurrency.getValue() != null &&
+			a_combobox_attrcurrency.getValue() != null)
 		{
-			a_combobox_cityfrom.setDisable(true);
-			a_combobox_attrcurrency.setDisable(true);
-		
+			return true;
 		}
+		else return false;
 	}
-	
 	
 	@Override
 	public void setScreenParent(ScreensController screenParent) 
@@ -202,7 +302,14 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 	@Override
 	public void handle(ActionEvent event) 
 	{
-		if(event.getSource() == button_previous)
+		if(event.getSource() == a_button_add)
+		{
+			if(acheckInputCompletion() == true)
+			{
+				AttractionDetails ad = new AttractionDetails()
+			}
+		}
+		else if(event.getSource() == button_previous)
 		{
 			myController.setScreen(WindowMain.NEWTRAVEL_1);
 		}
@@ -264,7 +371,93 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
     				//jesli wpisano cos innego niz nazwe panstwa z listy
     				finalmente ="<b>Prosze wpisac poprawnie nazwe Panstwa<b>";
     			}
+    			//zaladuj html do WebView'
+    			
+    			DbAccess dataBaseAccess = new DbAccess("adriank", "debil");
+    			ArrayList <String> currencies = new ArrayList<String>(dataBaseAccess.getStringsFromDb("SELECT * FROM DBA.Currency", Arrays.asList("CurrencyShortcut")));
+    			a_comboboxmycurrency.getItems().addAll(currencies);
+    			a_combobox_attrcurrency.getItems().addAll(currencies);
+    			
+		}
+		else if(event.getSource() == h_button_findcities)
+		{
+			String newLine = System.getProperty("line.separator");
+    		String htmlString = "";
+    	    String finalmente = "<font face='WildWest'>";        	
+    		String textFromCountryNameBox = h_combobox_country.getEditor().getText(); 
+    		String url = "http://www.polakzagranica.msz.gov.pl";	   
+    		Document document;
+    		String cityNamesSql = "SELECT C.CityName FROM DBA.City C inner join DBA.Country Cr on C.IDCountry = Cr.IDCountry "
+    							+ "where Cr.CountryName = '" +  textFromCountryNameBox +"' order by 1 asc";
+    		int checkForMatchingCountry = 0;
+    		int num = 0;
+
+ 						
+    			for(int i = 0; i < WindowMain.countryNames.size(); i++)
+    			{ //petla do szukania wpisanego kraju
+    				if(textFromCountryNameBox.equals(WindowMain.countryNames.get(i)))
+    				{
+    					checkForMatchingCountry = 1;
+    					num = i;							
+					}											
+    			}
+    			//jesli wybrano miasto z listy dostepnych panstw
+    			if(checkForMatchingCountry == 1)
+    			{
+    				//Laczenie z baza danych do wyciagniecia listy miast na podstawie wybranego panstwa  	
+    				try 
+    				{	    
+    					//String connectionString = "jdbc:sqlanywhere:uid=DBA;pwd=sql";
+		   	   	      	String connectionString = "jdbc:sqlanywhere:uid="+"Artureczek"+";pwd="+"debil"+";eng=traveladvisordb;database=traveladvisordb;host=5.134.69.28:15144";
+		   	 	     	Connection con = DriverManager.getConnection(connectionString);					 	         			  
+		   	 	     	Statement stmt = con.createStatement();
+		   	 	     	ResultSet rs = stmt.executeQuery(cityNamesSql);
+		   	 	     	ObservableList cityData = FXCollections.observableArrayList();  
+		   	 	       
+		   	 	     	while (rs.next())
+		   	 	     		cityData.add(rs.getString("CityName"));
+		   	
+		   	 	     	rs.close();
+		   	 	     	stmt.close();
+		   	 	     	con.close();
+		   	 	     	h_combobox_city.setItems(cityData); 
+    				} 
+    				catch (SQLException e1) 
+    				{
+    					e1.printStackTrace();
+		   			}	
+
+    			}
+    			else
+    			{
+    				//jesli wpisano cos innego niz nazwe panstwa z listy
+    				finalmente ="<b>Prosze wpisac poprawnie nazwe Panstwa<b>";
+    			}
     			//zaladuj html do WebView
+		}
+		else if(event.getSource() == h_button_findhotels)
+		{
+			DbAccess dataBaseAccess = new DbAccess("adriank", "debil");
+			
+			String sql = "Select * from DBA.Hotel where IDCountry = " + h_combobox_country.getSelectionModel().getSelectedIndex() + " and IDCity = " + h_combobox_city.getSelectionModel().getSelectedIndex();
+					
+			ArrayList<Integer> HotelsID = new ArrayList<Integer>(dataBaseAccess.getIntegersFromDb(sql, Arrays.asList("IDHotel")));
+			ArrayList<String> hotelsNames = new ArrayList<String>();
+			String sql2;
+			
+			for(int i = 0; i < HotelsID.size(); i++)
+			{
+				sql2 = "Select * from DBA.Hotel where IDHotel = " + HotelsID.get(i);
+				hotelsNames.add(dataBaseAccess.getSingeStringFromDb(sql2, "HotelName"));
+			}
+			
+			for(int i = 0; i < HotelsID.size(); i++)
+			{
+				h_listview_hotels.getItems().add(hotelsNames.get(i));
+			}
+			
+			
+			
 		}
 		else if(event.getSource() == a_button_findattractions)
 		{

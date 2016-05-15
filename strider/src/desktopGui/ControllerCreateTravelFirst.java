@@ -240,7 +240,6 @@ public class ControllerCreateTravelFirst implements Initializable, ControlledScr
 		}
 		else if(arg0.getSource() == buttonnext)
 		{
-			/*
 			if(checkInputCompletion() == true)
 			{
 				if(TravelFramework.getInstance().hasTravel())
@@ -287,7 +286,7 @@ public class ControllerCreateTravelFirst implements Initializable, ControlledScr
 				
 				
 			}
-			*/
+			
 			myController.setScreen(WindowMain.NEWTRAVEL_2);
 		}
 		else if(arg0.getSource() == buttonfindcitiessource)
