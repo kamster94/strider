@@ -25,6 +25,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import dbHandlers.DatabaseHandlerTripAdder;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -275,6 +276,9 @@ public class ControllerCreateTravelFirst implements Initializable, ControlledScr
 				else
 				{
 					TravelFramework.getInstance().createNewTravel(textfieldtravelname.getText(), datepickerstart.getValue(), datepickerend.getValue(), countrybox_source.getSelectionModel().getSelectedIndex(), citybox_source.getSelectionModel().getSelectedIndex(), countrybox_target.getSelectionModel().getSelectedIndex(), citybox_target.getSelectionModel().getSelectedIndex(), spinnercompanions.getValue().intValue());
+					DatabaseHandlerTripAdder dbhta = new DatabaseHandlerTripAdder();
+					dbhta.setTravel(TravelFramework.getInstance().getCurrentTravel());
+					TravelFramework.getInstance().getCurrentTravel().setId(dbhta.pushTravelToDatabase());
 					TravelFramework.getInstance().print();
 				}
 				myController.setScreen(WindowMain.NEWTRAVEL_2);

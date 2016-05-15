@@ -6,19 +6,15 @@ import java.util.List;
 import org.jsoup.nodes.Document;
 import countryWarnings.AutoCompleteComboBoxListener;
 import dbConnection.DbAccess;
-import desktopGui.old.MainApplicationWindowController;
 import javafx.animation.FadeTransition;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -27,7 +23,6 @@ public class WindowMain extends Application
 	static Stage mystage;
 	static StackPane root;
 	
-	private static MainApplicationWindowController mycontroller;
 	public static final String url = "http://www.polakzagranica.msz.gov.pl";	
 	public static List<String> countryNames;
 	public static List<String> citiesOfCountries;
