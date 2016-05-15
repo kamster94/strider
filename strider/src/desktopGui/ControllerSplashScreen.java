@@ -41,18 +41,10 @@ public class ControllerSplashScreen implements Initializable, ControlledScreen, 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) 
 	{
-		
 		imageviewlogo.setImage(imglogopalms);
 		imageviewlogotitle.setImage(imglogotext);
 		
 		buttonlogin.setOnAction(this);
-
-		/*
-		ImageView continueico = new ImageView(icon_next);
-		continueico.setFitWidth(35);
-		continueico.setFitHeight(35);
-		buttoncontinue.setGraphic(nextico);
-		*/
 	}
 	
 	@Override

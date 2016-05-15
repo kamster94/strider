@@ -96,11 +96,6 @@ public class ControllerCreateTravelFirst implements Initializable, ControlledScr
     
     @FXML
     private ComboBox<String> countrybox_target;
-    
-    
-    final Image icon_home = new Image("desktopGui/textures/button_home.png");
-	final Image icon_previous = new Image("desktopGui/textures/arrowleft.png");
-	final Image icon_next = new Image("desktopGui/textures/arrowright.png");
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) 
@@ -109,21 +104,6 @@ public class ControllerCreateTravelFirst implements Initializable, ControlledScr
 		homebutton.setOnAction(this);
 		buttonfindcitiessource.setOnAction(this);
 		buttonfindcitiesdestination.setOnAction(this);
-		
-		ImageView homeico = new ImageView(icon_home);
-		homeico.setFitWidth(35);
-		homeico.setFitHeight(35);
-		
-		ImageView previco = new ImageView(icon_previous);
-		previco.setFitWidth(35);
-		previco.setFitHeight(35);
-		
-		ImageView nextico = new ImageView(icon_next);
-		nextico.setFitWidth(35);
-		nextico.setFitHeight(35);
-		
-		homebutton.setGraphic(homeico);
-		buttonnext.setGraphic(nextico);
 
 		//fuck the police
 		citybox_source = WindowMain.getCityBox();
@@ -197,7 +177,6 @@ public class ControllerCreateTravelFirst implements Initializable, ControlledScr
 		}
 		else return false;
 	}
-	
 	
 	@Override
 	public void handle(ActionEvent arg0) 

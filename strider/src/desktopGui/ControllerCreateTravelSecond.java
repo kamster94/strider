@@ -176,7 +176,6 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
     @FXML
     private VBox h_vboxcountry;
     
-    
     @FXML
     private ComboBox<String> a_combobox_countryfrom;
     @FXML
@@ -515,7 +514,6 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 			
 			for(int i = 0; i < attractionsID.size(); i++)
 			{
-				
 				sql2 = "Select * from DBA.Attraction where IDAttraction = " + attractionsID.get(i);
 				attractionsNames.add(dataBaseAccess.getSingeStringFromDb(sql2, "AttractionName"));
 			}
@@ -524,12 +522,7 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 			{
 				a_listview_attractions.getItems().add(attractionsNames.get(i));
 			}
-			
-			
 		}
 		
 	}
-
-
-
 }
