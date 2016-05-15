@@ -75,7 +75,9 @@ public class WindowMain extends Application
 		root = new StackPane();
 		root.getChildren().addAll(mainContainer);
 		Scene scene = new Scene(root);
+
 		primaryStage.setScene(scene);
+		primaryStage.getScene().getStylesheets().add(getClass().getResource("fxml/ta_mainwindow.css").toExternalForm());
 		primaryStage.show(); 
 		
 		mystage = primaryStage;

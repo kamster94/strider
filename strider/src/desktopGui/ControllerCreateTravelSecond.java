@@ -7,10 +7,13 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.ResourceBundle;
 
 import org.jsoup.nodes.Document;
 
+import dbConnection.DbAccess;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -94,7 +97,7 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
     private TextArea a_textarea_notes;
 
     @FXML
-    private ListView<?> a_listview_attractions;
+    private ListView<String> a_listview_attractions;
 
     @FXML
     private Button a_button_add;
@@ -115,13 +118,7 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
     private ComboBox<String> a_combobox_countryfrom;
     @FXML
     private ComboBox<String> a_combobox_cityfrom;
-    @FXML
-    private ComboBox<String> a_combobox_countryto;
-    @FXML
-    private ComboBox<String> a_combobox_cityto;
-    
-    
-    
+
     /////////////////////////////////////
     
     
@@ -142,24 +139,34 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 	{
 		a_combobox_countryfrom = WindowMain.getCountryBox();
 		a_combobox_cityfrom = WindowMain.getCityBox();
+		//a_combobox_countryfrom.setEditable(false);
+		//a_combobox_cityfrom.setEditable(false);
 		
 		a_vbox_country_from.getChildren().add(a_combobox_countryfrom);
 		a_vbox_city_from.getChildren().add(a_combobox_cityfrom);
 
 		a_vbox_country_from.getChildren().get(1).toFront();
 		a_vbox_city_from.getChildren().get(1).toFront();
-		
 		a_button_findcities.setOnAction(this);
 		
-		
 		button_previous.setOnAction(this);
-		
 		button_summary.setOnAction(this);
-		
+		a_button_findattractions.setOnAction(this);
 		//tabattraction.setOnSelectionChanged(this);
 		//tabhotel.setOnSelectionChanged(this);
 		//tabtransport.setOnSelectionChanged(this);
 	}
+	
+	public void checkIfDisableControls()
+	{
+		if(a_combobox_countryfrom.getSelectionModel().isEmpty() == true)
+		{
+			a_combobox_cityfrom.setDisable(true);
+			a_combobox_attrcurrency.setDisable(true);
+		
+		}
+	}
+	
 	
 	@Override
 	public void setScreenParent(ScreensController screenParent) 
@@ -233,6 +240,35 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
     				finalmente ="<b>Prosze wpisac poprawnie nazwe Panstwa<b>";
     			}
     			//zaladuj html do WebView
+		}
+		else if(event.getSource() == a_button_findattractions)
+		{
+			String sql = "Select * from DBA.Attraction where IDCountry = " + a_combobox_countryfrom.getSelectionModel().getSelectedIndex() + " and IDCity = " + a_combobox_cityfrom.getSelectionModel().getSelectedIndex();
+			DbAccess dataBaseAccess = new DbAccess("adriank","debil");
+
+			ArrayList<Integer> attractionsID = new ArrayList<Integer>(dataBaseAccess.getIntegersFromDb(sql, Arrays.asList("IDAttraction")));
+		
+			for(Integer i : attractionsID)
+			System.out.println(i);
+			
+			//dataBaseAccess = new DbAccess("adriank","debil");
+			
+			ArrayList<String> attractionsNames = new ArrayList<String>();
+			String sql2;
+			
+			for(int i = 0; i < attractionsID.size(); i++)
+			{
+				
+				sql2 = "Select * from DBA.Attraction where IDAttraction = " + attractionsID.get(i);
+				attractionsNames.add(dataBaseAccess.getSingeStringFromDb(sql2, "AttractionName"));
+			}
+			
+			for(int i = 0; i < attractionsNames.size(); i++)
+			{
+				a_listview_attractions.getItems().add(attractionsNames.get(i));
+			}
+			
+			
 		}
 		
 	}
