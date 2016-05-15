@@ -198,14 +198,14 @@ public class DbAccess extends Thread{
 		}
 	}
 	
-	public String getSingeStringFromDb(String sql){
+	public String getSingeStringFromDb(String sql, String wiersz){
 		try {
 			connectToDb();
 			PreparedStatement statement = connection.prepareStatement(sql);
 	        ResultSet result = statement.executeQuery();
 	        String value = "";
-	        if (result.next()) {
-	    		value = result.getString(0);
+	        while (result.next()) {
+	    		value = result.getString(wiersz);
 	        }
 	        result.close();
 	        statement.close();
