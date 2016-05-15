@@ -222,16 +222,16 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
     @FXML
     private Button button_summary;
     
+    
+    
     @FXML
     private ComboBox<String> a_combobox_countryfrom;
     @FXML
     private ComboBox<String> a_combobox_cityfrom;
-    
     @FXML
     private ComboBox<String> h_combobox_country;
     @FXML
     private ComboBox<String> h_combobox_city;
-    
     @FXML
     private ComboBox<String> t_combobox_country_from;
     @FXML
@@ -241,10 +241,7 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
     @FXML
     private ComboBox<String> t_combobox_city_to;
     /////////////////////////////////////
-    
-    
-    
-    
+
     /*
     public static void getData()
     {
@@ -294,8 +291,6 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 				h_textfield_zipcode.setText(zipcode);
 				h_textfield_street.setText(streetName);
 				h_textfield_number.setText(streetNumber);
-				
-				
 			}
 		});
 		
@@ -333,10 +328,7 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 				t_listview_companies.getItems().addAll(transports);
 			}
 		});
-		
-		
-		
-		
+
 		a_combobox_countryfrom = WindowMain.getCountryBox();
 		a_combobox_cityfrom = WindowMain.getCityBox();
 		
