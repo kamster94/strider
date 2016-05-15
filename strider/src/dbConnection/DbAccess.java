@@ -16,6 +16,7 @@ import java.util.logging.SimpleFormatter;
 public class DbAccess extends Thread{
 	
 	public static Logger connectionLogger = Logger.getLogger("connectionLog"); 
+	public static DbAccess self;
 	
 	private String connectionString;
 	private Connection connection;
@@ -23,12 +24,17 @@ public class DbAccess extends Thread{
 	private String login;
 	private String password;
 	
-	public DbAccess(String login, String password){
+	public static DbAccess getInstance(){
+		if (self == null) self = new DbAccess("Kamster", "sql");
+		return self;
+	}
+	
+	private DbAccess(String login, String password){
 		this.login = login;
 		this.password = password;
 		try {  
 			FileHandler fh;  
-	        fh = new FileHandler("connectionLog.log", true);  
+	        fh = new FileHandler("./logs/connectionLog.log", true);  
 	        connectionLogger.addHandler(fh);
 	        connectionLogger.setUseParentHandlers(false);
 	        SimpleFormatter formatter = new SimpleFormatter();  
