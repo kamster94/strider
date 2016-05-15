@@ -193,7 +193,7 @@ public class DbAccess extends Thread{
 	        statement.close();
 	        connection.close();
 	        return value;
-		} catch (SQLException e) {
+		} catch (SQLException | NullPointerException e) {
 			connectionLogger.log(Level.SEVERE, e.toString());
 			return -1;
 		}

@@ -19,7 +19,7 @@
    <children>
       <VBox>
          <children>
-            <TabPane fx:id="tabpane" tabClosingPolicy="UNAVAILABLE" tabMaxHeight="50.0" tabMaxWidth="200.0" tabMinHeight="50.0" tabMinWidth="200.0" VBox.vgrow="NEVER">
+            <TabPane fx:id="tabpane" tabClosingPolicy="UNAVAILABLE" tabMaxHeight="50.0" tabMaxWidth="200.0" tabMinHeight="50.0" tabMinWidth="200.0" VBox.vgrow="ALWAYS">
               <tabs>
                 <Tab fx:id="tabattraction" text="Attraction">
                      <content>

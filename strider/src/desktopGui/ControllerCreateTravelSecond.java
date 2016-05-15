@@ -24,6 +24,8 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
@@ -295,6 +297,26 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 		else return false;
 	}
 	
+	private void aclearUserInput()
+	{
+		a_combobox_countryfrom.getSelectionModel().clearSelection();
+		a_combobox_cityfrom.getSelectionModel().clearSelection();
+		a_textfield_zipcode.setText("");
+		a_textfield_name.setText("");
+		a_textfield_street.setText("");
+		a_textfieldnumber.setText("");
+		a_textfield_closed.setText("");
+		a_textfield_open.setText("");
+		a_textfield_price.setText("");
+		a_comboboxmycurrency.getSelectionModel().clearSelection();
+		a_combobox_attrcurrency.getSelectionModel().clearSelection();
+		a_textarea_notes.setText("");
+		
+		a_listview_attractions.getItems().removeAll(a_listview_attractions.getItems());
+		a_listview_attractions.getSelectionModel().clearSelection();
+	}
+	
+
 	@Override
 	public void setScreenParent(ScreensController screenParent) 
 	{
@@ -313,6 +335,15 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 				dhaa.setAttraction(ad);
 				dhaa.pushAttractionToDatabase();
 				
+				ad = null;
+				aclearUserInput();
+				
+				Alert alert = new Alert(AlertType.INFORMATION);
+				alert.setTitle("New attraction added");
+				alert.setHeaderText(null);
+				alert.setContentText("Attraction added succesfully!");
+
+				alert.showAndWait();
 				
 				
 			}

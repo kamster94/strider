@@ -75,7 +75,7 @@ public class ControllerSplashScreen implements Initializable, ControlledScreen, 
 			
 			//-1 U¿ytkownik istnieje, z³e has³o!
 			
-			//myController.setScreen(WindowMain.MAIN_SCREEN);
+			myController.setScreen(WindowMain.MAIN_SCREEN);
 		}
 	}
 }
