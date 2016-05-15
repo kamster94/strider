@@ -221,9 +221,7 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 
     @FXML
     private Button button_summary;
-    
-    
-    
+    /////////////////////////////////////
     @FXML
     private ComboBox<String> a_combobox_countryfrom;
     @FXML
