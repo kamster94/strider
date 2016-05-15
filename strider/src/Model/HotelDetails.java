@@ -1,4 +1,4 @@
-package travel;
+package Model;
 
 import java.time.LocalDate;
 

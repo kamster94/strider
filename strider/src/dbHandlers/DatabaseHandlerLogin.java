@@ -22,6 +22,8 @@ public class DatabaseHandlerLogin {
 			user = User.getInstance();
 			user.setEmail(email);
 			String userName = DbAccess.getInstance().getSingeStringFromDb("SELECT UserName FROM DBA.UserData WHERE DBA.Email = '" + email + "'", "UserName");
+			int userId = DbAccess.getInstance().getIntFromDb("SELECT IDUser FROM DBA.UserData WHERE DBA.Email = '" + email + "'");
+			user.setId(userId);
 			user.setUserName(userName);
 		}
 		return status;

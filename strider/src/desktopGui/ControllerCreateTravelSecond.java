@@ -13,6 +13,7 @@ import java.util.ResourceBundle;
 
 import org.jsoup.nodes.Document;
 
+import Model.TravelFramework;
 import dbConnection.DbAccess;
 import dbHandlers.DatabaseHandlerAttractionAdder;
 import javafx.beans.value.ChangeListener;
@@ -41,7 +42,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.scene.web.WebView;
 import travel.AttractionDetails;
-import travel.TravelFramework;
 
 public class ControllerCreateTravelSecond implements Initializable, ControlledScreen, EventHandler<ActionEvent>
 {

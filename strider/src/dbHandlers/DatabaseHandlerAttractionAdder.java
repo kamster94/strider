@@ -2,10 +2,10 @@ package dbHandlers;
 
 import java.sql.Date;
 
+import Model.TravelFramework;
 import dbConnection.DbAccess;
 import travel.AttractionDetails;
 import travel.Travel;
-import travel.TravelFramework;
 import trpClasses.Attraction;
 
 public class DatabaseHandlerAttractionAdder

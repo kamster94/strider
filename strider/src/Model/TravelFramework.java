@@ -1,6 +1,8 @@
-package travel;
+package Model;
 
 import java.time.LocalDate;
+
+import travel.Travel;
 
 public class TravelFramework 
 {

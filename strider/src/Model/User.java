@@ -4,6 +4,7 @@ public class User {
 	
 	private String email;
 	private String userName;
+	private int id;
 	
 	private static User self;
 	
@@ -26,6 +27,14 @@ public class User {
 	}
 	public void setUserName(String userName) {
 		this.userName = userName;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	

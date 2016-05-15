@@ -25,6 +25,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import Model.TravelFramework;
 import dbHandlers.DatabaseHandlerTripAdder;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -43,7 +44,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
-import travel.TravelFramework;
 
 public class ControllerCreateTravelFirst implements Initializable, ControlledScreen, EventHandler<ActionEvent>
 {
