@@ -124,6 +124,27 @@ public class DbAccess extends Thread{
 		}
 	}
 	
+	public List<Integer> getIntegersFromDb(String sql, List<String> columns){
+		try {
+			connectToDb();
+			PreparedStatement statement = connection.prepareStatement(sql);
+	        ResultSet result = statement.executeQuery();
+	        List<Integer> values = new ArrayList<Integer>();
+	        while (result.next()) {
+	        	for (String column : columns) {
+	    			values.add(result.getInt(column));
+	    		}
+	        }
+	        result.close();
+	        statement.close();
+	        connection.close();
+	        return values;
+		} catch (SQLException e) {
+			connectionLogger.log(Level.SEVERE, e.toString());
+			return null;
+		}
+	}
+	
 	public boolean pushToDb(String sql){
 		try {
 			connectToDb();
