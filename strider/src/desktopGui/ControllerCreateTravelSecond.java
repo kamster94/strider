@@ -13,9 +13,11 @@ import java.util.ResourceBundle;
 
 import org.jsoup.nodes.Document;
 
+import Model.HotelDetails;
 import Model.TravelFramework;
 import dbConnection.DbAccess;
 import dbHandlers.DatabaseHandlerAttractionAdder;
+import dbHandlers.DatabaseHandlerHotelAdder;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -197,7 +199,10 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 
     @FXML
     private TextField t_textfield_price;
-
+    
+    @FXML
+    private Button t_add1;
+    
     @FXML
     private ComboBox<String> t_combobox_mycurrency;
 
@@ -214,7 +219,7 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
     private ListView<String> t_listview_companies;
 
     @FXML
-    private Button t_add;
+    private Button t_button_add;
 
     @FXML
     private Button button_previous;
@@ -309,7 +314,7 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 		
 		t_button_findcities_from.setOnAction(this);
 		t_button_findcities_to.setOnAction(this);
-		
+		t_button_add.setOnAction(this);
 		ArrayList <String> transport = new ArrayList<String>(DbAccess.getInstance().getStringsFromDb("SELECT * FROM DBA.Transport", Arrays.asList("TransportName")));
 		ArrayList <String> transportCategory = new ArrayList<String>(DbAccess.getInstance().getStringsFromDb("SELECT * FROM DBA.TransportCategory", Arrays.asList("TransportCategoryName")));
 		
@@ -358,9 +363,12 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 		button_summary.setOnAction(this);
 		a_button_findattractions.setOnAction(this);
 		a_button_add.setOnAction(this);
-		//tabattraction.setOnSelectionChanged(this);
-		//tabhotel.setOnSelectionChanged(this);
-		//tabtransport.setOnSelectionChanged(this);
+
+		ArrayList <String> currencies = new ArrayList<String>(DbAccess.getInstance().getStringsFromDb("SELECT * FROM DBA.Currency", Arrays.asList("CurrencyShortcut")));
+		a_comboboxmycurrency.getItems().addAll(currencies);
+		a_combobox_attrcurrency.getItems().addAll(currencies);
+		h_combobox_currency.getItems().addAll(currencies);
+		h_combobox_mycurrency.getItems().addAll(currencies);
 	}
 	
 	private boolean acheckInputCompletion()
@@ -375,6 +383,22 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 		}
 		else return false;
 	}
+	
+	private boolean hcheckInputCompletion()
+	{
+		if(h_combobox_country.getValue() != null &&
+			h_combobox_city.getValue() != null &&
+			h_datepicker_arrival.getValue() != null &&
+			h_datepicker_departure.getValue() != null &&
+			h_combobox_mycurrency.getValue() != null &&
+			h_combobox_currency.getValue() != null)
+		{
+			return true;
+		}
+		else return false;
+		
+	}
+	
 	
 	private void aclearUserInput()
 	{
@@ -405,7 +429,18 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 	@Override
 	public void handle(ActionEvent event) 
 	{
-		if(event.getSource() == t_button_findcities_to)
+		if(event.getSource() == t_button_add)
+		{
+			if(hcheckInputCompletion() == true)
+			{
+				HotelDetails hd = new HotelDetails(h_listview_hotels.getSelectionModel().getSelectedIndex(), h_combobox_currency.getSelectionModel().getSelectedIndex(), Integer.parseInt(h_textfield_pricepernite.getText()), h_textarea_notes.getText(), h_datepicker_arrival.getValue(), h_datepicker_departure.getValue(), h_combobox_country.getSelectionModel().getSelectedIndex(), h_combobox_city.getSelectionModel().getSelectedIndex());
+				DatabaseHandlerHotelAdder dhha = new DatabaseHandlerHotelAdder();
+				dhha.setHotel(hd);
+				System.out.println(dhha.pushHotelDetails());
+			}
+			
+		}
+		else if(event.getSource() == t_button_findcities_to)
 		{
 			String newLine = System.getProperty("line.separator");
     		String htmlString = "";
@@ -602,11 +637,6 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
     				finalmente ="<b>Prosze wpisac poprawnie nazwe Panstwa<b>";
     			}
     			//zaladuj html do WebView'
-    			
-    			ArrayList <String> currencies = new ArrayList<String>(DbAccess.getInstance().getStringsFromDb("SELECT * FROM DBA.Currency", Arrays.asList("CurrencyShortcut")));
-    			a_comboboxmycurrency.getItems().addAll(currencies);
-    			a_combobox_attrcurrency.getItems().addAll(currencies);
-    			
 		}
 		else if(event.getSource() == h_button_findcities)
 		{

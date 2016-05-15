@@ -324,10 +324,13 @@
                                     <Label maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" text="Hotels" />
                                     <ListView fx:id="h_listview_hotels" VBox.vgrow="ALWAYS" />
                                     <Label maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" text="Book" />
-                                    <ComboBox fx:id="h_combobox_book" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" />
+                                    <ComboBox fx:id="h_combobox_book" disable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" />
                                     <Label maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" text="Rated hotels" />
-                                    <ComboBox fx:id="h_combobox_rated" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" />
-                                    <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" />
+                                    <ComboBox fx:id="h_combobox_rated" disable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" />
+                                    <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                                       <children>
+                                          <Button fx:id="t_button_add" mnemonicParsing="false" text="Add" />
+                                       </children></HBox>
                                  </children>
                                  <padding>
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />

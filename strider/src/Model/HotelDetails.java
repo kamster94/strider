@@ -14,12 +14,12 @@ public class HotelDetails
 	private int id_country;
 	private int id_city;
 
-	public HotelDetails(int id_hotelx, int id_currencyx, float pricex, String linkx, String notesx, LocalDate arrivaldatex, LocalDate leavingdatex, int id_countryx, int id_cityx) 
+	public HotelDetails(int id_hotelx, int id_currencyx, float pricex, String notesx, LocalDate arrivaldatex, LocalDate leavingdatex, int id_countryx, int id_cityx) 
 	{
 		id_hotel = id_hotelx;
 		id_currency = id_currencyx;
 		price = pricex;
-		link = linkx;
+		link = "TODO: ADD LINKS FOR FUCKS SAKE";
 		notes = notesx;
 		arrivaldate = arrivaldatex;
 		leavingdate = leavingdatex;
