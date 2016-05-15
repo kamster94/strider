@@ -22,7 +22,7 @@ public class WindowMain extends Application
 {
 	static Stage mystage;
 	static StackPane root;
-	
+
 	public static final String url = "http://www.polakzagranica.msz.gov.pl";	
 	public static List<String> countryNames;
 	public static List<String> citiesOfCountries;
