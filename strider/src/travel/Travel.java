@@ -78,7 +78,6 @@ public class Travel
 		companionsnumber = num;
 	}
 	
-	
 	public int getId()
 	{
 		return id;

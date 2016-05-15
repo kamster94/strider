@@ -33,6 +33,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Control;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Spinner;
@@ -130,13 +131,40 @@ public class ControllerCreateTravelFirst implements Initializable, ControlledScr
 		citybox_target = WindowMain.getCityBox();
 		countrybox_target = WindowMain.getCountryBox();
 		
+		citybox_source.setPrefWidth(200);
+		citybox_source.setPrefHeight(50);
+		citybox_source.setMinWidth(Control.USE_PREF_SIZE);
+		citybox_source.setMinHeight(Control.USE_PREF_SIZE);
+		citybox_source.setMaxWidth(Control.USE_PREF_SIZE);
+		citybox_source.setMaxHeight(Control.USE_PREF_SIZE);
+		
+		countrybox_source.setPrefWidth(200);
+		countrybox_source.setPrefHeight(50);
+		countrybox_source.setMinWidth(Control.USE_PREF_SIZE);
+		countrybox_source.setMinHeight(Control.USE_PREF_SIZE);
+		countrybox_source.setMaxWidth(Control.USE_PREF_SIZE);
+		countrybox_source.setMaxHeight(Control.USE_PREF_SIZE);
+		
+		citybox_target.setPrefWidth(200);
+		citybox_target.setPrefHeight(50);
+		citybox_target.setMinWidth(Control.USE_PREF_SIZE);
+		citybox_target.setMinHeight(Control.USE_PREF_SIZE);
+		citybox_target.setMaxWidth(Control.USE_PREF_SIZE);
+		citybox_target.setMaxHeight(Control.USE_PREF_SIZE);	
+		
+		countrybox_target.setPrefWidth(200);
+		countrybox_target.setPrefHeight(50);
+		countrybox_target.setMinWidth(Control.USE_PREF_SIZE);
+		countrybox_target.setMinHeight(Control.USE_PREF_SIZE);
+		countrybox_target.setMaxWidth(Control.USE_PREF_SIZE);
+		countrybox_target.setMaxHeight(Control.USE_PREF_SIZE);		
+		
 		vboxcountryboxsource.getChildren().add(countrybox_source);
 		vboxcityboxsource.getChildren().add(citybox_source);
 		
 		vboxcountryboxdestination.getChildren().add(countrybox_target);
 		vboxcityboxdestination.getChildren().add(citybox_target);
 		
-
 		//Przesuwamy guzik findcities pod dodany wy¿ej cumbobox
 		vboxcountryboxsource.getChildren().get(1).toFront();
 		vboxcountryboxdestination.getChildren().get(1).toFront();
@@ -147,11 +175,9 @@ public class ControllerCreateTravelFirst implements Initializable, ControlledScr
 		datepickerstart.setOnAction(this);
 		datepickerend.setOnAction(this);
 		
-		spinnercompanions.setEditable(false);
 		SpinnerValueFactory svf= new SpinnerValueFactory.IntegerSpinnerValueFactory(0,10);
 		spinnercompanions.setValueFactory(svf);
-		
-		
+		spinnercompanions.setEditable(false);
 	}
 	
 	@Override
@@ -162,17 +188,24 @@ public class ControllerCreateTravelFirst implements Initializable, ControlledScr
 
 	public void sanitizeDatePickers()
 	{
-		if(datepickerstart.getValue().isBefore(LocalDate.now()))
+		if(datepickerstart.getValue() != null)
 		{
-			datepickerstart.setValue(LocalDate.now());
+			if(datepickerstart.getValue().isBefore(LocalDate.now()))
+			{
+				datepickerstart.setValue(LocalDate.now());
+			}
 		}
-		if(datepickerend.getValue().isBefore(LocalDate.now()))
+		
+		if((datepickerend.getValue() != null) && (datepickerstart.getValue() != null))
 		{
-			datepickerend.setValue(datepickerstart.getValue().plusDays(1));
-		}
-		if(datepickerend.getValue().isBefore(datepickerstart.getValue()))
-		{
-			datepickerend.setValue(datepickerstart.getValue().plusDays(1));
+			if(datepickerend.getValue().isBefore(LocalDate.now()))
+			{
+				datepickerend.setValue(datepickerstart.getValue().plusDays(1));
+			}
+			if(datepickerend.getValue().isBefore(datepickerstart.getValue()))
+			{
+				datepickerend.setValue(datepickerstart.getValue().plusDays(1));
+			}
 		}
 	}
 	
@@ -210,12 +243,39 @@ public class ControllerCreateTravelFirst implements Initializable, ControlledScr
 			{
 				if(TravelFramework.getInstance().hasTravel())
 				{
-				
-				
+					if(textfieldtravelname.getText() != TravelFramework.getInstance().getCurrentTravel().getName())
+					{
+						TravelFramework.getInstance().getCurrentTravel().setName(textfieldtravelname.getText());
+					}
+					if(datepickerstart.getValue() != TravelFramework.getInstance().getCurrentTravel().getStartDate())
+					{
+						TravelFramework.getInstance().getCurrentTravel().setStartDate(datepickerstart.getValue());
+					}
+					if(datepickerend.getValue() != TravelFramework.getInstance().getCurrentTravel().getEndDate())
+					{
+						TravelFramework.getInstance().getCurrentTravel().setEndDate(datepickerend.getValue());
+					}
+					if(countrybox_source.getSelectionModel().getSelectedIndex() != TravelFramework.getInstance().getCurrentTravel().getCountryOriginId())
+					{
+						TravelFramework.getInstance().getCurrentTravel().setCountryOriginId(countrybox_source.getSelectionModel().getSelectedIndex());
+					}
+					if(citybox_source.getSelectionModel().getSelectedIndex() != TravelFramework.getInstance().getCurrentTravel().getCityOriginId())
+					{
+						TravelFramework.getInstance().getCurrentTravel().setCityOriginId(citybox_source.getSelectionModel().getSelectedIndex());
+					}
+					if(countrybox_target.getSelectionModel().getSelectedIndex() != TravelFramework.getInstance().getCurrentTravel().getCountryDestinationId())
+					{
+						TravelFramework.getInstance().getCurrentTravel().setCountryDestinationId(countrybox_target.getSelectionModel().getSelectedIndex());
+					}
+					if(citybox_target.getSelectionModel().getSelectedIndex() != TravelFramework.getInstance().getCurrentTravel().getCityDestinationId())
+					{
+						TravelFramework.getInstance().getCurrentTravel().setCityDestinationId(citybox_target.getSelectionModel().getSelectedIndex());
+					}
 				}
 				else
 				{
 					TravelFramework.getInstance().createNewTravel(textfieldtravelname.getText(), datepickerstart.getValue(), datepickerend.getValue(), countrybox_source.getSelectionModel().getSelectedIndex(), citybox_source.getSelectionModel().getSelectedIndex(), countrybox_target.getSelectionModel().getSelectedIndex(), citybox_target.getSelectionModel().getSelectedIndex(), spinnercompanions.getValue().intValue());
+					TravelFramework.getInstance().print();
 				}
 				myController.setScreen(WindowMain.NEWTRAVEL_2);
 			}

@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<StackPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="desktopGui.ControllerMain">
+<StackPane xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="desktopGui.ControllerMain">
    <children>
       <VBox alignment="CENTER" spacing="10.0" stylesheets="@ta_mainwindow.css">
          <children>
@@ -22,7 +22,7 @@
                   <Image url="@ta_title.png" />
                </image>
             </ImageView>
-            <ScrollPane fitToHeight="true" fitToWidth="true" VBox.vgrow="ALWAYS">
+            <ScrollPane fitToHeight="true" fitToWidth="true" minHeight="-Infinity" minWidth="-Infinity" prefHeight="250.0" prefWidth="500.0" VBox.vgrow="ALWAYS">
                <content>
                   <Accordion>
                      <panes>

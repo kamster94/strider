@@ -95,7 +95,14 @@ public class WindowMain extends Application
 		try
 		{
 			dataBaseAccess = new DbAccess("adriank","debil");
-		
+			if(dataBaseAccess.testConnection() == false)
+			{
+				System.out.println("Can't connect to online database :<");
+			}
+			else
+			{
+				System.out.println("Connection to online database succesfull!");
+			}
 			countryNames = new ArrayList<String>(dataBaseAccess.getStringsFromDb("SELECT * FROM DBA.Country", Arrays.asList("CountryName")));
 			countryHtmls = new ArrayList<String>(dataBaseAccess.getStringsFromDb("SELECT * FROM DBA.Country", Arrays.asList("MSZlink")));
 			countryData = FXCollections.observableArrayList(); //Do sugestii wyszukiwania krajow
@@ -129,6 +136,11 @@ public class WindowMain extends Application
 		countryBox.setItems(countryData);
 		
 		return countryBox;
+	}
+	
+	public static void resizeWindowToContents()
+	{
+		mystage.getScene().getWindow().sizeToScene();
 	}
 	
 	public static void closeWindow()
