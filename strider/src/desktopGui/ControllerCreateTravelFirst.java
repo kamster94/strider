@@ -276,10 +276,12 @@ public class ControllerCreateTravelFirst implements Initializable, ControlledScr
 				else
 				{
 					TravelFramework.getInstance().createNewTravel(textfieldtravelname.getText(), datepickerstart.getValue(), datepickerend.getValue(), countrybox_source.getSelectionModel().getSelectedIndex(), citybox_source.getSelectionModel().getSelectedIndex(), countrybox_target.getSelectionModel().getSelectedIndex(), citybox_target.getSelectionModel().getSelectedIndex(), spinnercompanions.getValue().intValue());
+					
 					DatabaseHandlerTripAdder dbhta = new DatabaseHandlerTripAdder();
 					dbhta.setTravel(TravelFramework.getInstance().getCurrentTravel());
 					TravelFramework.getInstance().getCurrentTravel().setId(dbhta.pushTravelToDatabase());
 					TravelFramework.getInstance().print();
+					System.out.println(TravelFramework.getInstance().getCurrentTravel().getId());
 				}
 				myController.setScreen(WindowMain.NEWTRAVEL_2);
 			}
