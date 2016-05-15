@@ -15,5 +15,6 @@
       <Label fx:id="currencyLabel" layoutX="888.0" layoutY="98.0" prefHeight="33.0" prefWidth="136.0" text="Waluta Państwa:" />
       <WebView fx:id="weatherWebView" layoutX="888.0" layoutY="267.0" prefHeight="200.0" prefWidth="200.0" />
       <Label fx:id="weatherLabel" layoutX="888.0" layoutY="216.0" prefHeight="33.0" prefWidth="136.0" text="Pogoda w mieście:" />
+      <Button fx:id="showMapBttn" layoutX="420.0" layoutY="527.0" mnemonicParsing="false" text="Mapa" />
    </children>
 </AnchorPane>
