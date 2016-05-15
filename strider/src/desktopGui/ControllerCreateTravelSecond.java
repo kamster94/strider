@@ -210,13 +210,12 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 			@Override
 			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue)
 			{
-				DbAccess dataBaseAccess = new DbAccess("adriank", "debil");
 				String sql2 = "Select * from DBA.Attraction where AttractionName = '" + newValue + "'";
-				String zipcode = dataBaseAccess.getSingeStringFromDb(sql2, "ZipCode");
-				String streetName = dataBaseAccess.getSingeStringFromDb(sql2, "StreetName");
-				String streetNumber = dataBaseAccess.getSingeStringFromDb(sql2, "StreetNumber");
-				String openTime = dataBaseAccess.getSingeStringFromDb(sql2, "OpeningTime");
-				String closeTime = dataBaseAccess.getSingeStringFromDb(sql2, "ClosingTime");
+				String zipcode = DbAccess.getInstance().getSingeStringFromDb(sql2, "ZipCode");
+				String streetName = DbAccess.getInstance().getSingeStringFromDb(sql2, "StreetName");
+				String streetNumber = DbAccess.getInstance().getSingeStringFromDb(sql2, "StreetNumber");
+				String openTime = DbAccess.getInstance().getSingeStringFromDb(sql2, "OpeningTime");
+				String closeTime = DbAccess.getInstance().getSingeStringFromDb(sql2, "ClosingTime");
 				
 				a_textfield_name.setText(newValue);
 				a_textfield_zipcode.setText(zipcode);
@@ -232,11 +231,10 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 			@Override
 			public void changed(ObservableValue<? extends String> observable, String oldvalue, String newvalue) 
 			{
-				DbAccess dataBaseAccess = new DbAccess("adriank", "debil");
 				String sql2 = "Select * from DBA.Hotel where HotelName =" +"'" + newvalue + "'";
-				String zipcode = dataBaseAccess.getSingeStringFromDb(sql2, "ZipCode");
-				String streetName = dataBaseAccess.getSingeStringFromDb(sql2, "StreetName");
-				String streetNumber = dataBaseAccess.getSingeStringFromDb(sql2, "StreetNumber");
+				String zipcode = DbAccess.getInstance().getSingeStringFromDb(sql2, "ZipCode");
+				String streetName = DbAccess.getInstance().getSingeStringFromDb(sql2, "StreetName");
+				String streetNumber = DbAccess.getInstance().getSingeStringFromDb(sql2, "StreetNumber");
 				
 				h_textfield_name.setText(newvalue);
 				h_textfield_zipcode.setText(zipcode);
@@ -411,8 +409,7 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
     			}
     			//zaladuj html do WebView'
     			
-    			DbAccess dataBaseAccess = new DbAccess("adriank", "debil");
-    			ArrayList <String> currencies = new ArrayList<String>(dataBaseAccess.getStringsFromDb("SELECT * FROM DBA.Currency", Arrays.asList("CurrencyShortcut")));
+    			ArrayList <String> currencies = new ArrayList<String>(DbAccess.getInstance().getStringsFromDb("SELECT * FROM DBA.Currency", Arrays.asList("CurrencyShortcut")));
     			a_comboboxmycurrency.getItems().addAll(currencies);
     			a_combobox_attrcurrency.getItems().addAll(currencies);
     			
@@ -475,18 +472,16 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 		}
 		else if(event.getSource() == h_button_findhotels)
 		{
-			DbAccess dataBaseAccess = new DbAccess("adriank", "debil");
-			
 			String sql = "Select * from DBA.Hotel where IDCountry = " + h_combobox_country.getSelectionModel().getSelectedIndex() + " and IDCity = " + h_combobox_city.getSelectionModel().getSelectedIndex();
 					
-			ArrayList<Integer> HotelsID = new ArrayList<Integer>(dataBaseAccess.getIntegersFromDb(sql, Arrays.asList("IDHotel")));
+			ArrayList<Integer> HotelsID = new ArrayList<Integer>(DbAccess.getInstance().getIntegersFromDb(sql, Arrays.asList("IDHotel")));
 			ArrayList<String> hotelsNames = new ArrayList<String>();
 			String sql2;
 			
 			for(int i = 0; i < HotelsID.size(); i++)
 			{
 				sql2 = "Select * from DBA.Hotel where IDHotel = " + HotelsID.get(i);
-				hotelsNames.add(dataBaseAccess.getSingeStringFromDb(sql2, "HotelName"));
+				hotelsNames.add(DbAccess.getInstance().getSingeStringFromDb(sql2, "HotelName"));
 			}
 			
 			for(int i = 0; i < HotelsID.size(); i++)
@@ -500,14 +495,11 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 		else if(event.getSource() == a_button_findattractions)
 		{
 			String sql = "Select * from DBA.Attraction where IDCountry = " + a_combobox_countryfrom.getSelectionModel().getSelectedIndex() + " and IDCity = " + a_combobox_cityfrom.getSelectionModel().getSelectedIndex();
-			DbAccess dataBaseAccess = new DbAccess("adriank","debil");
 
-			ArrayList<Integer> attractionsID = new ArrayList<Integer>(dataBaseAccess.getIntegersFromDb(sql, Arrays.asList("IDAttraction")));
+			ArrayList<Integer> attractionsID = new ArrayList<Integer>(DbAccess.getInstance().getIntegersFromDb(sql, Arrays.asList("IDAttraction")));
 		
 			for(Integer i : attractionsID)
 			System.out.println(i);
-			
-			//dataBaseAccess = new DbAccess("adriank","debil");
 			
 			ArrayList<String> attractionsNames = new ArrayList<String>();
 			String sql2;
@@ -515,7 +507,7 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 			for(int i = 0; i < attractionsID.size(); i++)
 			{
 				sql2 = "Select * from DBA.Attraction where IDAttraction = " + attractionsID.get(i);
-				attractionsNames.add(dataBaseAccess.getSingeStringFromDb(sql2, "AttractionName"));
+				attractionsNames.add(DbAccess.getInstance().getSingeStringFromDb(sql2, "AttractionName"));
 			}
 			
 			for(int i = 0; i < attractionsNames.size(); i++)
