@@ -67,7 +67,7 @@ public class WindowMain extends Application
 		
 		try {  
 			FileHandler fh;  
-	        fh = new FileHandler("guiLog.log", true);  
+	        fh = new FileHandler("./logs/guiLog.log", true);  
 	        guiLog.addHandler(fh);
 	        guiLog.setUseParentHandlers(false);
 	        SimpleFormatter formatter = new SimpleFormatter();  
