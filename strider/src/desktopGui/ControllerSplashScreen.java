@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.ResourceBundle;
 
 import dbConnection.DbAccess;
+import dbHandlers.DatabaseHandlerLogin;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -67,17 +68,14 @@ public class ControllerSplashScreen implements Initializable, ControlledScreen, 
 		{
 			textfieldemail.getText();
 			passwordfieldpassword.getText();
-			DbAccess dataBaseAccess = new DbAccess("adriank", "debil");
+			DatabaseHandlerLogin dhl = new DatabaseHandlerLogin();
 			
-			String sql = "CALL DBA.fCheckUser('" + textfieldemail.getText() + "','" + passwordfieldpassword.getText() + ",)";
-			//boolean userexists = dataBaseAccess.
+			int status = dhl.loginUser(textfieldemail.getText(), passwordfieldpassword.getText());
+			System.out.println("Login Status: " + status);
 			
-			dataBaseAccess.start();
-			boolean loginstatus = dataBaseAccess.checkBoolInDb(sql, Arrays.asList("UserData"));
-					
-			System.out.println(loginstatus);
-					
-			myController.setScreen(WindowMain.MAIN_SCREEN);
+			//-1 U¿ytkownik istnieje, z³e has³o!
+			
+			//myController.setScreen(WindowMain.MAIN_SCREEN);
 		}
 	}
 }

@@ -13,7 +13,7 @@ public class DatabaseHandlerLogin {
 	}
 	
 	public int loginUser(String email, String password){
-		int status = dataBaseAccess.getIntFromDb("CALL DBA.fCheckUser @email = '" + email + "', @haslo = '" + password + "')");
+		int status = dataBaseAccess.getIntFromDb("CALL DBA.fCheckUser(@email = '" + email + "', @haslo = '" + password + "')");
 		if (status == 1) {
 			user = User.getInstance();
 			user.setEmail(email);
@@ -22,5 +22,4 @@ public class DatabaseHandlerLogin {
 		}
 		return status;
 	}
-
 }
