@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.URL;
+import java.net.UnknownHostException;
 import java.nio.charset.Charset;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -219,7 +220,7 @@ public class ControllerAdditionalInformations implements Initializable, Controll
     		String url = "http://www.polakzagranica.msz.gov.pl";	   
     		Document document;
     		String cityNamesSql = "SELECT C.CityName FROM DBA.City C inner join DBA.Country Cr on C.IDCountry = Cr.IDCountry "
-    							+ "where Cr.CountryName = '" +  textFromCountryNameBox +"' order by 1 asc";
+    							+ "where Cr.CountryName = '" +  textFromCountryNameBox +"'";
     		checkForMatchingCountry = 0;
     		num = 0;
     		setCurrency(textFromCountryNameBox);
@@ -330,6 +331,10 @@ public class ControllerAdditionalInformations implements Initializable, Controll
     		{
     			finalmente ="<b>Prosze wpisac poprawnie nazwe Panstwa<b>";
     		} 
+    		catch (UnknownHostException jason) 
+    		{
+    			finalmente ="<b>MSZ nie dostarcza informacji o Polsce.<b>";
+    		} 
     		catch (IOException e) 
     		{
     			finalmente ="<b>Brak po³¹czenia z internetem<b>";
@@ -381,11 +386,11 @@ public class ControllerAdditionalInformations implements Initializable, Controll
 		}
 		catch(JSONException e)
 		{
-			weatherWebView.getEngine().loadContent("Wyjeba³o b³¹d JSON :/");     
+			weatherWebView.getEngine().loadContent("B³¹d JSON :/");     
 	    }
   		catch(IOException e1)
 		{
-  			weatherWebView.getEngine().loadContent("Wyjeba³o b³¹d IO :/");
+  			weatherWebView.getEngine().loadContent("B³¹d IO :/");
   		}
 	}
 	
