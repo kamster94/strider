@@ -23,7 +23,7 @@ public class CityInformation {
 	
 	public String cityName;
 	private String cityURL;
-	public static LatLong coordinations = new LatLong(52.1356, 21.0030);
+	public static LatLong coordinations;
 	
 	public CityInformation(String name){
 		

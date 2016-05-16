@@ -60,11 +60,11 @@ public class WeatherInformation {
 	      
 
 	    }catch(JSONException e){
-	    	 information.append("Wyjeba這 b章d JSON :/");
+	    	 information.append("Wyrzuci這 b章d JSON :/");
 		      
 	    }
   		catch(IOException e1){
-  			 information.append("Wyjeba這 b章d IO :/");
+  			 information.append("Wyrzuci這 b章d IO :/");
   		}
 	     
 	return information;

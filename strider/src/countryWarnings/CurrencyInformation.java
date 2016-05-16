@@ -65,8 +65,8 @@ String getCurrencyURL(){
    	      String currencySQL = "Select C.CurrencyShortcut from DBA.Currency C inner join DBA.CountrysCurrency CC on C.IDCurrency = CC.IDCurrency"
    	      		+ " inner join DBA.Country CR on CC.IDCountry = CR.IDCountry where CR.CountryName = '" + this.country.countryName + "'";
 
-   	      String connectionString = "jdbc:sqlanywhere:uid=Artureczek;pwd=debil";
-  	      //String connectionString = "jdbc:sqlanywhere:uid="+"Artureczek"+";pwd="+"debil"+";eng=traveladvisordb;database=traveladvisordb;host=5.134.69.28:15144";
+   	      //String connectionString = "jdbc:sqlanywhere:uid=Artureczek;pwd=debil";
+  	      String connectionString = "jdbc:sqlanywhere:uid="+"Artureczek"+";pwd="+"debil"+";eng=traveladvisordb;database=traveladvisordb;host=5.134.69.28:15144";
 	      Connection con = DriverManager.getConnection(connectionString);					 	         			  
 		  Statement stmt = con.createStatement();
 	      ResultSet rs = stmt.executeQuery(currencySQL);

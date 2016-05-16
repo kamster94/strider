@@ -92,13 +92,14 @@ public class SampleController implements Initializable{
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 
-				
+		showMapBttn.setDisable(true);
+		
 		findCountryButton.setOnAction(new EventHandler<ActionEvent>() {
 	        @Override
 	        public void handle(ActionEvent arg0) {
 	        	 
 	        countryInformation = new CountryInformation( Main.countryBox.getEditor().getText(),
-	        "http://www.polakzagranica.msz.gov.pl/" + Main.countryHtmls.get(setCityList()));        
+	        "http://www.polakzagranica.msz.gov.pl" + Main.countryHtmls.get(setCityList()));        
 	        currencyInformation = new CurrencyInformation(countryInformation);
 	        
 	        StringBuilder countryInfoText =  countryInformation.getCountryInformationHtml();
@@ -127,8 +128,8 @@ public class SampleController implements Initializable{
         		
         		cityWebView.getEngine().loadContent(cityInformationString.toString());  	
         		weatherWebView.getEngine().loadContent(weatherInformationString.toString());
-  
-	        	
+        		
+        		showMapBttn.setDisable(false);
 	        }
 	    });
 
@@ -164,8 +165,8 @@ public class SampleController implements Initializable{
     
 		//Laczenie z baza danych do wyciagniecia listy miast na podstawie wybranego panstwa  	
 	       	   	     
-			  String connectionString = "jdbc:sqlanywhere:uid=Artureczek;pwd=debil";
-   	   	      //String connectionString = "jdbc:sqlanywhere:uid="+"Artureczek"+";pwd="+"debil"+";eng=traveladvisordb;database=traveladvisordb;host=5.134.69.28:15144";
+			  //String connectionString = "jdbc:sqlanywhere:uid=Artureczek;pwd=debil";
+   	   	      String connectionString = "jdbc:sqlanywhere:uid="+"Artureczek"+";pwd="+"debil"+";eng=traveladvisordb;database=traveladvisordb;host=5.134.69.28:15144";
    	 	      Connection con = DriverManager.getConnection(connectionString);					 	         			  
 			  Statement stmt = con.createStatement();
 		      ResultSet rs = stmt.executeQuery(cityNamesSql);
