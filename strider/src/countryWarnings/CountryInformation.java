@@ -91,22 +91,13 @@ public class CountryInformation {
 								
 		} catch(NullPointerException e1){
 			htmlString ="<b>Prosze wpisac poprawnie nazwe Panstwa<b>";
-		} 
-	       
-	       
-	       
-	       catch (UnknownHostException e2) {
-			e2.printStackTrace();
+		}catch (UnknownHostException e2) {
 			htmlString ="<b>MSZ nie dostarcza informacji o Polsce.<b>";
-		}
-	       catch (IOException e) {
-			e.printStackTrace();
+		}catch (IOException e) {
 			htmlString ="<b>Brak po³¹czenia z internetem<b>";
 		}
-	      
-	       information.append(htmlString);
-    	
-    	   return information;
+	     information.append(htmlString);
+    	 return information;
     }
     
     public void createHtmlFile(String html) throws IOException{
