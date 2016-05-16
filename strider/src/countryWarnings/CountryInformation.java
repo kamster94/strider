@@ -2,6 +2,7 @@ package countryWarnings;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.UnknownHostException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -90,7 +91,15 @@ public class CountryInformation {
 								
 		} catch(NullPointerException e1){
 			htmlString ="<b>Prosze wpisac poprawnie nazwe Panstwa<b>";
-		} catch (IOException e) {
+		} 
+	       
+	       
+	       
+	       catch (UnknownHostException e2) {
+			e2.printStackTrace();
+			htmlString ="<b>MSZ nie dostarcza informacji o Polsce.<b>";
+		}
+	       catch (IOException e) {
 			e.printStackTrace();
 			htmlString ="<b>Brak po³¹czenia z internetem<b>";
 		}

@@ -16,14 +16,15 @@ public class DatabaseHandlerLogin {
 	public int loginUser(String email, String password){
 		int status = dataBaseAccess.getIntFromDb("SELECT DBA.fCheckUser('" + email + "', '" + password + "')");
 		
-		System.out.println("CALL DBA.fCheckUser(@email = '" + email + "', @haslo = '" + password + "')");
-		
-		if (status == 1) {
+		System.out.println(status);
+		System.out.println("id" + User.getInstance().getId());
+		if (status == 0) {
 			user = User.getInstance();
 			user.setEmail(email);
-			String userName = DbAccess.getInstance().getSingeStringFromDb("SELECT UserName FROM DBA.UserData WHERE DBA.Email = '" + email + "'", "UserName");
-			int userId = DbAccess.getInstance().getIntFromDb("SELECT IDUser FROM DBA.UserData WHERE DBA.Email = '" + email + "'");
+			String userName = DbAccess.getInstance().getSingeStringFromDb("SELECT UserName FROM DBA.UserData WHERE UserData.Email = '" + email + "'", "UserName");
+			int userId = DbAccess.getInstance().getIntFromDb("SELECT IDUser FROM DBA.UserData WHERE UserData.Email = '" + email + "'");
 			user.setId(userId);
+			
 			user.setUserName(userName);
 		}
 		return status;

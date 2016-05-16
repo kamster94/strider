@@ -19,7 +19,7 @@ public class HotelDetails
 		id_hotel = id_hotelx;
 		id_currency = id_currencyx;
 		price = pricex;
-		link = "TODO ADD LINKS FOR FUCKS SAKE";
+		link = "TODO ADD LINKS";
 		notes = notesx;
 		arrivaldate = arrivaldatex;
 		leavingdate = leavingdatex;

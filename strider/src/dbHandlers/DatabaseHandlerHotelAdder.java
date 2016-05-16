@@ -24,7 +24,10 @@ public class DatabaseHandlerHotelAdder {
 		this.hotel = hotel;
 	}
 	
-	public boolean pushHotelDetails(){
+	public boolean pushHotelDetails()
+	{
+		
+		System.out.println("user id : " + User.getInstance().getId());
 		String sql = "SELECT DBA.fAddHotelDetails (" + user.getId() + ", " + hotel.getHotelId() + ", " + travel.getCurrentTravel().getId() + ", "
 				+ hotel.getCountryId() + ", " + hotel.getCityId() + ", " + hotel.getCountryId() + ", " + hotel.getCityId() + ", "
 				+ hotel.getCurrencyId() + ", '" + Date.valueOf(hotel.getArrivalDate()) + "', '" + Date.valueOf(hotel.getLeavingDate()) + "', "
