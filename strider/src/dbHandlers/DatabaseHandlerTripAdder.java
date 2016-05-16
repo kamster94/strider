@@ -1,6 +1,8 @@
 package dbHandlers;
 
 import java.sql.Date;
+import java.util.Arrays;
+import java.util.List;
 
 import Model.Travel;
 import dbConnection.DbAccess;
@@ -15,6 +17,10 @@ public class DatabaseHandlerTripAdder
 	private static String Citysql1 = "Select C.IDCity From City where CityName =";
 	private static String Citysql2 = "and IDCountry =";
 	private static String pushSql = "CALL DBA.fAddTrip(";
+	
+	public DatabaseHandlerTripAdder(){
+		dataBaseAccess = DbAccess.getInstance();
+	}
 	
 	public void setTravel(Travel trav)
 	{
