@@ -8,13 +8,19 @@ import dbConnection.DbAccess;
 
 public class DatabaseHandlerRegister {
 	
-	public static DbAccess dataBaseAccess;
-	public NewUser user;
+	private static DbAccess dataBaseAccess;
+	private NewUser user;
+	
+	public void setUserCandidate(NewUser usr)
+	{
+		user = usr;
+	}
 	
 	public DatabaseHandlerRegister(){
 		dataBaseAccess = DbAccess.getInstance();
 	}
-
+	
+	/*
 	public List<String> getCountries(){
 		return dataBaseAccess.getStringsFromDb("SELECT CountryName FROM DBA.Country", Arrays.asList("CountryName"));	
 	}
@@ -26,13 +32,14 @@ public class DatabaseHandlerRegister {
 	public List<String> getCurrencies(){
 		return dataBaseAccess.getStringsFromDb("SELECT CurrencyShortcut FROM DBA.Currency", Arrays.asList("CurrencyShortcut"));	
 	}
+	*/
 	
 	public int verifyDataValidity(){
 		if (user.getUserName().length() > 32) return 1;	//Chappi: Nie sprawdzamy czy dlugosc username jest wieksza od czegos jak w haslo?
 		if (!user.getEmail().contains("@") || user.getEmail().length() > 32) return 2;
 		if (user.getPassword().length() < 6 || user.getPassword().length() > 32) return 3;
-		if (user.getCity().length() > 32) return 4;		//Chappi: Ditto
-		if (user.getCurrency().length() != 3) return 5;
+		//if (user.getCity().length() > 32) return 4;		//Chappi: Ditto
+		//if (user.getCurrency().length() != 3) return 5;
 		return 0;
 		
 	}

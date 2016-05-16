@@ -42,6 +42,9 @@ public class WindowMain extends Application
     public static final String SPLASH_SCREEN = "splash";
 	public static final String SPLASH_SCREEN_FXML = "fxml/fxml_splashscreen.fxml"; 
 	
+    public static final String CREATEACCOUNT_SCREEN = "createnewaccount";
+	public static final String CREATEACCOUNT_SCREEN_FXML = "fxml/fxml_createaccount.fxml"; 
+	
     public static final String MAIN_SCREEN = "main";
 	public static final String MAIN_SCREEN_FXML = "fxml/fxml_main.fxml"; 
 	
@@ -88,6 +91,7 @@ public class WindowMain extends Application
 		
 		ScreensController mainContainer = new ScreensController();
 		mainContainer.loadScreen(WindowMain.SPLASH_SCREEN, WindowMain.SPLASH_SCREEN_FXML);
+		mainContainer.loadScreen(WindowMain.CREATEACCOUNT_SCREEN, WindowMain.CREATEACCOUNT_SCREEN_FXML);
 		mainContainer.loadScreen(WindowMain.MAIN_SCREEN, WindowMain.MAIN_SCREEN_FXML);
 		mainContainer.loadScreen(WindowMain.ADDINFO_SCREEN, WindowMain.ADDINFO_SCREEN_FXML);
 		mainContainer.loadScreen(WindowMain.NEWTRAVEL_1, WindowMain.NEWTRAVEL_1_FXML);
