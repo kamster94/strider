@@ -21,10 +21,9 @@ public class CurrencyInformation {
 CountryInformation country;
 DbAccess dataBaseConnection;
 
-public CurrencyInformation (CountryInformation cntr){
-	
-	this.country = cntr;
-	
+public CurrencyInformation (CountryInformation cntr)
+{
+		this.country = cntr;	
 }
 	
 	

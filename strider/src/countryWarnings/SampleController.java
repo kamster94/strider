@@ -35,6 +35,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import org.apache.commons.io.FileUtils;
@@ -49,11 +50,16 @@ import com.lynden.gmapsfx.javascript.object.MapOptions;
 import com.lynden.gmapsfx.javascript.object.MapTypeIdEnum;
 
 import dbConnection.DbAccess;
+import desktopGui.ControlledScreen;
+import desktopGui.ScreensController;
+import desktopGui.WindowMain;
 
 
 
-public class SampleController implements Initializable{
+public class SampleController implements Initializable, ControlledScreen{
 
+	ScreensController myController; 
+	
     @FXML
     private Button findCountryButton;
 
@@ -81,10 +87,15 @@ public class SampleController implements Initializable{
     @FXML
     private Button showMapBttn;
     
-    private static int checkForMatchingCountry;  
-	private static int num;
-	private static ArrayList<Double> coords;
-	private static ArrayList citiesNames;
+    @FXML
+	private AnchorPane pane;
+    
+    private ComboBox<String> cityBox;
+    private ComboBox<String> countryBox;
+    
+    
+    
+    
 	public static CityInformation cityInformation;
 	public static CountryInformation countryInformation;
 	public static WeatherInformation weatherInformation;
@@ -96,13 +107,35 @@ public class SampleController implements Initializable{
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 
+		CountriesList.setCountryHtmls();
+		CountriesList.setCountryNames();
+		
+		countryBox = new ComboBox();
+		countryBox.setItems(CountriesList.getCountryNamesList());
+		new AutoCompleteComboBoxListener(countryBox);
+		countryBox.setLayoutX(37);
+		countryBox.setLayoutY(40);
+		countryBox.setPrefWidth(190);
+		
+		
+		cityBox = new ComboBox();	
+		new AutoCompleteComboBoxListener(cityBox);
+		cityBox.setLayoutX(490);
+		cityBox.setLayoutY(40);
+		cityBox.setPrefWidth(190);
+		
+
+		pane.getChildren().addAll(countryBox, cityBox);
+		
+		
+		
 		showMapBttn.setDisable(true);
 		
 		findCountryButton.setOnAction(new EventHandler<ActionEvent>() {
 	        @Override
 	        public void handle(ActionEvent arg0) {
 	        	 
-	        countryInformation = new CountryInformation(Main.countryBox.getEditor().getText(),
+	        countryInformation = new CountryInformation(countryBox.getEditor().getText(),
 	        "http://www.polakzagranica.msz.gov.pl" + CountriesList.getCountryHtmlsPosition(setCityList()));        
 	        currencyInformation = new CurrencyInformation(countryInformation);
 	        
@@ -124,7 +157,7 @@ public class SampleController implements Initializable{
 	        	//laczenie z mediawiki w celu sciagniecia i parsowania informacji o ciekawych miejscach 
 	        	//w okolicach wybranego miasta	        	
 	
-        		cityInformation = new CityInformation(Main.cityBox.getEditor().getText().replaceAll(" ", "_"));
+        		cityInformation = new CityInformation(cityBox.getEditor().getText().replaceAll(" ", "_"));
         		weatherInformation = new WeatherInformation(cityInformation);
         		
         		StringBuilder cityInformationString = cityInformation.getCityInformationHtml();
@@ -141,7 +174,7 @@ public class SampleController implements Initializable{
 		showMapBttn.setOnAction(new EventHandler<ActionEvent>() {
 	        @Override
 	        public void handle(ActionEvent arg0) {
-	        changeToMap();	        		       	        	
+	        myController.setScreen(Main.MAP);        		       	        	
 	        }
 	    });
 
@@ -149,17 +182,16 @@ public class SampleController implements Initializable{
 	
 	private int setCityList(){
 
-		int num = 0;
-		String selectedCountry = Main.countryBox.getEditor().getText(); 
+	   int num = 0;
+	   String selectedCountry = countryBox.getEditor().getText(); 
 							
 	   for(int i = 0; i < CountriesList.getCountryNamesList().size(); i++)
 	   {   //petla do szukania koncowki html wpisanego kraju
 			if(selectedCountry.equals(CountriesList.getCountryNamesList().get(i)))
-			num = i;							
-													
+			num = i;																				
 	   }	   		   
 	   CitiesList.setListOfCities(selectedCountry);
-       Main.cityBox.setItems(CitiesList.getListOfCities()); 
+       cityBox.setItems(CitiesList.getListOfCities()); 
 		   
        return num;
    
@@ -175,28 +207,12 @@ public class SampleController implements Initializable{
 	    return sb.toString();
 	  }
 		
-	private static void changeToMap(){
-      
-		Platform.runLater(new Runnable() {
-			
-			@Override public void run() {
-				  Main.mapOptions.center(cityInformation.coordinations)
-		            .mapType(MapTypeIdEnum.ROADMAP)
-		            .overviewMapControl(false)
-		            .panControl(false)
-		            .rotateControl(false)
-		            .scaleControl(false)
-		            .streetViewControl(false)
-		            .zoomControl(false)
-		            .zoom(12);
 
-		    Main.map = Main.mapView.createMap(Main.mapOptions);		
-			Main.mainStage.setScene(Main.scene2);
-			Main.mainStage.show();
-			
-			  }
-			});
-	   
+
+	@Override
+	public void setScreenParent(ScreensController screenPage) {
+		myController = screenPage; 
+		
 	}
 	
 

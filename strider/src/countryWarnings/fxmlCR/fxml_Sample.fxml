@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.web.WebView?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="599.0" prefWidth="1115.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="countryWarnings.SampleController">
+<AnchorPane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="599.0" prefWidth="1115.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="countryWarnings.SampleController">
    <children>
       <Button fx:id="findCountryButton" layoutX="251.0" layoutY="40.0" mnemonicParsing="false" prefHeight="11.0" prefWidth="111.0" text="Znajdz" />
       <Button fx:id="findCityButton" layoutX="703.0" layoutY="40.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="111.0" text="Znajdz" />
