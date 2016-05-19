@@ -24,12 +24,10 @@ public class DatabaseHandlerCommon {
 	}
 	
 	public List<String> getCities(int countryId){
-		dbConnection.start();
 		return dbConnection.getStringsFromDb("SELECT CityName FROM DBA.City WHERE IDCountry = " + countryId, Arrays.asList("CityName"));	
 	}
 	
 	public List<String> getCurrencies(){
-		dbConnection.start();
 		return dbConnection.getStringsFromDb("SELECT CurrencyShortcut FROM DBA.Currency", Arrays.asList("CurrencyShortcut"));	
 	}
 }

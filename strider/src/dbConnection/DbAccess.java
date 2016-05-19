@@ -16,7 +16,7 @@ import java.util.logging.SimpleFormatter;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-public class DbAccess extends Thread{
+public class DbAccess{
 	
 	public static Logger connectionLogger = Logger.getLogger("connectionLog"); 
 	public static DbAccess self;
@@ -47,22 +47,6 @@ public class DbAccess extends Thread{
 	    } catch (IOException e) {  
 	        e.printStackTrace();  
 	    } 
-	}
-	
-	public void run(){
-		try {
-			connectToDb();
-		} catch (SQLException e) {
-			connectionLogger.log(Level.SEVERE, e.toString());
-		}
-    }
-	
-	public void setLogin(String login){
-		this.login = login;
-	}
-	
-	public void setPassword(String password){
-		this.password = password;
 	}
 	
 	public boolean testConnection(){
