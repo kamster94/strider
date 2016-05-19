@@ -20,6 +20,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import dbConnection.DbAccess;
+import desktopGui.ScreensController;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.stage.Stage;
@@ -78,6 +79,7 @@ public class Main extends Application implements MapComponentInitializedListener
 	 private Button wroc;
 	 private TextField from;
 	 private TextField to;
+	 private TextField dlugosc;
 	 private Button wyznacz;
 	
 	 public static final String url = "http://www.polakzagranica.msz.gov.pl";	
@@ -86,16 +88,21 @@ public class Main extends Application implements MapComponentInitializedListener
 	 public static ArrayList<String> countryHtmls;
 	 public static ComboBox countryBox ;
 	 public static ComboBox cityBox ;
-	 public static ObservableList countryData;
-	 public static ObservableList cityData;
 	 static public DbAccess dataBaseAccess;
 	 public static Stage mainStage;
 	 public static Scene scene2;
 	 public static Scene scene;
 	 public static  MapOptions mapOptions;
-	@Override
-
+	 
+	 public static final String SPLASH_SCREEN = "warnings";
+	 public static final String SPLASH_SCREEN_FXML = "fxml/fxml_splashscreen.fxml"; 
+		
+	 public static final String CREATEACCOUNT_SCREEN = "createnewaccount";
+     public static final String CREATEACCOUNT_SCREEN_FXML = "fxml/fxml_createaccount.fxml"; 
 	
+	 
+	 
+	@Override	
 	public void start(Stage primaryStage) {
 		
 		mainStage = primaryStage;
@@ -103,31 +110,17 @@ public class Main extends Application implements MapComponentInitializedListener
 		ToolBar tb = new ToolBar();
 		BorderPane bp = new BorderPane();
 		Document document;
-		
-		citiesOfCountries = new ArrayList<String>();
-		countryData = FXCollections.observableArrayList();
-		 try {
-			 
-			 dataBaseAccess = DbAccess.getInstance();
-			 countryNames = new ArrayList<String>(dataBaseAccess.getStringsFromDb("SELECT * FROM DBA.Country", Arrays.asList("CountryName")));
-			 countryHtmls = new ArrayList<String>(dataBaseAccess.getStringsFromDb("SELECT * FROM DBA.Country", Arrays.asList("MSZlink")));
-			 countryData = FXCollections.observableArrayList(); //Do sugestii wyszukiwania krajow
-				
-				for(int j=0; j<countryNames.size(); j++){
-				countryData.add(countryNames.get(j));								
-				}
-				
-		
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-	
-		
+
+		//Nowe ustawianie list panstw/miast
+	    CountriesList.setCountryHtmls();
+	    CountriesList.setCountryNames();
+	    
+	    ScreensController mainContainer = new ScreensController();
+
 		try {		
 			
 			countryBox = new ComboBox();	
-			countryBox.setItems(countryData);
+			countryBox.setItems(CountriesList.getCountryNamesList());
 			new AutoCompleteComboBoxListener(countryBox);
 			countryBox.setLayoutX(37);
 			countryBox.setLayoutY(40);
@@ -149,22 +142,34 @@ public class Main extends Application implements MapComponentInitializedListener
 	        });
 	        
 	        wyznacz = new Button("Wyznacz trasê");
-	        wyznacz.setOnAction(e -> {
-	        	
-	        map = mapView.createMap(mapOptions);
-	                	
+	        wyznacz.setOnAction(e -> {	        	
+	        map = mapView.createMap(mapOptions);	                	
 	        directions = mapView.getDirec();	       	    
 	       	ds = new DirectionsService();
 	        renderer = new DirectionsRenderer(true, map, directions);
 
 	          try{     
-	               dr = new DirectionsRequest(
-	                       from.getText(),
-	                       to.getText(),
-	                       TravelModes.DRIVING
-	                       );
+	        	  
+	        	  CityInformation st = new CityInformation(from.getText());
+	        	  CityInformation fin = new CityInformation(to.getText());
+	        	  
+	        	  LatLong start = st.coordinations;
+	        	  LatLong finish = fin.coordinations;
+	        	  
+	               dr = new DirectionsRequest(   //Zamien na latlong potem, na razie wyznaczaka jakies chujowe chinskie miasto
+	            		   from.getText(),
+	            		   to.getText(),
+	                     TravelModes.DRIVING
+	                      );
 	               
-	               ds.getRoute(dr, this, renderer);
+	              ds.getRoute(dr, this, renderer);	              
+	              Double odlegloscD = new Double(start.distanceFrom(finish)/1000.00);
+	              dlugosc.setText(String.valueOf(odlegloscD.intValue()) + " KM");
+	               
+	           //    dr = new DirectionsRequest()
+	           //    LatLong lol = new LatLong();
+	           //    Marker lol = new Marker();
+	               	               	               	              
 	          }catch (NullPointerException e2){
 	        	  System.out.println("chujdupa");
 	          }
@@ -174,21 +179,20 @@ public class Main extends Application implements MapComponentInitializedListener
 	        
 	        from = new TextField();
 	        to = new TextField();
+	        dlugosc = new TextField();
+	        dlugosc.setEditable(false);
 	        
-	        tb.getItems().addAll(wroc, from, to, wyznacz);
+	        tb.getItems().addAll(wroc, from, to, wyznacz, dlugosc);
 	        bp.setTop(tb);	
 	        bp.setCenter(mapView);
 			scene2 = new Scene(bp, 1135,570);
-	
-			
-			
+					
 			AnchorPane root = (AnchorPane)FXMLLoader.load(getClass().getResource("Sample.fxml"));
 			root.getChildren().add(countryBox);
 			root.getChildren().add(cityBox);
 			scene = new Scene(root,1135,570);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-			
-			
+						
 			primaryStage.setScene(scene);
 			primaryStage.show();
 			
@@ -201,7 +205,7 @@ public class Main extends Application implements MapComponentInitializedListener
 	DirectionsRenderer renderer;
 	public void mapInitialized() {
 	    //Set the initial properties of the map.
-	   mapOptions = new MapOptions();
+	    mapOptions = new MapOptions();
         
 	    mapOptions.center(new LatLong(52.1356, 21.0030))
 	            .mapType(MapTypeIdEnum.ROADMAP)
@@ -232,6 +236,7 @@ public class Main extends Application implements MapComponentInitializedListener
                 "Kraków",
                 TravelModes.DRIVING
                 );
+       
     //    ds.getRoute(dr, this, renderer);
 /*
 	    //Add a marker to the map
@@ -256,6 +261,7 @@ public class Main extends Application implements MapComponentInitializedListener
 	@Override
 	public void directionsReceived(DirectionsResult results, DirectionStatus status) {
 		// TODO Auto-generated method stub
+	
 		
 	}
 }

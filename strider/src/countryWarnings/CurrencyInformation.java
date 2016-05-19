@@ -11,6 +11,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
+import dbConnection.DbAccess;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -18,6 +19,7 @@ public class CurrencyInformation {
 
 	
 CountryInformation country;
+DbAccess dataBaseConnection;
 
 public CurrencyInformation (CountryInformation cntr){
 	
@@ -32,6 +34,7 @@ public StringBuilder getCurrencyInformationHtml(){
 		
 		StringBuilder information = new StringBuilder();		
 		String url = getCurrencyURL();
+		
 		
 		try{
 		Document document = Jsoup.connect(url)
@@ -59,40 +62,15 @@ public StringBuilder getCurrencyInformationHtml(){
 String getCurrencyURL(){
 	
 	String url = "";
+	dataBaseConnection = DbAccess.getInstance();
 	
-	try {	    
-		
-   	      String currencySQL = "Select C.CurrencyShortcut from DBA.Currency C inner join DBA.CountrysCurrency CC on C.IDCurrency = CC.IDCurrency"
-   	      		+ " inner join DBA.Country CR on CC.IDCountry = CR.IDCountry where CR.CountryName = '" + this.country.countryName + "'";
-
-   	      //String connectionString = "jdbc:sqlanywhere:uid=Artureczek;pwd=debil";
-  	      String connectionString = "jdbc:sqlanywhere:uid="+"Artureczek"+";pwd="+"debil"+";eng=traveladvisordb;database=traveladvisordb;host=5.134.69.28:15144";
-	      Connection con = DriverManager.getConnection(connectionString);					 	         			  
-		  Statement stmt = con.createStatement();
-	      ResultSet rs = stmt.executeQuery(currencySQL);
-	      ObservableList cityData = FXCollections.observableArrayList();  
-	      String shortcut = "";
-	      
-	      while (rs.next()){
-	      shortcut = rs.getString("CurrencyShortcut");
-	      }
-
-	      rs.close();
-	      stmt.close();
-	      con.close();
-	      
-	      url = "http://www.x-rates.com/calculator/?from=" + shortcut + "&to=PLN&amount=1";
-  	        	
-  	      } catch (SQLException e1) {
-  		
-			e1.printStackTrace();
-		}	
+	String currencySQL = "Select C.CurrencyShortcut from DBA.Currency C inner join DBA.CountrysCurrency CC on C.IDCurrency = CC.IDCurrency"
+	+ " inner join DBA.Country CR on CC.IDCountry = CR.IDCountry where CR.CountryName = '" + this.country.countryName + "'";
 	
-	
-	
+	String shortcut = dataBaseConnection.getSingeStringFromDb(currencySQL, "CurrencyShortcut");
+	url = "http://www.x-rates.com/calculator/?from=" + shortcut + "&to=PLN&amount=1";
 	return url;
-	
-	
+		
 }
 	
 	

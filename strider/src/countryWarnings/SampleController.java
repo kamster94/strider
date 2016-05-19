@@ -84,10 +84,14 @@ public class SampleController implements Initializable{
     private static int checkForMatchingCountry;  
 	private static int num;
 	private static ArrayList<Double> coords;
+	private static ArrayList citiesNames;
 	public static CityInformation cityInformation;
 	public static CountryInformation countryInformation;
 	public static WeatherInformation weatherInformation;
 	public static CurrencyInformation currencyInformation;
+	public static CitiesList list;
+	
+	
   
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -98,8 +102,8 @@ public class SampleController implements Initializable{
 	        @Override
 	        public void handle(ActionEvent arg0) {
 	        	 
-	        countryInformation = new CountryInformation( Main.countryBox.getEditor().getText(),
-	        "http://www.polakzagranica.msz.gov.pl" + Main.countryHtmls.get(setCityList()));        
+	        countryInformation = new CountryInformation(Main.countryBox.getEditor().getText(),
+	        "http://www.polakzagranica.msz.gov.pl" + CountriesList.getCountryHtmlsPosition(setCityList()));        
 	        currencyInformation = new CurrencyInformation(countryInformation);
 	        
 	        StringBuilder countryInfoText =  countryInformation.getCountryInformationHtml();
@@ -144,51 +148,23 @@ public class SampleController implements Initializable{
 	}
 	
 	private int setCityList(){
-		
-		int checkForMatchingCountry = 0;
-		int num = 0;
-		String textFromCountryNameBox = Main.countryBox.getEditor().getText(); 
-		String cityNamesSql = "SELECT C.CityName FROM DBA.City C inner join DBA.Country Cr on C.IDCountry = Cr.IDCountry "
-	   	        	+ "where Cr.CountryName = '" +  textFromCountryNameBox +"' order by 1 asc";
-		
-   try {								
-	   for(int i = 0; i < Main.countryNames.size(); i++){ //petla do szukania wpisanego kraju
 
-			if(textFromCountryNameBox.equals(Main.countryNames.get(i))){
-			checkForMatchingCountry = 1;
+		int num = 0;
+		String selectedCountry = Main.countryBox.getEditor().getText(); 
+							
+	   for(int i = 0; i < CountriesList.getCountryNamesList().size(); i++)
+	   {   //petla do szukania koncowki html wpisanego kraju
+			if(selectedCountry.equals(CountriesList.getCountryNamesList().get(i)))
 			num = i;							
-			}											
-	   }
-	//jesli wybrano miasto z listy dostepnych panstw
-	   
-	   if(checkForMatchingCountry == 1){
-    
-		//Laczenie z baza danych do wyciagniecia listy miast na podstawie wybranego panstwa  	
-	       	   	     
-			  //String connectionString = "jdbc:sqlanywhere:uid=Artureczek;pwd=debil";
-   	   	      String connectionString = "jdbc:sqlanywhere:uid="+"Artureczek"+";pwd="+"debil"+";eng=traveladvisordb;database=traveladvisordb;host=5.134.69.28:15144";
-   	 	      Connection con = DriverManager.getConnection(connectionString);					 	         			  
-			  Statement stmt = con.createStatement();
-		      ResultSet rs = stmt.executeQuery(cityNamesSql);
-		      ObservableList cityData = FXCollections.observableArrayList();  
-   	 	       
-		      while (rs.next())
-   	 	      cityData.add(rs.getString("CityName"));
-   	
-   	 	      rs.close();
-   	 	      stmt.close();
-   	 	      con.close();
-   	 	      Main.cityBox.setItems(cityData); 
-	}
-   	   	        	
-   	   	      } catch (SQLException e1) {
-   	   		
-   				e1.printStackTrace();
-   			}		
-		
-	return num;
+													
+	   }	   		   
+	   CitiesList.setListOfCities(selectedCountry);
+       Main.cityBox.setItems(CitiesList.getListOfCities()); 
+		   
+       return num;
    
 	}
+	
    		
 	private static String readAll(Reader rd) throws IOException {
 	    StringBuilder sb = new StringBuilder();
@@ -204,7 +180,7 @@ public class SampleController implements Initializable{
 		Platform.runLater(new Runnable() {
 			
 			@Override public void run() {
-				  Main.mapOptions.center(CityInformation.coordinations)
+				  Main.mapOptions.center(cityInformation.coordinations)
 		            .mapType(MapTypeIdEnum.ROADMAP)
 		            .overviewMapControl(false)
 		            .panControl(false)

@@ -23,7 +23,7 @@ public class CityInformation {
 	
 	public String cityName;
 	private String cityURL;
-	public static LatLong coordinations;
+	public  LatLong coordinations;
 	
 	public CityInformation(String name){
 		
@@ -51,6 +51,12 @@ public class CityInformation {
 												 Double.parseDouble(elems2.get(1).text().replaceAll(",",".")));
 			
 		
+		} catch (IndexOutOfBoundsException e1) {
+			
+			coordinations = new LatLong(52.232222, 21.008333);
+			
+	//		e1.printStackTrace();  //do obsluzenia w razie braku wspolrzednych na wikipedii
+			
 		 } catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -87,11 +93,11 @@ public class CityInformation {
 	    information.append(htmlString);
 					
     }catch(JSONException e){
-    e.printStackTrace();
+  //  e.printStackTrace();
     information.append("<b>Nie znaleziono informacji o mieœcie<b>");
     }
 	catch(IOException e1){
-	e1.printStackTrace();
+//	e1.printStackTrace();
 	information.append("<b>Proszê poprawnie wpisaæ nazwê miasta<b>");
 	}
 

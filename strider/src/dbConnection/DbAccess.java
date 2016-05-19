@@ -13,6 +13,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 public class DbAccess extends Thread{
 	
 	public static Logger connectionLogger = Logger.getLogger("connectionLog"); 
@@ -221,6 +224,26 @@ public class DbAccess extends Thread{
 		} catch (SQLException e) {
 			connectionLogger.log(Level.SEVERE, e.toString());
 			return "";
+		}
+	}
+	
+	public ObservableList getStringsFromDbAsObservableList(String sql, String column){
+		try {
+			connectToDb();
+			PreparedStatement statement = connection.prepareStatement(sql);
+	        ResultSet result = statement.executeQuery();
+	        ObservableList values = FXCollections.observableArrayList();
+	       
+	        while (result.next())
+	   	 	      values.add(result.getString(column));
+	        
+	        result.close();
+	        statement.close();
+	        connection.close();
+	        return values;
+		} catch (SQLException e) {
+			connectionLogger.log(Level.SEVERE, e.toString());
+			return null;
 		}
 	}
 }
