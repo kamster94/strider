@@ -1,6 +1,8 @@
 package dbHandlers;
 
 import java.sql.Date;
+import java.util.Arrays;
+import java.util.List;
 
 import Model.Travel;
 import Model.TravelFramework;
@@ -10,8 +12,13 @@ import trpClasses.Attraction;
 
 public class DatabaseHandlerAttractionAdder
 {
+	private DbAccess dbConnection;
 	private AttractionDetails attr;
 	private static String pushSql = "CALL DBA.fAddAttractionDetails(";
+	
+	DatabaseHandlerAttractionAdder(){
+		dbConnection = DbAccess.getInstance();
+	}
 	
 	public void setAttraction(AttractionDetails trav)
 	{
@@ -22,7 +29,7 @@ public class DatabaseHandlerAttractionAdder
 	{
 		int attractionID = 0;
 
-		boolean addstatus = DbAccess.getInstance().pushToDb(pushSql + "1, " + TravelFramework.getInstance().getCurrentTravel().getId() + "," + attr.getAttractionId() + "," + attr.getCountryId()
+		boolean addstatus = dbConnection.pushToDb(pushSql + "1, " + TravelFramework.getInstance().getCurrentTravel().getId() + "," + attr.getAttractionId() + "," + attr.getCountryId()
 				 + "," + attr.getCityId()  + "," + attr.getCountryId()  + "," + attr.getCityId()  + "," + attr.getCurrencyId()
 				 + "," +  attr.getPrice()  + ",'" + attr.getNotes() + "')");
 
@@ -32,5 +39,7 @@ public class DatabaseHandlerAttractionAdder
 		return attractionID;
 		}
 	
-	
+	public List<String> getAttractions(int cityId, int countryId){
+		return dbConnection.getStringsFromDb("SELECT * FROM DBA.Attraction WHERE IDCity = " + cityId + " AND IDCountry = " + countryId, Arrays.asList("AttractionName"));
+	}
 }

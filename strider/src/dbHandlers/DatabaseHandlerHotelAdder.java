@@ -1,6 +1,8 @@
 package dbHandlers;
 
 import java.sql.Date;
+import java.util.Arrays;
+import java.util.List;
 
 import Model.HotelDetails;
 import Model.TravelFramework;
@@ -36,5 +38,9 @@ public class DatabaseHandlerHotelAdder {
 		int status = dbConnection.getIntFromDb(sql);
 		if (status == 1) return true;
 		else return false;
+	}
+	
+	public List<String> getHotels(int cityId, int countryId){
+		return dbConnection.getStringsFromDb("SELECT * FROM DBA.Hotel WHERE IDCity = " + cityId + " AND IDCountry = " + countryId, Arrays.asList("HotelName"));
 	}
 }
