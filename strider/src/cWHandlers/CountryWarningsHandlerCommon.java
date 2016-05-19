@@ -40,7 +40,4 @@ public class CountryWarningsHandlerCommon
 		//TODO: Zwracaæ info o walucie danego pañstwa
 		return null;
 	}
-	
-	
-	
 }

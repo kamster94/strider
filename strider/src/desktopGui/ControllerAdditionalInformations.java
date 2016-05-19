@@ -115,15 +115,7 @@ public class ControllerAdditionalInformations implements Initializable, Clearabl
 			@Override
 			public void changed(ObservableValue<? extends String> arg0, String arg1, String arg2) 
 			{
-		        countryInformation = new CountryInformation(Main.countryBox.getEditor().getText(),
-		    	        "http://www.polakzagranica.msz.gov.pl" + CountriesList.getCountryHtmlsPosition(setCityList()));        
-		    	        currencyInformation = new CurrencyInformation(countryInformation);
-		    	        
-		    	        StringBuilder countryInfoText =  countryInformation.getCountryInformationHtml();
-		    	        StringBuilder currencyInfoText = currencyInformation.getCurrencyInformationHtml();
-		    	        
-		    	        countryWebView.getEngine().loadContent(countryInfoText.toString());
-		    	        currencyWebView.getEngine().loadContent(currencyInfoText.toString());
+
 			}
 		});
 		
