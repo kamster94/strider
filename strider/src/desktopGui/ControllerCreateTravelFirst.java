@@ -251,7 +251,7 @@ public class ControllerCreateTravelFirst implements Initializable, ControlledScr
     		String url = "http://www.polakzagranica.msz.gov.pl";	   
     		Document document;
     		String cityNamesSql = "SELECT C.CityName FROM DBA.City C inner join DBA.Country Cr on C.IDCountry = Cr.IDCountry "
-    							+ "where Cr.CountryName = '" +  textFromCountryNameBox +"' order by 1 asc";
+    							+ "where Cr.CountryName = '" +  textFromCountryNameBox +"'";
     		int checkForMatchingCountry = 0;
     		int num = 0;
 
@@ -307,7 +307,7 @@ public class ControllerCreateTravelFirst implements Initializable, ControlledScr
     		String url = "http://www.polakzagranica.msz.gov.pl";	   
     		Document document;
     		String cityNamesSql = "SELECT C.CityName FROM DBA.City C inner join DBA.Country Cr on C.IDCountry = Cr.IDCountry "
-    							+ "where Cr.CountryName = '" +  textFromCountryNameBox +"' order by 1 asc";
+    							+ "where Cr.CountryName = '" +  textFromCountryNameBox +"'";
     		int checkForMatchingCountry = 0;
     		int num = 0;
 

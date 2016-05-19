@@ -84,7 +84,7 @@ public class DbAccess extends Thread{
 	}
 	
 	private void connectToDb() throws SQLException{
-		connectionString = "jdbc:sqlanywhere:uid="+login+";pwd="+password+";eng=traveladvisordb;database=traveladvisordb;host=5.134.69.28:15144";
+		connectionString = "jdbc:sqlanywhere:uid="+login+";pwd="+password+";eng=traveladvisordb;database=traveladvisordb;host=5.134.69.28:15244";
 		connection = DriverManager.getConnection(connectionString); 
 	}
 	

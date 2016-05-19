@@ -26,7 +26,7 @@
                   <Image url="@PZ%20-%20Travel%20Advisor/ta_title.png" />
                </image>
             </ImageView>
-            <Label text="&quot;This is the best thing since sliced bread.&quot; - George W. Bush" />
+            <Label />
             <Separator maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="25.0" visible="false" />
             <HBox alignment="CENTER" spacing="10.0" VBox.vgrow="NEVER">
                <children>

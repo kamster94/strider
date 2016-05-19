@@ -449,7 +449,7 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
     		String url = "http://www.polakzagranica.msz.gov.pl";	   
     		Document document;
     		String cityNamesSql = "SELECT C.CityName FROM DBA.City C inner join DBA.Country Cr on C.IDCountry = Cr.IDCountry "
-    							+ "where Cr.CountryName = '" +  textFromCountryNameBox +"' order by 1 asc";
+    							+ "where Cr.CountryName = '" +  textFromCountryNameBox +"'";
     		int checkForMatchingCountry = 0;
     		int num = 0;
 
@@ -505,7 +505,7 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
     		String url = "http://www.polakzagranica.msz.gov.pl";	   
     		Document document;
     		String cityNamesSql = "SELECT C.CityName FROM DBA.City C inner join DBA.Country Cr on C.IDCountry = Cr.IDCountry "
-    							+ "where Cr.CountryName = '" +  textFromCountryNameBox +"' order by 1 asc";
+    							+ "where Cr.CountryName = '" +  textFromCountryNameBox +"'";
     		int checkForMatchingCountry = 0;
     		int num = 0;
 
@@ -591,7 +591,7 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
     		String url = "http://www.polakzagranica.msz.gov.pl";	   
     		Document document;
     		String cityNamesSql = "SELECT C.CityName FROM DBA.City C inner join DBA.Country Cr on C.IDCountry = Cr.IDCountry "
-    							+ "where Cr.CountryName = '" +  textFromCountryNameBox +"' order by 1 asc";
+    							+ "where Cr.CountryName = '" +  textFromCountryNameBox +"'";
     		int checkForMatchingCountry = 0;
     		int num = 0;
 
@@ -647,7 +647,7 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
     		String url = "http://www.polakzagranica.msz.gov.pl";	   
     		Document document;
     		String cityNamesSql = "SELECT C.CityName FROM DBA.City C inner join DBA.Country Cr on C.IDCountry = Cr.IDCountry "
-    							+ "where Cr.CountryName = '" +  textFromCountryNameBox +"' order by 1 asc";
+    							+ "where Cr.CountryName = '" +  textFromCountryNameBox +"'";
     		int checkForMatchingCountry = 0;
     		int num = 0;
 
@@ -674,12 +674,19 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 		   	 	     	ObservableList cityData = FXCollections.observableArrayList();  
 		   	 	       
 		   	 	     	while (rs.next())
+		   	 	     	{
 		   	 	     		cityData.add(rs.getString("CityName"));
-		   	
+		   	 	     		//System.out.println(rs.getString("IDCity") + " " + rs.getString("CityName"));
+		   	 	     	}
 		   	 	     	rs.close();
 		   	 	     	stmt.close();
 		   	 	     	con.close();
 		   	 	     	h_combobox_city.setItems(cityData); 
+		   	 	     	
+		   	 	     	for(int i = 0; i < h_combobox_city.getItems().size(); i++)
+		   	 	     	{
+		   	 	     		System.out.println(h_combobox_city.getItems().get(i));
+		   	 	     	}
     				} 
     				catch (SQLException e1) 
     				{
@@ -696,24 +703,31 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 		}
 		else if(event.getSource() == h_button_findhotels)
 		{
-			String sql = "Select * from DBA.Hotel where IDCountry = " + h_combobox_country.getSelectionModel().getSelectedIndex() + " and IDCity = " + h_combobox_city.getSelectionModel().getSelectedIndex();
-					
+			h_listview_hotels.getItems().removeAll(h_listview_hotels.getItems());
+			
+			String sql = "Select * from DBA.Hotel where IDCountry = " + h_combobox_country.getSelectionModel().getSelectedIndex() + " and IDCity = " + ((h_combobox_city.getSelectionModel().getSelectedIndex()) + 1) ;
+			System.out.println("Selected country id : " + h_combobox_country.getSelectionModel().getSelectedIndex());
+			System.out.println("Selected city id: " + ((h_combobox_city.getSelectionModel().getSelectedIndex()) + 1));
 			ArrayList<Integer> HotelsID = new ArrayList<Integer>(DbAccess.getInstance().getIntegersFromDb(sql, Arrays.asList("IDHotel")));
 			ArrayList<String> hotelsNames = new ArrayList<String>();
 			String sql2;
 			
 			for(int i = 0; i < HotelsID.size(); i++)
 			{
-				sql2 = "Select * from DBA.Hotel where IDHotel = " + HotelsID.get(i);
-				hotelsNames.add(DbAccess.getInstance().getSingeStringFromDb(sql2, "HotelName"));
+				sql = "Select * from DBA.Hotel where IDCountry = " + h_combobox_country.getSelectionModel().getSelectedIndex() + " and IDCity = " + h_combobox_city.getSelectionModel().getSelectedIndex() + " AND IDHotel = " + HotelsID.get(i);
+				//System.out.println(sql);
+				hotelsNames.add(DbAccess.getInstance().getSingeStringFromDb(sql, "HotelName"));
+			}
+			
+			for(int i = 0; i < HotelsID.size(); i++)
+			{
+				System.out.println(HotelsID.get(i));
 			}
 			
 			for(int i = 0; i < HotelsID.size(); i++)
 			{
 				h_listview_hotels.getItems().add(hotelsNames.get(i));
 			}
-			
-			
 			
 		}
 		else if(event.getSource() == a_button_findattractions)
