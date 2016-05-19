@@ -4,9 +4,13 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
@@ -15,86 +19,61 @@
    <children>
       <VBox spacing="10.0">
          <children>
-            <VBox prefHeight="200.0" prefWidth="100.0" VBox.vgrow="ALWAYS">
+            <GridPane hgap="10.0" vgap="10.0" VBox.vgrow="ALWAYS">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
                <children>
-                  <HBox prefHeight="100.0" prefWidth="200.0">
+                  <VBox spacing="10.0">
                      <children>
-                        <VBox spacing="10.0" HBox.hgrow="ALWAYS">
-                           <children>
-                              <Label text="Username" />
-                              <TextField fx:id="textfieldusername" />
-                           </children>
-                           <padding>
-                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                           </padding>
-                        </VBox>
-                        <VBox fx:id="vbox_countrybox" spacing="10.0" HBox.hgrow="ALWAYS">
-                           <children>
-                              <Label text="Country" />
-                              <Button fx:id="button_findcities" mnemonicParsing="false" text="Find cities" />
-                           </children>
-                           <padding>
-                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                           </padding>
-                        </VBox>
+                        <Label text="Username" />
+                        <TextField fx:id="textfieldusername" />
                      </children>
-                  </HBox>
-                  <HBox prefHeight="100.0" prefWidth="200.0">
+                  </VBox>
+                  <VBox spacing="10.0" GridPane.columnIndex="1">
                      <children>
-                        <VBox spacing="10.0" HBox.hgrow="ALWAYS">
-                           <children>
-                              <Label text="E-mail - permanent!" />
-                              <TextField fx:id="textfieldemail" />
-                           </children>
-                           <padding>
-                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                           </padding>
-                        </VBox>
-                        <VBox fx:id="vbox_citybox" spacing="10.0" HBox.hgrow="ALWAYS">
-                           <children>
-                              <Label text="City" />
-                           </children>
-                           <padding>
-                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                           </padding>
-                        </VBox>
+                        <Label text="E-mail" />
+                        <TextField fx:id="textfieldemail" />
                      </children>
-                  </HBox>
-                  <HBox prefHeight="100.0" prefWidth="200.0">
+                  </VBox>
+                  <VBox spacing="10.0" GridPane.rowIndex="1">
                      <children>
-                        <VBox spacing="10.0" HBox.hgrow="ALWAYS">
-                           <children>
-                              <Label text="Password" />
-                              <TextField fx:id="textfieldpassword" />
-                           </children>
-                           <padding>
-                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                           </padding>
-                        </VBox>
-                        <VBox spacing="10.0" HBox.hgrow="ALWAYS">
-                           <children>
-                              <Label text="Repeat password" />
-                              <TextField fx:id="textfieldpasswordrepeat" />
-                           </children>
-                           <padding>
-                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                           </padding>
-                        </VBox>
+                        <Label text="Password" />
+                        <PasswordField fx:id="passwordfield" />
                      </children>
-                  </HBox>
-                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                  </VBox>
+                  <VBox spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <children>
-                        <VBox HBox.hgrow="NEVER">
-                           <children>
-                              <Label text="Currency" />
-                              <ComboBox fx:id="comboboxcurrency" prefWidth="150.0" />
-                           </children>
-                        </VBox>
+                        <Label text="Repeat password" />
+                        <PasswordField fx:id="passwordfieldrepeat" />
                      </children>
-                  </HBox>
+                  </VBox>
+                  <VBox fx:id="vbox_countrybox" spacing="10.0" GridPane.rowIndex="2">
+                     <children>
+                        <Label text="Country" />
+                     </children>
+                  </VBox>
+                  <VBox fx:id="vbox_citybox" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                     <children>
+                        <Label text="City" />
+                     </children>
+                  </VBox>
+                  <VBox spacing="10.0" GridPane.rowIndex="3">
+                     <children>
+                        <Label text="Currency" />
+                        <ComboBox fx:id="comboboxcurrency" prefWidth="150.0" />
+                     </children>
+                  </VBox>
                </children>
-            </VBox>
-            <HBox alignment="CENTER" spacing="10.0" VBox.vgrow="NEVER">
+            </GridPane>
+            <HBox alignment="CENTER" VBox.vgrow="NEVER">
                <children>
                   <Button fx:id="button_cancel" mnemonicParsing="false" text="Cancel" />
                   <Separator visible="false" HBox.hgrow="ALWAYS" />

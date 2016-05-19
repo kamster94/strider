@@ -14,7 +14,8 @@
 
 .label
 {
-	-fx-text-fill: cornflowerblue;
+	-fx-background-color: dodgerblue;
+	-fx-text-fill: white;
 }
 
 
@@ -61,22 +62,22 @@
 
 .button
 {
-	-fx-text-fill: cornflowerblue;
-	-fx-border-color: rgb(200,200,235);
-	-fx-background-color: white;
+	-fx-text-fill: white;
+	-fx-border-color: transparent;
+	-fx-background-color: dodgerblue;
 }
 
 .button:hover
 {
-	-fx-background-color: cornflowerblue;
-	-fx-text-fill: white;
+	-fx-background-color: dodgerblue;
+	-fx-text-fill: yellow;
+	-fx-font-weight: bold;
 }
 
 .button:armed
 {
-	-fx-background-color: cornflowerblue;
-	-fx-border-color: cornflowerblue;
-	-fx-text-fill:white;
+	-fx-background-color: white;
+	-fx-text-fill:dodgerblue;
 }
 
 
