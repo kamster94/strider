@@ -1,10 +1,7 @@
 package desktopGui;
 
 import java.net.URL;
-import java.util.Arrays;
 import java.util.ResourceBundle;
-
-import dbConnection.DbAccess;
 import dbHandlers.DatabaseHandlerLogin;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -18,31 +15,26 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-public class ControllerSplashScreen implements Initializable, ControlledScreen, EventHandler<ActionEvent>
+public class ControllerSplashScreen implements Initializable, ClearableScreen, ControlledScreen, EventHandler<ActionEvent>
 {
 	ScreensController myController;
 	
-    @FXML
-    private ImageView imageviewlogo;
-
-    @FXML
-    private ImageView imageviewlogotitle;
-
-    @FXML
-    private TextField textfieldemail;
-
-    @FXML
-    private PasswordField passwordfieldpassword;
-
-    @FXML
-    private Button buttonlogin;
-    
-    @FXML
-    private Button buttoncreatenewaccount;
-    
 	final Image imglogotext = new Image("desktopGui/textures/ta_title.png");
 	final Image imglogopalms = new Image("desktopGui/textures/ta_palms.png");
 	
+    @FXML
+    private ImageView imageviewlogo;
+    @FXML
+    private ImageView imageviewlogotitle;
+    @FXML
+    private TextField textfieldemail;
+    @FXML
+    private PasswordField passwordfieldpassword;
+    @FXML
+    private Button buttonlogin;
+    @FXML
+    private Button buttoncreatenewaccount;
+    
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) 
 	{
@@ -88,13 +80,27 @@ public class ControllerSplashScreen implements Initializable, ControlledScreen, 
 			}
 			else if(status == 0)
 			{
+				Alert alert = new Alert(AlertType.INFORMATION);
+				alert.setTitle("Login");
+				alert.setHeaderText(null);
+				alert.setContentText("Login succesfull!");
+				alert.showAndWait();
+				
+				clearComponents();
 				myController.setScreen(WindowMain.MAIN_SCREEN);
 			}
 		}
 		else if(arg0.getSource() == buttoncreatenewaccount)
 		{
+			clearComponents();
 			myController.setScreen(WindowMain.CREATEACCOUNT_SCREEN);
 		}
 	}
-}
 
+	@Override
+	public void clearComponents() 
+	{
+		textfieldemail.setText("");
+		passwordfieldpassword.setText("");
+	}
+}

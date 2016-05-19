@@ -122,6 +122,14 @@ public class WindowMain extends Application
 		return countryBox;
 	}
 	
+	public static ComboBox<String> getCurrencyBox()
+	{
+		ComboBox<String> currencyBox = new ComboBox<String>();
+		new AutoCompleteComboBoxListener<String>(currencyBox);
+		currencyBox.getItems().setAll(DatabaseHandlerCommon.getInstance().getCurrencies());
+		return currencyBox;
+	}
+	
 	public static void resizeWindowToContents()
 	{
 		mystage.getScene().getWindow().sizeToScene();

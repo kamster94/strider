@@ -16,31 +16,27 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.VBox;
 
-public class ControllerCreateNewUser implements Initializable, 
-												ClearableScreen,
-												ControlledScreen, 
-												EventHandler<ActionEvent>
+public class ControllerCreateNewUser implements Initializable, ClearableScreen, ControlledScreen, EventHandler<ActionEvent>
 {
 	private ScreensController myController;
-	private boolean usernotified = false;
+
 	@FXML
 	private TextField textfieldusername;
 	@FXML
-	private VBox vbox_countrybox;
-	@FXML
 	private TextField textfieldemail;
-	@FXML
-	private VBox vbox_citybox;
     @FXML
     private PasswordField passwordfield;
     @FXML
     private PasswordField passwordfieldrepeat;
 	@FXML
-	private ComboBox<String> comboboxcurrency;
+	private VBox vbox_countrybox;
+	@FXML
+	private VBox vbox_citybox;
+	@FXML
+	private VBox vbox_currencybox;
 	@FXML
 	private Button button_cancel;
 	@FXML
@@ -51,6 +47,8 @@ public class ControllerCreateNewUser implements Initializable,
 	private ComboBox<String> countrybox;
 	@FXML
 	private ComboBox<String> citybox;
+	@FXML
+	private ComboBox<String> currencybox;
 	
 	@Override
 	public void setScreenParent(ScreensController screenParent) 
@@ -66,12 +64,13 @@ public class ControllerCreateNewUser implements Initializable,
 		
 		countrybox = WindowMain.getCountryBox();
 		citybox = WindowMain.getCityBox();
+		currencybox = WindowMain.getCurrencyBox();
 		
 		vbox_countrybox.getChildren().add(countrybox);
 		vbox_citybox.getChildren().add(citybox);
+		vbox_currencybox.getChildren().add(currencybox);
 		
 		vbox_countrybox.getChildren().get(1).toFront();
-		comboboxcurrency.getItems().setAll(DatabaseHandlerCommon.getInstance().getCurrencies());
 		
 		countrybox.valueProperty().addListener(new ChangeListener<String>() 
 		{
@@ -92,7 +91,7 @@ public class ControllerCreateNewUser implements Initializable,
 			passwordfield.getText().equals(passwordfieldrepeat.getText()) &&
 			countrybox.getValue() != null &&
 			citybox.getValue() != null &&
-			comboboxcurrency.getValue() != null)
+			currencybox.getValue() != null)
 		{
 			return 0;
 		}
@@ -102,7 +101,7 @@ public class ControllerCreateNewUser implements Initializable,
 				passwordfield.getText().equals(passwordfieldrepeat.getText())  == false &&
 				countrybox.getValue() != null &&
 				citybox.getValue() != null &&
-				comboboxcurrency.getValue() != null)
+				currencybox.getValue() != null)
 		{
 			return 1;
 		}
@@ -122,7 +121,7 @@ public class ControllerCreateNewUser implements Initializable,
 			if(checkInput() == 0)
 			{
 				DatabaseHandlerRegister dhr = new DatabaseHandlerRegister();
-				NewUser nu = new NewUser(textfieldusername.getText(), citybox.getSelectionModel().getSelectedIndex(), textfieldemail.getText(), countrybox.getSelectionModel().getSelectedIndex(), passwordfield.getText(), comboboxcurrency.getSelectionModel().getSelectedIndex());
+				NewUser nu = new NewUser(textfieldusername.getText(), citybox.getSelectionModel().getSelectedIndex(), textfieldemail.getText(), countrybox.getSelectionModel().getSelectedIndex(), passwordfield.getText(), currencybox.getSelectionModel().getSelectedIndex());
 				dhr.setUserCandidate(nu);
 				int dataval = dhr.verifyDataValidity();
 				
@@ -203,7 +202,7 @@ public class ControllerCreateNewUser implements Initializable,
 		textfieldemail.setText("");
 		passwordfield.setText("");
 		passwordfieldrepeat.setText("");
-		comboboxcurrency.getSelectionModel().clearSelection();
+		currencybox.getSelectionModel().clearSelection();
 		countrybox.getSelectionModel().clearSelection();
 		citybox.getSelectionModel().clearSelection();
 	}
