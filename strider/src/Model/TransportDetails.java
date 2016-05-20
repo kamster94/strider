@@ -2,7 +2,7 @@ package Model;
 
 import java.time.LocalDate;
 
-public class Transport extends StageType
+public class TransportDetails extends StageType
 {
 	
 	private int idCurrency;
@@ -18,7 +18,7 @@ public class Transport extends StageType
 	private String link;
 	private String notes;
 	
-	public Transport(int idCurrency, int idTransportCategory, int idTransport, int idCountryArrival, int idCityArrival,
+	public TransportDetails(int idCurrency, int idTransportCategory, int idTransport, int idCountryArrival, int idCityArrival,
 			int idCountryLeaving, int idCityLeaving, LocalDate arrivalDatetime, LocalDate leavingDatetime, float price,
 			String link, String notes) {
 		this.idCurrency = idCurrency;

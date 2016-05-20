@@ -128,7 +128,7 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
     @FXML
     private TextField t_textfield_starttime;
     @FXML
-    private DatePicker t_datepicker1;
+    private DatePicker t_datepicker_end;
     @FXML
     private TextField t_textfield_endtime;
     @FXML
@@ -288,8 +288,8 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 				int countryid = DatabaseHandlerCommon.getInstance().getCountryId(a_combobox_countryfrom.getSelectionModel().getSelectedItem());
 				a_combobox_cityfrom.getItems().setAll(DatabaseHandlerCommon.getInstance().getCities(countryid));
 				
-				a_combobox_attrcurrency.getSelectionModel().select(DatabaseHandlerCommon.getInstance().getCurrencyIdForGivenCountry(countryid));
-				a_combobox_attrcurrency.getSelectionModel().select(obj);
+				//a_combobox_attrcurrency.getSelectionModel().select(DatabaseHandlerCommon.getInstance().getCurrencyIdForGivenCountry(countryid));
+				//a_combobox_attrcurrency.getSelectionModel().select(obj);
 				
 			}
 		});
@@ -408,6 +408,25 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 		
 	}
 	
+	private boolean tcheckInputCompletion()
+	{
+		if(t_combobox_country_from.getValue() != null &&
+			t_combobox_city_from.getValue() != null &&
+			t_combobox_country_to.getValue() != null &&
+			t_combobox_city_to.getValue() != null &&
+			t_datepicker_start.getValue() != null &&
+			t_datepicker_end.getValue() != null &&
+			t_textfield_price.getText().isEmpty() == false &&
+			t_combobox_mycurrency.getValue() != null &&
+			t_combobox_transportcurrency.getValue() != null &&
+			t_combobox_transportcategory.getValue() != null &&
+			t_listview_companies.getSelectionModel().isEmpty() == false)
+		{
+			return true;
+		}
+		else return false;
+		
+	}
 
 	@Override
 	public void setScreenParent(ScreensController screenParent) 
@@ -438,28 +457,72 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 				
 				
 			}
+			else
+			{
+				Alert alert = new Alert(AlertType.INFORMATION);
+				alert.setTitle("Cannot add new attraction");
+				alert.setHeaderText(null);
+				alert.setContentText("Not all required informations provided!");
+				alert.showAndWait();
+			}
 		}
 		else if(event.getSource() == h_button_add)
 		{
 			if(hcheckInputCompletion() == true)
 			{
-				HotelDetails hd = new HotelDetails(h_listview_hotels.getSelectionModel().getSelectedIndex(), h_combobox_currency.getSelectionModel().getSelectedIndex(), Integer.parseInt(h_textfield_pricepernite.getText()), h_textarea_notes.getText(), h_datepicker_arrival.getValue(), h_datepicker_departure.getValue(), h_combobox_country.getSelectionModel().getSelectedIndex(), h_combobox_city.getSelectionModel().getSelectedIndex());
+				
+				int hotelid = DatabaseHandlerHotelAdder.getInstance().getHotelId(h_listview_hotels.getSelectionModel().getSelectedItem());
+				int currencyid = DatabaseHandlerCommon.getInstance().getCurrencyId(h_combobox_currency.getSelectionModel().getSelectedItem());
+				int countryid = DatabaseHandlerCommon.getInstance().getCountryId(h_combobox_country.getSelectionModel().getSelectedItem());
+				int cityid = DatabaseHandlerCommon.getInstance().getCityId(h_combobox_city.getSelectionModel().getSelectedItem());
+				
+				
+				HotelDetails hd = new HotelDetails(hotelid, currencyid, Integer.parseInt(h_textfield_pricepernite.getText()), h_textarea_notes.getText(), h_datepicker_arrival.getValue(), h_datepicker_departure.getValue(), countryid, cityid);
 				DatabaseHandlerHotelAdder.getInstance().setHotel(hd);
-				DatabaseHandlerHotelAdder.getInstance().pushHotelDetails();
+				boolean hoteladdstatus = DatabaseHandlerHotelAdder.getInstance().pushHotelDetails();
 				
-				hd = null;
-		
+				if(hoteladdstatus == true)
+				{
+					Alert alert = new Alert(AlertType.INFORMATION);
+					alert.setTitle("New hotel added");
+					alert.setHeaderText(null);
+					alert.setContentText("Hotel added succesfully!");
+					alert.showAndWait();
+				}
+				else
+				{
+					Alert alert = new Alert(AlertType.INFORMATION);
+					alert.setTitle("Couldn't add new hotel");
+					alert.setHeaderText(null);
+					alert.setContentText("Database error!");
+					alert.showAndWait();
+				}
+			}
+			else
+			{
 				Alert alert = new Alert(AlertType.INFORMATION);
-				alert.setTitle("New hotel added");
+				alert.setTitle("Couldn't add new hotel");
 				alert.setHeaderText(null);
-				alert.setContentText("Hotel added succesfully!");
-
+				alert.setContentText("Not all required informations provided!");
 				alert.showAndWait();
-				
 			}
 			
 		}
-
+		else if(event.getSource() == t_button_add)
+		{
+			if(tcheckInputCompletion() == true)
+			{
+				
+			}
+			else
+			{
+				Alert alert = new Alert(AlertType.INFORMATION);
+				alert.setTitle("Cannot add new transport");
+				alert.setHeaderText(null);
+				alert.setContentText("Not all required informations provided!");
+				alert.showAndWait();
+			}
+		}
 		else if(event.getSource() == button_previous)
 		{
 			myController.setScreen(WindowMain.NEWTRAVEL_1);
