@@ -1,7 +1,7 @@
 package Model;
 
 public class User {
-	
+	//chuj
 	private String email;
 	private String userName;
 	private int currencyId;
