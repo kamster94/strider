@@ -27,12 +27,12 @@ public class DatabaseHandlerAttractionAdder
 		return myinstance;
 	}
 	
-	public static void setAttraction(AttractionDetails trav)
+	public void setAttraction(AttractionDetails trav)
 	{
 		attr = trav;
 	}
 
-	public static int pushAttractionToDatabase()
+	public int pushAttractionToDatabase()
 	{
 		int attractionID = 0;
 
@@ -46,7 +46,7 @@ public class DatabaseHandlerAttractionAdder
 		return attractionID;
 		}
 	
-	public static List<String> getAttractions(int cityId, int countryId){
+	public List<String> getAttractions(int cityId, int countryId){
 		return dbConnection.getStringsFromDb("SELECT * FROM DBA.Attraction WHERE IDCity = " + cityId + " AND IDCountry = " + countryId, Arrays.asList("AttractionName"));
 	}
 }
