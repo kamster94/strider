@@ -71,10 +71,20 @@ public class ControllerCreateTravelFirst implements Initializable, ClearableScre
     private Button button_next;
     
     @FXML
-    private ComboBox<String> citybox;
+    private static ComboBox<String> citybox;
     @FXML
-    private ComboBox<String> countrybox;
+    private static ComboBox<String> countrybox;
 	
+    public static void lateInitialize()
+    {
+		//Preferowane miasto i panstwo startowe usera
+		System.out.println("Pref country : " + User.getInstance().getCountryId());
+		System.out.println("Pref city : " + User.getInstance().getCityId());
+		countrybox.getSelectionModel().select(User.getInstance().getCountryId());
+		citybox.getSelectionModel().select(User.getInstance().getCityId());
+    }
+    
+    
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) 
 	{
@@ -107,13 +117,6 @@ public class ControllerCreateTravelFirst implements Initializable, ClearableScre
 				citybox.getItems().setAll(DatabaseHandlerCommon.getInstance().getCities(countryid));
 			}
 		});
-		
-		//Preferowane miasto i panstwo startowe usera
-		//countrybox.getSelectionModel().select(User.getInstance().);
-		//citybox.getSelectionModel().select(index);
-		
-		
-		
 	}
 	
 	@Override

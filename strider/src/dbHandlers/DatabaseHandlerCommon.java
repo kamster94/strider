@@ -42,4 +42,9 @@ public class DatabaseHandlerCommon {
 	public int getCurrencyId(String shortcut){
 		return dbConnection.getIntFromDb("SELECT IDCurrency FROM DBA.Currency WHERE CurrencyShortcut = '" + shortcut + "'");
 	}
+	
+	public String getCurrencyNameForGivenCountry(int countryId)
+	{
+		return null;
+	}
 }

@@ -129,6 +129,7 @@ public class WindowMain extends Application
 		currencyBox.getItems().setAll(DatabaseHandlerCommon.getInstance().getCurrencies());
 		return currencyBox;
 	}
+
 	
 	public static void resizeWindowToContents()
 	{

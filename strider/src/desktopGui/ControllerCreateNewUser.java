@@ -3,6 +3,7 @@ package desktopGui;
 import java.net.URL;
 import java.util.ResourceBundle;
 import Model.NewUser;
+import Model.User;
 import dbHandlers.DatabaseHandlerCommon;
 import dbHandlers.DatabaseHandlerRegister;
 import javafx.beans.value.ChangeListener;

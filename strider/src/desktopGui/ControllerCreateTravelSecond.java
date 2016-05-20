@@ -22,6 +22,7 @@ import dbConnection.DbAccess;
 import dbHandlers.DatabaseHandlerAttractionAdder;
 import dbHandlers.DatabaseHandlerCommon;
 import dbHandlers.DatabaseHandlerHotelAdder;
+import dbHandlers.DatabaseHandlerTransportAdder;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -79,6 +80,8 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
     @FXML
     private Button a_button_add;
     @FXML
+    private Button h_button_add;
+    @FXML
     private Tab tabhotel;
     @FXML
     private VBox h_vboxcountry;
@@ -130,8 +133,6 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
     private TextField t_textfield_endtime;
     @FXML
     private TextField t_textfield_price;
-    @FXML
-    private Button t_add1;
     @FXML
     private TextArea t_textarea_notes;
     @FXML
@@ -246,18 +247,6 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 			}
 		});
 		
-		t_combobox_transportcategory.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>()
-		{
-			@Override
-			public void changed(ObservableValue<? extends String> observable, String oldvalue, String newvalue) 
-			{
-				t_listview_companies.getItems().removeAll(t_listview_companies.getItems());
-				String sql = "Select * from DBA.Transport where IDTransportCategory = " + t_combobox_transportcategory.getSelectionModel().getSelectedIndex();
-				ArrayList transports = new ArrayList<String>(DbAccess.getInstance().getStringsFromDb(sql, Arrays.asList("TransportName")));
-				t_listview_companies.getItems().addAll(transports);
-			}
-		});
-		
 		a_combobox_countryfrom = WindowMain.getCountryBox();
 		a_combobox_cityfrom = WindowMain.getCityBox();
 		h_combobox_country = WindowMain.getCountryBox();
@@ -287,6 +276,9 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 		t_vbox_mycurrency.getChildren().add(t_combobox_mycurrency);
 		t_vbox_currency.getChildren().add(t_combobox_transportcurrency);
 		
+		t_combobox_transportcategory.getItems().setAll(DatabaseHandlerTransportAdder.getInstance().getCategories());
+		
+		/////ATTRACTION/////
 		a_combobox_countryfrom.valueProperty().addListener(new ChangeListener<String>() 
 		{
 			@Override
@@ -295,9 +287,25 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 				a_combobox_cityfrom.getSelectionModel().clearSelection();
 				int countryid = DatabaseHandlerCommon.getInstance().getCountryId(a_combobox_countryfrom.getSelectionModel().getSelectedItem());
 				a_combobox_cityfrom.getItems().setAll(DatabaseHandlerCommon.getInstance().getCities(countryid));
+				
+				a_combobox_attrcurrency.getSelectionModel().select(DatabaseHandlerCommon.getInstance().getCurrencyIdForGivenCountry(countryid));
+				a_combobox_attrcurrency.getSelectionModel().select(obj);
+				
+			}
+		});
+		a_combobox_cityfrom.valueProperty().addListener(new ChangeListener<String>() 
+		{
+			@Override
+			public void changed(ObservableValue<? extends String> arg0, String arg1, String arg2) 
+			{
+				a_listview_attractions.getItems().removeAll(a_listview_attractions.getItems());
+				int countryid = DatabaseHandlerCommon.getInstance().getCountryId(a_combobox_countryfrom.getSelectionModel().getSelectedItem());
+				int cityid = DatabaseHandlerCommon.getInstance().getCityId(a_combobox_cityfrom.getSelectionModel().getSelectedItem());
+				a_listview_attractions.getItems().setAll(DatabaseHandlerAttractionAdder.getInstance().getAttractions(cityid, countryid));
 			}
 		});
 		
+		/////HOTEL/////
 		h_combobox_country.valueProperty().addListener(new ChangeListener<String>() 
 		{
 			@Override
@@ -308,7 +316,19 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 				h_combobox_city.getItems().setAll(DatabaseHandlerCommon.getInstance().getCities(countryid));
 			}
 		});
+		h_combobox_city.valueProperty().addListener(new ChangeListener<String>() 
+		{
+			@Override
+			public void changed(ObservableValue<? extends String> arg0, String arg1, String arg2) 
+			{
+				int countryid = DatabaseHandlerCommon.getInstance().getCountryId(h_combobox_country.getSelectionModel().getSelectedItem());
+				int cityid = DatabaseHandlerCommon.getInstance().getCityId(h_combobox_city.getSelectionModel().getSelectedItem());
+				
+				h_listview_hotels.getItems().setAll(DatabaseHandlerHotelAdder.getInstance().getHotels(cityid, countryid));
+			}
+		});
 		
+		/////TRANSPORT/////
 		t_combobox_country_from.valueProperty().addListener(new ChangeListener<String>() 
 		{
 			@Override
@@ -317,6 +337,25 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 				t_combobox_city_from.getSelectionModel().clearSelection();
 				int countryid = DatabaseHandlerCommon.getInstance().getCountryId(t_combobox_country_from.getSelectionModel().getSelectedItem());
 				t_combobox_city_from.getItems().setAll(DatabaseHandlerCommon.getInstance().getCities(countryid));
+			}
+		});
+		t_combobox_city_from.valueProperty().addListener(new ChangeListener<String>() 
+		{
+			@Override
+			public void changed(ObservableValue<? extends String> arg0, String arg1, String arg2) 
+			{
+
+			}
+		});
+		
+		t_combobox_transportcategory.valueProperty().addListener(new ChangeListener<String>() 
+		{
+			@Override
+			public void changed(ObservableValue<? extends String> arg0, String arg1, String arg2) 
+			{
+				int tcategory = DatabaseHandlerTransportAdder.getInstance().getCategoryId(t_combobox_transportcategory.getSelectionModel().getSelectedItem());
+				System.out.println("Tcategory : " + tcategory);
+				t_listview_companies.getItems().setAll(DatabaseHandlerTransportAdder.getInstance().getProviders(tcategory));
 			}
 		});
 		
@@ -330,13 +369,12 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 				t_combobox_city_to.getItems().setAll(DatabaseHandlerCommon.getInstance().getCities(countryid));
 			}
 		});
-		
-		ArrayList <String> transport = new ArrayList<String>(DbAccess.getInstance().getStringsFromDb("SELECT * FROM DBA.Transport", Arrays.asList("TransportName")));
-		ArrayList <String> transportCategory = new ArrayList<String>(DbAccess.getInstance().getStringsFromDb("SELECT * FROM DBA.TransportCategory", Arrays.asList("TransportCategoryName")));
-		
-		t_combobox_transportcategory.getItems().addAll(transportCategory);
 
+
+		
+		
 		a_button_add.setOnAction(this);
+		h_button_add.setOnAction(this);
 		t_button_add.setOnAction(this);
 		button_previous.setOnAction(this);
 		button_summary.setOnAction(this);
@@ -385,9 +423,8 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 			if(acheckInputCompletion() == true)
 			{
 				AttractionDetails ad = new AttractionDetails(a_listview_attractions.getSelectionModel().getSelectedIndex(), a_combobox_countryfrom.getSelectionModel().getSelectedIndex(), a_combobox_cityfrom.getSelectionModel().getSelectedIndex(), a_combobox_attrcurrency.getSelectionModel().getSelectedIndex(), Integer.parseInt(a_textfield_price.getText()), a_textarea_notes.getText());
-				DatabaseHandlerAttractionAdder dhaa = new DatabaseHandlerAttractionAdder();
-				dhaa.setAttraction(ad);
-				dhaa.pushAttractionToDatabase();
+				DatabaseHandlerAttractionAdder.getInstance().setAttraction(ad);
+				DatabaseHandlerAttractionAdder.getInstance().pushAttractionToDatabase();
 				
 				ad = null;
 		
@@ -402,14 +439,23 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 				
 			}
 		}
-		else if(event.getSource() == t_button_add)
+		else if(event.getSource() == h_button_add)
 		{
 			if(hcheckInputCompletion() == true)
 			{
 				HotelDetails hd = new HotelDetails(h_listview_hotels.getSelectionModel().getSelectedIndex(), h_combobox_currency.getSelectionModel().getSelectedIndex(), Integer.parseInt(h_textfield_pricepernite.getText()), h_textarea_notes.getText(), h_datepicker_arrival.getValue(), h_datepicker_departure.getValue(), h_combobox_country.getSelectionModel().getSelectedIndex(), h_combobox_city.getSelectionModel().getSelectedIndex());
-				DatabaseHandlerHotelAdder dhha = new DatabaseHandlerHotelAdder();
-				dhha.setHotel(hd);
-				System.out.println(dhha.pushHotelDetails());
+				DatabaseHandlerHotelAdder.getInstance().setHotel(hd);
+				DatabaseHandlerHotelAdder.getInstance().pushHotelDetails();
+				
+				hd = null;
+		
+				Alert alert = new Alert(AlertType.INFORMATION);
+				alert.setTitle("New hotel added");
+				alert.setHeaderText(null);
+				alert.setContentText("Hotel added succesfully!");
+
+				alert.showAndWait();
+				
 			}
 			
 		}

@@ -92,6 +92,7 @@ public class ControllerMain implements Initializable, ControlledScreen, EventHan
 		else if(arg0.getSource() == button_createtravel)
 		{
 			myController.setScreen(WindowMain.NEWTRAVEL_1);
+			ControllerCreateTravelFirst.lateInitialize();
 		}
 		else if(arg0.getSource() == button_exit)
 		{
