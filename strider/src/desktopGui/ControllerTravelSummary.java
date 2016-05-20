@@ -6,9 +6,11 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import Model.AttractionDetails;
+import Model.HotelDetails;
 import Model.TravelFramework;
 import Model.User;
 import dbHandlers.DatabaseHandlerAttractionAdder;
+import dbHandlers.DatabaseHandlerHotelAdder;
 import dbHandlers.DatabaseHandlerStage;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -66,18 +68,20 @@ public class ControllerTravelSummary implements Initializable, ControlledScreen,
     			
     			if(stagetype == 1)
     			{
-    				AttractionDetails attrdet = DatabaseHandlerStage.getInstance().getAttractionDetails(curtravel, integer.intValue());
-    				tp.setText("Attraction : " + DatabaseHandlerAttractionAdder.getInstance().getAttractionName(attrdet.getCityId(), attrdet.getAttractionId()));
+    				int id_attr_det = DatabaseHandlerStage.getInstance().getAttractionDetailsId(curtravel, integer.intValue());
+    				tp.setText("AttractionDetails_ID : " + id_attr_det);
     				
     			}
     			else if(stagetype == 2)
     			{
-    				tp.setText("Hotel");
+    				int id_hotel_det = DatabaseHandlerStage.getInstance().getHotelDetailsId(curtravel, integer.intValue());
+    				tp.setText("HotelDetails_ID : " + id_hotel_det);
     			}
     			else if(stagetype == 3)
     			{
-    				tp.setText("Transport");
-    			}
+    				int id_transp_det = DatabaseHandlerStage.getInstance().getTransportDetailsId(curtravel, integer.intValue());
+    				tp.setText("TransportDetails_ID : " + id_transp_det);
+    			} 
     			accordionstages.getPanes().add(tp);
     		}
     	}

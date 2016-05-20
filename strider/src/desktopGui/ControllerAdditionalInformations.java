@@ -25,10 +25,12 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import cWHandlers.CountryWarningsHandlerCommon;
+import countryWarnings.CityInformation;
 import countryWarnings.CountriesList;
 import countryWarnings.CountryInformation;
 import countryWarnings.CurrencyInformation;
 import countryWarnings.Main;
+import countryWarnings.WeatherInformation;
 import dbHandlers.DatabaseHandlerCommon;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -107,11 +109,13 @@ public class ControllerAdditionalInformations implements Initializable, Clearabl
 			@Override
 			public void changed(ObservableValue<? extends String> arg0, String arg1, String arg2) 
 			{
-				citybox.getSelectionModel().clearSelection();
-				citybox.getItems().setAll(DatabaseHandlerCommon.getInstance().getCities(countrybox.getSelectionModel().getSelectedIndex()));
-			
-				countryWebView.getEngine().loadContent(CountryWarningsHandlerCommon.getInstance().getCountryInformation(countrybox.getSelectionModel().getSelectedItem()));
-				currencyWebView.getEngine().loadContent(CountryWarningsHandlerCommon.getInstance().getCurrencyInformation(countrybox.getSelectionModel().getSelectedItem()));
+				if(countrybox.getSelectionModel().isEmpty() == false)
+				{
+					citybox.getSelectionModel().clearSelection();
+					citybox.getItems().setAll(DatabaseHandlerCommon.getInstance().getCities(countrybox.getSelectionModel().getSelectedIndex()));
+					countryWebView.getEngine().loadContent(CountryWarningsHandlerCommon.getInstance().getCountryInformation(countrybox.getSelectionModel().getSelectedItem()));
+					currencyWebView.getEngine().loadContent(CountryWarningsHandlerCommon.getInstance().getCurrencyInformation(countrybox.getSelectionModel().getSelectedItem()));
+				}
 			}
 		});
 		
@@ -121,9 +125,10 @@ public class ControllerAdditionalInformations implements Initializable, Clearabl
 			public void changed(ObservableValue<? extends String> arg0, String arg1, String arg2) 
 			{
 				if(citybox.getSelectionModel().isEmpty() == false)
-				cityWebView.getEngine().loadContent(CountryWarningsHandlerCommon.getInstance().getCityInformation(citybox.getSelectionModel().getSelectedItem()));
-				
-				//TODO: Wyœwietliæ dane o pogodzie w WebView
+				{
+					cityWebView.getEngine().loadContent(CountryWarningsHandlerCommon.getInstance().getCityInformation(citybox.getSelectionModel().getSelectedItem()));
+					weatherWebView.getEngine().loadContent(CountryWarningsHandlerCommon.getInstance().getWeatherInformation(citybox.getSelectionModel().getSelectedItem()));
+				}
 			}
 		});
 	}

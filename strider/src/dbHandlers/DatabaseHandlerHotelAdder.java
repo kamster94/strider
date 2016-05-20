@@ -49,6 +49,11 @@ public class DatabaseHandlerHotelAdder {
 		return dbConnection.getIntFromDb("SELECT IDHotel FROM DBA.Hotel WHERE HotelName = '" + name + "'");
 	}
 	
+	public String getHotelName(int idcity, int idhotel)
+	{
+		return dbConnection.getSingeStringFromDb("SELECT HotelName FROM DBA.Hotel WHERE IDHotel = " + idhotel + " AND IDCity = " + idcity, "HotelName");
+	}
+	
 	public List<String> getHotels(int cityId, int countryId){
 		return dbConnection.getStringsFromDb("SELECT * FROM DBA.Hotel WHERE IDCity = " + cityId + " AND IDCountry = " + countryId, Arrays.asList("HotelName"));
 	}

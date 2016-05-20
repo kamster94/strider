@@ -1,11 +1,13 @@
 package dbHandlers;
 
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import Model.AttractionDetails;
+import Model.HotelDetails;
 import dbConnection.DbAccess;
 
 public class DatabaseHandlerStage 
@@ -49,18 +51,21 @@ public class DatabaseHandlerStage
 	}
 	*/
 	
-	public AttractionDetails getAttractionDetails(int idtrip, int idstage)
+	public int getAttractionDetailsId(int idtrip, int idstage)
 	{
-		AttractionDetails attraction;
-		int id_attraction = dbConnection.getIntFromDb("SELECT IDAttraction FROM DBA.AttractionDetail WHERE IDStage = " + idstage + " AND IDTrip = " + idtrip);
-		int id_currency = dbConnection.getIntFromDb("SELECT IDCurrency FROM DBA.AttractionDetail WHERE IDStage = " + idstage + " AND IDTrip = " + idtrip);
-		int id_country = dbConnection.getIntFromDb("SELECT IDCountry FROM DBA.AttractionDetail WHERE IDStage = " + idstage + " AND IDTrip = " + idtrip);
-		int id_city = dbConnection.getIntFromDb("SELECT IDCity FROM DBA.AttractionDetail WHERE IDStage = " + idstage + " AND IDTrip = " + idtrip);
-		float price = dbConnection.getFloatFromDb("SELECT AttractionPrice FROM DBA.AttractionDetail WHERE IDStage = " + idstage + " AND IDTrip = " + idtrip);
-		String notes = dbConnection.getSingeStringFromDb("SELECT AttractionNotes FROM DBA.AttractionDetail WHERE IDStage = " + idstage + " AND IDTrip = " + idtrip, "AttractionNotes");
-		
-		attraction = new AttractionDetails(id_attraction, id_country, id_city, id_currency, price, notes);
-		return attraction;
+		int id_attractiondetail = dbConnection.getIntFromDb("SELECT IDAttraction FROM DBA.AttractionDetail WHERE IDStage = " + idstage + " AND IDTrip = " + idtrip);
+		return id_attractiondetail;
 	}
 	
+	public int getHotelDetailsId(int idtrip, int idstage)
+	{
+		int id_hoteldetail = dbConnection.getIntFromDb("SELECT IDHotel FROM DBA.HotelDetail WHERE IDStage = " + idstage + " AND IDTrip = " + idtrip);
+		return id_hoteldetail;
+	}
+	
+	public int getTransportDetailsId(int idtrip, int idstage)
+	{
+		int id_transportdetail = dbConnection.getIntFromDb("SELECT IDTransport FROM DBA.TransportDetail WHERE IDStage = " + idstage + " AND IDTrip = " + idtrip);
+		return id_transportdetail;
+	}
 }

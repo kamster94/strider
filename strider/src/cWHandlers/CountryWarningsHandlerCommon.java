@@ -8,6 +8,7 @@ import countryWarnings.CountriesList;
 import countryWarnings.CountryInformation;
 import countryWarnings.CurrencyInformation;
 import countryWarnings.Main;
+import countryWarnings.WeatherInformation;
 import dbHandlers.DatabaseHandlerCommon;
 
 public class CountryWarningsHandlerCommon 
@@ -40,8 +41,9 @@ public class CountryWarningsHandlerCommon
 	
 	public String getWeatherInformation(String cityname)
 	{
-		//TODO: Zwracaæ info o pogodzie w danym mieœcie
-		return null;
+		CityInformation ci = new CityInformation(cityname.replaceAll(" ", "_"),false);
+		WeatherInformation weatherInformation = new WeatherInformation(ci);
+		return weatherInformation.getWeatherInformationHtml().toString();
 	}
 	
 	public String getCurrencyInformation(String countryname)
