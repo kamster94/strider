@@ -1,6 +1,8 @@
 package dbHandlers;
 
 import java.sql.Date;
+import java.util.Arrays;
+import java.util.List;
 
 import Model.Transport;
 import Model.TravelFramework;
@@ -36,5 +38,17 @@ public class DatabaseHandlerTransportAdder {
 		int status = dbConnection.getIntFromDb(sql);
 		if (status == 1) return true;
 		else return false;
+	}
+	
+	public List<String> getProviders(int category){
+		return dbConnection.getStringsFromDb("SELECT TransportName FROM DBA.Transport WHERE IDTransportCategory = " + category, Arrays.asList("TransportName"));	
+	}
+	
+	public int getCategoryId(String name){
+		return dbConnection.getIntFromDb("SELECT IDTransportCategory FROM DBA.Transport WHERE TransportName = '" + name + "'");
+	}
+	
+	public int getTransportId(String name){
+		return dbConnection.getIntFromDb("SELECT IDTransport FROM DBA.Transport WHERE TransportName = '" + name + "'");
 	}
 }
