@@ -198,11 +198,9 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
     	
     	a_combobox_countryfrom.getSelectionModel().select(TravelFramework.getInstance().getCurrentTravel().getCountryOriginId());
     	a_combobox_cityfrom.getSelectionModel().select(TravelFramework.getInstance().getCurrentTravel().getCityOriginId());
-    	
+
     	//Preferowana waluta usera
-    	//a_comboboxmycurrency.getSelectionModel().select(U);
-    	//h_combobox_mycurrency.getSelectionModel().select(index);
-    	//t_combobox_mycurrency.getSelectionModel().select(index);
+
     }
     
 	@Override
@@ -288,9 +286,7 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 				int countryid = DatabaseHandlerCommon.getInstance().getCountryId(a_combobox_countryfrom.getSelectionModel().getSelectedItem());
 				a_combobox_cityfrom.getItems().setAll(DatabaseHandlerCommon.getInstance().getCities(countryid));
 				
-				//a_combobox_attrcurrency.getSelectionModel().select(DatabaseHandlerCommon.getInstance().getCurrencyIdForGivenCountry(countryid));
-				//a_combobox_attrcurrency.getSelectionModel().select(obj);
-				
+		    	a_comboboxmycurrency.getSelectionModel().select(DatabaseHandlerCommon.getInstance().getCurrencyNameForGivenCountry(User.getInstance().getCountryId()));
 			}
 		});
 		a_combobox_cityfrom.valueProperty().addListener(new ChangeListener<String>() 
@@ -314,6 +310,7 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 				h_combobox_city.getSelectionModel().clearSelection();
 				int countryid = DatabaseHandlerCommon.getInstance().getCountryId(h_combobox_country.getSelectionModel().getSelectedItem());
 				h_combobox_city.getItems().setAll(DatabaseHandlerCommon.getInstance().getCities(countryid));
+		    	h_combobox_mycurrency.getSelectionModel().select(DatabaseHandlerCommon.getInstance().getCurrencyNameForGivenCountry(User.getInstance().getCountryId()));
 			}
 		});
 		h_combobox_city.valueProperty().addListener(new ChangeListener<String>() 
@@ -337,6 +334,7 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 				t_combobox_city_from.getSelectionModel().clearSelection();
 				int countryid = DatabaseHandlerCommon.getInstance().getCountryId(t_combobox_country_from.getSelectionModel().getSelectedItem());
 				t_combobox_city_from.getItems().setAll(DatabaseHandlerCommon.getInstance().getCities(countryid));
+		    	t_combobox_mycurrency.getSelectionModel().select(DatabaseHandlerCommon.getInstance().getCurrencyNameForGivenCountry(User.getInstance().getCountryId()));
 			}
 		});
 		t_combobox_city_from.valueProperty().addListener(new ChangeListener<String>() 
@@ -470,7 +468,6 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 		{
 			if(hcheckInputCompletion() == true)
 			{
-				
 				int hotelid = DatabaseHandlerHotelAdder.getInstance().getHotelId(h_listview_hotels.getSelectionModel().getSelectedItem());
 				int currencyid = DatabaseHandlerCommon.getInstance().getCurrencyId(h_combobox_currency.getSelectionModel().getSelectedItem());
 				int countryid = DatabaseHandlerCommon.getInstance().getCountryId(h_combobox_country.getSelectionModel().getSelectedItem());
@@ -513,6 +510,7 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 			if(tcheckInputCompletion() == true)
 			{
 				
+			//	TransportDetails tdetails = new TransportDetails();
 			}
 			else
 			{
