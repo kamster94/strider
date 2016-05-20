@@ -34,7 +34,7 @@ public class CityInformation {
 		String url2 =  "&gslimit=100&gsprop=type|name|&format=json";	   
 		
 		this.cityURL = url + name + url2;
-	/*	String url3 = "https://pl.wikipedia.org/wiki/" + name;
+		String url3 = "https://pl.wikipedia.org/wiki/" + name;
 		
 		
 		try {
@@ -54,7 +54,7 @@ public class CityInformation {
 			
 			coordinations = new LatLong(52.232222, 21.008333);
 
-		}*/
+		}
 	}
 	
 	
