@@ -3,8 +3,7 @@ package dbHandlers;
 import java.sql.Date;
 import java.util.Arrays;
 import java.util.List;
-
-import Model.Transport;
+import Model.TransportDetails;
 import Model.TravelFramework;
 import Model.User;
 import dbConnection.DbAccess;
@@ -13,7 +12,7 @@ public class DatabaseHandlerTransportAdder {
 	
 	private static DatabaseHandlerTransportAdder myinstance;
 	private DbAccess dbConnection;
-	private Transport transport;
+	private TransportDetails transport;
 	private User user;
 	private TravelFramework travel;
 	
