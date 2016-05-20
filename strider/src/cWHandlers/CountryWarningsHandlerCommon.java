@@ -1,15 +1,24 @@
 package cWHandlers;
 
+import java.util.List;
+
+import countryWarnings.CitiesList;
+import countryWarnings.CityInformation;
 import countryWarnings.CountriesList;
 import countryWarnings.CountryInformation;
 import countryWarnings.CurrencyInformation;
 import countryWarnings.Main;
+import dbHandlers.DatabaseHandlerCommon;
 
 public class CountryWarningsHandlerCommon 
 {
 	private static CountryWarningsHandlerCommon myinstance;
 	
-	private CountryWarningsHandlerCommon(){}
+	private CountryWarningsHandlerCommon()
+	{
+		CountriesList.setCountryNames();
+		CountriesList.setCountryHtmls();
+	}
 
 	public static CountryWarningsHandlerCommon getInstance()
 	{
@@ -19,14 +28,14 @@ public class CountryWarningsHandlerCommon
 	
 	public String getCountryInformation(String countryname)
 	{
-		//TODO: Zwracaæ info o pañstwie w postaci stringa
-		return null;
+        CountryInformation countryInformation = new CountryInformation(countryname, "http://www.polakzagranica.msz.gov.pl" + CountriesList.getCountryHtmlsPosition(setCityList(countryname)));  
+		return countryInformation.getCountryInformationHtml().toString();
 	}
 	
 	public String getCityInformation(String cityname)
 	{
-		//TODO: Zwracaæ info o ciekawych rzeczach z/wokó³ danego miasta (nazwa miasta dobra do wyszukiwania? xd)
-		return null;
+		CityInformation cityInformation = new CityInformation(cityname.replaceAll(" ", "_"));
+		return cityInformation.getCityInformationHtml().toString();
 	}
 	
 	public String getWeatherInformation(String cityname)
@@ -37,7 +46,21 @@ public class CountryWarningsHandlerCommon
 	
 	public String getCurrencyInformation(String countryname)
 	{
-		//TODO: Zwracaæ info o walucie danego pañstwa
-		return null;
+		CountryInformation countryInformation = new CountryInformation(countryname, "http://www.polakzagranica.msz.gov.pl" + CountriesList.getCountryHtmlsPosition(setCityList(countryname)));  
+		CurrencyInformation currencyInformation = new CurrencyInformation(countryInformation);
+		return currencyInformation.getCurrencyInformationHtml().toString();
+	}
+	
+	private int setCityList(String countryname)
+	{
+		int num = -1;
+		List<String> countrylist = DatabaseHandlerCommon.getInstance().getCountriesList();
+		
+		for(int i = 0; i < countrylist.size(); i++)
+		{ 
+			if(countryname.equals(countrylist.get(i)))
+				num = i;																				
+		}	   		   
+		return num;
 	}
 }

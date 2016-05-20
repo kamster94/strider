@@ -24,6 +24,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import cWHandlers.CountryWarningsHandlerCommon;
 import countryWarnings.CountriesList;
 import countryWarnings.CountryInformation;
 import countryWarnings.CurrencyInformation;
@@ -104,10 +105,8 @@ public class ControllerAdditionalInformations implements Initializable, Clearabl
 				citybox.getSelectionModel().clearSelection();
 				citybox.getItems().setAll(DatabaseHandlerCommon.getInstance().getCities(countrybox.getSelectionModel().getSelectedIndex()));
 			
-				//TODO: Wyœwietliæ dane o pañstwie w WebView
-				//TODO: Wyœwietliæ dane o walucie w WebView
-			
-			
+				countryWebView.getEngine().loadContent(CountryWarningsHandlerCommon.getInstance().getCountryInformation(countrybox.getSelectionModel().getSelectedItem()));
+				currencyWebView.getEngine().loadContent(CountryWarningsHandlerCommon.getInstance().getCurrencyInformation(countrybox.getSelectionModel().getSelectedItem()));
 			}
 		});
 		
@@ -116,7 +115,9 @@ public class ControllerAdditionalInformations implements Initializable, Clearabl
 			@Override
 			public void changed(ObservableValue<? extends String> arg0, String arg1, String arg2) 
 			{
-				//TODO: Wyœwietliæ dane o mieœcie w WebView
+				if(citybox.getSelectionModel().isEmpty() == false)
+				cityWebView.getEngine().loadContent(CountryWarningsHandlerCommon.getInstance().getCityInformation(citybox.getSelectionModel().getSelectedItem()));
+				
 				//TODO: Wyœwietliæ dane o pogodzie w WebView
 			}
 		});

@@ -11,8 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.web.WebView?>
 
-
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="desktopGui.ControllerAdditionalInformations">
+<StackPane minHeight="400.0" minWidth="600.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="desktopGui.ControllerAdditionalInformations">
    <children>
       <VBox spacing="10.0">
          <children>
@@ -34,16 +33,12 @@
               <panes>
                 <TitledPane animated="false" text="MSZ">
                      <content>
-                        <ScrollPane prefHeight="200.0" prefWidth="200.0">
-                           <content>
-                              <WebView fx:id="countryWebView" prefHeight="200.0" prefWidth="200.0" />
-                           </content>
-                        </ScrollPane>
+                        <WebView fx:id="countryWebView" prefHeight="200.0" prefWidth="200.0" />
                      </content>
                 </TitledPane>
                 <TitledPane animated="false" text="MediaWiki">
                      <content>
-                        <ScrollPane prefHeight="200.0" prefWidth="200.0">
+                        <ScrollPane fitToWidth="true">
                            <content>
                               <WebView fx:id="cityWebView" prefHeight="200.0" prefWidth="200.0" />
                            </content>
@@ -52,7 +47,7 @@
                 </TitledPane>
                 <TitledPane animated="false" text="Weather">
                      <content>
-                        <ScrollPane prefHeight="200.0" prefWidth="200.0">
+                        <ScrollPane fitToWidth="true">
                            <content>
                               <WebView fx:id="weatherWebView" prefHeight="200.0" prefWidth="200.0" />
                            </content>
@@ -61,7 +56,7 @@
                 </TitledPane>
                   <TitledPane prefHeight="200.0" prefWidth="200.0" text="Currency">
                      <content>
-                        <ScrollPane prefHeight="200.0" prefWidth="200.0">
+                        <ScrollPane fitToWidth="true">
                            <content>
                               <WebView fx:id="currencyWebView" prefHeight="200.0" prefWidth="200.0" />
                            </content>
