@@ -395,8 +395,13 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 		a_combobox_attrcurrency.setPromptText("Local currency");
 		a_textarea_notes.setPromptText("Your notes on this attraction.");
 		
+		h_textfield_zipcode.setDisable(true);
+		h_textfield_name.setDisable(true);
+		h_textfield_street.setDisable(true);
+		h_textfield_number.setDisable(true);
 		
-		
+		h_combobox_country.setPromptText("Country");
+	//	h_combobox_city
 		
 		
 	}

@@ -26,7 +26,7 @@ public class DatabaseHandlerTripAdder
 	{
 		curtravel = trav;
 	}
-
+	
 	public int pushTravelToDatabase()
 	{
 		int tripID = 0;
