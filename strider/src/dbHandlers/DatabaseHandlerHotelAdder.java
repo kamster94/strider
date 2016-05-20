@@ -11,15 +11,22 @@ import dbConnection.DbAccess;
 
 public class DatabaseHandlerHotelAdder {
 	
-	public DbAccess dbConnection;
+	private static DatabaseHandlerHotelAdder myinstance;
+	private DbAccess dbConnection;
 	private HotelDetails hotel;
 	private User user;
 	private TravelFramework travel;
 	
-	public DatabaseHandlerHotelAdder(){
+	private DatabaseHandlerHotelAdder(){
 		dbConnection = DbAccess.getInstance();
 		user = User.getInstance();
 		travel = TravelFramework.getInstance();
+	}
+	
+	public static DatabaseHandlerHotelAdder getInstance()
+	{
+		if(myinstance == null)myinstance = new DatabaseHandlerHotelAdder();
+		return myinstance;
 	}
 	
 	public void setHotel(HotelDetails hotel){
