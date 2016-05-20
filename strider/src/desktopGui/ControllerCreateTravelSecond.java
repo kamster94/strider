@@ -54,142 +54,96 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 
     @FXML
     private VBox a_vbox_country_from;
-
     @FXML
     private Button a_button_findcities;
-
     @FXML
     private VBox a_vbox_city_from;
-
     @FXML
     private TextField a_textfield_zipcode;
-
     @FXML
     private TextField a_textfield_name;
-
     @FXML
     private TextField a_textfield_street;
-
     @FXML
     private TextField a_textfieldnumber;
-
     @FXML
     private TextField a_textfield_open;
-
     @FXML
     private TextField a_textfield_closed;
-
     @FXML
     private TextField a_textfield_price;
-
     @FXML
     private TextArea a_textarea_notes;
-
     @FXML
     private ListView<String> a_listview_attractions;
-
     @FXML
     private Button a_button_add;
-
     @FXML
     private Tab tabhotel;
-
     @FXML
     private VBox h_vboxcountry;
-
     @FXML
     private VBox h_vboxcity;
-
     @FXML
     private Button h_button_findhotels;
-
     @FXML
     private TextField h_textfield_zipcode;
-
     @FXML
     private TextField h_textfield_name;
-
     @FXML
     private TextField h_textfield_street;
-
     @FXML
     private TextField h_textfield_number;
-
     @FXML
     private DatePicker h_datepicker_arrival;
-
     @FXML
     private DatePicker h_datepicker_departure;
-
     @FXML
     private TextField h_textfield_pricepernite;
-
     @FXML
     private TextArea h_textarea_notes;
-
     @FXML
     private ListView<String> h_listview_hotels;
-
     @FXML
     private ComboBox<String> h_combobox_book;
-
     @FXML
     private ComboBox<String> h_combobox_rated;
-
     @FXML
     private Tab tabtransport;
-
     @FXML
     private VBox t_vbox_countryfrom;
-
     @FXML
     private VBox t_vbox_countryto;
-
     @FXML
     private Button t_button_findcities_to;
-
     @FXML
     private VBox t_vbox_cityfrom;
-
     @FXML
     private VBox t_vbox_cityto;
-
     @FXML
     private static DatePicker t_datepicker_start;
-
     @FXML
     private TextField t_textfield_starttime;
-
     @FXML
     private DatePicker t_datepicker1;
-
     @FXML
     private TextField t_textfield_endtime;
-
     @FXML
     private TextField t_textfield_price;
-    
     @FXML
     private Button t_add1;
-    
     @FXML
     private TextArea t_textarea_notes;
-
     @FXML
     private ComboBox<String> t_combobox_transportcategory;
-
     @FXML
     private ListView<String> t_listview_companies;
-
     @FXML
     private Button t_button_add;
-
     @FXML
     private Button button_previous;
-
     @FXML
     private Button button_summary;
-    
     @FXML
     private VBox a_vbox_mycurrency;
     @FXML
@@ -215,7 +169,6 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
     private static ComboBox<String> a_comboboxmycurrency;
     @FXML
     private static ComboBox<String> a_combobox_attrcurrency;
-    
     @FXML
     private static ComboBox<String> a_combobox_countryfrom;
     @FXML

@@ -75,7 +75,7 @@ public class WindowMain extends Application
 		mainContainer.setScreen(WindowMain.SPLASH_SCREEN);
 		
 		//Nie ma sensu ³adowaæ tego ¿eby u¿ytkownik mia³ krzaka, bo i tak sie nie zaloguje skoro nie ma po³¹czenia z baz¹ ;3
-		if(DbAccess.getInstance().testConnection())
+		if(DbAccess.getInstance().testConnection() == true)
 		{
 
 		}
