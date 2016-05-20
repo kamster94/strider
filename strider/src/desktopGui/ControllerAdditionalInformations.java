@@ -104,7 +104,8 @@ public class ControllerAdditionalInformations implements Initializable, Clearabl
 				citybox.getSelectionModel().clearSelection();
 				citybox.getItems().setAll(DatabaseHandlerCommon.getInstance().getCities(countrybox.getSelectionModel().getSelectedIndex()));
 			
-			
+				//TODO: Wyœwietliæ dane o pañstwie w WebView
+				//TODO: Wyœwietliæ dane o walucie w WebView
 			
 			
 			}
@@ -115,13 +116,10 @@ public class ControllerAdditionalInformations implements Initializable, Clearabl
 			@Override
 			public void changed(ObservableValue<? extends String> arg0, String arg1, String arg2) 
 			{
-
+				//TODO: Wyœwietliæ dane o mieœcie w WebView
+				//TODO: Wyœwietliæ dane o pogodzie w WebView
 			}
 		});
-		
-		
-		
-		
 	}
 	
 	@Override

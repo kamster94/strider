@@ -78,7 +78,8 @@ public class ControllerCreateNewUser implements Initializable, ClearableScreen, 
 			public void changed(ObservableValue<? extends String> arg0, String arg1, String arg2) 
 			{
 				citybox.getSelectionModel().clearSelection();
-				citybox.getItems().setAll(DatabaseHandlerCommon.getInstance().getCities(countrybox.getSelectionModel().getSelectedIndex()));
+				int countryid = DatabaseHandlerCommon.getInstance().getCountryId(countrybox.getSelectionModel().getSelectedItem());
+				citybox.getItems().setAll(DatabaseHandlerCommon.getInstance().getCities(countryid));
 			}
 		});
 	}
@@ -121,7 +122,12 @@ public class ControllerCreateNewUser implements Initializable, ClearableScreen, 
 			if(checkInput() == 0)
 			{
 				DatabaseHandlerRegister dhr = new DatabaseHandlerRegister();
-				NewUser nu = new NewUser(textfieldusername.getText(), citybox.getSelectionModel().getSelectedIndex(), textfieldemail.getText(), countrybox.getSelectionModel().getSelectedIndex(), passwordfield.getText(), currencybox.getSelectionModel().getSelectedIndex());
+				int countryid = DatabaseHandlerCommon.getInstance().getCountryId(countrybox.getSelectionModel().getSelectedItem());
+				int cityid = DatabaseHandlerCommon.getInstance().getCityId(citybox.getSelectionModel().getSelectedItem());
+				int currencyid = DatabaseHandlerCommon.getInstance().getCurrencyId(currencybox.getSelectionModel().getSelectedItem());
+				
+	
+				NewUser nu = new NewUser(textfieldusername.getText(), cityid, textfieldemail.getText(), countryid, passwordfield.getText(), currencyid);
 				dhr.setUserCandidate(nu);
 				int dataval = dhr.verifyDataValidity();
 				

@@ -32,7 +32,6 @@
                                           <VBox fx:id="a_vbox_country_from" spacing="10.0" HBox.hgrow="ALWAYS">
                                              <children>
                                                 <Label text="Country" />
-                                                <Button fx:id="a_button_findcities" mnemonicParsing="false" text="Find cities" />
                                              </children>
                                              <padding>
                                                 <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -41,7 +40,6 @@
                                           <VBox fx:id="a_vbox_city_from" spacing="10.0" HBox.hgrow="ALWAYS">
                                              <children>
                                                 <Label text="City" />
-                                                <Button fx:id="a_button_findattractions" mnemonicParsing="false" text="Find attractions" />
                                              </children>
                                              <padding>
                                                 <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -125,19 +123,17 @@
                                                 <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                              </padding>
                                           </VBox>
-                                          <VBox spacing="10.0" HBox.hgrow="ALWAYS">
+                                          <VBox fx:id="a_vbox_mycurrency" spacing="10.0" HBox.hgrow="ALWAYS">
                                              <children>
                                                 <Label maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" text="My Currency" />
-                                                <ComboBox fx:id="a_comboboxmycurrency" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" />
                                              </children>
                                              <padding>
                                                 <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                              </padding>
                                           </VBox>
-                                          <VBox spacing="10.0">
+                                          <VBox fx:id="a_vbox_currency" spacing="10.0">
                                              <children>
                                                 <Label maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" text="Currency" />
-                                                <ComboBox fx:id="a_combobox_attrcurrency" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" />
                                              </children>
                                              <padding>
                                                 <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -147,12 +143,6 @@
                                     </HBox>
                                     <VBox spacing="10.0" VBox.vgrow="NEVER">
                                        <children>
-                                          <HBox prefHeight="100.0" prefWidth="200.0">
-                                             <children>
-                                                <Label text="Label" />
-                                                <TextField />
-                                             </children>
-                                          </HBox>
                                           <Label text="Additional notes" />
                                           <TextArea fx:id="a_textarea_notes" VBox.vgrow="ALWAYS" />
                                        </children>
@@ -190,7 +180,6 @@
                                           <VBox fx:id="h_vboxcountry" spacing="10.0" HBox.hgrow="ALWAYS">
                                              <children>
                                                 <Label text="Country" />
-                                                <Button fx:id="h_button_findcities" mnemonicParsing="false" text="Find cities" />
                                              </children>
                                              <padding>
                                                 <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -199,7 +188,6 @@
                                           <VBox fx:id="h_vboxcity" spacing="10.0" HBox.hgrow="ALWAYS">
                                              <children>
                                                 <Label text="City" />
-                                                <Button fx:id="h_button_findhotels" mnemonicParsing="false" text="Find hotels" />
                                              </children>
                                              <padding>
                                                 <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -283,19 +271,17 @@
                                                 <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                              </padding>
                                           </VBox>
-                                          <VBox spacing="10.0" HBox.hgrow="ALWAYS">
+                                          <VBox fx:id="h_vbox_mycurrency" spacing="10.0" HBox.hgrow="ALWAYS">
                                              <children>
                                                 <Label maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" text="My Currency" />
-                                                <ComboBox fx:id="h_combobox_mycurrency" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" />
                                              </children>
                                              <padding>
                                                 <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                              </padding>
                                           </VBox>
-                                          <VBox spacing="10.0" HBox.hgrow="ALWAYS">
+                                          <VBox fx:id="h_vbox_currency" spacing="10.0" HBox.hgrow="ALWAYS">
                                              <children>
                                                 <Label maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" text="Currency" />
-                                                <ComboBox fx:id="h_combobox_currency" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" />
                                              </children>
                                              <padding>
                                                 <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -350,7 +336,6 @@
                                           <VBox fx:id="t_vbox_countryfrom" spacing="10.0" HBox.hgrow="ALWAYS">
                                              <children>
                                                 <Label maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" text="From Country" />
-                                                <Button fx:id="t_button_findcities_from" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" text="Find cities" />
                                              </children>
                                              <padding>
                                                 <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -359,7 +344,6 @@
                                           <VBox fx:id="t_vbox_countryto" spacing="10.0" HBox.hgrow="ALWAYS">
                                              <children>
                                                 <Label maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" text="To Country" />
-                                                <Button fx:id="t_button_findcities_to" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" text="Find cities" />
                                              </children>
                                              <padding>
                                                 <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -450,19 +434,17 @@
                                                 <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                              </padding>
                                           </VBox>
-                                          <VBox spacing="10.0" HBox.hgrow="ALWAYS">
+                                          <VBox fx:id="t_vbox_mycurrency" spacing="10.0" HBox.hgrow="ALWAYS">
                                              <children>
                                                 <Label maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" text="My currency" />
-                                                <ComboBox fx:id="t_combobox_mycurrency" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" />
                                              </children>
                                              <padding>
                                                 <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                                              </padding>
                                           </VBox>
-                                          <VBox spacing="10.0">
+                                          <VBox fx:id="t_vbox_currency" spacing="10.0" HBox.hgrow="ALWAYS">
                                              <children>
-                                                <Label maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" text="Transport currency" />
-                                                <ComboBox fx:id="t_combobox_transportcurrency" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" />
+                                                <Label maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" text="Currency" />
                                              </children>
                                              <padding>
                                                 <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />

@@ -2,7 +2,8 @@ package Model;
 
 import java.time.LocalDate;
 
-public class Transport {
+public class Transport extends StageType
+{
 	
 	private int idCurrency;
 	private int idTransportCategory;

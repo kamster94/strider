@@ -1,6 +1,6 @@
-package travel;
+package Model;
 
-public class AttractionDetails 
+public class AttractionDetails extends StageType
 {
 	private int id_attraction;
 	private int id_country;

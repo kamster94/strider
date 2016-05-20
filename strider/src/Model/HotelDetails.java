@@ -2,7 +2,7 @@ package Model;
 
 import java.time.LocalDate;
 
-public class HotelDetails
+public class HotelDetails extends StageType
 {
 	private int id_hotel;
 	private int id_currency;
