@@ -7,7 +7,7 @@ import java.util.List;
 import Model.Travel;
 import Model.TravelFramework;
 import dbConnection.DbAccess;
-import travel.AttractionDetails;
+import Model.AttractionDetails;
 import trpClasses.Attraction;
 
 public class DatabaseHandlerAttractionAdder
