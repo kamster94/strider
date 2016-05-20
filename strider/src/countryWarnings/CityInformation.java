@@ -27,7 +27,7 @@ public class CityInformation {
 	private String cityURL;
 	public  LatLong coordinations;
 	
-	public CityInformation(String name){
+	public CityInformation(String name, boolean takeCoordinates){
 		
 		this.cityName = name;
 		
@@ -36,9 +36,10 @@ public class CityInformation {
 		String url2 =  "&gslimit=100&gsprop=type|name|&format=json";	   
 		
 		this.cityURL = url + name + url2;
+		
+		if(takeCoordinates){
+		
 		String url3 = "https://pl.wikipedia.org/wiki/" + name;
-		
-		
 		try {
 		Document document = Jsoup.connect(url3)
 				.userAgent("Mozilla/5.0 (Windows; U; WindowsNT 5.1; en-US; rv1.8.1.6) Gecko/20070725 Firefox/2.0.0.6")
@@ -56,7 +57,7 @@ public class CityInformation {
 			
 			coordinations = WindowMain.getDefaultCoordinations();
 
-		}
+		}}
 	}
 	
 	

@@ -34,7 +34,7 @@ public class CountryWarningsHandlerCommon
 	
 	public String getCityInformation(String cityname)
 	{
-		CityInformation ci = new CityInformation(cityname.replaceAll(" ", "_"));
+		CityInformation ci = new CityInformation(cityname.replaceAll(" ", "_"),false);
 		return ci.getCityInformationHtml().toString();
 	}
 	

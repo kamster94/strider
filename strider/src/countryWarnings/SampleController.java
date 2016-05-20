@@ -153,7 +153,7 @@ public class SampleController implements Initializable, ControlledScreen{
 	        	//laczenie z mediawiki w celu sciagniecia i parsowania informacji o ciekawych miejscach 
 	        	//w okolicach wybranego miasta	        	
 	
-        		cityInformation = new CityInformation(cityBox.getEditor().getText().replaceAll(" ", "_"));
+        		cityInformation = new CityInformation(cityBox.getEditor().getText().replaceAll(" ", "_"),true);
         		weatherInformation = new WeatherInformation(cityInformation);
         		
         		StringBuilder cityInformationString = cityInformation.getCityInformationHtml();
