@@ -19,6 +19,8 @@ import org.jsoup.select.Elements;
 
 import com.lynden.gmapsfx.javascript.object.LatLong;
 
+import desktopGui.WindowMain;
+
 public class CityInformation {
 	
 	public String cityName;
@@ -52,7 +54,7 @@ public class CityInformation {
 		
 		} catch (Exception e) {
 			
-			coordinations = new LatLong(52.232222, 21.008333);
+			coordinations = WindowMain.getDefaultCoordinations();
 
 		}
 	}

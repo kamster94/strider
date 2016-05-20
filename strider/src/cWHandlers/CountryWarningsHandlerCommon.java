@@ -34,8 +34,8 @@ public class CountryWarningsHandlerCommon
 	
 	public String getCityInformation(String cityname)
 	{
-		CityInformation.getInstance().setCityName(cityname.replaceAll(" ", "_"));
-		return CityInformation.getInstance().getCityInformationHtml().toString();
+		CityInformation ci = new CityInformation(cityname.replaceAll(" ", "_"));
+		return ci.getCityInformationHtml().toString();
 	}
 	
 	public String getWeatherInformation(String cityname)

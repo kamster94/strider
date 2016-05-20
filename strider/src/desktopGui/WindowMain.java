@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
+
+import com.lynden.gmapsfx.javascript.object.LatLong;
+
 import countryWarnings.AutoCompleteComboBoxListener;
 import dbConnection.DbAccess;
 import dbHandlers.DatabaseHandlerCommon;
@@ -106,6 +109,12 @@ public class WindowMain extends Application
 		
 		mystage = primaryStage;
 	}
+	
+	public static LatLong getDefaultCoordinations()
+	{
+		return new LatLong(52.232222, 21.008333);
+	}
+	
 	
 	public static ComboBox<String> getCityBox()
 	{
