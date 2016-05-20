@@ -116,8 +116,7 @@ public class SampleController implements Initializable, ControlledScreen{
 		countryBox.setLayoutX(37);
 		countryBox.setLayoutY(40);
 		countryBox.setPrefWidth(190);
-		
-		
+				
 		cityBox = new ComboBox();	
 		new AutoCompleteComboBoxListener(cityBox);
 		cityBox.setLayoutX(490);
@@ -125,10 +124,7 @@ public class SampleController implements Initializable, ControlledScreen{
 		cityBox.setPrefWidth(190);
 		
 
-		pane.getChildren().addAll(countryBox, cityBox);
-		
-		
-		
+		pane.getChildren().addAll(countryBox, cityBox);		
 		showMapBttn.setDisable(true);
 		
 		findCountryButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -165,7 +161,7 @@ public class SampleController implements Initializable, ControlledScreen{
         		
         		cityWebView.getEngine().loadContent(cityInformationString.toString());  	
         		weatherWebView.getEngine().loadContent(weatherInformationString.toString());
-        		
+        		        		
         		showMapBttn.setDisable(false);
 	        }
 	    });
@@ -174,7 +170,8 @@ public class SampleController implements Initializable, ControlledScreen{
 		showMapBttn.setOnAction(new EventHandler<ActionEvent>() {
 	        @Override
 	        public void handle(ActionEvent arg0) {
-	        myController.setScreen(Main.MAP);        		       	        	
+	        myController.setScreen(Main.MAP);        	
+	        MapController.map.setCenter(cityInformation.coordinations);
 	        }
 	    });
 

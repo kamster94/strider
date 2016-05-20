@@ -36,7 +36,10 @@ public class MapController implements Initializable, ControlledScreen, MapCompon
 
 	ScreensController myController; 
     
-	@FXML
+    @FXML
+    private BorderPane pane;
+
+    @FXML
     private ToolBar toolBar;
 
     @FXML
@@ -52,10 +55,10 @@ public class MapController implements Initializable, ControlledScreen, MapCompon
     private Button findButton;
 
     @FXML
-    private TextField distaneTextField;
-    
+    private TextField distanceTextField;
+
     @FXML
-    private BorderPane pane;
+    private Button goToResultsButton;
     
     public static  MapOptions mapOptions;
     public static GoogleMapView mapView;
@@ -63,6 +66,7 @@ public class MapController implements Initializable, ControlledScreen, MapCompon
 	protected DirectionsPane directions;
 	protected DirectionsService ds;
 	protected DirectionsRequest dr;
+	
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) 
@@ -73,12 +77,14 @@ public class MapController implements Initializable, ControlledScreen, MapCompon
 		pane.setCenter(mapView);
 		
 		
+		
 		findButton.setOnAction(new EventHandler<ActionEvent>() 
 		{@Override
 	        public void handle(ActionEvent arg0) 
 	        {
+	  
+	        	selectRoute();   
 	        	
-	        	selectRoute();   	
 	        }
 	    });
 
@@ -91,15 +97,24 @@ public class MapController implements Initializable, ControlledScreen, MapCompon
 	        }
 	    });    
 		
+		goToResultsButton.setOnAction(new EventHandler<ActionEvent>() 
+		{
+	        @Override
+	        public void handle(ActionEvent arg0) 
+	        {        	
+	        	 myController.setScreen(Main.RESULTS); 	
+	        }
+	    });
+		
 	}
 
 	public void selectRoute()
-	{
+	{   
 		map = mapView.createMap(mapOptions);	                	
         directions = mapView.getDirec();	       	    
        	ds = new DirectionsService();
+       	
         renderer = new DirectionsRenderer(true, map, directions);
-
           try{     
                dr = new DirectionsRequest(   
             		   fromTextField.getText(),
@@ -119,7 +134,7 @@ public class MapController implements Initializable, ControlledScreen, MapCompon
 	{
 	    //Set the initial properties of the map.
 	    mapOptions = new MapOptions();       
-	    mapOptions.center(new LatLong(52.1356, 21.0030))
+	    mapOptions.center(new LatLong(52.232222, 21.008333))
 	            .mapType(MapTypeIdEnum.ROADMAP)
 	            .overviewMapControl(false)
 	            .panControl(false)
@@ -147,7 +162,7 @@ public class MapController implements Initializable, ControlledScreen, MapCompon
 		List<DirectionsRoute> lista = results.getRoutes();
 		List<DirectionsLeg> lista2 = lista.get(0).getLegs();
 	   
-        distaneTextField.setText(lista2.get(0).getDistance().getText());
+        distanceTextField.setText(lista2.get(0).getDistance().getText());
 		System.out.println("lol");
 	}
 

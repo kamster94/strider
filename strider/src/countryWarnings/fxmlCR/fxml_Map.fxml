@@ -13,7 +13,8 @@
             <TextField fx:id="fromTextField" />
             <TextField fx:id="toTextField" />
             <Button fx:id="findButton" mnemonicParsing="false" text="Znajdź" />
-            <TextField fx:id="distaneTextField" />
+            <TextField fx:id="distanceTextField" />
+            <Button fx:id="goToResultsButton" mnemonicParsing="false" text="Rezultaty" />
         </items>
       </ToolBar>
    </top>

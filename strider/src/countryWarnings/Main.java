@@ -25,9 +25,10 @@ public class Main extends Application{
 	 public static final String WARNINGS_FXML = "/countryWarnings/fxmlCR/fxml_Sample.fxml"; 
 		
 	 public static final String MAP = "map";
-     public static final String MAP_FXML = "/countryWarnings/fxmlCR/fxml_map.fxml"; 
+     public static final String MAP_FXML = "/countryWarnings/fxmlCR/fxml_Map.fxml"; 
 	
-	 
+	 public static final String RESULTS = "results";
+     public static final String RESULTS_FXML = "/countryWarnings/fxmlCR/fxml_RouteResults.fxml"; 	 
 	 
 	@Override	
 	public void start(Stage primaryStage) {
@@ -37,6 +38,7 @@ public class Main extends Application{
 	    
 	    mainContainer.loadScreen(Main.WARNINGS, Main.WARNINGS_FXML);
 		mainContainer.loadScreen(Main.MAP, Main.MAP_FXML);		
+		mainContainer.loadScreen(Main.RESULTS, Main.RESULTS_FXML);		
 		mainContainer.setScreen(Main.WARNINGS);
 						
 		root = new StackPane();

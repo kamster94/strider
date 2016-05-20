@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.web.WebView?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="599.0" prefWidth="1115.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="countryWarnings.ResultsController">
+   <children>
+      <TextField fx:id="litersPerHourTextField" layoutX="60.0" layoutY="63.0" />
+      <Label fx:id="instructionLabel" layoutX="60.0" layoutY="34.0" prefHeight="17.0" prefWidth="278.0" text="Podaj średnią liczbę spalanej benzyny na godzinę:" />
+      <Button fx:id="okButton" layoutX="237.0" layoutY="63.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="55.0" text="OK" />
+      <WebView fx:id="resultsWebView" layoutX="60.0" layoutY="128.0" prefHeight="395.0" prefWidth="506.0" />
+      <Button fx:id="warningsBackButton" layoutX="514.0" layoutY="63.0" mnemonicParsing="false" text="wróć" />
+      <Button fx:id="mapBackButton" layoutX="746.0" layoutY="63.0" mnemonicParsing="false" text="wróć" />
+      <Label fx:id="warnigsBackLabel" layoutX="401.0" layoutY="67.0" text="Wróć do ostrzeżeń" />
+      <Label fx:id="mapBackLabel" layoutX="653.0" layoutY="67.0" text="Wróć do mapy" />
+   </children>
+</AnchorPane>

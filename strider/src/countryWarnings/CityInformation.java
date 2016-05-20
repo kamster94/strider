@@ -32,14 +32,13 @@ public class CityInformation {
     	
 		String url = "https://pl.wikipedia.org/w/api.php?action=query&list=geosearch&gsradius=10000&gspage=";
 		String url2 =  "&gslimit=100&gsprop=type|name|&format=json";	   
-		url += name;
-		url += url2;
 		
-		this.cityURL = url;
-		url = "https://pl.wikipedia.org/wiki/" + name;
+		this.cityURL = url + name + url2;
+		String url3 = "https://pl.wikipedia.org/wiki/" + name;
+		
 		
 		try {
-		Document document = Jsoup.connect(url)
+		Document document = Jsoup.connect(url3)
 				.userAgent("Mozilla/5.0 (Windows; U; WindowsNT 5.1; en-US; rv1.8.1.6) Gecko/20070725 Firefox/2.0.0.6")
 				.referrer("http://www.google.com")		
 				.get();
@@ -51,14 +50,10 @@ public class CityInformation {
 												 Double.parseDouble(elems2.get(1).text().replaceAll(",",".")));
 			
 		
-		} catch (IndexOutOfBoundsException e1) {
+		} catch (Exception e) {
 			
 			coordinations = new LatLong(52.232222, 21.008333);
-			
-	//		e1.printStackTrace();  //do obsluzenia w razie braku wspolrzednych na wikipedii
-			
-		 } catch (Exception e) {
-			e.printStackTrace();
+
 		}
 	}
 	
