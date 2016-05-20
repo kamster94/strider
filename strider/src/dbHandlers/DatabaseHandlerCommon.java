@@ -45,6 +45,7 @@ public class DatabaseHandlerCommon {
 	
 	public String getCurrencyNameForGivenCountry(int countryId)
 	{
-		return null;
+		int currencyId = dbConnection.getIntFromDb("SELECT IDCurrency FROM DBA.CountrysCurrency WHERE IDCountry = '" + countryId + "'");
+		return dbConnection.getSingeStringFromDb("SELECT CurrencyShortcut FROM DBA.Currency WHERE IDCurrency = " + currencyId, "CurrencyShortcut");
 	}
 }
