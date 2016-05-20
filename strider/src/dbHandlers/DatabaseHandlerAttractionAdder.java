@@ -16,7 +16,7 @@ public class DatabaseHandlerAttractionAdder
 	private AttractionDetails attr;
 	private static String pushSql = "CALL DBA.fAddAttractionDetails(";
 	
-	DatabaseHandlerAttractionAdder(){
+	public DatabaseHandlerAttractionAdder(){
 		dbConnection = DbAccess.getInstance();
 	}
 	
