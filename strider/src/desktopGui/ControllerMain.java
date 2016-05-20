@@ -89,6 +89,7 @@ public class ControllerMain implements Initializable, ControlledScreen, EventHan
 		{
 			System.out.println("KEK");
 			myController.setScreen(WindowMain.ADDINFO_SCREEN);
+			ControllerAdditionalInformations.lateInitialize();
 		}
 		else if(arg0.getSource() == button_viewcurtravel)
 		{

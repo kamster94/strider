@@ -79,6 +79,11 @@ public class ControllerAdditionalInformations implements Initializable, Clearabl
     private static int checkForMatchingCountry;  
 	private static int num;
 	
+	public static void lateInitialize()
+	{
+
+	}
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) 
 	{

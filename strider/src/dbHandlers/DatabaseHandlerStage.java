@@ -41,11 +41,13 @@ public class DatabaseHandlerStage
 		return stagetype;
 	}
 	
+	/*
 	public Stage getStage(int stageid)
 	{
 		Stage stg;
 		
 	}
+	*/
 	
 	public AttractionDetails getAttractionDetails(int idtrip, int idstage)
 	{
