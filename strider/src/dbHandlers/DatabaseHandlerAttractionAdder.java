@@ -12,20 +12,27 @@ import trpClasses.Attraction;
 
 public class DatabaseHandlerAttractionAdder
 {
-	private DbAccess dbConnection;
-	private AttractionDetails attr;
+	private static DatabaseHandlerAttractionAdder myinstance;
+	private static DbAccess dbConnection;
+	private static AttractionDetails attr;
 	private static String pushSql = "CALL DBA.fAddAttractionDetails(";
 	
-	public DatabaseHandlerAttractionAdder(){
+	private DatabaseHandlerAttractionAdder(){
 		dbConnection = DbAccess.getInstance();
 	}
 	
-	public void setAttraction(AttractionDetails trav)
+	public static DatabaseHandlerAttractionAdder getInstance()
+	{
+		if(myinstance == null)myinstance = new DatabaseHandlerAttractionAdder();
+		return myinstance;
+	}
+	
+	public static void setAttraction(AttractionDetails trav)
 	{
 		attr = trav;
 	}
 
-	public int pushAttractionToDatabase()
+	public static int pushAttractionToDatabase()
 	{
 		int attractionID = 0;
 
@@ -39,7 +46,7 @@ public class DatabaseHandlerAttractionAdder
 		return attractionID;
 		}
 	
-	public List<String> getAttractions(int cityId, int countryId){
+	public static List<String> getAttractions(int cityId, int countryId){
 		return dbConnection.getStringsFromDb("SELECT * FROM DBA.Attraction WHERE IDCity = " + cityId + " AND IDCountry = " + countryId, Arrays.asList("AttractionName"));
 	}
 }
