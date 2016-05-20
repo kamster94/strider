@@ -192,6 +192,25 @@ public class DbAccess{
 		}
 	}
 	
+	public float getFloatFromDb(String sql){
+		try {
+			connectToDb();
+			PreparedStatement statement = connection.prepareStatement(sql);
+	        ResultSet result = statement.executeQuery();
+	        float value = -1;
+	        if (result.next()) {
+	    		value = result.getFloat(1);
+	        }
+	        result.close();
+	        statement.close();
+	        connection.close();
+	        return value;
+		} catch (SQLException | NullPointerException e) {
+			connectionLogger.log(Level.SEVERE, e.toString());
+			return -1;
+		}
+	}
+	
 	public String getSingeStringFromDb(String sql, String wiersz){
 		try {
 			connectToDb();
