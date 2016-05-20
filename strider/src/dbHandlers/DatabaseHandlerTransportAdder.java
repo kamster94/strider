@@ -44,8 +44,14 @@ public class DatabaseHandlerTransportAdder {
 		return dbConnection.getStringsFromDb("SELECT TransportName FROM DBA.Transport WHERE IDTransportCategory = " + category, Arrays.asList("TransportName"));	
 	}
 	
+	public List<String> getCategories(){
+		return dbConnection.getStringsFromDb("SELECT TransportCategoryName FROM DBA.TransportCategory", Arrays.asList("TransportCategoryName"));	
+	}
+	
 	public int getCategoryId(String name){
-		return dbConnection.getIntFromDb("SELECT IDTransportCategory FROM DBA.Transport WHERE TransportName = '" + name + "'");
+		//return dbConnection.getIntFromDb("SELECT IDTransportCategory FROM DBA.Transport WHERE TransportName = '" + name + "'");
+		//Fixed: Chappi
+		return dbConnection.getIntFromDb("SELECT IDTransportCategory FROM DBA.TransportCategory WHERE TransportCategoryName = '" + name + "'");
 	}
 	
 	public int getTransportId(String name){
