@@ -83,6 +83,14 @@ public class ControllerCreateNewUser implements Initializable, ClearableScreen, 
 				citybox.getItems().setAll(DatabaseHandlerCommon.getInstance().getCities(countryid));
 			}
 		});
+		
+		textfieldusername.setPromptText("Username");
+		textfieldemail.setPromptText("default@email.com");
+		passwordfield.setPromptText("Password");
+		passwordfieldrepeat.setPromptText("Repeat password");
+		countrybox.setPromptText("Country");
+		citybox.setPromptText("City");
+		currencybox.setPromptText("Currency");
 	}
 
 	public int checkInput()

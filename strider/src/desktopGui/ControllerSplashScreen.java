@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
@@ -34,6 +35,8 @@ public class ControllerSplashScreen implements Initializable, ClearableScreen, C
     private Button buttonlogin;
     @FXML
     private Button buttoncreatenewaccount;
+    @FXML
+    private Label labelkektext;
     
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) 
@@ -43,6 +46,11 @@ public class ControllerSplashScreen implements Initializable, ClearableScreen, C
 		
 		buttonlogin.setOnAction(this);
 		buttoncreatenewaccount.setOnAction(this);
+		
+		textfieldemail.setPromptText("default@email.com");
+		passwordfieldpassword.setPromptText("Password");
+		
+		labelkektext.setText("\"This is the best thing since sliced bread.\" - George W. Bush");
 	}
 	
 	@Override

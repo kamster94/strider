@@ -28,6 +28,11 @@ public class DatabaseHandlerTransportAdder {
 		return myinstance;
 	}
 	
+	public void setTransportDetails(TransportDetails td)
+	{
+		transport = td;
+	}
+	
 	public boolean pushTransportDetails(){
 		String sql = "SELECT DBA.fAddTransportDetails (" + user.getId() + ", " + travel.getCurrentTravel().getId() + ", "
 				+ transport.getIdCurrency() + ", " + transport.getIdTransportCategory() + ", " + transport.getIdTransport() + ", " + transport.getIdCountryArrival() + ", "

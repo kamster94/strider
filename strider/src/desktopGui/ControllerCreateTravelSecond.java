@@ -12,7 +12,7 @@ import java.util.Arrays;
 import java.util.ResourceBundle;
 
 import org.jsoup.nodes.Document;
-
+import Model.TransportDetails;
 import Model.AttractionDetails;
 import Model.HotelDetails;
 import Model.Travel;
@@ -124,7 +124,7 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
     @FXML
     private VBox t_vbox_cityto;
     @FXML
-    private static DatePicker t_datepicker_start;
+    private DatePicker t_datepicker_start;
     @FXML
     private TextField t_textfield_starttime;
     @FXML
@@ -367,15 +367,38 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 				t_combobox_city_to.getItems().setAll(DatabaseHandlerCommon.getInstance().getCities(countryid));
 			}
 		});
-
-
-		
 		
 		a_button_add.setOnAction(this);
 		h_button_add.setOnAction(this);
 		t_button_add.setOnAction(this);
 		button_previous.setOnAction(this);
 		button_summary.setOnAction(this);
+		
+		a_textfield_zipcode.setDisable(true);
+		a_textfield_name.setDisable(true);
+		a_textfield_street.setDisable(true);
+		a_textfieldnumber.setDisable(true);
+		a_textfield_open.setDisable(true);
+		a_textfield_closed.setDisable(true);
+		//a_combobox_attrcurrency.setDisable(true);
+		
+		a_combobox_countryfrom.setPromptText("Country");
+		a_combobox_cityfrom.setPromptText("City");
+		a_textfield_zipcode.setPromptText("Zip code");
+		a_textfield_name.setPromptText("Attraction name");
+		a_textfield_street.setPromptText("Street");
+		a_textfieldnumber.setPromptText("Number");
+		a_textfield_open.setPromptText("Open from");
+		a_textfield_closed.setPromptText("Closed at");
+		a_textfield_price.setPromptText("Attraction price");
+		a_comboboxmycurrency.setPromptText("My currency");
+		a_combobox_attrcurrency.setPromptText("Local currency");
+		a_textarea_notes.setPromptText("Your notes on this attraction.");
+		
+		
+		
+		
+		
 	}
 	
 	private boolean acheckInputCompletion()
@@ -519,8 +542,35 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 		{
 			if(tcheckInputCompletion() == true)
 			{
+				int idcurrency = DatabaseHandlerCommon.getInstance().getCurrencyId(t_combobox_transportcurrency.getSelectionModel().getSelectedItem());
+				int idtransportcategory = DatabaseHandlerTransportAdder.getInstance().getCategoryId(t_combobox_transportcategory.getSelectionModel().getSelectedItem());
+				int idtransport = DatabaseHandlerTransportAdder.getInstance().getTransportId(t_listview_companies.getSelectionModel().getSelectedItem());
+				int idcountrytarget = DatabaseHandlerCommon.getInstance().getCountryId(t_combobox_country_to.getSelectionModel().getSelectedItem());
+				int idcitytarget = DatabaseHandlerCommon.getInstance().getCityId(t_combobox_city_to.getSelectionModel().getSelectedItem());
+				int idcountryorigin = DatabaseHandlerCommon.getInstance().getCountryId(t_combobox_country_from.getSelectionModel().getSelectedItem());
+				int idcityorigin = DatabaseHandlerCommon.getInstance().getCityId(t_combobox_city_from.getSelectionModel().getSelectedItem());
+		
+
+				TransportDetails tdetails = new TransportDetails(idcurrency, idtransportcategory, idtransport, idcountrytarget, idcitytarget, idcountryorigin, idcityorigin, t_datepicker_start.getValue(), t_datepicker_end.getValue(), Integer.parseInt(t_textfield_price.getText()), "dummy link", t_textarea_notes.getText());
+				DatabaseHandlerTransportAdder.getInstance().setTransportDetails(tdetails);
+				boolean transportaddstatus = DatabaseHandlerTransportAdder.getInstance().pushTransportDetails();
 				
-			//	TransportDetails tdetails = new TransportDetails();
+				if(transportaddstatus == true)
+				{
+					Alert alert = new Alert(AlertType.INFORMATION);
+					alert.setTitle("New transport added");
+					alert.setHeaderText(null);
+					alert.setContentText("Transport added succesfully!");
+					alert.showAndWait();
+				}
+				else 
+				{
+					Alert alert = new Alert(AlertType.INFORMATION);
+					alert.setTitle("Couldn't add new transport");
+					alert.setHeaderText(null);
+					alert.setContentText("SQL or Database error!");
+					alert.showAndWait();
+				}
 			}
 			else
 			{
