@@ -439,21 +439,31 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 		{
 			if(acheckInputCompletion() == true)
 			{
-				AttractionDetails ad = new AttractionDetails(a_listview_attractions.getSelectionModel().getSelectedIndex(), a_combobox_countryfrom.getSelectionModel().getSelectedIndex(), a_combobox_cityfrom.getSelectionModel().getSelectedIndex(), a_combobox_attrcurrency.getSelectionModel().getSelectedIndex(), Integer.parseInt(a_textfield_price.getText()), a_textarea_notes.getText());
-				DatabaseHandlerAttractionAdder.getInstance().setAttraction(ad);
-				DatabaseHandlerAttractionAdder.getInstance().pushAttractionToDatabase();
-				
-				ad = null;
-		
-				
-				Alert alert = new Alert(AlertType.INFORMATION);
-				alert.setTitle("New attraction added");
-				alert.setHeaderText(null);
-				alert.setContentText("Attraction added succesfully!");
+				int countryid = DatabaseHandlerCommon.getInstance().getCountryId(a_combobox_countryfrom.getSelectionModel().getSelectedItem());
+				int cityid = DatabaseHandlerCommon.getInstance().getCityId(a_combobox_cityfrom.getSelectionModel().getSelectedItem());
+				int currencyid = DatabaseHandlerCommon.getInstance().getCurrencyId(a_combobox_attrcurrency.getSelectionModel().getSelectedItem());
+				int attractionid = DatabaseHandlerAttractionAdder.getInstance().getAttractionId(cityid, a_listview_attractions.getSelectionModel().getSelectedItem());
 
-				alert.showAndWait();
-				
-				
+				AttractionDetails ad = new AttractionDetails(attractionid, countryid, cityid, currencyid, Integer.parseInt(a_textfield_price.getText()), a_textarea_notes.getText());
+				DatabaseHandlerAttractionAdder.getInstance().setAttraction(ad);
+				boolean attractionaddstatus = DatabaseHandlerAttractionAdder.getInstance().pushAttractionToDatabase();
+
+				if(attractionaddstatus == true)
+				{
+					Alert alert = new Alert(AlertType.INFORMATION);
+					alert.setTitle("New attraction added");
+					alert.setHeaderText(null);
+					alert.setContentText("Attraction added succesfully!");
+					alert.showAndWait();
+				}
+				else
+				{
+					Alert alert = new Alert(AlertType.INFORMATION);
+					alert.setTitle("Couldn't add new attraction");
+					alert.setHeaderText(null);
+					alert.setContentText("SQL or Database error!");
+					alert.showAndWait();
+				}
 			}
 			else
 			{
@@ -491,7 +501,7 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 					Alert alert = new Alert(AlertType.INFORMATION);
 					alert.setTitle("Couldn't add new hotel");
 					alert.setHeaderText(null);
-					alert.setContentText("Database error!");
+					alert.setContentText("SQL or Database error!");
 					alert.showAndWait();
 				}
 			}

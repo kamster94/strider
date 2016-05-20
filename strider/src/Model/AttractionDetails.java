@@ -9,8 +9,9 @@ public class AttractionDetails extends StageType
 	private float price;
 	private String notes;
 	
-	public AttractionDetails(int id_attraction, int id_countryx, int id_cityx, int id_currencyx, float pricex, String notesx) 
+	public AttractionDetails(int id_attractionx, int id_countryx, int id_cityx, int id_currencyx, float pricex, String notesx) 
 	{
+		id_attraction = id_attractionx;
 		id_country = id_countryx;
 		id_city = id_cityx;
 		id_currency = id_currencyx;

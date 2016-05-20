@@ -6,6 +6,7 @@ import java.util.List;
 
 import Model.Travel;
 import Model.TravelFramework;
+import Model.User;
 import dbConnection.DbAccess;
 import Model.AttractionDetails;
 import trpClasses.Attraction;
@@ -15,8 +16,7 @@ public class DatabaseHandlerAttractionAdder
 	private static DatabaseHandlerAttractionAdder myinstance;
 	private static DbAccess dbConnection;
 	private static AttractionDetails attr;
-	private static String pushSql = "CALL DBA.fAddAttractionDetails(";
-	
+
 	private DatabaseHandlerAttractionAdder(){
 		dbConnection = DbAccess.getInstance();
 	}
@@ -32,19 +32,21 @@ public class DatabaseHandlerAttractionAdder
 		attr = trav;
 	}
 
-	public int pushAttractionToDatabase()
+	public boolean pushAttractionToDatabase()
 	{
-		int attractionID = 0;
-
-		boolean addstatus = dbConnection.pushToDb(pushSql + "1, " + TravelFramework.getInstance().getCurrentTravel().getId() + "," + attr.getAttractionId() + "," + attr.getCountryId()
-				 + "," + attr.getCityId()  + "," + attr.getCountryId()  + "," + attr.getCityId()  + "," + attr.getCurrencyId()
-				 + "," +  attr.getPrice()  + ",'" + attr.getNotes() + "')");
-
-			
-		System.out.println(addstatus);
+		boolean addstatus = dbConnection.pushToDb("CALL DBA.fAddAttractionDetails(" + User.getInstance().getId() + 
+				"," + TravelFramework.getInstance().getCurrentTravel().getId() + "," + attr.getAttractionId() + 
+				"," + attr.getCountryId() + "," + attr.getCityId()  + "," + attr.getCountryId()  + 
+				"," + attr.getCityId()  + "," + attr.getCurrencyId() +
+				"," +  attr.getPrice()  + ",'" + attr.getNotes() + "')");
 		
-		return attractionID;
-		}
+		return addstatus;
+	}
+	
+	public int getAttractionId(int cityid, String name)
+	{
+		return dbConnection.getIntFromDb("SELECT IDAttraction FROM DBA.Attraction WHERE IDCity = " + cityid + " AND AttractionName = '" + name + "'");
+	}
 	
 	public List<String> getAttractions(int cityId, int countryId){
 		return dbConnection.getStringsFromDb("SELECT * FROM DBA.Attraction WHERE IDCity = " + cityId + " AND IDCountry = " + countryId, Arrays.asList("AttractionName"));
