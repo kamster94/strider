@@ -593,6 +593,7 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 		else if(event.getSource() == button_summary)
 		{
 			myController.setScreen(WindowMain.TRAVEL_SUMMARY);
+			ControllerTravelSummary.lateInitialize(0);
 		}
 	}
 }

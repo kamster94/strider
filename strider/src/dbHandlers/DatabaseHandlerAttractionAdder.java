@@ -48,6 +48,12 @@ public class DatabaseHandlerAttractionAdder
 		return dbConnection.getIntFromDb("SELECT IDAttraction FROM DBA.Attraction WHERE IDCity = " + cityid + " AND AttractionName = '" + name + "'");
 	}
 	
+	public String getAttractionName(int cityid, int attrid)
+	{
+		return dbConnection.getSingeStringFromDb("SELECT AttractionName FROM DBA.Attraction WHERE IDCity = " + cityid + " AND IDAttraction = " + attrid, "AttractionName");
+				
+	}
+	
 	public List<String> getAttractions(int cityId, int countryId){
 		return dbConnection.getStringsFromDb("SELECT * FROM DBA.Attraction WHERE IDCity = " + cityId + " AND IDCountry = " + countryId, Arrays.asList("AttractionName"));
 	}

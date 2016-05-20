@@ -7,36 +7,14 @@ public class Stage
 	private int id_city_start;
 	private int id_country_end;
 	private int id_city_end;
-	private StageType stype;
 	
-	public Stage() 
-	{
-		// TODO Auto-generated constructor stub
-	}
-
-	public void setId(int idx)
+	public Stage(int idx, int id_country_startx, int id_city_startx, int id_country_endx, int id_city_endx) 
 	{
 		id = idx;
-	}
-	public void setStartCountryId(int idx)
-	{
-		id_country_start = idx;
-	}
-	public void setStartCityId(int idx)
-	{
-		id_city_start = idx;
-	}
-	public void setEndCountryId(int idx)
-	{
-		id_country_end = idx;
-	}
-	public void setEndCityId(int idx)
-	{
-		id_city_end = idx;
-	}
-	public void setStageType(StageType stypex)
-	{
-		stype = stypex;
+		id_country_start = id_country_startx;
+		id_city_start = id_city_startx;
+		id_country_end = id_country_endx;
+		id_city_end = id_city_endx;
 	}
 	
 	public int getId()
@@ -58,9 +36,5 @@ public class Stage
 	public int getEndCityId()
 	{
 		return id_city_end;
-	}
-	public StageType getStageType()
-	{
-		return stype;
 	}
 }

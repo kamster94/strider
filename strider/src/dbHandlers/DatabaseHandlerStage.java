@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import Model.AttractionDetails;
 import dbConnection.DbAccess;
 
 public class DatabaseHandlerStage 
@@ -32,4 +33,32 @@ public class DatabaseHandlerStage
 
 		return stageids;
 	}
+	
+	public int getStageType(int iduser, int idtravel, int idstage)
+	{
+		String sql = "SELECT DBA.fGetStageState(" + iduser + "," + idtravel + "," + idstage +")";
+		int stagetype = dbConnection.getIntFromDb(sql);
+		return stagetype;
+	}
+	
+	public Stage getStage(int stageid)
+	{
+		Stage stg;
+		
+	}
+	
+	public AttractionDetails getAttractionDetails(int idtrip, int idstage)
+	{
+		AttractionDetails attraction;
+		int id_attraction = dbConnection.getIntFromDb("SELECT IDAttraction FROM DBA.AttractionDetail WHERE IDStage = " + idstage + " AND IDTrip = " + idtrip);
+		int id_currency = dbConnection.getIntFromDb("SELECT IDCurrency FROM DBA.AttractionDetail WHERE IDStage = " + idstage + " AND IDTrip = " + idtrip);
+		int id_country = dbConnection.getIntFromDb("SELECT IDCountry FROM DBA.AttractionDetail WHERE IDStage = " + idstage + " AND IDTrip = " + idtrip);
+		int id_city = dbConnection.getIntFromDb("SELECT IDCity FROM DBA.AttractionDetail WHERE IDStage = " + idstage + " AND IDTrip = " + idtrip);
+		float price = dbConnection.getFloatFromDb("SELECT AttractionPrice FROM DBA.AttractionDetail WHERE IDStage = " + idstage + " AND IDTrip = " + idtrip);
+		String notes = dbConnection.getSingeStringFromDb("SELECT AttractionNotes FROM DBA.AttractionDetail WHERE IDStage = " + idstage + " AND IDTrip = " + idtrip, "AttractionNotes");
+		
+		attraction = new AttractionDetails(id_attraction, id_country, id_city, id_currency, price, notes);
+		return attraction;
+	}
+	
 }

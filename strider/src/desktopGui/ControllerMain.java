@@ -73,6 +73,7 @@ public class ControllerMain implements Initializable, ControlledScreen, EventHan
 		button_createtravel.setGraphic(newtravelico);
 		buttonoptions.setOnAction(this);
 		buttonoptions.setGraphic(optionsico);
+		button_viewcurtravel.setOnAction(this);
 	}
 	
 	@Override
@@ -88,6 +89,11 @@ public class ControllerMain implements Initializable, ControlledScreen, EventHan
 		{
 			System.out.println("KEK");
 			myController.setScreen(WindowMain.ADDINFO_SCREEN);
+		}
+		else if(arg0.getSource() == button_viewcurtravel)
+		{
+			myController.setScreen(WindowMain.TRAVEL_SUMMARY);
+			ControllerTravelSummary.lateInitialize(1);
 		}
 		else if(arg0.getSource() == button_createtravel)
 		{
