@@ -77,6 +77,10 @@ public class MapController implements Initializable, ControlledScreen, MapCompon
 	public void initialize(URL arg0, ResourceBundle arg1) 
 	{
 		
+		fromTextField.setPromptText("lokacja startowa");
+		toTextField.setPromptText("lokacja docelowa");
+		distanceTextField.setPromptText("odleg³oœæ");
+		
 		mapView = new GoogleMapView();
 		mapView.addMapInializedListener(this);		
 		pane.setCenter(mapView);
