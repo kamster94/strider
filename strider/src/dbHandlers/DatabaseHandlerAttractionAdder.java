@@ -9,7 +9,6 @@ import Model.TravelFramework;
 import Model.User;
 import dbConnection.DbAccess;
 import Model.AttractionDetails;
-import trpClasses.Attraction;
 
 public class DatabaseHandlerAttractionAdder
 {

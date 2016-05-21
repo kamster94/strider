@@ -8,7 +8,6 @@ import Model.Travel;
 import Model.User;
 import dbConnection.DbAccess;
 import Model.AttractionDetails;
-import trpClasses.Trip;
 
 public class DatabaseHandlerTripAdder 
 {
