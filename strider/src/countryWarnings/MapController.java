@@ -115,13 +115,11 @@ public class MapController implements Initializable, ControlledScreen, MapCompon
 
 	public void selectRoute()
 	{   
-		
-		
 		map = mapView.createMap(mapOptions);	                	
         directions = mapView.getDirec();	       	    
        	ds = new DirectionsService();
-       			
-          try{     
+
+       	try{     
                dr = new DirectionsRequest(   
             		   fromTextField.getText(),
             		   toTextField.getText(),
@@ -129,7 +127,10 @@ public class MapController implements Initializable, ControlledScreen, MapCompon
                       );
                
                ds.getRoute(dr, this, renderer);   
-    	               	               	              
+               
+               renderer.setPanel(directions);
+               renderer.setMap(map);
+               
           }catch (NullPointerException e2){
         	  System.out.println("chujdupa");
           }	 
