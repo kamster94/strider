@@ -50,6 +50,7 @@ public class Main extends Application{
 		primaryStage.show(); 
 				
 		mystage = primaryStage;
+		mystage.setResizable(false);
 	
 	}
 	

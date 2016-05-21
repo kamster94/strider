@@ -82,7 +82,8 @@ public class MapController implements Initializable, ControlledScreen, MapCompon
 		distanceTextField.setPromptText("odleg³oœæ");
 		
 		mapView = new GoogleMapView();
-		mapView.addMapInializedListener(this);		
+		mapView.addMapInializedListener(this);	
+
 		pane.setCenter(mapView);
 		goToResultsButton.setDisable(true);
 		

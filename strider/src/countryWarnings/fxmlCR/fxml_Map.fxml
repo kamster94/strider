@@ -7,7 +7,7 @@
 
 <BorderPane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="599.0" prefWidth="1115.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="countryWarnings.MapController">
    <top>
-      <ToolBar fx:id="toolBar" prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <ToolBar fx:id="toolBar" BorderPane.alignment="CENTER">
         <items>
           <Button fx:id="backButton" mnemonicParsing="false" text="Wróć" />
             <TextField fx:id="fromTextField" />
