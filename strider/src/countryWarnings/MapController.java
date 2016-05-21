@@ -116,14 +116,11 @@ public class MapController implements Initializable, ControlledScreen, MapCompon
 	public void selectRoute()
 	{   
 		
+		
 		map = mapView.createMap(mapOptions);	                	
         directions = mapView.getDirec();	       	    
        	ds = new DirectionsService();
-       	
-        renderer = new DirectionsRenderer(true, map, directions);
-        
-        
-		
+       			
           try{     
                dr = new DirectionsRequest(   
             		   fromTextField.getText(),
