@@ -19,10 +19,12 @@ import com.lynden.gmapsfx.service.directions.DirectionsResult;
 import com.lynden.gmapsfx.service.directions.DirectionsRoute;
 import com.lynden.gmapsfx.service.directions.DirectionsService;
 import com.lynden.gmapsfx.service.directions.DirectionsServiceCallback;
+import com.lynden.gmapsfx.service.directions.DirectionsSteps;
 import com.lynden.gmapsfx.service.directions.TravelModes;
 
 import desktopGui.ControlledScreen;
 import desktopGui.ScreensController;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -60,9 +62,12 @@ public class MapController implements Initializable, ControlledScreen, MapCompon
     @FXML
     private Button goToResultsButton;
     
+    
     public static  MapOptions mapOptions;
     public static GoogleMapView mapView;
+    public static double distance;
 	public static GoogleMap map;
+	private static int counter = 0;
 	protected DirectionsPane directions;
 	protected DirectionsService ds;
 	protected DirectionsRequest dr;
@@ -75,16 +80,16 @@ public class MapController implements Initializable, ControlledScreen, MapCompon
 		mapView = new GoogleMapView();
 		mapView.addMapInializedListener(this);		
 		pane.setCenter(mapView);
-		
+		goToResultsButton.setDisable(true);
 		
 		
 		findButton.setOnAction(new EventHandler<ActionEvent>() 
 		{@Override
 	        public void handle(ActionEvent arg0) 
-	        {
-	  
+	        {	
+			    
 	        	selectRoute();   
-	        	
+	        	goToResultsButton.setDisable(false);
 	        }
 	    });
 
@@ -110,11 +115,15 @@ public class MapController implements Initializable, ControlledScreen, MapCompon
 
 	public void selectRoute()
 	{   
+		
 		map = mapView.createMap(mapOptions);	                	
         directions = mapView.getDirec();	       	    
        	ds = new DirectionsService();
        	
         renderer = new DirectionsRenderer(true, map, directions);
+        
+        
+		
           try{     
                dr = new DirectionsRequest(   
             		   fromTextField.getText(),
@@ -126,7 +135,8 @@ public class MapController implements Initializable, ControlledScreen, MapCompon
     	               	               	              
           }catch (NullPointerException e2){
         	  System.out.println("chujdupa");
-          }	              
+          }	 
+          counter++;
 	}
 	
 	DirectionsRenderer renderer;
@@ -147,6 +157,7 @@ public class MapController implements Initializable, ControlledScreen, MapCompon
 	    map = mapView.createMap(mapOptions);
 	    directions = mapView.getDirec();
         renderer = new DirectionsRenderer(true, map, directions);
+        
 	}
 	
 
@@ -158,12 +169,14 @@ public class MapController implements Initializable, ControlledScreen, MapCompon
 
 
 	@Override
-	public void directionsReceived(DirectionsResult results, DirectionStatus status) {
+	public void directionsReceived(DirectionsResult results, DirectionStatus status)
+	{
 		List<DirectionsRoute> lista = results.getRoutes();
 		List<DirectionsLeg> lista2 = lista.get(0).getLegs();
 	   
         distanceTextField.setText(lista2.get(0).getDistance().getText());
-		System.out.println("lol");
+        distance = lista2.get(0).getDistance().getValue();
+		System.out.println(lista2.get(0).getDuration().getText());
 	}
 
 

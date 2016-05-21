@@ -56,7 +56,9 @@ public class ResultsController implements Initializable, ClearableScreen, Contro
 	        @Override
 	        public void handle(ActionEvent arg0) 
 	        {        	
-	        	// myController.setScreen(Main.MAP); 	
+	        	double lol = Double.parseDouble(litersPerHourTextField.getText().replaceAll(",", "."));	
+	        	ResultsInformation information = new ResultsInformation(lol, MapController.distance);
+	        	resultsWebView.getEngine().loadContent(information.getResultsInformationHtml().toString());
 	        }
 	    });
 		
