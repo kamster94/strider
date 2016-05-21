@@ -36,6 +36,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.text.Font;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import org.apache.commons.io.FileUtils;
@@ -60,35 +61,38 @@ public class SampleController implements Initializable, ControlledScreen{
 
 	ScreensController myController; 
 	
-    @FXML
-    private Button findCountryButton;
+	  @FXML
+	    private AnchorPane pane;
 
-    @FXML
-    private Button findCityButton;
-        
-    @FXML
-    private WebView cityWebView;
-    
-    @FXML
-    private WebView countryWebView;
-    
-    @FXML
-    private WebView currencyWebView;
+	    @FXML
+	    private Button findCountryButton;
 
-    @FXML
-    private Label currencyLabel;
-    
-    @FXML
-    private WebView weatherWebView;
-    
-    @FXML
-    private Label weatherLabel;
-    
-    @FXML
-    private Button showMapBttn;
-    
-    @FXML
-	private AnchorPane pane;
+	    @FXML
+	    private Button findCityButton;
+
+	    @FXML
+	    private WebView cityWebView;
+
+	    @FXML
+	    private WebView countryWebView;
+
+	    @FXML
+	    private WebView currencyWebView;
+
+	    @FXML
+	    private Label currencyLabel;
+
+	    @FXML
+	    private WebView weatherWebView;
+
+	    @FXML
+	    private Label weatherLabel;
+
+	    @FXML
+	    private Button showMapBttn;
+
+	    @FXML
+	    private TextArea celsiusTextArea;
     
     private ComboBox<String> cityBox;
     private ComboBox<String> countryBox;
@@ -109,6 +113,9 @@ public class SampleController implements Initializable, ControlledScreen{
 
 		CountriesList.setCountryHtmls();
 		CountriesList.setCountryNames();
+		Font myFont = new Font("Serif", 88);
+		celsiusTextArea.setFont(myFont);
+		celsiusTextArea.setEditable(false);
 		
 		countryBox = new ComboBox();
 		countryBox.setItems(CountriesList.getCountryNamesList());
@@ -138,9 +145,10 @@ public class SampleController implements Initializable, ControlledScreen{
 	        StringBuilder countryInfoText =  countryInformation.getCountryInformationHtml();
 	        StringBuilder currencyInfoText = currencyInformation.getCurrencyInformationHtml();
 	        
-	        countryWebView.getEngine().loadContent(countryInfoText.toString());
+	        countryWebView.getEngine().load(countryInformation.countryURL);
+	        //countryWebView.getEngine().loadContent(countryInfoText.toString());
 	        currencyWebView.getEngine().loadContent(currencyInfoText.toString());
-
+	        
 	        		        	
 	        }
 	    });
@@ -160,8 +168,9 @@ public class SampleController implements Initializable, ControlledScreen{
         		StringBuilder weatherInformationString = weatherInformation.getWeatherInformationHtml();
         		
         		cityWebView.getEngine().loadContent(cityInformationString.toString());  	
-        		weatherWebView.getEngine().loadContent(weatherInformationString.toString());
-        		        		
+        	//	weatherWebView.getEngine().loadContent(weatherInformationString.toString());
+        		weatherWebView.getEngine().load(weatherInformation.pictureAdress);
+        		celsiusTextArea.setText(weatherInformationString.toString());
         		showMapBttn.setDisable(false);
 	        }
 	    });

@@ -2,6 +2,7 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.web.WebView?>
 
@@ -9,12 +10,13 @@
    <children>
       <Button fx:id="findCountryButton" layoutX="251.0" layoutY="40.0" mnemonicParsing="false" prefHeight="11.0" prefWidth="111.0" text="Znajdz" />
       <Button fx:id="findCityButton" layoutX="703.0" layoutY="40.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="111.0" text="Znajdz" />
-      <WebView fx:id="cityWebView" layoutX="479.0" layoutY="98.0" prefHeight="384.0" prefWidth="391.0" />
-      <WebView fx:id="countryWebView" layoutX="29.0" layoutY="98.0" prefHeight="384.0" prefWidth="391.0" />
+      <WebView fx:id="cityWebView" layoutX="467.0" layoutY="98.0" prefHeight="384.0" prefWidth="391.0" />
+      <WebView fx:id="countryWebView" layoutX="40.0" layoutY="98.0" prefHeight="384.0" prefWidth="391.0" />
       <WebView fx:id="currencyWebView" layoutX="888.0" layoutY="145.0" prefHeight="54.0" prefWidth="222.0" />
       <Label fx:id="currencyLabel" layoutX="888.0" layoutY="98.0" prefHeight="33.0" prefWidth="136.0" text="Waluta Państwa:" />
-      <WebView fx:id="weatherWebView" layoutX="888.0" layoutY="267.0" prefHeight="200.0" prefWidth="200.0" />
-      <Label fx:id="weatherLabel" layoutX="888.0" layoutY="216.0" prefHeight="33.0" prefWidth="136.0" text="Pogoda w mieście:" />
+      <WebView fx:id="weatherWebView" layoutX="874.0" layoutY="271.0" prefHeight="69.0" prefWidth="71.0" />
+      <Label fx:id="weatherLabel" layoutX="945.0" layoutY="283.0" prefHeight="33.0" prefWidth="169.0" text="Dzisiejsza pogoda w mieście:" />
       <Button fx:id="showMapBttn" layoutX="420.0" layoutY="527.0" mnemonicParsing="false" text="Mapa" />
+      <TextArea fx:id="celsiusTextArea" layoutX="874.0" layoutY="340.0" prefHeight="200.0" prefWidth="200.0" />
    </children>
 </AnchorPane>

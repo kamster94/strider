@@ -7,6 +7,8 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -15,6 +17,7 @@ import org.json.JSONObject;
 public class WeatherInformation {
 
 	CityInformation city;
+	public String pictureAdress;
 	
 	public WeatherInformation(CityInformation c){
 		
@@ -35,13 +38,32 @@ public class WeatherInformation {
 
 	      JSONArray arr  = json.getJSONObject("query").getJSONObject("results").getJSONObject("channel").getJSONObject("item").getJSONArray("forecast");
 	      JSONObject obj  = json.getJSONObject("query").getJSONObject("results").getJSONObject("channel").getJSONObject("item");
+	      JSONObject obj2  = json.getJSONObject("query").getJSONObject("results").getJSONObject("channel");
+	      JSONObject picture  = json.getJSONObject("query").getJSONObject("results").getJSONObject("channel").getJSONObject("image");
 	      JSONObject con  = json.getJSONObject("query").getJSONObject("results").getJSONObject("channel").getJSONObject("item").getJSONObject("condition");
-
+	 //     JSONObject descr  = json.getJSONObject("query").getJSONObject("results").getJSONObject("channel").getJSONObject("item").getJSONObject("description");
+	      
 	      String nL = System.getProperty("line.separator");
 	      String date ="Date: "+ obj.getString("pubDate");
-	      String temp ="Temperatura: "+ con.getString("temp"); 
+	      String temp =con.getString("temp") + " C"; 
 	      String weather = arr.getJSONObject(0).getString("text");  
-	      
+	      this.pictureAdress = picture.getString("url");
+	      String lol = obj.getString("description");
+	   //   System.out.println(lol);
+	    
+	        String regexString = Pattern.quote("src=") + "(.*?)" + Pattern.quote(">");
+	        
+	        Pattern p = Pattern.compile(regexString);
+	        Matcher m = p.matcher(lol);
+	        m.find();
+	        String text = m.group(1);
+	        text = text.replaceAll("\"/", "");
+	        text = text.replaceAll("\"", "");
+	        System.out.println(text);
+	        
+	        this.pictureAdress = text;
+
+	        
 	      if(weather.equals("Showers"))
 	    	  weather = "Ulewa";
 	      else if(weather.equals("Mostly Cloudy"))
@@ -55,11 +77,13 @@ public class WeatherInformation {
 	      else if(weather.equals("Rain"))
 	    	  weather = "Deszcz";
 	      
-	      weather = "Pogoda: " + weather;
-	      information.append(date + "</br></br>" + temp + "</br></br>" + weather);
+	    //  weather = "Pogoda: " + weather;
+	      information.append(temp);
+	     // information.append(date + "</br></br>" + temp + "</br></br>" + weather);
 	      
 
 	    }catch(JSONException e){
+	    	e.printStackTrace();
 	    	 information.append("Wyrzuci³o b³¹d JSON :/");
 		      
 	    }
