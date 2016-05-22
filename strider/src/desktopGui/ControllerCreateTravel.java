@@ -46,117 +46,140 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.web.WebView;
 
-public class ControllerCreateTravelSecond implements Initializable, ControlledScreen, EventHandler<ActionEvent>
+public class ControllerCreateTravel implements Initializable, ControlledScreen, EventHandler<ActionEvent>
 {
 	ScreensController myController;
 
+
     @FXML
-    private VBox a_vbox_country_from;
-    @FXML
-    private Button a_button_findcities;
-    @FXML
-    private VBox a_vbox_city_from;
-    @FXML
-    private TextField a_textfield_zipcode;
+    private HBox a_hbox_countrybox;
+
     @FXML
     private TextField a_textfield_name;
+
+    @FXML
+    private HBox a_hbox_citybox;
+
     @FXML
     private TextField a_textfield_street;
+
     @FXML
-    private TextField a_textfieldnumber;
+    private TextField a_textfield_zipcode;
+
     @FXML
-    private TextField a_textfield_open;
+    private TextField a_textfield_number;
+
     @FXML
-    private TextField a_textfield_closed;
+    private TextField a_textfield_openfrom;
+
+    @FXML
+    private TextField a_textfield_opentill;
+
     @FXML
     private TextField a_textfield_price;
+
+    @FXML
+    private HBox a_hbox_currencybox;
+
     @FXML
     private TextArea a_textarea_notes;
+
     @FXML
-    private ListView<String> a_listview_attractions;
+    private Button a_button_addattraction;
+
     @FXML
-    private Button a_button_add;
+    private HBox h_hbox_countrybox;
+
     @FXML
-    private Button h_button_add;
+    private TextField h_textfield_country;
+
     @FXML
-    private Tab tabhotel;
-    @FXML
-    private VBox h_vboxcountry;
-    @FXML
-    private VBox h_vboxcity;
-    @FXML
-    private Button h_button_findhotels;
-    @FXML
-    private TextField h_textfield_zipcode;
-    @FXML
-    private TextField h_textfield_name;
+    private HBox h_hbox_citybox;
+
     @FXML
     private TextField h_textfield_street;
+
+    @FXML
+    private TextField h_textfield_zipcode;
+
     @FXML
     private TextField h_textfield_number;
+
     @FXML
-    private DatePicker h_datepicker_arrival;
+    private DatePicker h_datepicker_start;
+
     @FXML
-    private DatePicker h_datepicker_departure;
+    private TextField h_textfield_hour_start;
+
     @FXML
-    private TextField h_textfield_pricepernite;
+    private DatePicker h_datepicker_end;
+
+    @FXML
+    private TextField h_textfield_hour_end;
+
+    @FXML
+    private TextField h_textfield_price;
+
+    @FXML
+    private VBox h_vbox_currencybox;
+
     @FXML
     private TextArea h_textarea_notes;
+
     @FXML
-    private ListView<String> h_listview_hotels;
+    private Button h_button_addhotel;
+
     @FXML
-    private ComboBox<String> h_combobox_book;
-    @FXML
-    private ComboBox<String> h_combobox_rated;
-    @FXML
-    private Tab tabtransport;
-    @FXML
-    private VBox t_vbox_countryfrom;
-    @FXML
-    private VBox t_vbox_countryto;
-    @FXML
-    private Button t_button_findcities_to;
-    @FXML
-    private VBox t_vbox_cityfrom;
-    @FXML
-    private VBox t_vbox_cityto;
+    private HBox t_hbox_countrybox_start;
+
     @FXML
     private DatePicker t_datepicker_start;
+
     @FXML
-    private TextField t_textfield_starttime;
+    private HBox t_hbox_citybox_start;
+
+    @FXML
+    private TextField t_textfield_hour_start;
+
+    @FXML
+    private HBox t_hbox_countrybox_end;
+
     @FXML
     private DatePicker t_datepicker_end;
+
     @FXML
-    private TextField t_textfield_endtime;
+    private HBox t_hbox_citybox_end;
+
+    @FXML
+    private TextField t_textfield_hour_end;
+
+    @FXML
+    private ComboBox<String> t_choicebox_transport_category;
+
     @FXML
     private TextField t_textfield_price;
+
+    @FXML
+    private HBox t_hbox_currencybox;
+
+    @FXML
+    private WebView t_webview_calcprice;
+
     @FXML
     private TextArea t_textarea_notes;
+
     @FXML
-    private ComboBox<String> t_combobox_transportcategory;
+    private Button t_button_addtransport;
+
     @FXML
-    private ListView<String> t_listview_companies;
-    @FXML
-    private Button t_button_add;
-    @FXML
-    private Button button_previous;
+    private Button button_cancel;
+
     @FXML
     private Button button_summary;
-    @FXML
-    private VBox a_vbox_mycurrency;
-    @FXML
-    private VBox a_vbox_currency;
-    @FXML
-    private VBox h_vbox_mycurrency;
-    @FXML
-    private VBox h_vbox_currency;
-    @FXML
-    private VBox t_vbox_mycurrency;
-    @FXML
-    private VBox t_vbox_currency;
     /////////////////////////////////////
     @FXML
     private static ComboBox<String> t_combobox_mycurrency;
@@ -207,6 +230,7 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 	public void initialize(URL arg0, ResourceBundle arg1) 
 	{
 		
+		/*
 		a_listview_attractions.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() 
 		{
 			@Override
@@ -367,40 +391,30 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 				t_combobox_city_to.getItems().setAll(DatabaseHandlerCommon.getInstance().getCities(countryid));
 			}
 		});
-		
-		a_button_add.setOnAction(this);
-		h_button_add.setOnAction(this);
-		t_button_add.setOnAction(this);
-		button_previous.setOnAction(this);
+		*/
 		button_summary.setOnAction(this);
 		
 		a_textfield_zipcode.setDisable(true);
 		a_textfield_name.setDisable(true);
 		a_textfield_street.setDisable(true);
-		a_textfieldnumber.setDisable(true);
-		a_textfield_open.setDisable(true);
-		a_textfield_closed.setDisable(true);
-		//a_combobox_attrcurrency.setDisable(true);
 		
+		/*
 		a_combobox_countryfrom.setPromptText("Country");
 		a_combobox_cityfrom.setPromptText("City");
 		a_textfield_zipcode.setPromptText("Zip code");
 		a_textfield_name.setPromptText("Attraction name");
 		a_textfield_street.setPromptText("Street");
-		a_textfieldnumber.setPromptText("Number");
-		a_textfield_open.setPromptText("Open from");
-		a_textfield_closed.setPromptText("Closed at");
 		a_textfield_price.setPromptText("Attraction price");
 		a_comboboxmycurrency.setPromptText("My currency");
 		a_combobox_attrcurrency.setPromptText("Local currency");
 		a_textarea_notes.setPromptText("Your notes on this attraction.");
+		*/
 		
-		h_textfield_zipcode.setDisable(true);
-		h_textfield_name.setDisable(true);
-		h_textfield_street.setDisable(true);
-		h_textfield_number.setDisable(true);
+		//h_textfield_zipcode.setDisable(true);
+		//h_textfield_street.setDisable(true);
+		//h_textfield_number.setDisable(true);
 		
-		h_combobox_country.setPromptText("Country");
+	//	h_combobox_country.setPromptText("Country");
 	//	h_combobox_city
 		
 		
@@ -423,8 +437,6 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 	{
 		if(h_combobox_country.getValue() != null &&
 			h_combobox_city.getValue() != null &&
-			h_datepicker_arrival.getValue() != null &&
-			h_datepicker_departure.getValue() != null &&
 			h_combobox_mycurrency.getValue() != null &&
 			h_combobox_currency.getValue() != null)
 		{
@@ -443,10 +455,8 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 			t_datepicker_start.getValue() != null &&
 			t_datepicker_end.getValue() != null &&
 			t_textfield_price.getText().isEmpty() == false &&
-			t_combobox_mycurrency.getValue() != null &&
-			t_combobox_transportcurrency.getValue() != null &&
-			t_combobox_transportcategory.getValue() != null &&
-			t_listview_companies.getSelectionModel().isEmpty() == false)
+			t_combobox_mycurrency.getValue() != null)
+			//t_combobox_transportcurrency.getValue() != null &&
 		{
 			return true;
 		}
@@ -459,141 +469,10 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 	{
 		myController = screenParent; 
 	}
-
 	@Override
 	public void handle(ActionEvent event) 
 	{
-		if(event.getSource() == a_button_add)
-		{
-			if(acheckInputCompletion() == true)
-			{
-				int countryid = DatabaseHandlerCommon.getInstance().getCountryId(a_combobox_countryfrom.getSelectionModel().getSelectedItem());
-				int cityid = DatabaseHandlerCommon.getInstance().getCityId(a_combobox_cityfrom.getSelectionModel().getSelectedItem());
-				int currencyid = DatabaseHandlerCommon.getInstance().getCurrencyId(a_combobox_attrcurrency.getSelectionModel().getSelectedItem());
-				int attractionid = DatabaseHandlerAttractionAdder.getInstance().getAttractionId(cityid, a_listview_attractions.getSelectionModel().getSelectedItem());
-
-				AttractionDetails ad = new AttractionDetails(attractionid, countryid, cityid, currencyid, Integer.parseInt(a_textfield_price.getText()), a_textarea_notes.getText());
-				DatabaseHandlerAttractionAdder.getInstance().setAttraction(ad);
-				boolean attractionaddstatus = DatabaseHandlerAttractionAdder.getInstance().pushAttractionToDatabase();
-
-				if(attractionaddstatus == true)
-				{
-					Alert alert = new Alert(AlertType.INFORMATION);
-					alert.setTitle("New attraction added");
-					alert.setHeaderText(null);
-					alert.setContentText("Attraction added succesfully!");
-					alert.showAndWait();
-				}
-				else
-				{
-					Alert alert = new Alert(AlertType.INFORMATION);
-					alert.setTitle("Couldn't add new attraction");
-					alert.setHeaderText(null);
-					alert.setContentText("SQL or Database error!");
-					alert.showAndWait();
-				}
-			}
-			else
-			{
-				Alert alert = new Alert(AlertType.INFORMATION);
-				alert.setTitle("Cannot add new attraction");
-				alert.setHeaderText(null);
-				alert.setContentText("Not all required informations provided!");
-				alert.showAndWait();
-			}
-		}
-		else if(event.getSource() == h_button_add)
-		{
-			if(hcheckInputCompletion() == true)
-			{
-				int hotelid = DatabaseHandlerHotelAdder.getInstance().getHotelId(h_listview_hotels.getSelectionModel().getSelectedItem());
-				int currencyid = DatabaseHandlerCommon.getInstance().getCurrencyId(h_combobox_currency.getSelectionModel().getSelectedItem());
-				int countryid = DatabaseHandlerCommon.getInstance().getCountryId(h_combobox_country.getSelectionModel().getSelectedItem());
-				int cityid = DatabaseHandlerCommon.getInstance().getCityId(h_combobox_city.getSelectionModel().getSelectedItem());
-				
-				
-				HotelDetails hd = new HotelDetails(hotelid, currencyid, Integer.parseInt(h_textfield_pricepernite.getText()), h_textarea_notes.getText(), h_datepicker_arrival.getValue(), h_datepicker_departure.getValue(), countryid, cityid);
-				DatabaseHandlerHotelAdder.getInstance().setHotel(hd);
-				boolean hoteladdstatus = DatabaseHandlerHotelAdder.getInstance().pushHotelDetails();
-				
-				if(hoteladdstatus == true)
-				{
-					Alert alert = new Alert(AlertType.INFORMATION);
-					alert.setTitle("New hotel added");
-					alert.setHeaderText(null);
-					alert.setContentText("Hotel added succesfully!");
-					alert.showAndWait();
-				}
-				else
-				{
-					Alert alert = new Alert(AlertType.INFORMATION);
-					alert.setTitle("Couldn't add new hotel");
-					alert.setHeaderText(null);
-					alert.setContentText("SQL or Database error!");
-					alert.showAndWait();
-				}
-			}
-			else
-			{
-				Alert alert = new Alert(AlertType.INFORMATION);
-				alert.setTitle("Couldn't add new hotel");
-				alert.setHeaderText(null);
-				alert.setContentText("Not all required informations provided!");
-				alert.showAndWait();
-			}
-			
-		}
-		else if(event.getSource() == t_button_add)
-		{
-			if(tcheckInputCompletion() == true)
-			{
-				int idcurrency = DatabaseHandlerCommon.getInstance().getCurrencyId(t_combobox_transportcurrency.getSelectionModel().getSelectedItem());
-				int idtransportcategory = DatabaseHandlerTransportAdder.getInstance().getCategoryId(t_combobox_transportcategory.getSelectionModel().getSelectedItem());
-				int idtransport = DatabaseHandlerTransportAdder.getInstance().getTransportId(t_listview_companies.getSelectionModel().getSelectedItem());
-				int idcountrytarget = DatabaseHandlerCommon.getInstance().getCountryId(t_combobox_country_to.getSelectionModel().getSelectedItem());
-				int idcitytarget = DatabaseHandlerCommon.getInstance().getCityId(t_combobox_city_to.getSelectionModel().getSelectedItem());
-				int idcountryorigin = DatabaseHandlerCommon.getInstance().getCountryId(t_combobox_country_from.getSelectionModel().getSelectedItem());
-				int idcityorigin = DatabaseHandlerCommon.getInstance().getCityId(t_combobox_city_from.getSelectionModel().getSelectedItem());
 		
-
-				TransportDetails tdetails = new TransportDetails(idcurrency, idtransportcategory, idtransport, idcountrytarget, idcitytarget, idcountryorigin, idcityorigin, t_datepicker_start.getValue(), t_datepicker_end.getValue(), Integer.parseInt(t_textfield_price.getText()), "dummy link", t_textarea_notes.getText());
-				DatabaseHandlerTransportAdder.getInstance().setTransportDetails(tdetails);
-				boolean transportaddstatus = DatabaseHandlerTransportAdder.getInstance().pushTransportDetails();
-				
-				if(transportaddstatus == true)
-				{
-					Alert alert = new Alert(AlertType.INFORMATION);
-					alert.setTitle("New transport added");
-					alert.setHeaderText(null);
-					alert.setContentText("Transport added succesfully!");
-					alert.showAndWait();
-				}
-				else 
-				{
-					Alert alert = new Alert(AlertType.INFORMATION);
-					alert.setTitle("Couldn't add new transport");
-					alert.setHeaderText(null);
-					alert.setContentText("SQL or Database error!");
-					alert.showAndWait();
-				}
-			}
-			else
-			{
-				Alert alert = new Alert(AlertType.INFORMATION);
-				alert.setTitle("Cannot add new transport");
-				alert.setHeaderText(null);
-				alert.setContentText("Not all required informations provided!");
-				alert.showAndWait();
-			}
-		}
-		else if(event.getSource() == button_previous)
-		{
-			myController.setScreen(WindowMain.NEWTRAVEL_1);
-		}
-		else if(event.getSource() == button_summary)
-		{
-			myController.setScreen(WindowMain.TRAVEL_SUMMARY);
-			ControllerTravelSummary.lateInitialize(0);
-		}
 	}
+	
 }

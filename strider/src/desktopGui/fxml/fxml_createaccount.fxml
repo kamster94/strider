@@ -6,10 +6,7 @@
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
@@ -17,59 +14,81 @@
    <children>
       <VBox spacing="10.0">
          <children>
-            <GridPane hgap="10.0" vgap="10.0" VBox.vgrow="ALWAYS">
-              <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-              </columnConstraints>
-              <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-              </rowConstraints>
+            <HBox VBox.vgrow="ALWAYS">
                <children>
-                  <VBox spacing="10.0">
+                  <VBox HBox.hgrow="ALWAYS">
                      <children>
-                        <Label text="Nazwa użytkownika" />
-                        <TextField fx:id="textfieldusername" />
+                        <VBox spacing="10.0">
+                           <children>
+                              <Label text="Nazwa użytkownika" />
+                              <TextField fx:id="textfieldusername" />
+                           </children>
+                           <padding>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </padding>
+                        </VBox>
+                        <VBox spacing="10.0">
+                           <children>
+                              <Label text="Hasło" />
+                              <PasswordField fx:id="passwordfield" />
+                           </children>
+                           <padding>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </padding>
+                        </VBox>
+                        <VBox spacing="10.0">
+                           <children>
+                              <Label text="Państwo" />
+                              <HBox fx:id="hbox_countrybox" spacing="10.0" />
+                           </children>
+                           <padding>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </padding>
+                        </VBox>
+                        <VBox spacing="10.0">
+                           <children>
+                              <Label text="Waluta" />
+                              <HBox fx:id="hbox_currencybox" prefHeight="100.0" prefWidth="200.0" />
+                           </children>
+                           <padding>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </padding>
+                        </VBox>
                      </children>
                   </VBox>
-                  <VBox spacing="10.0" GridPane.columnIndex="1">
+                  <VBox HBox.hgrow="ALWAYS">
                      <children>
-                        <Label text="Adres e-mail" />
-                        <TextField fx:id="textfieldemail" />
-                     </children>
-                  </VBox>
-                  <VBox spacing="10.0" GridPane.rowIndex="1">
-                     <children>
-                        <Label text="Hasło" />
-                        <PasswordField fx:id="passwordfield" />
-                     </children>
-                  </VBox>
-                  <VBox spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                     <children>
-                        <Label text="Powtórz hasło" />
-                        <PasswordField fx:id="passwordfieldrepeat" />
-                     </children>
-                  </VBox>
-                  <VBox fx:id="vbox_countrybox" spacing="10.0" GridPane.rowIndex="2">
-                     <children>
-                        <Label text="Państwo" />
-                     </children>
-                  </VBox>
-                  <VBox fx:id="vbox_citybox" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
-                     <children>
-                        <Label text="Miasto" />
-                     </children>
-                  </VBox>
-                  <VBox fx:id="vbox_currencybox" spacing="10.0" GridPane.rowIndex="3">
-                     <children>
-                        <Label text="Waluta" />
+                        <VBox spacing="10.0">
+                           <children>
+                              <Label text="Adres e-mail" />
+                              <TextField fx:id="textfieldemail" />
+                           </children>
+                           <padding>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </padding>
+                        </VBox>
+                        <VBox spacing="10.0">
+                           <children>
+                              <Label text="Powtórz hasło" />
+                              <PasswordField fx:id="passwordfieldrepeat" />
+                           </children>
+                           <padding>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </padding>
+                        </VBox>
+                        <VBox spacing="10.0">
+                           <children>
+                              <Label text="Miasto" />
+                              <HBox fx:id="hbox_citybox" prefHeight="100.0" prefWidth="200.0" />
+                           </children>
+                           <padding>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </padding>
+                        </VBox>
                      </children>
                   </VBox>
                </children>
-            </GridPane>
+            </HBox>
             <HBox alignment="CENTER" VBox.vgrow="NEVER">
                <children>
                   <Button fx:id="button_cancel" mnemonicParsing="false" text="Anuluj" />

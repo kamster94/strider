@@ -42,11 +42,8 @@ public class WindowMain extends Application
 	public static final String ADDINFO_SCREEN = "additionalinfo";
 	public static final String ADDINFO_SCREEN_FXML = "fxml/fxml_additionalinformations.fxml";
 
-	public static final String NEWTRAVEL_1 = "newtravel1";
-	public static final String NEWTRAVEL_1_FXML = "fxml/fxml_createtravel_first.fxml";
-	
-	public static final String NEWTRAVEL_2 = "newtravel2";
-	public static final String NEWTRAVEL_2_FXML = "fxml/fxml_createtravel_second.fxml";
+	public static final String NEWTRAVEL = "newtravel";
+	public static final String NEWTRAVEL_FXML = "fxml/fxml_createtravel.fxml";
 	
 	public static final String TRAVEL_SUMMARY = "travelsummary";
 	public static final String TRAVEL_SUMMARY_FXML = "fxml/fxml_travelsummary.fxml";

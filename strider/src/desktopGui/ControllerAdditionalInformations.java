@@ -122,8 +122,9 @@ public class ControllerAdditionalInformations implements Initializable, Clearabl
 			
 			//weatherWebView.getEngine().load(weatherinfo.pictureAdress);
 			
-			
 			URL weatherurl = getClass().getResource("textures/weather_icon.html");
+			//weatherWebView.getEngine().load(weatherurl.toExternalForm());
+			
 			weatherWebView.getEngine().load(weatherurl.toExternalForm());
 			weatherWebView.getEngine().setUserStyleSheetLocation(getClass().getResource("textures/css_weather_sunny.css").toString());
 			weatherWebView.getEngine().reload();

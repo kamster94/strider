@@ -73,12 +73,10 @@ public class ControllerMain implements Initializable, ControlledScreen, EventHan
 		{
 			System.out.println("KEK");
 			myController.loadScreenAndSet(WindowMain.ADDINFO_SCREEN, WindowMain.ADDINFO_SCREEN_FXML);
-
 		}
 		else if(arg0.getSource() == button_createtravel)
 		{
-			myController.setScreen(WindowMain.NEWTRAVEL_1);
-			ControllerCreateTravelFirst.lateInitialize();
+			myController.loadScreenAndSet(WindowMain.NEWTRAVEL, WindowMain.NEWTRAVEL_FXML);
 		}
 		else if(arg0.getSource() == button_exit)
 		{

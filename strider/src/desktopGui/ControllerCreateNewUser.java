@@ -3,6 +3,7 @@ package desktopGui;
 import java.net.URL;
 import java.util.ResourceBundle;
 import Model.NewUser;
+import Model.User;
 import dbHandlers.DatabaseHandlerCommon;
 import dbHandlers.DatabaseHandlerLogin;
 import dbHandlers.DatabaseHandlerRegister;
@@ -18,6 +19,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 public class ControllerCreateNewUser implements Initializable, ClearableScreen, ControlledScreen, EventHandler<ActionEvent>
@@ -33,17 +35,19 @@ public class ControllerCreateNewUser implements Initializable, ClearableScreen, 
     @FXML
     private PasswordField passwordfieldrepeat;
 	@FXML
-	private VBox vbox_countrybox;
+	private HBox hbox_countrybox;
 	@FXML
-	private VBox vbox_citybox;
+	private HBox hbox_citybox;
 	@FXML
-	private VBox vbox_currencybox;
+	private HBox hbox_currencybox;
 	@FXML
 	private Button button_cancel;
 	@FXML
 	private Button button_create;
     
-    //Uzupelniajki, nie ma ich w FXML'u
+    //Sztuczne
+	@FXML
+	private Button button_findcities;
 	@FXML
 	private ComboBox<String> countrybox;
 	@FXML
@@ -60,18 +64,17 @@ public class ControllerCreateNewUser implements Initializable, ClearableScreen, 
 	@Override
 	public void initialize(URL location, ResourceBundle resources)
 	{
-		button_cancel.setOnAction(this);
-		button_create.setOnAction(this);
+		String DEFAULT_COUNTRY = "Polska";
+		String DEFAULT_CITY = "Warszawa";
+		
+		
+		
+		button_findcities = new Button();
+		button_findcities.setText("ZnajdŸ");
 		
 		countrybox = WindowMain.getCountryBox();
 		citybox = WindowMain.getCityBox();
 		currencybox = WindowMain.getCurrencyBox();
-		
-		vbox_countrybox.getChildren().add(countrybox);
-		vbox_citybox.getChildren().add(citybox);
-		vbox_currencybox.getChildren().add(currencybox);
-		
-		vbox_countrybox.getChildren().get(1).toFront();
 		
 		countrybox.valueProperty().addListener(new ChangeListener<String>() 
 		{
@@ -79,18 +82,31 @@ public class ControllerCreateNewUser implements Initializable, ClearableScreen, 
 			public void changed(ObservableValue<? extends String> arg0, String arg1, String arg2) 
 			{
 				citybox.getSelectionModel().clearSelection();
-				int countryid = DatabaseHandlerCommon.getInstance().getCountryId(countrybox.getSelectionModel().getSelectedItem());
-				citybox.getItems().setAll(DatabaseHandlerCommon.getInstance().getCities(countryid));
 			}
 		});
 		
-		textfieldusername.setPromptText("Username");
-		textfieldemail.setPromptText("default@email.com");
-		passwordfield.setPromptText("Password");
-		passwordfieldrepeat.setPromptText("Repeat password");
-		countrybox.setPromptText("Country");
-		citybox.setPromptText("City");
-		currencybox.setPromptText("Currency");
+		button_cancel.setOnAction(this);
+		button_create.setOnAction(this);
+		button_findcities.setOnAction(this);
+
+		hbox_countrybox.getChildren().add(countrybox);
+		hbox_countrybox.getChildren().add(button_findcities);
+		hbox_citybox.getChildren().add(citybox);
+		hbox_currencybox.getChildren().add(currencybox);
+
+		textfieldusername.setPromptText("Nazwa u¿ytkownika");
+		textfieldemail.setPromptText("jankowalski@gmail.com");
+		passwordfield.setPromptText("Has³o");
+		passwordfieldrepeat.setPromptText("Powtórz has³o");
+		countrybox.setPromptText("Pañstwo");
+		citybox.setPromptText("Miasto");
+		currencybox.setPromptText("Waluta");
+		
+		int selectedid = DatabaseHandlerCommon.getInstance().getCountryId(DEFAULT_COUNTRY);
+		countrybox.getSelectionModel().select(DEFAULT_COUNTRY);
+		citybox.getItems().setAll(DatabaseHandlerCommon.getInstance().getCities(selectedid));
+		citybox.getSelectionModel().select(DEFAULT_CITY);
+		currencybox.getSelectionModel().select(DatabaseHandlerCommon.getInstance().getCurrencyNameForGivenCountry(selectedid));
 	}
 
 	public int verifyData()
@@ -105,11 +121,14 @@ public class ControllerCreateNewUser implements Initializable, ClearableScreen, 
 		return 0;
 	}
 	
-	
-	
 	@Override
 	public void handle(ActionEvent arg0) 
 	{
+		if(arg0.getSource() == button_findcities)
+		{
+			int countryid = DatabaseHandlerCommon.getInstance().getCountryId(countrybox.getSelectionModel().getSelectedItem());
+			citybox.getItems().setAll(DatabaseHandlerCommon.getInstance().getCities(countryid));
+		}
 		if(arg0.getSource() == button_cancel)
 		{
 			clearComponents();

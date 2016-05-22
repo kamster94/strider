@@ -141,7 +141,7 @@ public class ControllerSplashScreen implements Initializable, ClearableScreen, C
 		else if(arg0.getSource() == buttoncreatenewaccount)
 		{
 			clearComponents();
-			myController.setScreen(WindowMain.CREATEACCOUNT_SCREEN);
+			myController.loadScreenAndSet(WindowMain.CREATEACCOUNT_SCREEN, WindowMain.CREATEACCOUNT_SCREEN_FXML);
 		}
 	}
 
