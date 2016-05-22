@@ -142,11 +142,9 @@ public class SampleController implements Initializable, ControlledScreen{
 	        "http://www.polakzagranica.msz.gov.pl" + CountriesList.getCountryHtmlsPosition(setCityList()));        
 	        currencyInformation = new CurrencyInformation(countryInformation);
 	        
-	        StringBuilder countryInfoText =  countryInformation.getCountryInformationHtml();
 	        StringBuilder currencyInfoText = currencyInformation.getCurrencyInformationHtml();
 	        
 	        countryWebView.getEngine().load(countryInformation.countryURL);
-	        //countryWebView.getEngine().loadContent(countryInfoText.toString());
 	        currencyWebView.getEngine().loadContent(currencyInfoText.toString());
 	        
 	        		        	
@@ -165,12 +163,11 @@ public class SampleController implements Initializable, ControlledScreen{
         		weatherInformation = new WeatherInformation(cityInformation);
         		
         		StringBuilder cityInformationString = cityInformation.getCityInformationHtml();
-        		StringBuilder weatherInformationString = weatherInformation.getWeatherInformationHtml();
         		
         		cityWebView.getEngine().loadContent(cityInformationString.toString());  	
-        	//	weatherWebView.getEngine().loadContent(weatherInformationString.toString());
         		weatherWebView.getEngine().load(weatherInformation.pictureAdress);
-        		celsiusTextArea.setText(weatherInformationString.toString());
+        		celsiusTextArea.setText(weatherInformation.celsius);
+        		weatherLabel.setText(weatherInformation.weatherDescription);
         		showMapBttn.setDisable(false);
 	        }
 	    });

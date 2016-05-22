@@ -1,108 +1,114 @@
 package countryWarnings;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.nio.charset.Charset;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Attr;
+import org.w3c.dom.Document;
+import org.w3c.dom.DocumentType;
+import org.w3c.dom.Entity;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 public class WeatherInformation {
 
 	CityInformation city;
 	public String pictureAdress;
+	public String celsius;
+	public String weatherDescription;
+	private static Document doc;
 	
-	public WeatherInformation(CityInformation c){
-		
+	public WeatherInformation(CityInformation c)
+	{		
 		this.city = c;
-	}
 		
-	public StringBuilder getWeatherInformationHtml(){
+		String weather = "";
+		String text = "";
 		
-	StringBuilder information = new StringBuilder();		
-	String url = "https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20weather.forecast%20where%20woeid%20in%20(select%20woeid%20from%20geo.places(1)%20where%20text%3D%22"
-			+ this.city.cityName + "%22%20)%20and%20u%3D'c'&format=json&diagnostics=true&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys&callback=";	
-
-	try{
-		  InputStream is = new URL(url).openStream();
-	      BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
-	      String jsonText = readAll(rd);
-	      JSONObject json = new JSONObject(jsonText);
-
-	      JSONArray arr  = json.getJSONObject("query").getJSONObject("results").getJSONObject("channel").getJSONObject("item").getJSONArray("forecast");
-	      JSONObject obj  = json.getJSONObject("query").getJSONObject("results").getJSONObject("channel").getJSONObject("item");
-	      JSONObject obj2  = json.getJSONObject("query").getJSONObject("results").getJSONObject("channel");
-	      JSONObject picture  = json.getJSONObject("query").getJSONObject("results").getJSONObject("channel").getJSONObject("image");
-	      JSONObject con  = json.getJSONObject("query").getJSONObject("results").getJSONObject("channel").getJSONObject("item").getJSONObject("condition");
-	 //     JSONObject descr  = json.getJSONObject("query").getJSONObject("results").getJSONObject("channel").getJSONObject("item").getJSONObject("description");
-	      
-	      String nL = System.getProperty("line.separator");
-	      String date ="Date: "+ obj.getString("pubDate");
-	      String temp =con.getString("temp") + " C"; 
-	      String weather = arr.getJSONObject(0).getString("text");  
-	      this.pictureAdress = picture.getString("url");
-	      String lol = obj.getString("description");
-	   //   System.out.println(lol);
-	    
-	        String regexString = Pattern.quote("src=") + "(.*?)" + Pattern.quote(">");
-	        
-	        Pattern p = Pattern.compile(regexString);
-	        Matcher m = p.matcher(lol);
-	        m.find();
-	        String text = m.group(1);
-	        text = text.replaceAll("\"/", "");
-	        text = text.replaceAll("\"", "");
-	        System.out.println(text);
-	        
-	        this.pictureAdress = text;
-
-	        
-	      if(weather.equals("Showers"))
-	    	  weather = "Ulewa";
-	      else if(weather.equals("Mostly Cloudy"))
-	    	  weather = "Du¿e zachmurzenie";
-	      else if(weather.equals("Partly Cloudy"))
-	    	  weather = "Czêœciowe zachmurzenie";
-	      else if(weather.equals("Scattered Showers"))
-	    	  weather = "Miejscowe opady";
-	      else if(weather.equals("Scattered Showers"))
-	    	  weather = "Deszcz ze œniegiem";
-	      else if(weather.equals("Rain"))
-	    	  weather = "Deszcz";
-	      
-	    //  weather = "Pogoda: " + weather;
-	      information.append(temp);
-	     // information.append(date + "</br></br>" + temp + "</br></br>" + weather);
-	      
-
-	    }catch(JSONException e){
-	    	e.printStackTrace();
-	    	 information.append("Wyrzuci³o b³¹d JSON :/");
-		      
-	    }
-  		catch(IOException e1){
-  			 information.append("Wyrzuci³o b³¹d IO :/");
-  		}
-	     
-	return information;
-	
-	}
-	
-	
-	 private static String readAll(Reader rd) throws IOException {
-		    StringBuilder sb = new StringBuilder();
-		    int cp;
-		    while ((cp = rd.read()) != -1) {
-		      sb.append((char) cp);
-		    }
-		    return sb.toString();
+		try{
+			  
+		  String urlText ="https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20weather.forecast%20where%20woeid%20in%20(select%20woeid%20from%20geo.places(1)%20where%20text%3D%22"
+		  + URLEncoder.encode(this.city.cityName, "UTF-8")+ "%22)%20and%20u%3D'c'&format=xml&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys";		 
+		  URL url = new URL(urlText);		 
+		  InputStream stream = url.openStream();
+		  DocumentBuilder dBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+		  doc = dBuilder.parse(stream);
+		  
+		  }catch(Exception e){
+			e.printStackTrace();  
 		  }
+
+		  NodeList nList = doc.getElementsByTagName("yweather:condition");
+		  
+		  
+		  for (int temp = 0; temp < nList.getLength(); temp++) 
+		  {
+
+				Node nNode = nList.item(temp);
+				NamedNodeMap attributes = nNode.getAttributes();
+		        int numAttrs = attributes.getLength();
+
+	            for (int i = 0; i < numAttrs; i++) 
+	            {
+		            Attr attr = (Attr) attributes.item(i);
+		            String attrName = attr.getNodeName();
+		            String attrValue = attr.getNodeValue();
+ 
+		            if(attrName.equals("temp"))
+		            	this.celsius = attrValue + " C";	            
+		            else if(attrName.equals("text"))
+		            	weather += attrValue;		            		  	
+		        }
+		  }
+		  
+		  		NodeList nList2 = doc.getElementsByTagName("description");
+		  		Node nNode = nList2.item(1);
+		  		text = nNode.getTextContent();
+		        String regexString = Pattern.quote("src=") + "(.*?)" + Pattern.quote(">");
+		         
+		        Pattern p = Pattern.compile(regexString);
+		        Matcher m = p.matcher(text);
+		        m.find();
+		        String adress = m.group(1);
+		        adress = adress.replaceAll("\"/", "");
+		        adress = adress.replaceAll("\"", "");
+	        
+		      if(weather.equals("Showers"))
+		    	  weather = "Ulewa";
+		      else if(weather.equals("Mostly Cloudy"))
+		    	  weather = "Du¿e zachmurzenie";
+		      else if(weather.equals("Partly Cloudy"))
+		    	  weather = "Czêœciowe zachmurzenie";
+		      else if(weather.equals("Scattered Showers"))
+		    	  weather = "Miejscowe opady";
+		      else if(weather.equals("Scattered Showers"))
+		    	  weather = "Deszcz ze œniegiem";
+		      else if(weather.equals("Rain"))
+		    	  weather = "Deszcz";
+		     
+			   
+		      	      
+		      this.pictureAdress = adress;
+		      this.weatherDescription = weather;
+	}
+		
+
 	
 }
