@@ -27,16 +27,16 @@ public class CountryWarningsHandlerCommon
 		return myinstance;
 	}
 	
-	public String getCountryInformation(String countryname)
+	public CountryInformation getCountryInformation(String countryname)
 	{
         CountryInformation countryInformation = new CountryInformation(countryname, "http://www.polakzagranica.msz.gov.pl" + CountriesList.getCountryHtmlsPosition(setCityList(countryname)));  
-		return countryInformation.getCountryInformationHtml().toString();
+		return countryInformation;
 	}
 	
-	public String getCityInformation(String cityname)
+	public CityInformation getCityInformation(String cityname)
 	{
 		CityInformation ci = new CityInformation(cityname.replaceAll(" ", "_"),false);
-		return ci.getCityInformationHtml().toString();
+		return ci;
 	}
 	
 	public String getWeatherInformation(String cityname)

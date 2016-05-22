@@ -31,50 +31,50 @@
                <children>
                   <VBox spacing="10.0">
                      <children>
-                        <Label text="Username" />
+                        <Label text="Nazwa użytkownika" />
                         <TextField fx:id="textfieldusername" />
                      </children>
                   </VBox>
                   <VBox spacing="10.0" GridPane.columnIndex="1">
                      <children>
-                        <Label text="E-mail" />
+                        <Label text="Adres e-mail" />
                         <TextField fx:id="textfieldemail" />
                      </children>
                   </VBox>
                   <VBox spacing="10.0" GridPane.rowIndex="1">
                      <children>
-                        <Label text="Password" />
+                        <Label text="Hasło" />
                         <PasswordField fx:id="passwordfield" />
                      </children>
                   </VBox>
                   <VBox spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <children>
-                        <Label text="Repeat password" />
+                        <Label text="Powtórz hasło" />
                         <PasswordField fx:id="passwordfieldrepeat" />
                      </children>
                   </VBox>
                   <VBox fx:id="vbox_countrybox" spacing="10.0" GridPane.rowIndex="2">
                      <children>
-                        <Label text="Country" />
+                        <Label text="Państwo" />
                      </children>
                   </VBox>
                   <VBox fx:id="vbox_citybox" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                      <children>
-                        <Label text="City" />
+                        <Label text="Miasto" />
                      </children>
                   </VBox>
                   <VBox fx:id="vbox_currencybox" spacing="10.0" GridPane.rowIndex="3">
                      <children>
-                        <Label text="Currency" />
+                        <Label text="Waluta" />
                      </children>
                   </VBox>
                </children>
             </GridPane>
             <HBox alignment="CENTER" VBox.vgrow="NEVER">
                <children>
-                  <Button fx:id="button_cancel" mnemonicParsing="false" text="Cancel" />
+                  <Button fx:id="button_cancel" mnemonicParsing="false" text="Anuluj" />
                   <Separator visible="false" HBox.hgrow="ALWAYS" />
-                  <Button fx:id="button_create" mnemonicParsing="false" text="Create" />
+                  <Button fx:id="button_create" mnemonicParsing="false" text="Utwórz konto" />
                </children>
             </HBox>
          </children>

@@ -25,7 +25,7 @@ public class ScreensController extends StackPane
 	{
 		screens.put(name, screen);
 	} 
-	
+
 	public boolean loadScreen(String name, String resource) 
 	{
 		try 
@@ -42,6 +42,27 @@ public class ScreensController extends StackPane
 	       e.printStackTrace();
 	       return false;
 		}
+		
+	} 
+	
+	public boolean loadScreenAndSet(String name, String resource) 
+	{
+		try 
+		{
+			FXMLLoader myLoader = new FXMLLoader(getClass().getResource(resource));
+			Parent loadScreen = (Parent) myLoader.load();
+			ControlledScreen myScreenControler = ((ControlledScreen) myLoader.getController());
+			myScreenControler.setScreenParent(this);
+			addScreen(name, loadScreen);
+			setScreen(name);
+			return true;
+		}
+		catch(Exception e) 
+		{
+	       e.printStackTrace();
+	       return false;
+		}
+		
 	} 
 	
 	public boolean setScreen(final String name) 

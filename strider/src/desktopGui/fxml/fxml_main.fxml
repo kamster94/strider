@@ -3,6 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Accordion?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TitledPane?>
@@ -22,30 +23,26 @@
                   <Image url="@ta_title.png" />
                </image>
             </ImageView>
+            <Label fx:id="label_welcome" text="Label" />
             <ScrollPane fitToHeight="true" fitToWidth="true" minHeight="-Infinity" minWidth="-Infinity" prefHeight="250.0" prefWidth="500.0" VBox.vgrow="ALWAYS">
                <content>
                   <Accordion>
                      <panes>
-                        <TitledPane animated="false" text="Travel">
+                        <TitledPane animated="false" text="Podróż">
                            <content>
                               <VBox alignment="TOP_CENTER" spacing="10.0">
                                  <children>
-                                    <Button fx:id="button_createtravel" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" text="Create new travel" VBox.vgrow="ALWAYS">
+                                    <Button fx:id="button_createtravel" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" text="Utwórz nową podróż" VBox.vgrow="ALWAYS">
                                        <font>
                                           <Font size="20.0" />
                                        </font>
                                     </Button>
-                                    <Button fx:id="button_viewcurtravel" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" text="View current travel" VBox.vgrow="ALWAYS">
+                                    <Button fx:id="button_edittravel" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" text="Edytuj zaplanowaną podróż" VBox.vgrow="ALWAYS">
                                        <font>
                                           <Font size="20.0" />
                                        </font>
                                     </Button>
-                                    <Button fx:id="button_additionalinfo" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" text="Additional information" VBox.vgrow="ALWAYS">
-                                       <font>
-                                          <Font size="20.0" />
-                                       </font>
-                                    </Button>
-                                    <Button fx:id="button_history" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" text="Travel history" VBox.vgrow="ALWAYS">
+                                    <Button fx:id="button_travelhistory" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" text="Przeglądaj historię podróży" VBox.vgrow="ALWAYS">
                                        <font>
                                           <Font size="20.0" />
                                        </font>
@@ -60,30 +57,16 @@
                               <Font size="20.0" />
                            </font>
                         </TitledPane>
-                        <TitledPane animated="false" text="Accomodation">
+                        <TitledPane animated="false" text="Inne opcje">
                            <content>
                               <VBox alignment="TOP_CENTER" spacing="10.0">
                                  <children>
-                                    <Button maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" text="Review hotels" VBox.vgrow="ALWAYS">
+                                    <Button fx:id="button_additionalinfo" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" text="Przeglądaj informacje szczegółowe">
                                        <font>
                                           <Font size="20.0" />
                                        </font>
                                     </Button>
-                                 </children>
-                                 <padding>
-                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                 </padding>
-                              </VBox>
-                           </content>
-                           <font>
-                              <Font size="20.0" />
-                           </font>
-                        </TitledPane>
-                        <TitledPane animated="false" text="Settings">
-                           <content>
-                              <VBox alignment="TOP_CENTER" spacing="10.0">
-                                 <children>
-                                    <Button fx:id="buttonoptions" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" text="Options" VBox.vgrow="ALWAYS">
+                                    <Button fx:id="button_ratehotel" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" text="Oceń hotel" VBox.vgrow="ALWAYS">
                                        <font>
                                           <Font size="20.0" />
                                        </font>
@@ -104,7 +87,9 @@
             </ScrollPane>
             <HBox alignment="BOTTOM_CENTER" spacing="10.0" VBox.vgrow="NEVER">
                <children>
-                  <Button fx:id="button_exit" mnemonicParsing="false" text="Exit" HBox.hgrow="ALWAYS" />
+                  <Button fx:id="button_exit" mnemonicParsing="false" text="Wyjście" HBox.hgrow="ALWAYS" />
+                  <Separator visible="false" HBox.hgrow="ALWAYS" />
+                  <Button fx:id="button_changeusersettings" mnemonicParsing="false" text="Zmień ustawienia użytkownika" />
                   <Separator visible="false" HBox.hgrow="ALWAYS" />
                   <ImageView fx:id="imageviewlogobottom" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
                      <image>

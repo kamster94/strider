@@ -41,6 +41,10 @@ public class ControllerSplashScreen implements Initializable, ClearableScreen, C
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) 
 	{
+		
+		textfieldemail.setText("adriank@exception.com");
+		passwordfieldpassword.setText("martyna");
+		
 		imageviewlogo.setImage(imglogopalms);
 		imageviewlogotitle.setImage(imglogotext);
 		
@@ -68,34 +72,70 @@ public class ControllerSplashScreen implements Initializable, ClearableScreen, C
 			passwordfieldpassword.getText();
 			DatabaseHandlerLogin dhl = new DatabaseHandlerLogin();
 			
-			int status = dhl.loginUser(textfieldemail.getText(), passwordfieldpassword.getText());
+			int dataverification = dhl.verifyDataValidity(textfieldemail.getText(), passwordfieldpassword.getText());
 			
-			if(status == -2)
+			if(dataverification == 0)
 			{
-				Alert alert = new Alert(AlertType.INFORMATION);
-				alert.setTitle("Login");
-				alert.setHeaderText(null);
-				alert.setContentText("Invalid password for user " + textfieldemail.getText());
-				alert.showAndWait();
-			}
-			else if(status == -1)
-			{
-				Alert alert = new Alert(AlertType.INFORMATION);
-				alert.setTitle("Login");
-				alert.setHeaderText(null);
-				alert.setContentText("User doesn't exist.");
-				alert.showAndWait();
-			}
-			else if(status == 0)
-			{
-				Alert alert = new Alert(AlertType.INFORMATION);
-				alert.setTitle("Login");
-				alert.setHeaderText(null);
-				alert.setContentText("Login succesfull!");
-				alert.showAndWait();
+				boolean userexists = dhl.checkEmailAvailability(textfieldemail.getText());
 				
-				clearComponents();
-				myController.setScreen(WindowMain.MAIN_SCREEN);
+				if(userexists == true)
+				{
+					int loginstatus = dhl.loginUser(textfieldemail.getText(), passwordfieldpassword.getText());
+					
+					if(loginstatus == 1)
+					{
+						Alert alert = new Alert(AlertType.INFORMATION);
+						alert.setTitle("Zaloguj");
+						alert.setHeaderText(null);
+						alert.setContentText("Zalogowano pomyœlnie.");
+						alert.showAndWait();
+						
+						clearComponents();
+						//myController.setScreen(WindowMain.MAIN_SCREEN);
+						myController.loadScreenAndSet(WindowMain.MAIN_SCREEN, WindowMain.MAIN_SCREEN_FXML);
+						
+					}
+					else if(loginstatus == 0)
+					{
+						Alert alert = new Alert(AlertType.INFORMATION);
+						alert.setTitle("Zaloguj");
+						alert.setHeaderText(null);
+						alert.setContentText("Nie istnieje u¿ytkownik dla podanego adresu e-mail.");
+						alert.showAndWait();
+					}
+					else if(loginstatus == -1)
+					{
+						Alert alert = new Alert(AlertType.INFORMATION);
+						alert.setTitle("Zaloguj");
+						alert.setHeaderText(null);
+						alert.setContentText("Podano z³e has³o dla u¿ytkownika " + textfieldemail.getText());
+						alert.showAndWait();
+					}
+				}
+				else
+				{
+					Alert alert = new Alert(AlertType.INFORMATION);
+					alert.setTitle("Zaloguj");
+					alert.setHeaderText(null);
+					alert.setContentText("Nie istnieje u¿ytkownik dla podanego adresu e-mail.");
+					alert.showAndWait();
+				}
+			}
+			else if(dataverification == 1)
+			{
+				Alert alert = new Alert(AlertType.INFORMATION);
+				alert.setTitle("Zaloguj");
+				alert.setHeaderText(null);
+				alert.setContentText("Niepoprawny adres e-mail.");
+				alert.showAndWait();
+			}
+			else if(dataverification == 2)
+			{
+				Alert alert = new Alert(AlertType.INFORMATION);
+				alert.setTitle("Zaloguj");
+				alert.setHeaderText(null);
+				alert.setContentText("D³ugoœæ has³a musi zawieraæ siê w przedziale od 6 do 32 znaków.");
+				alert.showAndWait();
 			}
 		}
 		else if(arg0.getSource() == buttoncreatenewaccount)

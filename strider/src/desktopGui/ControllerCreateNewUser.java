@@ -3,8 +3,8 @@ package desktopGui;
 import java.net.URL;
 import java.util.ResourceBundle;
 import Model.NewUser;
-import Model.User;
 import dbHandlers.DatabaseHandlerCommon;
+import dbHandlers.DatabaseHandlerLogin;
 import dbHandlers.DatabaseHandlerRegister;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -93,30 +93,19 @@ public class ControllerCreateNewUser implements Initializable, ClearableScreen, 
 		currencybox.setPromptText("Currency");
 	}
 
-	public int checkInput()
+	public int verifyData()
 	{
-		if(textfieldemail.getText().isEmpty() == false &&
-			passwordfield.getText().isEmpty() == false &&
-			passwordfieldrepeat.getText().isEmpty() == false &&
-			passwordfield.getText().equals(passwordfieldrepeat.getText()) &&
-			countrybox.getValue() != null &&
-			citybox.getValue() != null &&
-			currencybox.getValue() != null)
-		{
-			return 0;
-		}
-		else if(textfieldemail.getText().isEmpty() == false &&
-				passwordfield.getText().isEmpty() == false &&
-				passwordfieldrepeat.getText().isEmpty() == false &&
-				passwordfield.getText().equals(passwordfieldrepeat.getText())  == false &&
-				countrybox.getValue() != null &&
-				citybox.getValue() != null &&
-				currencybox.getValue() != null)
-		{
-			return 1;
-		}
-		else return 2;
+		if(textfieldusername.getText().isEmpty())return 1;
+		if(textfieldemail.getText().isEmpty())return 1;
+		if(passwordfield.getText().isEmpty())return 1;
+		if(passwordfieldrepeat.getText().isEmpty())return 1;
+		if(passwordfield.getText().equals(passwordfieldrepeat.getText()) == false)return 2;
+		if(passwordfield.getText().length() < 6 || passwordfield.getText().length() > 32)return 3;
+		
+		return 0;
 	}
+	
+	
 	
 	@Override
 	public void handle(ActionEvent arg0) 
@@ -128,7 +117,7 @@ public class ControllerCreateNewUser implements Initializable, ClearableScreen, 
 		}
 		else if(arg0.getSource() == button_create)
 		{
-			if(checkInput() == 0)
+			if(verifyData() == 0)
 			{
 				DatabaseHandlerRegister dhr = new DatabaseHandlerRegister();
 				int countryid = DatabaseHandlerCommon.getInstance().getCountryId(countrybox.getSelectionModel().getSelectedItem());
@@ -140,71 +129,81 @@ public class ControllerCreateNewUser implements Initializable, ClearableScreen, 
 				dhr.setUserCandidate(nu);
 				int dataval = dhr.verifyDataValidity();
 				
-				if(dataval == 1)
+				if(dataval == 0)
+				{
+					boolean isemailfree = dhr.checkEmailAvailability();
+					
+					if(isemailfree == true)
+					{
+						dhr.sendToDb();
+						Alert alert = new Alert(AlertType.INFORMATION);
+						alert.setTitle("Tworzenie konta");
+						alert.setHeaderText(null);
+						alert.setContentText("Poprawnie utworzono konto");
+						alert.showAndWait();
+						
+						DatabaseHandlerLogin dhl = new DatabaseHandlerLogin();
+						dhl.loginUser(nu.getEmail(), nu.getPassword());
+						
+						clearComponents();
+						myController.setScreen(WindowMain.MAIN_SCREEN);
+					}
+					else
+					{
+						Alert alert = new Alert(AlertType.INFORMATION);
+						alert.setTitle("Tworzenie konta");
+						alert.setHeaderText(null);
+						alert.setContentText("Ten adres e-mail jest ju¿ zajêty.");
+						alert.showAndWait();
+					}
+				}
+				else if(dataval == 1)
 				{
 					Alert alert = new Alert(AlertType.INFORMATION);
-					alert.setTitle("Create new account");
+					alert.setTitle("Tworzenie konta");
 					alert.setHeaderText(null);
-					alert.setContentText("Username exceeds 32 character limit.");
+					alert.setContentText("D³ugoœæ nazwy u¿ytkownika wykracza poza limit 32 znaków.");
 					alert.showAndWait();
-				}
+				}	
 				else if(dataval == 2)
 				{
 					Alert alert = new Alert(AlertType.INFORMATION);
-					alert.setTitle("Create new account");
+					alert.setTitle("Tworzenie konta");
 					alert.setHeaderText(null);
-					alert.setContentText("Invalid e-mail structure.");
+					alert.setContentText("Adres e-mail jest niepoprawny lub wykracza poza limit 32 znaków.");
 					alert.showAndWait();
 				}
 				else if(dataval == 3)
 				{
 					Alert alert = new Alert(AlertType.INFORMATION);
-					alert.setTitle("Create new account");
+					alert.setTitle("Tworzenie konta");
 					alert.setHeaderText(null);
-					alert.setContentText("Password length must be between 6 and 32 characters.");
+					alert.setContentText("D³ugoœæ has³a musi zawieraæ siê w przedziale od 6 do 32 znaków.");
 					alert.showAndWait();
 				}
-				else if(dataval == 0)
-				{
-					if(dhr.checkEmailAvailability() == false)
-					{
-						Alert alert = new Alert(AlertType.INFORMATION);
-						alert.setTitle("Create new account");
-						alert.setHeaderText(null);
-						alert.setContentText("This e-mail is already in use.");
-						alert.showAndWait();
-					}
-					else
-					{
-						int status = dhr.sendToDb();
-							
-						Alert alert = new Alert(AlertType.INFORMATION);
-						alert.setTitle("Create new account");
-						alert.setHeaderText(null);
-							
-						if(status == 1)alert.setContentText("Account created succesfully! \n You may now log in.");
-						else if(status == 0)alert.setContentText("Couldn't create the account! \n Please try again.");
-	
-						alert.showAndWait();
-						
-						myController.setScreen(WindowMain.SPLASH_SCREEN);
-					}	
-				}
 			}
-			else if(checkInput() == 1)
+			else if(verifyData() == 1)
 			{
 				Alert alert = new Alert(AlertType.INFORMATION);
-				alert.setTitle("Create new account");
+				alert.setTitle("Tworzenie konta");
 				alert.setHeaderText(null);
-				alert.setContentText("Password fields don't match.");
+				alert.setContentText("Wszystkie pola oprócz Pañstwa, Miasta i Waluty s¹ obowi¹zkowe.");
 				alert.showAndWait();
 			}
-			else if(checkInput() == 2)
+			else if(verifyData() == 2)
 			{
 				Alert alert = new Alert(AlertType.INFORMATION);
-				alert.setTitle("Create new account");
+				alert.setTitle("Tworzenie konta");
 				alert.setHeaderText(null);
-				alert.setContentText("All fields except 'Username' are mandatory.");
+				alert.setContentText("Wpisane has³a nie s¹ sobie równe.");
+				alert.showAndWait();
+			}
+			else if(verifyData() == 3)
+			{
+				Alert alert = new Alert(AlertType.INFORMATION);
+				alert.setTitle("Tworzenie konta");
+				alert.setHeaderText(null);
+				alert.setContentText("D³ugoœæ has³a musi zawieraæ siê w przedziale od 6 do 32 znaków.");
 				alert.showAndWait();
 			}
 		}
