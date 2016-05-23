@@ -1,5 +1,7 @@
 package dbHandlers;
 
+import java.util.Arrays;
+
 import Model.User;
 import dbConnection.DbAccess;
 
@@ -12,11 +14,22 @@ public class DatabaseHandlerLogin {
 		dbConnection = DbAccess.getInstance();
 	}
 	
+	public int verifyDataValidity(String email, String password)
+	{
+		if (!email.contains("@") || email.length() > 32) return 1;
+		if (password.length() < 6 || password.length() > 32) return 2;
+		return 0;
+		
+	}
+	
+	public boolean checkEmailAvailability(String email){
+		return !dbConnection.checkBoolInDb("SELECT DBA.fCheckIfExist(?)", Arrays.asList(email));
+	}
 	
 	public int loginUser(String email, String password){
 		int status = dbConnection.getIntFromDb("SELECT DBA.fCheckUser('" + email + "', '" + password + "')");
 		
-		if (status == 0) {
+		if (status == 1) {
 			user = User.getInstance();
 			user.setEmail(email);
 			String userName = dbConnection.getSingeStringFromDb("SELECT UserName FROM DBA.UserData WHERE UserData.Email = '" + email + "'", "UserName");

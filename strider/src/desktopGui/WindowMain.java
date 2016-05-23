@@ -30,6 +30,9 @@ public class WindowMain extends Application
     public static final String SPLASH_SCREEN = "splash";
 	public static final String SPLASH_SCREEN_FXML = "fxml/fxml_splashscreen.fxml"; 
 	
+    public static final String SPLASH_SCREEN_OFFLINE = "splash_offline";
+	public static final String SPLASH_SCREEN_OFFLINE_FXML = "fxml/fxml_splashscreen_offline.fxml"; 
+	
     public static final String CREATEACCOUNT_SCREEN = "createnewaccount";
 	public static final String CREATEACCOUNT_SCREEN_FXML = "fxml/fxml_createaccount.fxml"; 
 	
@@ -39,11 +42,8 @@ public class WindowMain extends Application
 	public static final String ADDINFO_SCREEN = "additionalinfo";
 	public static final String ADDINFO_SCREEN_FXML = "fxml/fxml_additionalinformations.fxml";
 
-	public static final String NEWTRAVEL_1 = "newtravel1";
-	public static final String NEWTRAVEL_1_FXML = "fxml/fxml_createtravel_first.fxml";
-	
-	public static final String NEWTRAVEL_2 = "newtravel2";
-	public static final String NEWTRAVEL_2_FXML = "fxml/fxml_createtravel_second.fxml";
+	public static final String NEWTRAVEL = "newtravel";
+	public static final String NEWTRAVEL_FXML = "fxml/fxml_createtravel.fxml";
 	
 	public static final String TRAVEL_SUMMARY = "travelsummary";
 	public static final String TRAVEL_SUMMARY_FXML = "fxml/fxml_travelsummary.fxml";
@@ -74,30 +74,32 @@ public class WindowMain extends Application
 	    }
 		
 		ScreensController mainContainer = new ScreensController();
-		mainContainer.loadScreen(WindowMain.SPLASH_SCREEN, WindowMain.SPLASH_SCREEN_FXML);
-		mainContainer.setScreen(WindowMain.SPLASH_SCREEN);
+		
+		//mainContainer.loadScreen(WindowMain.SPLASH_SCREEN_OFFLINE, WindowMain.SPLASH_SCREEN_OFFLINE_FXML);
 		
 		//Nie ma sensu ³adowaæ tego ¿eby u¿ytkownik mia³ krzaka, bo i tak sie nie zaloguje skoro nie ma po³¹czenia z baz¹ ;3
 		if(DbAccess.getInstance().testConnection() == true)
 		{
-
+			mainContainer.loadScreenAndSet(WindowMain.SPLASH_SCREEN, WindowMain.SPLASH_SCREEN_FXML);
+			/*
+			mainContainer.setScreen(WindowMain.SPLASH_SCREEN);
+			mainContainer.loadScreen(WindowMain.CREATEACCOUNT_SCREEN, WindowMain.CREATEACCOUNT_SCREEN_FXML);
+			mainContainer.loadScreen(WindowMain.MAIN_SCREEN, WindowMain.MAIN_SCREEN_FXML);
+			mainContainer.loadScreen(WindowMain.ADDINFO_SCREEN, WindowMain.ADDINFO_SCREEN_FXML);
+			mainContainer.loadScreen(WindowMain.NEWTRAVEL_1, WindowMain.NEWTRAVEL_1_FXML);
+			mainContainer.loadScreen(WindowMain.NEWTRAVEL_2, WindowMain.NEWTRAVEL_2_FXML);
+			mainContainer.loadScreen(WindowMain.TRAVEL_SUMMARY, WindowMain.TRAVEL_SUMMARY_FXML);
+			*/
 		}
 		else
 		{
+			mainContainer.loadScreenAndSet(WindowMain.SPLASH_SCREEN_OFFLINE, WindowMain.SPLASH_SCREEN_OFFLINE_FXML);
 			Alert alert = new Alert(AlertType.INFORMATION);
 			alert.setTitle("Connection error");
 			alert.setHeaderText(null);
 			alert.setContentText("Couldn't establish connection to the database.");
 			alert.showAndWait();
 		}
-		
-		//Wrzuciæ to powy¿ej do ifa ¿eby nie ³adowa³o wszystkiego jeœli nie ma po³¹czenia z baz¹
-		mainContainer.loadScreen(WindowMain.CREATEACCOUNT_SCREEN, WindowMain.CREATEACCOUNT_SCREEN_FXML);
-		mainContainer.loadScreen(WindowMain.MAIN_SCREEN, WindowMain.MAIN_SCREEN_FXML);
-		mainContainer.loadScreen(WindowMain.ADDINFO_SCREEN, WindowMain.ADDINFO_SCREEN_FXML);
-		mainContainer.loadScreen(WindowMain.NEWTRAVEL_1, WindowMain.NEWTRAVEL_1_FXML);
-		mainContainer.loadScreen(WindowMain.NEWTRAVEL_2, WindowMain.NEWTRAVEL_2_FXML);
-		mainContainer.loadScreen(WindowMain.TRAVEL_SUMMARY, WindowMain.TRAVEL_SUMMARY_FXML);
 		
 		root = new StackPane();
 		root.getChildren().addAll(mainContainer);
@@ -139,12 +141,12 @@ public class WindowMain extends Application
 		return currencyBox;
 	}
 
-	
+	/*
 	public static void resizeWindowToContents()
 	{
 		mystage.getScene().getWindow().sizeToScene();
 	}
-	
+	*/
 	public static void closeWindow()
 	{
 		FadeTransition ft = new FadeTransition(Duration.millis(1000), root);
