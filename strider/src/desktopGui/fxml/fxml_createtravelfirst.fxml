@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<StackPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="desktopGui.ControllerCreateTravelFirst">
+   <children>
+      <VBox spacing="10.0">
+         <children>
+            <VBox alignment="TOP_CENTER" VBox.vgrow="ALWAYS">
+               <children>
+                  <VBox alignment="CENTER" spacing="10.0">
+                     <children>
+                        <Label text="Nazwa podróży" />
+                        <TextField fx:id="textfield_tripname" />
+                     </children>
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
+                  </VBox>
+                  <HBox alignment="CENTER">
+                     <children>
+                        <VBox alignment="CENTER" spacing="10.0" HBox.hgrow="ALWAYS">
+                           <children>
+                              <Label text="Początek" />
+                              <DatePicker fx:id="datepicker_start" />
+                           </children>
+                           <padding>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </padding>
+                        </VBox>
+                        <VBox alignment="CENTER" spacing="10.0" HBox.hgrow="ALWAYS">
+                           <children>
+                              <Label text="Koniec" />
+                              <DatePicker fx:id="datepicker_end" />
+                           </children>
+                           <padding>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </padding>
+                        </VBox>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <HBox alignment="CENTER">
+               <children>
+                  <Button fx:id="button_cancel" mnemonicParsing="false" text="Anuluj" />
+                  <Separator visible="false" HBox.hgrow="ALWAYS" />
+                  <Button fx:id="button_next" mnemonicParsing="false" text="Dalej" />
+               </children>
+            </HBox>
+         </children>
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
+      </VBox>
+   </children>
+</StackPane>

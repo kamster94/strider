@@ -1,6 +1,8 @@
 package Model;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -8,22 +10,19 @@ public class Travel
 {
 	private int id;
 	private String name;
-	private LocalDate startdate;
-	private LocalDate enddate;
+	private LocalDateTime startdate;
+	private LocalDateTime enddate;
 	private int id_country_origin;
 	private int id_city_origin;
 	private int companionsnumber;
 	private List<Stage> travelstages;
 	
 	
-	public Travel(String namex, LocalDate startdatex, LocalDate enddatex, int idcountryoriginx, int idcityoriginx, int companionsnumberx) 
+	public Travel(String namex, LocalDateTime startdatex, LocalDateTime enddatex) 
 	{
 		name = namex;
 		startdate = startdatex;
 		enddate = enddatex;
-		id_country_origin = idcountryoriginx;
-		id_city_origin = idcityoriginx;
-		companionsnumber = companionsnumberx;
 		travelstages = new LinkedList<Stage>();
 	}
 
@@ -45,11 +44,11 @@ public class Travel
 	{
 		name = namex;
 	}
-	public void setStartDate(LocalDate startdatex)
+	public void setStartDate(LocalDateTime startdatex)
 	{
 		startdate = startdatex;
 	}
-	public void setEndDate(LocalDate enddatex)
+	public void setEndDate(LocalDateTime enddatex)
 	{
 		enddate = enddatex;
 	}
@@ -74,11 +73,11 @@ public class Travel
 	{
 		return name;
 	}
-	public LocalDate getStartDate()
+	public LocalDateTime getStartDate()
 	{
 		return startdate;
 	}
-	public LocalDate getEndDate()
+	public LocalDateTime getEndDate()
 	{
 		return enddate;
 	}
@@ -102,4 +101,10 @@ public class Travel
 	{
 		return companionsnumber;
 	}
+	public long getDaysNumber()
+	{
+		//+2 Bo liczymy jescze dzieñ pocz¹tkowy i koñcowy
+		return ChronoUnit.DAYS.between(startdate, enddate) + 2;
+	}
+	
 }

@@ -42,8 +42,11 @@ public class WindowMain extends Application
 	public static final String ADDINFO_SCREEN = "additionalinfo";
 	public static final String ADDINFO_SCREEN_FXML = "fxml/fxml_additionalinformations.fxml";
 
-	public static final String NEWTRAVEL = "newtravel";
-	public static final String NEWTRAVEL_FXML = "fxml/fxml_createtravel.fxml";
+	public static final String NEWTRAVELFIRST = "newtravelfirst";
+	public static final String NEWTRAVELFIRST_FXML = "fxml/fxml_createtravelfirst.fxml";
+	
+	public static final String NEWTRAVELSECOND = "newtravelsecond";
+	public static final String NEWTRAVELSECOND_FXML = "fxml/fxml_createtravelsecond.fxml";
 	
 	public static final String TRAVEL_SUMMARY = "travelsummary";
 	public static final String TRAVEL_SUMMARY_FXML = "fxml/fxml_travelsummary.fxml";
@@ -74,22 +77,10 @@ public class WindowMain extends Application
 	    }
 		
 		ScreensController mainContainer = new ScreensController();
-		
-		//mainContainer.loadScreen(WindowMain.SPLASH_SCREEN_OFFLINE, WindowMain.SPLASH_SCREEN_OFFLINE_FXML);
-		
 		//Nie ma sensu ³adowaæ tego ¿eby u¿ytkownik mia³ krzaka, bo i tak sie nie zaloguje skoro nie ma po³¹czenia z baz¹ ;3
 		if(DbAccess.getInstance().testConnection() == true)
 		{
 			mainContainer.loadScreenAndSet(WindowMain.SPLASH_SCREEN, WindowMain.SPLASH_SCREEN_FXML);
-			/*
-			mainContainer.setScreen(WindowMain.SPLASH_SCREEN);
-			mainContainer.loadScreen(WindowMain.CREATEACCOUNT_SCREEN, WindowMain.CREATEACCOUNT_SCREEN_FXML);
-			mainContainer.loadScreen(WindowMain.MAIN_SCREEN, WindowMain.MAIN_SCREEN_FXML);
-			mainContainer.loadScreen(WindowMain.ADDINFO_SCREEN, WindowMain.ADDINFO_SCREEN_FXML);
-			mainContainer.loadScreen(WindowMain.NEWTRAVEL_1, WindowMain.NEWTRAVEL_1_FXML);
-			mainContainer.loadScreen(WindowMain.NEWTRAVEL_2, WindowMain.NEWTRAVEL_2_FXML);
-			mainContainer.loadScreen(WindowMain.TRAVEL_SUMMARY, WindowMain.TRAVEL_SUMMARY_FXML);
-			*/
 		}
 		else
 		{
@@ -117,7 +108,6 @@ public class WindowMain extends Application
 		return new LatLong(52.232222, 21.008333);
 	}
 	
-	
 	public static ComboBox<String> getCityBox()
 	{
 		ComboBox<String> cityBox = new ComboBox<String>();	
@@ -141,12 +131,6 @@ public class WindowMain extends Application
 		return currencyBox;
 	}
 
-	/*
-	public static void resizeWindowToContents()
-	{
-		mystage.getScene().getWindow().sizeToScene();
-	}
-	*/
 	public static void closeWindow()
 	{
 		FadeTransition ft = new FadeTransition(Duration.millis(1000), root);

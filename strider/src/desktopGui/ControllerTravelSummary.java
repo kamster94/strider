@@ -44,20 +44,18 @@ public class ControllerTravelSummary implements Initializable, ControlledScreen,
     
     @FXML
     private static Accordion accordionstages;
-
-    private static int windowtype;
     
-    public static void lateInitialize(int arg)
+    public static void lateInitialize()
     {
-    	windowtype = arg;
+    	//windowtype = arg;
 
     	accordionstages.getPanes().removeAll(accordionstages.getPanes());
     	
     	if(TravelFramework.getInstance().hasTravel() == true)
     	{
     		int curuser = User.getInstance().getId();
-    		int curtravel = TravelFramework.getInstance().getCurrentTravel().getId();
-    		System.out.println("Cur travel id : " + TravelFramework.getInstance().getCurrentTravel().getId());
+    		int curtravel = TravelFramework.getInstance().getTravel().getId();
+    		System.out.println("Cur travel id : " + TravelFramework.getInstance().getTravel().getId());
     	
     		List<Integer> ids = DatabaseHandlerStage.getInstance().getStageIdentifiers(curuser, curtravel);
 
@@ -118,14 +116,7 @@ public class ControllerTravelSummary implements Initializable, ControlledScreen,
 	{
 		if(arg0.getSource() == button_back)
 		{
-			if(windowtype == 0)
-			{
-				myController.setScreen(WindowMain.NEWTRAVEL_2);
-			}
-			else if(windowtype == 1)
-			{
-				myController.setScreen(WindowMain.MAIN_SCREEN);
-			}
+			myController.setScreen(WindowMain.NEWTRAVELSECOND);
 		}
 	}
 

@@ -1,225 +1,141 @@
 package desktopGui;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
 import java.net.URL;
-import java.nio.charset.Charset;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ResourceBundle;
 
-import org.apache.commons.io.FileUtils;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-
+import Model.Travel;
 import Model.TravelFramework;
-import Model.User;
-import dbHandlers.DatabaseHandlerCommon;
-import dbHandlers.DatabaseHandlerTripAdder;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Control;
 import javafx.scene.control.DatePicker;
-import javafx.scene.control.ListView;
-import javafx.scene.control.Spinner;
-import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.VBox;
+import javafx.scene.control.Alert.AlertType;
+
 
 public class ControllerCreateTravelFirst implements Initializable, ClearableScreen, ControlledScreen, EventHandler<ActionEvent>
 {
 	ScreensController myController;
 
     @FXML
-    private TextField textfieldtravelname;
+    private TextField textfield_tripname;
+
     @FXML
-    private DatePicker datepickerstart;
-    @FXML
-    private DatePicker datepickerend;
-    @FXML
-    private VBox vbox_countrybox;
-    @FXML
-    private VBox vbox_citybox;
-    @FXML
-    private Spinner<Integer> spinnercompanions;
-    @FXML
-    private Button button_back;
+    private Button button_cancel;
+
     @FXML
     private Button button_next;
     
     @FXML
-    private static ComboBox<String> citybox;
+    private DatePicker datepicker_start;
+
     @FXML
-    private static ComboBox<String> countrybox;
+    private DatePicker datepicker_end;
 	
-    public static void lateInitialize()
-    {
-		//Preferowane miasto i panstwo startowe usera
-		System.out.println("Pref country : " + User.getInstance().getCountryId());
-		System.out.println("Pref city : " + User.getInstance().getCityId());
-		countrybox.getSelectionModel().select(User.getInstance().getCountryId());
-		citybox.getSelectionModel().select(User.getInstance().getCityId());
-    }
-    
     
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) 
 	{
+		textfield_tripname.setPromptText("Nazwa podró¿y");
+		datepicker_start.setPromptText("Pierwszy dzieñ");
+		datepicker_end.setPromptText("Ostatni dzieñ");
+		
+		button_cancel.setOnAction(this);
 		button_next.setOnAction(this);
-		button_back.setOnAction(this);
-
-		citybox = WindowMain.getCityBox();
-		countrybox = WindowMain.getCountryBox();
-
-		vbox_countrybox.getChildren().add(countrybox);
-		vbox_citybox.getChildren().add(citybox);
-	
-		datepickerstart.setEditable(false);
-		datepickerend.setEditable(false);
-		datepickerstart.setValue(LocalDate.now());
-		datepickerstart.setOnAction(this);
-		datepickerend.setOnAction(this);
 		
-		SpinnerValueFactory<Integer> svf= new SpinnerValueFactory.IntegerSpinnerValueFactory(0,10);
-		spinnercompanions.setValueFactory(svf);
-		spinnercompanions.setEditable(false);
+		datepicker_start.setOnAction(this);
+		datepicker_end.setOnAction(this);
 		
-		countrybox.valueProperty().addListener(new ChangeListener<String>() 
-		{
-			@Override
-			public void changed(ObservableValue<? extends String> arg0, String arg1, String arg2) 
-			{
-				citybox.getSelectionModel().clearSelection();
-				int countryid = DatabaseHandlerCommon.getInstance().getCountryId(countrybox.getSelectionModel().getSelectedItem());
-				citybox.getItems().setAll(DatabaseHandlerCommon.getInstance().getCities(countryid));
-			}
-		});
-	}
-	
-	@Override
-	public void setScreenParent(ScreensController screenParent) 
-	{
-		myController = screenParent; 
-	}
-
-	public void sanitizeDatePickers()
-	{
-		if(datepickerstart.getValue() != null)
-		{
-			if(datepickerstart.getValue().isBefore(LocalDate.now()))
-			{
-				datepickerstart.setValue(LocalDate.now());
-			}
-		}
-		
-		if((datepickerend.getValue() != null) && (datepickerstart.getValue() != null))
-		{
-			if(datepickerend.getValue().isBefore(LocalDate.now()))
-			{
-				datepickerend.setValue(datepickerstart.getValue().plusDays(1));
-			}
-			if(datepickerend.getValue().isBefore(datepickerstart.getValue()))
-			{
-				datepickerend.setValue(datepickerstart.getValue().plusDays(1));
-			}
-		}
+		datepicker_start.setValue(LocalDate.now());
+		datepicker_end.setValue(LocalDate.now().plusDays(1));
 	}
 	
 	public boolean checkInputCompletion()
 	{
-		if((textfieldtravelname.getText().isEmpty() == false) &&
-			(datepickerstart.getValue() != null) &&
-			(datepickerend.getValue() != null) &&
-			(countrybox.getValue() != null) &&
-			(citybox.getValue() != null) &&
-			(spinnercompanions.getValue() != null))
-		{
-			return true;
-		}
-		else return false;
+		if(textfield_tripname.getText().isEmpty() == true)return false;
+		if(datepicker_start.getValue() == null)return false;
+		if(datepicker_end.getValue() == null)return false;
+		return true;
 	}
+	
+	public void sanitazeDatepickers()
+	{
+		if(datepicker_start.getValue().compareTo(LocalDate.now()) < 0)
+		{
+			datepicker_start.setValue(LocalDate.now());
+		}
+
+		if(datepicker_end.getValue().compareTo(datepicker_start.getValue()) < 0)
+		{
+			datepicker_end.setValue(datepicker_start.getValue().plusDays(1));
+		}
+	}
+	
+	
 	
 	@Override
 	public void handle(ActionEvent arg0) 
 	{
-		if((arg0.getSource() == datepickerstart) || (arg0.getSource() == datepickerend))
-		{
-			sanitizeDatePickers();
-		}
-		else if(arg0.getSource() == button_back)
-		{
-			myController.setScreen(WindowMain.MAIN_SCREEN);
-		}
-		else if(arg0.getSource() == button_next)
+		if(arg0.getSource() == button_next)
 		{
 			if(checkInputCompletion() == true)
 			{
+				LocalDateTime startdate = LocalDateTime.of(datepicker_start.getValue(), LocalTime.MIN);
+				LocalDateTime enddate = LocalDateTime.of(datepicker_end.getValue(), LocalTime.MIN);
 				
-				if(TravelFramework.getInstance().hasTravel())
+				long difference = ChronoUnit.DAYS.between(startdate, enddate);
+				
+				if(difference > 28)
 				{
-					if(textfieldtravelname.getText() != TravelFramework.getInstance().getCurrentTravel().getName())
-					{
-						TravelFramework.getInstance().getCurrentTravel().setName(textfieldtravelname.getText());
-					}
-					if(datepickerstart.getValue() != TravelFramework.getInstance().getCurrentTravel().getStartDate())
-					{
-						TravelFramework.getInstance().getCurrentTravel().setStartDate(datepickerstart.getValue());
-					}
-					if(datepickerend.getValue() != TravelFramework.getInstance().getCurrentTravel().getEndDate())
-					{
-						TravelFramework.getInstance().getCurrentTravel().setEndDate(datepickerend.getValue());
-					}
-					if(countrybox.getSelectionModel().getSelectedIndex() != TravelFramework.getInstance().getCurrentTravel().getCountryOriginId())
-					{
-						TravelFramework.getInstance().getCurrentTravel().setCountryOriginId(countrybox.getSelectionModel().getSelectedIndex());
-					}
-					if(citybox.getSelectionModel().getSelectedIndex() != TravelFramework.getInstance().getCurrentTravel().getCityOriginId())
-					{
-						TravelFramework.getInstance().getCurrentTravel().setCityOriginId(citybox.getSelectionModel().getSelectedIndex());
-					}
+					Alert alert = new Alert(AlertType.INFORMATION);
+					alert.setTitle("Tworzenie podró¿y");
+					alert.setHeaderText(null);
+					alert.setContentText("Podró¿ jest zbyt d³uga (maksimum 28 dni).");
+					alert.showAndWait();
 				}
 				else
 				{
-					TravelFramework.getInstance().createNewTravel(textfieldtravelname.getText(), datepickerstart.getValue(), datepickerend.getValue(), countrybox.getSelectionModel().getSelectedIndex(), citybox.getSelectionModel().getSelectedIndex(), spinnercompanions.getValue().intValue());
-					
-					//Nie spamujmy bazy póki co
-					DatabaseHandlerTripAdder dbhta = new DatabaseHandlerTripAdder();
-					dbhta.setTravel(TravelFramework.getInstance().getCurrentTravel());
-					TravelFramework.getInstance().getCurrentTravel().setId(dbhta.pushTravelToDatabase());
-					
-					
-					TravelFramework.getInstance().print();
-					System.out.println(TravelFramework.getInstance().getCurrentTravel().getId());
+					Travel trav = new Travel(textfield_tripname.getText(), startdate, enddate);
+				
+					TravelFramework.getInstance().setTravel(trav);
+
+					myController.loadScreen(WindowMain.NEWTRAVELSECOND, WindowMain.NEWTRAVELSECOND_FXML);
+					myController.setScreen(WindowMain.NEWTRAVELSECOND);
 				}
-				myController.setScreen(WindowMain.NEWTRAVEL_2);	
-				ControllerCreateTravelSecond.lateInitialize();
+			}
+			else
+			{
+				Alert alert = new Alert(AlertType.INFORMATION);
+				alert.setTitle("Tworzenie podró¿y");
+				alert.setHeaderText(null);
+				alert.setContentText("Nale¿y wype³niæ wszystkie pola.");
+				alert.showAndWait();
 			}
 		}
+		else if(arg0.getSource() == button_cancel)
+		{
+			myController.loadScreenAndSet(WindowMain.MAIN_SCREEN, WindowMain.MAIN_SCREEN_FXML);
+		}
+		else if(arg0.getSource().getClass() == DatePicker.class)
+		{
+			sanitazeDatepickers();
+		}
 	}
-
+	
+	@Override
+	public void setScreenParent(ScreensController screenParent)
+	{
+		// TODO Auto-generated method stub
+		myController = screenParent; 
+	}
+	
 	@Override
 	public void clearComponents()
 	{

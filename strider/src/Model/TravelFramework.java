@@ -13,9 +13,7 @@ public class TravelFramework
 		System.out.println("Name: " + curtravel.getName());
 		System.out.println("Startdate: " + curtravel.getStartDate());
 		System.out.println("Enddate: " + curtravel.getEndDate());
-		System.out.println("Start country: " + curtravel.getCountryOriginId());
-		System.out.println("Start city: " + curtravel.getCityOriginId());
-		System.out.println("Companions: " + curtravel.getCompanionsNumber());
+		//System.out.println("Companions: " + curtravel.getCompanionsNumber());
 	}
 	
 	private TravelFramework() 
@@ -29,21 +27,24 @@ public class TravelFramework
 		return tfinstance;
 	}
 	
-	public void createNewTravel(String namex, LocalDate startdatex, LocalDate enddatex, int idcountryoriginx, int idcityoriginx, int companionsnumberx) 
+	public void setTravel(Travel t) 
 	{
-		if(curtravel == null)
-		{
-			curtravel = new Travel(namex, startdatex, enddatex, idcountryoriginx, idcityoriginx, companionsnumberx);
-		}
+		clearTravel();
+		curtravel = t;
 	}
 
+	public void clearTravel()
+	{
+		curtravel = null;
+	}
+	
 	public boolean hasTravel()
 	{
 		if(curtravel == null)return false;
 		else return true;
 	}
 	
-	public Travel getCurrentTravel()
+	public Travel getTravel()
 	{
 		return curtravel;
 	}

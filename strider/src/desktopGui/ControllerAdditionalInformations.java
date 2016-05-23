@@ -108,7 +108,7 @@ public class ControllerAdditionalInformations implements Initializable, Clearabl
 			}
 			else 
 			{
-				countryWebView.getEngine().load("http://www.goatse.info/hello.jpg");
+				countryWebView.getEngine().load("https://www.youtube.com/watch?v=rEckY-TUv9I");
 			}
 			
 		}

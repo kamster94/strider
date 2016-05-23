@@ -76,7 +76,7 @@ public class ControllerMain implements Initializable, ControlledScreen, EventHan
 		}
 		else if(arg0.getSource() == button_createtravel)
 		{
-			myController.loadScreenAndSet(WindowMain.NEWTRAVEL, WindowMain.NEWTRAVEL_FXML);
+			myController.loadScreenAndSet(WindowMain.NEWTRAVELFIRST, WindowMain.NEWTRAVELFIRST_FXML);
 		}
 		else if(arg0.getSource() == button_exit)
 		{
