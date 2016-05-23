@@ -182,6 +182,7 @@ public class SampleController implements Initializable, ControlledScreen{
         		weatherLabel.setText(weatherInformation.getWeatherDescription());
         		
         		showMapBttn.setDisable(false);
+        		
 	        }
 	    });
 
