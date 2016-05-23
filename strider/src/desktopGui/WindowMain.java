@@ -77,7 +77,9 @@ public class WindowMain extends Application
 	    }
 		
 		ScreensController mainContainer = new ScreensController();
+		
 		//Nie ma sensu ³adowaæ tego ¿eby u¿ytkownik mia³ krzaka, bo i tak sie nie zaloguje skoro nie ma po³¹czenia z baz¹ ;3
+		
 		if(DbAccess.getInstance().testConnection() == true)
 		{
 			mainContainer.loadScreenAndSet(WindowMain.SPLASH_SCREEN, WindowMain.SPLASH_SCREEN_FXML);
@@ -98,11 +100,18 @@ public class WindowMain extends Application
 
 		primaryStage.setScene(scene);
 		primaryStage.getScene().getStylesheets().add(getClass().getResource("fxml/ta_mainwindow.css").toExternalForm());
+		primaryStage.setMinWidth(800);
+		primaryStage.setMinHeight(600);
 		primaryStage.show(); 
 		
 		mystage = primaryStage;
 	}
 	
+	public static void refreshWindowContents()
+	{
+		mystage.getScene().getWindow().sizeToScene();
+	}
+
 	public static LatLong getDefaultCoordinations()
 	{
 		return new LatLong(52.232222, 21.008333);

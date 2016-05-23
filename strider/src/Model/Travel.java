@@ -3,6 +3,7 @@ package Model;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -15,7 +16,7 @@ public class Travel
 	private int id_country_origin;
 	private int id_city_origin;
 	private int companionsnumber;
-	private List<Stage> travelstages;
+	public List<Day> days;
 	
 	
 	public Travel(String namex, LocalDateTime startdatex, LocalDateTime enddatex) 
@@ -23,19 +24,52 @@ public class Travel
 		name = namex;
 		startdate = startdatex;
 		enddate = enddatex;
-		travelstages = new LinkedList<Stage>();
+		days = new LinkedList<Day>();
+		
+		for(int i = 0; i < getDaysNumber(); i++)
+		{
+			days.add(new Day(startdate.plusDays(i)));
+		}
+		
+		
+		
 	}
 
-	public void addStage(Stage stg)
+	public void addAttractionToDay(LocalDateTime date, Attraction attr)
 	{
-		travelstages.add(stg);
+		for(int i = 0; i < days.size(); i++)
+		{
+			if(days.get(i).date.equals(date))days.get(i).attractions.add(attr);
+		}
 	}
 	
-	public Stage getStage(int indx)
+	public void printDays()
 	{
-		return travelstages.get(indx);
+		for(Day d : days)
+		{
+			System.out.println("Day : " + d.date);
+		}
 	}
 	
+	/*
+	public void addStage(StageType stg)
+	{
+		travelelements.add(stg);
+		System.out.println("ADDED STAGE");
+	}
+	
+	public StageType getStage(int indx)
+	{
+		return travelelements.get(indx);
+	}
+	
+	public List<StageType> getStageList()
+	{
+		return travelelements;
+	}
+	
+	
+	*/
 	public void setId(int idx)
 	{
 		id = idx;
@@ -103,8 +137,7 @@ public class Travel
 	}
 	public long getDaysNumber()
 	{
-		//+2 Bo liczymy jescze dzieñ pocz¹tkowy i koñcowy
-		return ChronoUnit.DAYS.between(startdate, enddate) + 2;
+		return ChronoUnit.DAYS.between(startdate, enddate) + 1;
 	}
 	
 }

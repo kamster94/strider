@@ -81,6 +81,7 @@ public class ScreensController extends StackPane
 				
 				getChildren().add(0, screens.get(name));
 				getScene().getWindow().sizeToScene();
+				WindowMain.refreshWindowContents();
 			} 
 			else 
 			{

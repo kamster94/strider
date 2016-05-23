@@ -5,8 +5,11 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import Model.Attraction;
 import Model.AttractionDetails;
+import Model.Day;
 import Model.HotelDetails;
+
 import Model.TravelFramework;
 import Model.User;
 import dbHandlers.DatabaseHandlerAttractionAdder;
@@ -16,11 +19,13 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.TextArea;
@@ -45,55 +50,16 @@ public class ControllerTravelSummary implements Initializable, ControlledScreen,
     @FXML
     private static Accordion accordionstages;
     
-    public static void lateInitialize()
+    public void addTitlePane()
     {
-    	//windowtype = arg;
-
-    	accordionstages.getPanes().removeAll(accordionstages.getPanes());
     	
-    	if(TravelFramework.getInstance().hasTravel() == true)
-    	{
-    		int curuser = User.getInstance().getId();
-    		int curtravel = TravelFramework.getInstance().getTravel().getId();
-    		System.out.println("Cur travel id : " + TravelFramework.getInstance().getTravel().getId());
     	
-    		List<Integer> ids = DatabaseHandlerStage.getInstance().getStageIdentifiers(curuser, curtravel);
-
-    		for(Integer integer : ids)
-    		{
-    			int stagetype = DatabaseHandlerStage.getInstance().getStageType(curuser, curtravel, integer.intValue());
-    			TitledPane tp = new TitledPane();
-    			
-    			if(stagetype == 1)
-    			{
-    				int id_attr_det = DatabaseHandlerStage.getInstance().getAttractionDetailsId(curtravel, integer.intValue());
-    				tp.setText("AttractionDetails_ID : " + id_attr_det);
-    				
-    			}
-    			else if(stagetype == 2)
-    			{
-    				int id_hotel_det = DatabaseHandlerStage.getInstance().getHotelDetailsId(curtravel, integer.intValue());
-    				tp.setText("HotelDetails_ID : " + id_hotel_det);
-    			}
-    			else if(stagetype == 3)
-    			{
-    				int id_transp_det = DatabaseHandlerStage.getInstance().getTransportDetailsId(curtravel, integer.intValue());
-    				tp.setText("TransportDetails_ID : " + id_transp_det);
-    			} 
-    			accordionstages.getPanes().add(tp);
-    		}
-    	}
-    	else
-    	{
-			Alert alert = new Alert(AlertType.INFORMATION);
-			alert.setTitle("Travel summary");
-			alert.setHeaderText(null);
-			alert.setContentText("No current travel to display!");
-			alert.showAndWait();
-			myController.setScreen(WindowMain.MAIN_SCREEN);
-    	}
+    	
+    	
     }
     
+    
+ 
     
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) 
@@ -103,6 +69,52 @@ public class ControllerTravelSummary implements Initializable, ControlledScreen,
 	  	mainvbox.getChildren().add(accordionstages);
 	  	mainvbox.getChildren().get(1).toBack();
 		button_back.setOnAction(this);
+		
+    	//windowtype = arg;
+
+
+    		int curuser = User.getInstance().getId();
+    		int curtravel = TravelFramework.getInstance().getTravel().getId();
+    		System.out.println("I HAZ TRAVEL");
+    		
+    		List<Day> traveldays = TravelFramework.getInstance().getTravel().days;
+    		
+    		int daynum = 1;
+    		
+    		for(Day day : traveldays)
+    		{
+
+    			TitledPane daytp = new TitledPane();
+    			VBox dayvbox = new VBox();
+    			daytp.setContent(dayvbox);
+    			
+    			daytp.setText("Day " + daynum + " | " + day.date.getDayOfMonth() + "-" + day.date.getMonthValue() +"-" + day.date.getYear());
+    	
+    			for(Attraction at : day.attractions)
+    			{
+    				TitledPane tp = new TitledPane();
+    				tp.setText("ATRAKCJA | " + at.name);
+    				VBox attrvbox = new VBox();
+    				
+    				Label atname = new Label("Nazwa: " + at.name);
+    				Label athours = new Label("Godziny otwarcia: od " + at.openfrom + " do " + at.opento);
+    				Label price = new Label("Cena: " + at.price);
+    				
+    				attrvbox.getChildren().add(atname);
+    				attrvbox.getChildren().add(athours);
+    				if(at.price > 0)attrvbox.getChildren().add(price);
+    				
+    				
+    				tp.setContent(attrvbox);
+    				dayvbox.getChildren().add(tp);
+    				
+    			}
+    			
+    			accordionstages.getPanes().add(daytp);
+    			daynum++;
+    		}
+    	
+  
 	}
 	
 	@Override

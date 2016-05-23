@@ -5,10 +5,29 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 import java.util.ResourceBundle;
+
+import com.lynden.gmapsfx.GoogleMapView;
+import com.lynden.gmapsfx.MapComponentInitializedListener;
+import com.lynden.gmapsfx.javascript.object.DirectionsPane;
+import com.lynden.gmapsfx.javascript.object.GoogleMap;
+import com.lynden.gmapsfx.javascript.object.LatLong;
+import com.lynden.gmapsfx.javascript.object.MapOptions;
+import com.lynden.gmapsfx.javascript.object.MapTypeIdEnum;
+import com.lynden.gmapsfx.service.directions.DirectionStatus;
+import com.lynden.gmapsfx.service.directions.DirectionsLeg;
+import com.lynden.gmapsfx.service.directions.DirectionsRenderer;
+import com.lynden.gmapsfx.service.directions.DirectionsRequest;
+import com.lynden.gmapsfx.service.directions.DirectionsResult;
+import com.lynden.gmapsfx.service.directions.DirectionsRoute;
+import com.lynden.gmapsfx.service.directions.DirectionsService;
+import com.lynden.gmapsfx.service.directions.DirectionsServiceCallback;
+import com.lynden.gmapsfx.service.directions.DirectionsSteps;
 
 import Model.Travel;
 import Model.TravelFramework;
+import countryWarnings.MapController;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -38,7 +57,8 @@ public class ControllerCreateTravelFirst implements Initializable, ClearableScre
 
     @FXML
     private DatePicker datepicker_end;
-	
+    
+
     
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) 
@@ -106,6 +126,8 @@ public class ControllerCreateTravelFirst implements Initializable, ClearableScre
 				
 					TravelFramework.getInstance().setTravel(trav);
 
+					TravelFramework.getInstance().getTravel().printDays();					
+					
 					myController.loadScreen(WindowMain.NEWTRAVELSECOND, WindowMain.NEWTRAVELSECOND_FXML);
 					myController.setScreen(WindowMain.NEWTRAVELSECOND);
 				}
@@ -142,4 +164,6 @@ public class ControllerCreateTravelFirst implements Initializable, ClearableScre
 
 		
 	}
+
+
 }
