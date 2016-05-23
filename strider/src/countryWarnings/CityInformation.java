@@ -24,7 +24,7 @@ import desktopGui.WindowMain;
 public class CityInformation {
 	
 	public String cityName;
-	private String cityURL;
+	public String cityURL;
 	public  LatLong coordinations;
 	
 	public CityInformation(String name, boolean takeCoordinates){
@@ -81,7 +81,10 @@ public class CityInformation {
 		for (int i = 0; i < arr.length(); i++)
 		{
 			String title = arr.getJSONObject(i).getString("title");  				   		
-		    htmlString += title;
+		    
+		    String urlString = " <a href=\"https://pl.wikipedia.org/wiki/" + title.replaceAll(" ", "_") + "\" target=\"_blank\">";
+		    htmlString += urlString;
+		    htmlString += title + "</a>";
 		    htmlString += "</br>";  	  				    
 		}
 		htmlString += "</font>";

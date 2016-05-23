@@ -4,6 +4,8 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import org.jsoup.nodes.Element;
+
 import com.lynden.gmapsfx.GoogleMapView;
 import com.lynden.gmapsfx.MapComponentInitializedListener;
 import com.lynden.gmapsfx.javascript.object.DirectionsPane;
@@ -133,6 +135,7 @@ public class MapController implements Initializable, ControlledScreen, MapCompon
                
                ds.getRoute(dr, this, renderer);   
                
+               
                renderer.setPanel(directions);
                renderer.setMap(map);
                
@@ -174,12 +177,21 @@ public class MapController implements Initializable, ControlledScreen, MapCompon
 	@Override
 	public void directionsReceived(DirectionsResult results, DirectionStatus status)
 	{
+		
 		List<DirectionsRoute> lista = results.getRoutes();
 		List<DirectionsLeg> lista2 = lista.get(0).getLegs();
+		List<DirectionsSteps> lista3 = lista2.get(0).getSteps();
+		
+		
+		for(int i = 0; i < lista3.size(); i++)
+			System.out.println(i + " " + lista3.get(i).getInstructions());
+	         
 	   
         distanceTextField.setText(lista2.get(0).getDistance().getText());
         distance = lista2.get(0).getDistance().getValue();
-		System.out.println(lista2.get(0).getDuration().getText());
+		System.out.println(lista3.get(0).getDuration().getText());
+		System.out.println(directions.toString());
+		
 	}
 
 

@@ -59,6 +59,7 @@ public class ResultsController implements Initializable, ClearableScreen, Contro
 	        	double lol = Double.parseDouble(litersPerHourTextField.getText().replaceAll(",", "."));	
 	        	ResultsInformation information = new ResultsInformation(lol, MapController.distance);
 	        	resultsWebView.getEngine().loadContent(information.getResultsInformationHtml().toString());
+	        	//resultsWebView.getEngine().load("https://www.yahoo.com/news/weather/country/state/city-638242/");
 	        }
 	    });
 		

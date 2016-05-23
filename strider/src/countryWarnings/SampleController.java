@@ -2,6 +2,8 @@ package countryWarnings;
 
 
 import org.json.*;
+
+import java.awt.Desktop;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -9,6 +11,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
@@ -24,8 +28,12 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Worker;
+import javafx.concurrent.Worker.State;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -37,14 +45,20 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Font;
+import javafx.scene.web.PopupFeatures;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
+import javafx.util.Callback;
+
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.w3c.dom.events.Event;
+import org.w3c.dom.events.EventListener;
+import org.w3c.dom.events.EventTarget;
 
 import com.lynden.gmapsfx.javascript.object.LatLong;
 import com.lynden.gmapsfx.javascript.object.MapOptions;
@@ -99,7 +113,7 @@ public class SampleController implements Initializable, ControlledScreen{
     
     
     
-    
+    public static StringBuilder cityInformationString;
 	public static CityInformation cityInformation;
 	public static CountryInformation countryInformation;
 	public static WeatherInformation weatherInformation;
@@ -112,27 +126,25 @@ public class SampleController implements Initializable, ControlledScreen{
 	public void initialize(URL arg0, ResourceBundle arg1) {
 
 		CountriesList.setCountryHtmls();
-		CountriesList.setCountryNames();
+		CountriesList.setCountryNames(); //ladowanie list observablelist adresow oraz nazw panstw w klasie CountriesList
 		Font myFont = new Font("Serif", 88);
 		celsiusTextArea.setFont(myFont);
-		celsiusTextArea.setEditable(false);
-		
-		countryBox = new ComboBox();
+		celsiusTextArea.setEditable(false); //ustawianie czcionki i mozliwosci edytowania w celsiusTextArea
+		setOpeningLinksToBrowser(cityWebView); //ustawianie otwierania linkow w cityWebView tak aby wyskakiwaly w przegladarce
+		countryBox = new ComboBox();  //dodawanie comboboxow
 		countryBox.setItems(CountriesList.getCountryNamesList());
 		new AutoCompleteComboBoxListener(countryBox);
 		countryBox.setLayoutX(37);
 		countryBox.setLayoutY(40);
 		countryBox.setPrefWidth(190);
-				
 		cityBox = new ComboBox();	
 		new AutoCompleteComboBoxListener(cityBox);
 		cityBox.setLayoutX(490);
 		cityBox.setLayoutY(40);
 		cityBox.setPrefWidth(190);
-		
-
 		pane.getChildren().addAll(countryBox, cityBox);		
-		showMapBttn.setDisable(true);
+		showMapBttn.setDisable(true); //wyszarz guzik do zmiany na mape do momentu, az nie zostanie wybrane miasto
+		
 		
 		findCountryButton.setOnAction(new EventHandler<ActionEvent>() {
 	        @Override
@@ -160,14 +172,15 @@ public class SampleController implements Initializable, ControlledScreen{
 	        	//w okolicach wybranego miasta	        	
 	
         		cityInformation = new CityInformation(cityBox.getEditor().getText().replaceAll(" ", "_"),true);
-        		weatherInformation = new WeatherInformation(cityInformation);
+        		weatherInformation = new WeatherInformation(cityInformation);       		
         		
-        		StringBuilder cityInformationString = cityInformation.getCityInformationHtml();
-        		
+        		cityInformationString = cityInformation.getCityInformationHtml();      
         		cityWebView.getEngine().loadContent(cityInformationString.toString());  	
-        		weatherWebView.getEngine().load(weatherInformation.pictureAdress);
-        		celsiusTextArea.setText(weatherInformation.celsius);
-        		weatherLabel.setText(weatherInformation.weatherDescription);
+        	
+        		weatherWebView.getEngine().load(weatherInformation.getPictureAdress());
+        		celsiusTextArea.setText(weatherInformation.getCelsius());
+        		weatherLabel.setText(weatherInformation.getWeatherDescription());
+        		
         		showMapBttn.setDisable(false);
 	        }
 	    });
@@ -200,27 +213,71 @@ public class SampleController implements Initializable, ControlledScreen{
    
 	}
 	
-   		
-	private static String readAll(Reader rd) throws IOException {
-	    StringBuilder sb = new StringBuilder();
-	    int cp;
-	    while ((cp = rd.read()) != -1) {
-	      sb.append((char) cp);
-	    }
-	    return sb.toString();
-	  }
-		
-
-
 	@Override
 	public void setScreenParent(ScreensController screenPage) {
 		myController = screenPage; 
 		
 	}
 	
+	public static void openWebpage(URI uri) {
+	    Desktop desktop = Desktop.isDesktopSupported() ? Desktop.getDesktop() : null;
+	    if (desktop != null && desktop.isSupported(Desktop.Action.BROWSE)) {
+	        try {
+	        	
+	            desktop.browse(uri);
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+	    }
+	}
 
+	public static void openWebpage(URL url) {
+	    try {
+	        openWebpage(url.toURI());
+	    } catch (URISyntaxException e) {
+	        e.printStackTrace();
+	    }
+	}
+
+	
+	public static void setOpeningLinksToBrowser(WebView webView){
+		
+		webView.getEngine().setCreatePopupHandler(
+				    new Callback<PopupFeatures, WebEngine>() {
+				        @Override
+				        public WebEngine call(PopupFeatures config) {
+				            // grab the last hyperlink that has :hover pseudoclass
+				            Object o = webView
+				                    .getEngine()
+				                    .executeScript(
+				                            "var list = document.querySelectorAll( ':hover' );"
+				                                    + "for (i=list.length-1; i>-1; i--) "
+				                                    + "{ if ( list.item(i).getAttribute('href') ) "
+				                                    + "{ list.item(i).getAttribute('href'); break; } }");
+
+				            // open in native browser
+				            try {
+				                if (o != null) {
+				                    Desktop.getDesktop().browse(
+				                            new URI(o.toString()));
+				                } else {
+				                    System.out.println("No result from uri detector: " + o);
+				                }
+				            } catch (IOException e) {
+				               e.printStackTrace();
+				            } catch (URISyntaxException e) {
+				               e.printStackTrace();
+				            }
+
+				            // prevent from opening in webView
+				            return null;
+				        }
+				    });
+		
+	}
+	
+	
+	
+	  
 }
-
-
-
 

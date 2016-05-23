@@ -90,25 +90,54 @@ public class WeatherInformation {
 		        adress = adress.replaceAll("\"/", "");
 		        adress = adress.replaceAll("\"", "");
 	        
-		      if(weather.equals("Showers"))
-		    	  weather = "Ulewa";
-		      else if(weather.equals("Mostly Cloudy"))
-		    	  weather = "Du¿e zachmurzenie";
-		      else if(weather.equals("Partly Cloudy"))
-		    	  weather = "Czêœciowe zachmurzenie";
-		      else if(weather.equals("Scattered Showers"))
-		    	  weather = "Miejscowe opady";
-		      else if(weather.equals("Scattered Showers"))
-		    	  weather = "Deszcz ze œniegiem";
-		      else if(weather.equals("Rain"))
-		    	  weather = "Deszcz";
-		     
-			   
-		      	      
 		      this.pictureAdress = adress;
 		      this.weatherDescription = weather;
+		      changeToPolish();
+	}
+	
+	private void changeToPolish(){
+		
+		 String weather = this.getWeatherDescription();
+		
+		  if(weather.equals("Showers"))
+	    	  weather = "Ulewa";
+	      else if(weather.equals("Mostly Cloudy"))
+	    	  weather = "Du¿e zachmurzenie";
+	      else if(weather.equals("Partly Cloudy"))
+	    	  weather = "Czêœciowe zachmurzenie";
+	      else if(weather.equals("Scattered Showers"))
+	    	  weather = "Miejscowe opady";
+	      else if(weather.equals("Scattered Showers"))
+	    	  weather = "Deszcz ze œniegiem";
+	      else if(weather.equals("Rain"))
+	    	  weather = "Deszcz";
+	      else if(weather.equals("Windy"))
+	    	  weather = "Wietrznie";
+	      else if(weather.equals("Cloudy"))
+	    	  weather = "Pochmurnie";
+	     
+		  setWeatherDescription(weather);
+	}
+	
+	
+	public CityInformation getCity() {
+		return city;
+	}
+
+	public String getPictureAdress() {
+		return pictureAdress;
+	}
+
+	public String getCelsius() {
+		return celsius;
 	}
 		
-
+	public String getWeatherDescription() {
+		return weatherDescription;
+	}
+	
+	public void setWeatherDescription(String desc) {
+		this.weatherDescription = desc;
+	}
 	
 }
