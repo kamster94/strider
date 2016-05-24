@@ -50,7 +50,7 @@ public class ControllerMain implements Initializable, ControlledScreen, EventHan
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) 
 	{
-		label_welcome.setText("Welcome, " + User.getInstance().getUserName());
+		label_welcome.setText("Witaj, " + User.getInstance().getUserName());
 		imageviewlogotext.setImage(imglogotext);
 		imageviewlogobottom.setImage(imglogopalms);
 	

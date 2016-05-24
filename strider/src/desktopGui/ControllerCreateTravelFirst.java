@@ -98,8 +98,6 @@ public class ControllerCreateTravelFirst implements Initializable, ClearableScre
 		}
 	}
 	
-	
-	
 	@Override
 	public void handle(ActionEvent arg0) 
 	{

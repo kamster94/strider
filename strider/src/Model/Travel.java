@@ -30,11 +30,37 @@ public class Travel
 		{
 			days.add(new Day(startdate.plusDays(i)));
 		}
-		
-		
-		
 	}
 
+	public String getLatestCountryInTravel()
+	{
+		String countryname = "";
+		int iter = days.size() - 1;
+		
+		while(countryname == "" && iter >= 0)
+		{
+			if(days.get(iter).transport != null)countryname = days.get(iter).transport.country_end;
+			iter--;
+		}
+		return countryname;
+	}
+	
+	public String getLatestCityInTravel()
+	{
+		String cityname = "";
+		int iter = days.size() - 1;
+		
+		while(cityname == "" && iter >= 0)
+		{
+			if(days.get(iter).transport != null)cityname = days.get(iter).transport.city_end;
+			iter--;
+		}
+		return cityname;
+	}
+	
+	
+	
+	
 	public void addAttractionToDay(LocalDateTime date, Attraction attr)
 	{
 		for(int i = 0; i < days.size(); i++)
@@ -66,26 +92,11 @@ public class Travel
 			System.out.println("Day : " + d.date);
 		}
 	}
-	
-	/*
-	public void addStage(StageType stg)
-	{
-		travelelements.add(stg);
-		System.out.println("ADDED STAGE");
-	}
-	
-	public StageType getStage(int indx)
-	{
-		return travelelements.get(indx);
-	}
-	
-	public List<StageType> getStageList()
-	{
-		return travelelements;
-	}
+
 	
 	
-	*/
+	
+	
 	public void setId(int idx)
 	{
 		id = idx;

@@ -25,18 +25,22 @@ import Model.Attraction;
 import Model.Hotel;
 import Model.Transport;
 import Model.TravelFramework;
+import Model.User;
+import dbHandlers.DatabaseHandlerCommon;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.web.WebView;
@@ -186,10 +190,30 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
     	slider_tripday.setMax(daysnum);
   
     	System.out.println("Numdays in travel: " + TravelFramework.getInstance().getTravel().getDaysNumber());
+    	
+		int countryid = DatabaseHandlerCommon.getInstance().getCountryId(t_countrybox_start.getSelectionModel().getSelectedItem());
+		int selectedcityid = DatabaseHandlerCommon.getInstance().getCityId(t_citybox_start.getSelectionModel().getSelectedItem());
+	
+		t_countrybox_start.getSelectionModel().select(User.getInstance().getCountryId());
+		t_citybox_start.getItems().setAll(DatabaseHandlerCommon.getInstance().getCities(User.getInstance().getCountryId()));
+    	t_citybox_start.getSelectionModel().select(User.getInstance().getCityId());
+    	
+    	a_countrybox.getSelectionModel().select(t_countrybox_start.getSelectionModel().getSelectedIndex());
+    	a_citybox.getSelectionModel().select(t_citybox_start.getSelectionModel().getSelectedIndex());
+
+    	h_countrybox.getSelectionModel().select(t_countrybox_start.getSelectionModel().getSelectedIndex());
+    	h_citybox.getSelectionModel().select(t_citybox_start.getSelectionModel().getSelectedIndex());
+
+    	updateDates();
     }
     
     public void updateDates()
     {
+    	
+    	String stagecountry = TravelFramework.getInstance().getTravel().getLatestCountryInTravel();
+    	String stagecity = TravelFramework.getInstance().getTravel().getLatestCityInTravel();
+    	System.out.println("Latest country : " + stagecountry);
+    	
     	LocalDate startdate = TravelFramework.getInstance().getTravel().getStartDate().toLocalDate();
     	LocalDate enddate = TravelFramework.getInstance().getTravel().getEndDate().toLocalDate();
     	
@@ -202,64 +226,104 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) 
 	{
+	   t_button_findcities = new Button();
+	   t_button_findcities.setText("ZnajdŸ miasta");
+	   t_button_findcities.setOnAction(this);
+	    
 		a_countrybox = WindowMain.getCountryBox();
+		a_countrybox.setDisable(true);
+		
 		a_citybox = WindowMain.getCityBox();
-		a_currencybox = WindowMain.getCityBox();
+		a_citybox.setDisable(true);
+		a_currencybox = WindowMain.getCurrencyBox();
 		
 		h_countrybox = WindowMain.getCountryBox();
 		h_citybox = WindowMain.getCityBox();
 		h_currencybox = WindowMain.getCurrencyBox();
 		
 		t_countrybox_start = WindowMain.getCountryBox();
+		t_countrybox_start.setDisable(true);
 		t_citybox_start = WindowMain.getCityBox();
+		t_citybox_start.setDisable(true);
 		t_countrybox_end = WindowMain.getCountryBox();
 		t_citybox_end = WindowMain.getCityBox();
-		
-		
-		
-		
-		a_button_findcities = new Button();
-		a_button_findcities.setText("ZnajdŸ miasta");
-		a_button_findattractions = new Button();
-		a_button_findattractions.setText("ZnajdŸ atrakcje");
+		t_currencybox = WindowMain.getCurrencyBox();
 		
 		a_hbox_countrybox.getChildren().add(a_countrybox);
-		a_hbox_countrybox.getChildren().add(a_button_findcities);
 		a_hbox_citybox.getChildren().add(a_citybox);
-		a_hbox_citybox.getChildren().add(a_button_findattractions);
 		a_hbox_currencybox.getChildren().add(a_currencybox);
 
-		h_button_findcities = new Button();
-		h_button_findcities.setText("ZnajdŸ miasta");
+
 		
 		h_hbox_countrybox.getChildren().add(h_countrybox);
-		h_hbox_countrybox.getChildren().add(h_button_findcities);
+
 		h_hbox_citybox.getChildren().add(h_citybox);
 		
-		t_button_findcities = new Button();
-		t_button_findcities.setText("ZnajdŸ miasta");
+
 		
 		t_hbox_countrybox_start.getChildren().add(t_countrybox_start);
+
 		t_hbox_citybox_start.getChildren().add(t_citybox_start);
 		t_hbox_countrybox_end.getChildren().add(t_countrybox_end);
 		t_hbox_countrybox_end.getChildren().add(t_button_findcities);
 		t_hbox_citybox_end.getChildren().add(t_citybox_end);
-		
+		t_hbox_currencybox.getChildren().add(t_currencybox);
 		
 		
 		
 		button_summary.setOnAction(this);
-
+		button_cancel.setOnAction(this);
 		
 		
-		mapView = new GoogleMapView();
-		mapView.addMapInializedListener(this);	
+		//mapView = new GoogleMapView();
+		//mapView.addMapInializedListener(this);	
 		
-		t_vbox_mapbox.getChildren().add(mapView);
+		//t_vbox_mapbox.getChildren().add(mapView);
 		
 		a_button_addattraction.setOnAction(this);
 		h_button_addhotel.setOnAction(this);
 		t_button_addtransport.setOnAction(this);
+		
+		a_countrybox.valueProperty().addListener(new ChangeListener<String>()
+		{
+			@Override
+			public void changed(ObservableValue<? extends String> arg0, String arg1, String arg2) 
+			{
+				int countryid = DatabaseHandlerCommon.getInstance().getCountryId(a_countrybox.getSelectionModel().getSelectedItem());
+				a_citybox.getItems().setAll(DatabaseHandlerCommon.getInstance().getCities(countryid));
+			}			
+		});
+		
+		t_countrybox_start.valueProperty().addListener(new ChangeListener<String>()
+		{
+			@Override
+			public void changed(ObservableValue<? extends String> arg0, String arg1, String arg2) 
+			{
+				int countryid = DatabaseHandlerCommon.getInstance().getCountryId(t_countrybox_start.getSelectionModel().getSelectedItem());
+				int selectedcityid = DatabaseHandlerCommon.getInstance().getCityId(t_citybox_start.getSelectionModel().getSelectedItem());
+				
+
+				
+				//t_citybox_start.getItems().setAll(DatabaseHandlerCommon.getInstance().getCities(selectedcountryid));
+				t_citybox_start.getSelectionModel().select(selectedcityid);
+				
+				System.out.println(selectedcityid);
+				
+			//	a_countrybox.getSelectionModel().select(selectedcountryid);
+				//a_citybox.getItems().setAll(DatabaseHandlerCommon.getInstance().getCities(selectedcountryid));
+			
+				
+			
+				
+				a_citybox.getSelectionModel().select(t_citybox_start.getSelectionModel().getSelectedIndex());
+			}			
+		});
+		
+		
+		
+		
+		
+		
 		
 		
 		slider_tripday.valueProperty().addListener(new ChangeListener<Number>()
@@ -277,7 +341,44 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 		setupInitialValues();
 	}
 	
-
+	public boolean checkAttractionInput()
+	{
+		if(a_countrybox.getSelectionModel().isEmpty())return false;
+		if(a_citybox.getSelectionModel().isEmpty())return false;
+		if(a_textfield_name.getText().isEmpty())return false;
+		if(a_textfield_price.getText().isEmpty())return false;
+		if(a_currencybox.getSelectionModel().isEmpty())return false;
+		return true;
+	}
+	
+	public boolean checkHotelInput()
+	{
+		if(h_countrybox.getSelectionModel().isEmpty())return false;
+		if(h_citybox.getSelectionModel().isEmpty())return false;
+		if(h_textfield_name.getText().isEmpty())return false;
+		if(h_datepicker_start.getValue() == null)return false;
+		if(h_datepicker_end.getValue() == null)return false;
+		if(h_textfield_price.getText().isEmpty())return false;
+		if(h_currencybox.getValue().isEmpty())return false;
+		return true;
+	}
+	
+	public boolean checkTransportInput()
+	{
+		if(t_countrybox_start.getSelectionModel().isEmpty())return false;
+		if(t_citybox_start.getSelectionModel().isEmpty())return false;
+		if(t_countrybox_end.getSelectionModel().isEmpty())return false;
+		if(t_citybox_end.getSelectionModel().isEmpty())return false;
+		if(t_datepicker_start.getValue() == null)return false;
+		if(t_datepicker_end.getValue() == null)return false;
+		if(t_textfield_hour_start.getText().isEmpty())return false;
+		if(t_textfield_hour_end.getText().isEmpty())return false;
+		if(t_textfield_price.getText().isEmpty())return false;
+		if(t_currencybox.getSelectionModel().isEmpty())return false;
+		return true;
+	}
+	
+	
 	@Override
 	public void setScreenParent(ScreensController screenParent) 
 	{
@@ -289,61 +390,99 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 	@Override
 	public void handle(ActionEvent event) 
 	{
-		if(event.getSource() == a_button_addattraction)
+		if(event.getSource() == t_button_findcities)
 		{
-			Attraction at = new Attraction();
-			at.country = a_countrybox.getSelectionModel().getSelectedItem();
-			at.city = a_citybox.getSelectionModel().getSelectedItem();
-			at.name = a_textfield_name.getText();
-			at.street = a_textfield_street.getText();
-			at.number = a_textfield_number.getText();
-			at.zipcode = a_textfield_zipcode.getText();
-			at.openfrom = a_textfield_openfrom.getText();
-			at.opento = a_textfield_opentill.getText();
-			at.datetime = LocalDateTime.of(t_datepicker_start.getValue(), LocalTime.MIN);
-			at.currency = a_currencybox.getSelectionModel().getSelectedItem();
-			at.notes = a_textarea_notes.getText();
-			at.price = Float.parseFloat(a_textfield_price.getText());
+			int countryid = DatabaseHandlerCommon.getInstance().getCountryId(t_countrybox_end.getSelectionModel().getSelectedItem());
 
-			TravelFramework.getInstance().getTravel().addAttractionToDay(LocalDateTime.of(curdate,LocalTime.MIN), at);
 			
-			//selectRoute("Warszawa", "Kraków");
+			t_citybox_end.getItems().setAll(DatabaseHandlerCommon.getInstance().getCities(countryid));
+		}
+		else if(event.getSource() == a_button_addattraction)
+		{
+			if(checkAttractionInput() == false)
+			{
+				Alert alert = new Alert(AlertType.INFORMATION);
+				alert.setTitle("Dodawanie atrakcji");
+				alert.setHeaderText(null);
+				alert.setContentText("Nie wype³niono wszystkich wymaganych pól.");
+				alert.showAndWait();
+			}
+			else
+			{
+				Attraction at = new Attraction();
+				at.country = a_countrybox.getSelectionModel().getSelectedItem();
+				at.city = a_citybox.getSelectionModel().getSelectedItem();
+				at.name = a_textfield_name.getText();
+				at.street = a_textfield_street.getText();
+				at.number = a_textfield_number.getText();
+				at.zipcode = a_textfield_zipcode.getText();
+				at.openfrom = a_textfield_openfrom.getText();
+				at.opento = a_textfield_opentill.getText();
+				at.datetime = LocalDateTime.of(t_datepicker_start.getValue(), LocalTime.MIN);
+				at.currency = a_currencybox.getSelectionModel().getSelectedItem();
+				at.notes = a_textarea_notes.getText();
+				at.price = Float.parseFloat(a_textfield_price.getText());
+
+				TravelFramework.getInstance().getTravel().addAttractionToDay(LocalDateTime.of(curdate,LocalTime.MIN), at);
+			
+				//selectRoute("Warszawa", "Kraków");
+			}
 		}
 		else if(event.getSource() == h_button_addhotel)
 		{
-			Hotel hot = new Hotel();
-			hot.country = h_countrybox.getSelectionModel().getSelectedItem();
-			hot.city = h_citybox.getSelectionModel().getSelectedItem();
-			hot.name = h_textfield_name.getText();
-			hot.street = h_textfield_street.getText();
-			hot.zipcode = h_textfield_zipcode.getText();
-			hot.number = h_textfield_number.getText();
-			hot.accomodation_startdate = LocalDateTime.of(h_datepicker_start.getValue(), LocalTime.MIN);
-			hot.accomodation_enddate = LocalDateTime.of(h_datepicker_end.getValue(), LocalTime.MIN);
-			hot.pricepernite = Float.parseFloat(h_textfield_price.getText());
-			hot.currency = h_currencybox.getSelectionModel().getSelectedItem();
-			hot.notes = h_textarea_notes.getText();
+			if(checkHotelInput() == false)
+			{
+				Alert alert = new Alert(AlertType.INFORMATION);
+				alert.setTitle("Dodawanie hotelu");
+				alert.setHeaderText(null);
+				alert.setContentText("Nie wype³niono wszystkich wymaganych pól.");
+				alert.showAndWait();
+			}
+			else
+			{
+				Hotel hot = new Hotel();
+				hot.country = h_countrybox.getSelectionModel().getSelectedItem();
+				hot.city = h_citybox.getSelectionModel().getSelectedItem();
+				hot.name = h_textfield_name.getText();
+				hot.street = h_textfield_street.getText();
+				hot.zipcode = h_textfield_zipcode.getText();
+				hot.number = h_textfield_number.getText();
+				hot.accomodation_startdate = LocalDateTime.of(h_datepicker_start.getValue(), LocalTime.MIN);
+				hot.accomodation_enddate = LocalDateTime.of(h_datepicker_end.getValue(), LocalTime.MIN);
+				hot.pricepernite = Float.parseFloat(h_textfield_price.getText());
+				hot.currency = h_currencybox.getSelectionModel().getSelectedItem();
+				hot.notes = h_textarea_notes.getText();
 			
-			TravelFramework.getInstance().getTravel().setHotelToDay(LocalDateTime.of(curdate,LocalTime.MIN), hot);
-			
+				TravelFramework.getInstance().getTravel().setHotelToDay(LocalDateTime.of(curdate,LocalTime.MIN), hot);
+			}
 			
 		}
 		else if(event.getSource() == t_button_addtransport)
 		{
-			Transport trans = new Transport();
-			trans.country_start = t_countrybox_start.getSelectionModel().getSelectedItem();
-			trans.city_start = t_citybox_start.getSelectionModel().getSelectedItem();
-			trans.country_end = t_countrybox_end.getSelectionModel().getSelectedItem();
-			trans.city_end = t_citybox_end.getSelectionModel().getSelectedItem();
-			trans.startdatetime = LocalDateTime.of(t_datepicker_start.getValue(), LocalTime.MIN);
-			trans.enddatetime = LocalDateTime.of(t_datepicker_end.getValue(), LocalTime.MIN);
-			trans.transportcategory = t_choicebox_transport_category.getSelectionModel().getSelectedItem();
-			trans.price = Float.parseFloat(a_textfield_price.getText());
-			trans.currency = t_currencybox.getSelectionModel().getSelectedItem();
-			trans.notes = a_textarea_notes.getText();
+			if(checkTransportInput() == false)
+			{
+				Alert alert = new Alert(AlertType.INFORMATION);
+				alert.setTitle("Dodawanie transportu");
+				alert.setHeaderText(null);
+				alert.setContentText("Nie wype³niono wszystkich wymaganych pól.");
+				alert.showAndWait();
+			}
+			else
+			{
+				Transport trans = new Transport();
+				trans.country_start = t_countrybox_start.getSelectionModel().getSelectedItem();
+				trans.city_start = t_citybox_start.getSelectionModel().getSelectedItem();
+				trans.country_end = t_countrybox_end.getSelectionModel().getSelectedItem();
+				trans.city_end = t_citybox_end.getSelectionModel().getSelectedItem();
+				trans.startdatetime = LocalDateTime.of(t_datepicker_start.getValue(), LocalTime.MIN);
+				trans.enddatetime = LocalDateTime.of(t_datepicker_end.getValue(), LocalTime.MIN);
+				trans.transportcategory = "TODO";
+				trans.price = Float.parseFloat(t_textfield_price.getText());
+				trans.currency = t_currencybox.getSelectionModel().getSelectedItem();
+				trans.notes = t_textarea_notes.getText();
 			
-			TravelFramework.getInstance().getTravel().setTransportToDay(LocalDateTime.of(curdate, LocalTime.MIN), trans);
-			
+				TravelFramework.getInstance().getTravel().setTransportToDay(LocalDateTime.of(curdate, LocalTime.MIN), trans);
+			}
 		}
 		
 		
@@ -351,6 +490,10 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 		{
 			myController.loadScreen(WindowMain.TRAVEL_SUMMARY, WindowMain.TRAVEL_SUMMARY_FXML);
 			myController.setScreen(WindowMain.TRAVEL_SUMMARY);
+		}
+		else if(event.getSource() == button_cancel)
+		{
+			myController.setScreen(WindowMain.NEWTRAVELFIRST);
 		}
 	}
 	

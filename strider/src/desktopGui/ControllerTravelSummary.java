@@ -49,7 +49,7 @@ public class ControllerTravelSummary implements Initializable, ControlledScreen,
     private Button button_back;
     
     @FXML
-    private static Accordion accordionstages;
+    private Accordion accordionstages;
     
     public void addTitlePane()
     {
@@ -71,6 +71,10 @@ public class ControllerTravelSummary implements Initializable, ControlledScreen,
     	//windowtype = arg;
 
 
+			accordionstages = new Accordion();
+			mainvbox.getChildren().add(accordionstages);
+			mainvbox.getChildren().get(1).toBack();
+			VBox.setVgrow(accordionstages, Priority.ALWAYS);
     		int curuser = User.getInstance().getId();
     		int curtravel = TravelFramework.getInstance().getTravel().getId();
     		System.out.println("I HAZ TRAVEL");
@@ -79,7 +83,7 @@ public class ControllerTravelSummary implements Initializable, ControlledScreen,
     		
     		int daynum = 1;
     		
-    		accordionstages.getPanes().setAll(new LinkedList<TitledPane>());
+    		
     		
     		for(Day day : traveldays)
     		{
@@ -133,12 +137,14 @@ public class ControllerTravelSummary implements Initializable, ControlledScreen,
     				tp.setText("TRANSPORT | " + day.transport.country_start + "(" + day.transport.city_start + ") --> " + day.transport.country_end + "(" + day.transport.city_end + ")");
     				VBox transbox = new VBox();
     				
-    				Label hotname = new Label("Nazwa: " + day.hotel.name);
-    				Label price = new Label("Cena za dobê: " + day.hotel.pricepernite);
+  
+    				//Label hotname = new Label("Nazwa: " + day.transport.);
+    				//Label price = new Label("Cena za dobê: " + day.hotel.pricepernite);
     				
-    				transbox.getChildren().add(hotname);
-    				transbox.getChildren().add(price);
-    				if(day.hotel.pricepernite > 0)transbox.getChildren().add(price);
+    				
+    				//transbox.getChildren().add(hotname);
+    				//transbox.getChildren().add(price);
+    				//if(day.hotel.pricepernite > 0)transbox.getChildren().add(price);
     				
     				tp.setContent(transbox);
     				dayvbox.getChildren().add(tp);

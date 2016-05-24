@@ -7,6 +7,7 @@ import cWHandlers.CountryWarningsHandlerCommon;
 import countryWarnings.CityInformation;
 import countryWarnings.CountryInformation;
 import countryWarnings.CurrencyInformation;
+import countryWarnings.SampleController;
 import countryWarnings.WeatherInformation;
 import dbHandlers.DatabaseHandlerCommon;
 import javafx.event.ActionEvent;
@@ -72,8 +73,8 @@ public class ControllerAdditionalInformations implements Initializable, Clearabl
 		hbox_countrybox.getChildren().add(button_findcountry);
 		
 		
-
-		
+		SampleController.setOpeningLinksToBrowser(cityWebView);
+		//weatherWebView
 	}
 	
 	@Override
@@ -96,39 +97,28 @@ public class ControllerAdditionalInformations implements Initializable, Clearabl
 			citybox.getItems().setAll(DatabaseHandlerCommon.getInstance().getCities(countrybox.getSelectionModel().getSelectedIndex()));
 			
 			CountryInformation countryinfo = CountryWarningsHandlerCommon.getInstance().getCountryInformation(countrybox.getSelectionModel().getSelectedItem());
-			
-			
+		
 			CurrencyInformation currencyinfo = new CurrencyInformation(countryinfo);
 			currencyWebView.getEngine().loadContent(currencyinfo.getCurrencyInformationHtml().toString());
-			
-			
-			if(countrybox.getSelectionModel().getSelectedItem().equals("Kongo") == false)
-			{
-				countryWebView.getEngine().load(countryinfo.countryURL);
-			}
-			else 
-			{
-				countryWebView.getEngine().load("https://www.youtube.com/watch?v=rEckY-TUv9I");
-			}
-			
+			countryWebView.getEngine().load(countryinfo.countryURL);
+	
+			System.out.println(countryinfo.countryURL);
 		}
 		else if(arg0.getSource() == button_findcity)
 		{
 			CityInformation cityinfo = CountryWarningsHandlerCommon.getInstance().getCityInformation(citybox.getSelectionModel().getSelectedItem());
 			WeatherInformation weatherinfo = new WeatherInformation(cityinfo);
-		
-
+	
 			cityWebView.getEngine().loadContent(cityinfo.getCityInformationHtml().toString());
+			weatherWebView.getEngine().load(weatherinfo.pictureAdress);
 			
-			//weatherWebView.getEngine().load(weatherinfo.pictureAdress);
+			//URL weatherurl = getClass().getResource("textures/weather_icon.html");
+			weatherWebView.getEngine().load(weatherinfo.pictureAdress);
 			
-			URL weatherurl = getClass().getResource("textures/weather_icon.html");
 			//weatherWebView.getEngine().load(weatherurl.toExternalForm());
-			
-			weatherWebView.getEngine().load(weatherurl.toExternalForm());
-			weatherWebView.getEngine().setUserStyleSheetLocation(getClass().getResource("textures/css_weather_sunny.css").toString());
-			weatherWebView.getEngine().reload();
-			//celsiusTextArea.setText(weatherinfo.getWeatherInformationHtml().toString());
+			//weatherWebView.getEngine().setUserStyleSheetLocation(getClass().getResource("textures/css_weather_sunny.css").toString());
+			//weatherWebView.getEngine().reload();
+			celsiusTextArea.setText(weatherinfo.celsius);
 		}
 		
 	}	

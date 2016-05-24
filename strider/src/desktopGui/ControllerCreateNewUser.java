@@ -165,7 +165,7 @@ public class ControllerCreateNewUser implements Initializable, ClearableScreen, 
 						dhl.loginUser(nu.getEmail(), nu.getPassword());
 						
 						clearComponents();
-						myController.setScreen(WindowMain.MAIN_SCREEN);
+						myController.loadScreenAndSet(WindowMain.MAIN_SCREEN, WindowMain.MAIN_SCREEN_FXML);
 					}
 					else
 					{
