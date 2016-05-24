@@ -118,6 +118,7 @@ ElevationServiceCallback, GeocodingServiceCallback, DirectionsServiceCallback{
 	        public void handle(ActionEvent arg0) 
 	        {        	
 	        	 myController.setScreen(Main.RESULTS); 	
+	        	 
 	        }
 	    });
 		
@@ -197,6 +198,8 @@ ElevationServiceCallback, GeocodingServiceCallback, DirectionsServiceCallback{
         distance = lista2.get(0).getDistance().getValue();
 		System.out.println(lista3.get(0).getDuration().getText());
 		System.out.println(directions.toString());
+		
+		ResultsController.distanceLabel.setText(ResultsController.distanceLabel.getText() + lista2.get(0).getDistance().getText());
 		
 		
 	}
