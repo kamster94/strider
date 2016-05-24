@@ -1,12 +1,7 @@
 package countryWarnings;
 
 
-import java.util.ArrayList;
-import java.util.List;
-import dbConnection.DbAccess;
-import desktopGui.ScreensController;
 import javafx.application.Application;
-import javafx.collections.FXCollections;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
@@ -63,4 +58,9 @@ public class Main extends Application{
 	}
 
 
+	public static void refreshWindowContents()
+	{
+		mystage.getScene().getWindow().sizeToScene();
+	}
+	
 }
