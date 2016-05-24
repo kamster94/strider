@@ -3,9 +3,6 @@ package countryWarnings;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import desktopGui.ClearableScreen;
-import desktopGui.ControlledScreen;
-import desktopGui.ScreensController;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;

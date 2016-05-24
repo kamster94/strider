@@ -4,7 +4,6 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import org.jsoup.nodes.Element;
 
 import com.lynden.gmapsfx.GoogleMapView;
 import com.lynden.gmapsfx.MapComponentInitializedListener;
@@ -30,8 +29,6 @@ import com.lynden.gmapsfx.service.geocoding.GeocoderStatus;
 import com.lynden.gmapsfx.service.geocoding.GeocodingResult;
 import com.lynden.gmapsfx.service.geocoding.GeocodingServiceCallback;
 
-import desktopGui.ControlledScreen;
-import desktopGui.ScreensController;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -129,7 +126,7 @@ ElevationServiceCallback, GeocodingServiceCallback, DirectionsServiceCallback{
 	public void selectRoute()
 	{          	    
 
-	    renderer = new DirectionsRenderer();	
+	    
        	ds = new DirectionsService();
 
        	try{     
@@ -140,6 +137,7 @@ ElevationServiceCallback, GeocodingServiceCallback, DirectionsServiceCallback{
                       );
                
                ds.getRoute(dr, this, renderer);   
+              
                renderer.setMap(map);
                renderer.setPanel(directions);
                
@@ -166,8 +164,8 @@ ElevationServiceCallback, GeocodingServiceCallback, DirectionsServiceCallback{
 
 	    map = mapView.createMap(mapOptions,true);
 	    directions = mapView.getDirec();
-	    
-	    
+	    renderer = new DirectionsRenderer(true, map, directions);	
+	    mapView.getMap().hideDirectionsPane();
         
 	    
 	}
@@ -183,23 +181,23 @@ ElevationServiceCallback, GeocodingServiceCallback, DirectionsServiceCallback{
 	@Override
 	public void directionsReceived(DirectionsResult results, DirectionStatus status)
 	{
-		//mapView.getMap().showDirectionsPane();
+		mapView.getMap().showDirectionsPane();
 		
-		/*
+		
 		List<DirectionsRoute> lista = results.getRoutes();
 		List<DirectionsLeg> lista2 = lista.get(0).getLegs();
 		List<DirectionsSteps> lista3 = lista2.get(0).getSteps();
 		
-		
+		/*
 		for(int i = 0; i < lista3.size(); i++)
 			System.out.println(i + " " + lista3.get(i).getInstructions());
 	         
-	   
+	   */
         distanceTextField.setText(lista2.get(0).getDistance().getText());
         distance = lista2.get(0).getDistance().getValue();
 		System.out.println(lista3.get(0).getDuration().getText());
 		System.out.println(directions.toString());
-		*/
+		
 		
 	}
 
