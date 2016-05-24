@@ -1,6 +1,9 @@
 package dbConnection;
 
 import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.UnknownHostException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -62,10 +65,7 @@ public class DbAccess{
 	private boolean connectToLocal(){
 		try {
 			connectionString = "jdbc:sqlanywhere:uid="+login +";pwd="+password+";eng=traveladvisordb";
-			
-			//weed
 			connection = DriverManager.getConnection(connectionString);
-
 			return true;
 		} catch (SQLException e) {
 
@@ -76,7 +76,6 @@ public class DbAccess{
 	
 	private void connectToDb() throws SQLException{
 		connectionString = "jdbc:sqlanywhere:uid="+login+";pwd="+password+";eng=traveladvisordb;database=traveladvisordb;host=5.134.69.28:15244";
-		//connectionString = "jdbc:sqlanywhere:uid="+login+";pwd="+password+";eng=traveladvisordb;";
 		connection = DriverManager.getConnection(connectionString); 
 	}
 	
@@ -254,4 +253,26 @@ public class DbAccess{
 			return null;
 		}
 	}
+	
+	public boolean testInternetConnection(){
+        try {
+            //make a URL to a known source
+            URL url = new URL("http://www.google.com");
+
+            //open a connection to that source
+            HttpURLConnection urlConnect = (HttpURLConnection)url.openConnection();
+
+            //trying to retrieve data from the source. If there
+            //is no connection, this line will fail
+            Object objData = urlConnect.getContent();
+
+        } catch (UnknownHostException e) {
+        	connectionLogger.log(Level.SEVERE, e.toString());
+            return false;
+        } catch (IOException e) {
+        	connectionLogger.log(Level.SEVERE, e.toString());
+            return false;
+        }
+        return true;
+    }
 }
