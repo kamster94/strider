@@ -23,6 +23,12 @@ import com.lynden.gmapsfx.service.directions.DirectionsService;
 import com.lynden.gmapsfx.service.directions.DirectionsServiceCallback;
 import com.lynden.gmapsfx.service.directions.DirectionsSteps;
 import com.lynden.gmapsfx.service.directions.TravelModes;
+import com.lynden.gmapsfx.service.elevation.ElevationResult;
+import com.lynden.gmapsfx.service.elevation.ElevationServiceCallback;
+import com.lynden.gmapsfx.service.elevation.ElevationStatus;
+import com.lynden.gmapsfx.service.geocoding.GeocoderStatus;
+import com.lynden.gmapsfx.service.geocoding.GeocodingResult;
+import com.lynden.gmapsfx.service.geocoding.GeocodingServiceCallback;
 
 import desktopGui.ControlledScreen;
 import desktopGui.ScreensController;
@@ -36,7 +42,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToolBar;
 import javafx.scene.layout.BorderPane;
 
-public class MapController implements Initializable, ControlledScreen, MapComponentInitializedListener, DirectionsServiceCallback{
+public class MapController implements Initializable, ControlledScreen, MapComponentInitializedListener, 
+ElevationServiceCallback, GeocodingServiceCallback, DirectionsServiceCallback{
 
 	ScreensController myController; 
     
@@ -69,7 +76,6 @@ public class MapController implements Initializable, ControlledScreen, MapCompon
     public static GoogleMapView mapView;
     public static double distance;
 	public static GoogleMap map;
-	private static int counter = 0;
 	protected DirectionsPane directions;
 	protected DirectionsService ds;
 	protected DirectionsRequest dr;
@@ -81,7 +87,7 @@ public class MapController implements Initializable, ControlledScreen, MapCompon
 		
 		fromTextField.setPromptText("lokacja startowa");
 		toTextField.setPromptText("lokacja docelowa");
-		distanceTextField.setPromptText("odleg³oœæ");
+		distanceTextField.setPromptText("odleglosc");
 		
 		mapView = new GoogleMapView();
 		mapView.addMapInializedListener(this);	
@@ -91,7 +97,7 @@ public class MapController implements Initializable, ControlledScreen, MapCompon
 		
 		
 		findButton.setOnAction(new EventHandler<ActionEvent>() 
-		{@Override
+		{   @Override
 	        public void handle(ActionEvent arg0) 
 	        {	
 			    
@@ -121,9 +127,9 @@ public class MapController implements Initializable, ControlledScreen, MapCompon
 	}
 
 	public void selectRoute()
-	{   
-		map = mapView.createMap(mapOptions);	                	
-        directions = mapView.getDirec();	       	    
+	{          	    
+
+	    renderer = new DirectionsRenderer();	
        	ds = new DirectionsService();
 
        	try{     
@@ -134,15 +140,13 @@ public class MapController implements Initializable, ControlledScreen, MapCompon
                       );
                
                ds.getRoute(dr, this, renderer);   
-               
-               
-               renderer.setPanel(directions);
                renderer.setMap(map);
+               renderer.setPanel(directions);
                
           }catch (NullPointerException e2){
         	  System.out.println("chujdupa");
           }	 
-          counter++;
+          
 	}
 	
 	DirectionsRenderer renderer;
@@ -160,10 +164,12 @@ public class MapController implements Initializable, ControlledScreen, MapCompon
 	            .zoomControl(false)
 	            .zoom(12);
 
-	    map = mapView.createMap(mapOptions);
+	    map = mapView.createMap(mapOptions,true);
 	    directions = mapView.getDirec();
-        renderer = new DirectionsRenderer(true, map, directions);
+	    
+	    
         
+	    
 	}
 	
 
@@ -177,7 +183,9 @@ public class MapController implements Initializable, ControlledScreen, MapCompon
 	@Override
 	public void directionsReceived(DirectionsResult results, DirectionStatus status)
 	{
+		//mapView.getMap().showDirectionsPane();
 		
+		/*
 		List<DirectionsRoute> lista = results.getRoutes();
 		List<DirectionsLeg> lista2 = lista.get(0).getLegs();
 		List<DirectionsSteps> lista3 = lista2.get(0).getSteps();
@@ -191,6 +199,19 @@ public class MapController implements Initializable, ControlledScreen, MapCompon
         distance = lista2.get(0).getDistance().getValue();
 		System.out.println(lista3.get(0).getDuration().getText());
 		System.out.println(directions.toString());
+		*/
+		
+	}
+
+	@Override
+	public void geocodedResultsReceived(GeocodingResult[] results, GeocoderStatus status) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void elevationsReceived(ElevationResult[] results, ElevationStatus status) {
+		// TODO Auto-generated method stub
 		
 	}
 

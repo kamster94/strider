@@ -62,6 +62,8 @@ public class DbAccess{
 	private boolean connectToLocal(){
 		try {
 			connectionString = "jdbc:sqlanywhere:uid="+login +";pwd="+password+";eng=traveladvisordb";
+			
+			
 			connection = DriverManager.getConnection(connectionString);
 			return true;
 		} catch (SQLException e) {
@@ -71,7 +73,8 @@ public class DbAccess{
 	}
 	
 	private void connectToDb() throws SQLException{
-		connectionString = "jdbc:sqlanywhere:uid="+login+";pwd="+password+";eng=traveladvisordb;database=traveladvisordb;host=5.134.69.28:15244";
+		//connectionString = "jdbc:sqlanywhere:uid="+login+";pwd="+password+";eng=traveladvisordb;database=traveladvisordb;host=5.134.69.28:15244";
+		connectionString = "jdbc:sqlanywhere:uid="+login+";pwd="+password;
 		connection = DriverManager.getConnection(connectionString); 
 	}
 	
