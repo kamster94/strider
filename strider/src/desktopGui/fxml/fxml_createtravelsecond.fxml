@@ -40,7 +40,7 @@
                            <children>
                               <VBox alignment="CENTER" spacing="10.0" HBox.hgrow="ALWAYS">
                                  <children>
-                                    <Accordion>
+                                    <Accordion VBox.vgrow="ALWAYS">
                                        <panes>
                                           <TitledPane expanded="false" text="Adres">
                                              <content>
@@ -167,136 +167,141 @@
                      <content>
                         <HBox>
                            <children>
-                              <Accordion HBox.hgrow="ALWAYS">
-                                 <panes>
-                                    <TitledPane expanded="false" text="Adres">
-                                       <content>
-                                          <HBox spacing="10.0">
-                                             <children>
-                                                <VBox HBox.hgrow="ALWAYS">
+                              <VBox alignment="CENTER" HBox.hgrow="ALWAYS">
+                                 <children>
+                                    <Accordion VBox.vgrow="ALWAYS">
+                                       <panes>
+                                          <TitledPane expanded="false" text="Adres">
+                                             <content>
+                                                <HBox spacing="10.0">
                                                    <children>
-                                                      <VBox>
+                                                      <VBox HBox.hgrow="ALWAYS">
                                                          <children>
-                                                            <Label text="Państwo*" />
-                                                            <HBox fx:id="h_hbox_countrybox" />
+                                                            <VBox>
+                                                               <children>
+                                                                  <Label text="Państwo*" />
+                                                                  <HBox fx:id="h_hbox_countrybox" />
+                                                               </children>
+                                                            </VBox>
+                                                            <Label text="Nazwa*" />
+                                                            <TextField fx:id="h_textfield_name" />
                                                          </children>
                                                       </VBox>
-                                                      <Label text="Nazwa*" />
-                                                      <TextField fx:id="h_textfield_name" />
-                                                   </children>
-                                                </VBox>
-                                                <VBox HBox.hgrow="ALWAYS">
-                                                   <children>
-                                                      <VBox>
+                                                      <VBox HBox.hgrow="ALWAYS">
                                                          <children>
-                                                            <Label text="Miasto*" />
-                                                            <HBox fx:id="h_hbox_citybox" />
+                                                            <VBox>
+                                                               <children>
+                                                                  <Label text="Miasto*" />
+                                                                  <HBox fx:id="h_hbox_citybox" />
+                                                               </children>
+                                                            </VBox>
+                                                            <Label text="Ulica" />
+                                                            <TextField fx:id="h_textfield_street" />
                                                          </children>
                                                       </VBox>
-                                                      <Label text="Ulica" />
-                                                      <TextField fx:id="h_textfield_street" />
-                                                   </children>
-                                                </VBox>
-                                                <VBox HBox.hgrow="ALWAYS">
-                                                   <children>
-                                                      <Label text="Kod pocztowy" />
-                                                      <TextField fx:id="h_textfield_zipcode" maxWidth="100.0" />
-                                                      <Label text="Nr" />
-                                                      <TextField fx:id="h_textfield_number" maxWidth="50.0" />
-                                                   </children>
-                                                </VBox>
-                                             </children>
-                                             <padding>
-                                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                                             </padding>
-                                          </HBox>
-                                       </content>
-                                    </TitledPane>
-                                    <TitledPane expanded="false" text="Pobyt">
-                                       <content>
-                                          <HBox spacing="10.0">
-                                             <children>
-                                                <VBox HBox.hgrow="ALWAYS">
-                                                   <children>
-                                                      <Label text="Od*" />
-                                                      <HBox spacing="10.0">
+                                                      <VBox HBox.hgrow="ALWAYS">
                                                          <children>
-                                                            <VBox HBox.hgrow="ALWAYS">
-                                                               <children>
-                                                                  <Label text="Data" />
-                                                                  <DatePicker fx:id="h_datepicker_start" disable="true" />
-                                                               </children>
-                                                            </VBox>
-                                                            <VBox HBox.hgrow="ALWAYS">
-                                                               <children>
-                                                                  <Label text="Godzina" />
-                                                                  <TextField fx:id="h_textfield_hour_start" />
-                                                               </children>
-                                                            </VBox>
+                                                            <Label text="Kod pocztowy" />
+                                                            <TextField fx:id="h_textfield_zipcode" maxWidth="100.0" />
+                                                            <Label text="Nr" />
+                                                            <TextField fx:id="h_textfield_number" maxWidth="50.0" />
                                                          </children>
-                                                      </HBox>
-                                                      <Label text="Do*" />
-                                                      <HBox spacing="10.0">
+                                                      </VBox>
+                                                   </children>
+                                                   <padding>
+                                                      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                                   </padding>
+                                                </HBox>
+                                             </content>
+                                          </TitledPane>
+                                          <TitledPane expanded="false" text="Pobyt">
+                                             <content>
+                                                <HBox spacing="10.0">
+                                                   <children>
+                                                      <VBox HBox.hgrow="ALWAYS">
                                                          <children>
-                                                            <VBox HBox.hgrow="ALWAYS">
+                                                            <Label text="Od*" />
+                                                            <HBox spacing="10.0">
                                                                <children>
-                                                                  <Label text="Data" />
-                                                                  <DatePicker fx:id="h_datepicker_end" />
+                                                                  <VBox HBox.hgrow="ALWAYS">
+                                                                     <children>
+                                                                        <Label text="Data" />
+                                                                        <DatePicker fx:id="h_datepicker_start" disable="true" />
+                                                                     </children>
+                                                                  </VBox>
+                                                                  <VBox HBox.hgrow="ALWAYS">
+                                                                     <children>
+                                                                        <Label text="Godzina" />
+                                                                        <TextField fx:id="h_textfield_hour_start" />
+                                                                     </children>
+                                                                  </VBox>
                                                                </children>
-                                                            </VBox>
-                                                            <VBox HBox.hgrow="ALWAYS">
+                                                            </HBox>
+                                                            <Label text="Do*" />
+                                                            <HBox spacing="10.0">
                                                                <children>
-                                                                  <Label text="Godzina" />
-                                                                  <TextField fx:id="h_textfield_hour_end" />
+                                                                  <VBox HBox.hgrow="ALWAYS">
+                                                                     <children>
+                                                                        <Label text="Data" />
+                                                                        <DatePicker fx:id="h_datepicker_end" />
+                                                                     </children>
+                                                                  </VBox>
+                                                                  <VBox HBox.hgrow="ALWAYS">
+                                                                     <children>
+                                                                        <Label text="Godzina" />
+                                                                        <TextField fx:id="h_textfield_hour_end" />
+                                                                     </children>
+                                                                  </VBox>
                                                                </children>
-                                                            </VBox>
+                                                            </HBox>
                                                          </children>
-                                                      </HBox>
+                                                      </VBox>
+                                                      <VBox HBox.hgrow="ALWAYS" />
                                                    </children>
-                                                </VBox>
-                                                <VBox HBox.hgrow="ALWAYS" />
-                                             </children>
-                                             <padding>
-                                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                                             </padding>
-                                          </HBox>
-                                       </content>
-                                    </TitledPane>
-                                    <TitledPane expanded="false" text="Opłaty">
-                                       <content>
-                                          <HBox spacing="10.0">
-                                             <children>
-                                                <VBox HBox.hgrow="ALWAYS">
-                                                   <HBox.margin>
-                                                      <Insets />
-                                                   </HBox.margin>
+                                                   <padding>
+                                                      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                                   </padding>
+                                                </HBox>
+                                             </content>
+                                          </TitledPane>
+                                          <TitledPane expanded="false" text="Opłaty">
+                                             <content>
+                                                <HBox spacing="10.0">
                                                    <children>
-                                                      <Label text="Cena za dobę*" />
-                                                      <TextField fx:id="h_textfield_price" maxWidth="100.0" />
+                                                      <VBox HBox.hgrow="ALWAYS">
+                                                         <HBox.margin>
+                                                            <Insets />
+                                                         </HBox.margin>
+                                                         <children>
+                                                            <Label text="Cena za dobę*" />
+                                                            <TextField fx:id="h_textfield_price" maxWidth="100.0" />
+                                                         </children>
+                                                      </VBox>
+                                                      <VBox fx:id="h_vbox_currencybox" HBox.hgrow="ALWAYS">
+                                                         <children>
+                                                            <Label text="Waluta*" />
+                                                         </children>
+                                                      </VBox>
                                                    </children>
-                                                </VBox>
-                                                <VBox fx:id="h_vbox_currencybox" HBox.hgrow="ALWAYS">
-                                                   <children>
-                                                      <Label text="Waluta*" />
-                                                   </children>
-                                                </VBox>
-                                             </children>
-                                             <padding>
-                                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                                             </padding>
-                                          </HBox>
-                                       </content>
-                                    </TitledPane>
-                                    <TitledPane text="Moje uwagi">
-                                       <content>
-                                          <TextArea fx:id="h_textarea_notes" prefHeight="200.0" prefWidth="200.0" />
-                                       </content>
-                                    </TitledPane>
-                                 </panes>
-                                 <padding>
-                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                                 </padding>
-                              </Accordion>
+                                                   <padding>
+                                                      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                                   </padding>
+                                                </HBox>
+                                             </content>
+                                          </TitledPane>
+                                          <TitledPane text="Moje uwagi">
+                                             <content>
+                                                <TextArea fx:id="h_textarea_notes" prefHeight="200.0" prefWidth="200.0" />
+                                             </content>
+                                          </TitledPane>
+                                       </panes>
+                                       <padding>
+                                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                       </padding>
+                                    </Accordion>
+                                    <Label text="* - Pole obowiązkowe" />
+                                 </children>
+                              </VBox>
                               <VBox spacing="10.0" HBox.hgrow="ALWAYS">
                                  <children>
                                     <Label text="W tych hotelach już byłeś" />
@@ -319,130 +324,135 @@
                      <content>
                         <HBox>
                            <children>
-                              <Accordion HBox.hgrow="ALWAYS">
-                                 <panes>
-                                    <TitledPane expanded="false" text="Początek">
-                                       <content>
-                                          <HBox spacing="10.0">
-                                             <children>
-                                                <VBox HBox.hgrow="ALWAYS">
+                              <VBox alignment="CENTER" HBox.hgrow="ALWAYS">
+                                 <children>
+                                    <Accordion VBox.vgrow="ALWAYS">
+                                       <panes>
+                                          <TitledPane expanded="false" text="Początek">
+                                             <content>
+                                                <HBox spacing="10.0">
                                                    <children>
-                                                      <VBox>
+                                                      <VBox HBox.hgrow="ALWAYS">
                                                          <children>
-                                                            <Label text="Państwo*" />
-                                                            <HBox fx:id="t_hbox_countrybox_start" />
-                                                         </children>
-                                                      </VBox>
-                                                      <Label text="Data*" />
-                                                      <DatePicker fx:id="t_datepicker_start" disable="true" />
-                                                   </children>
-                                                </VBox>
-                                                <VBox HBox.hgrow="ALWAYS">
-                                                   <children>
-                                                      <VBox>
-                                                         <children>
-                                                            <Label text="Miasto*" />
-                                                            <HBox fx:id="t_hbox_citybox_start" />
-                                                         </children>
-                                                      </VBox>
-                                                      <Label text="Godzina*" />
-                                                      <TextField fx:id="t_textfield_hour_start" />
-                                                   </children>
-                                                </VBox>
-                                             </children>
-                                             <padding>
-                                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                                             </padding>
-                                          </HBox>
-                                       </content>
-                                    </TitledPane>
-                                    <TitledPane expanded="false" text="Koniec">
-                                       <content>
-                                          <HBox spacing="10.0">
-                                             <children>
-                                                <VBox HBox.hgrow="ALWAYS">
-                                                   <children>
-                                                      <VBox>
-                                                         <children>
-                                                            <Label text="Państwo*" />
-                                                            <HBox fx:id="t_hbox_countrybox_end" />
-                                                         </children>
-                                                      </VBox>
-                                                      <Label text="Data*" />
-                                                      <DatePicker fx:id="t_datepicker_end" />
-                                                   </children>
-                                                </VBox>
-                                                <VBox HBox.hgrow="ALWAYS">
-                                                   <children>
-                                                      <VBox>
-                                                         <children>
-                                                            <Label text="Miasto*" />
-                                                            <HBox fx:id="t_hbox_citybox_end" />
-                                                         </children>
-                                                      </VBox>
-                                                      <Label text="Godzina*" />
-                                                      <TextField fx:id="t_textfield_hour_end" />
-                                                   </children>
-                                                </VBox>
-                                             </children>
-                                             <padding>
-                                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                                             </padding>
-                                          </HBox>
-                                       </content>
-                                    </TitledPane>
-                                    <TitledPane expanded="false" text="Opłaty">
-                                       <content>
-                                          <HBox spacing="10.0">
-                                             <children>
-                                                <VBox HBox.hgrow="ALWAYS">
-                                                   <HBox.margin>
-                                                      <Insets />
-                                                   </HBox.margin>
-                                                   <children>
-                                                      <Label text="Wybierz rodzaj transportu" />
-                                                      <ComboBox fx:id="t_combobox_transport_category" prefWidth="150.0" />
-                                                      <HBox>
-                                                         <children>
-                                                            <VBox HBox.hgrow="ALWAYS">
+                                                            <VBox>
                                                                <children>
-                                                                  <Label text="Cena l. benzyny / biletu*" />
-                                                                  <TextField fx:id="t_textfield_price" maxWidth="100.0" />
+                                                                  <Label text="Państwo*" />
+                                                                  <HBox fx:id="t_hbox_countrybox_start" />
                                                                </children>
                                                             </VBox>
-                                                            <VBox HBox.hgrow="ALWAYS">
+                                                            <Label text="Data*" />
+                                                            <DatePicker fx:id="t_datepicker_start" disable="true" />
+                                                         </children>
+                                                      </VBox>
+                                                      <VBox HBox.hgrow="ALWAYS">
+                                                         <children>
+                                                            <VBox>
                                                                <children>
-                                                                  <Label text="Waluta*" />
-                                                                  <HBox fx:id="t_hbox_currencybox" />
+                                                                  <Label text="Miasto*" />
+                                                                  <HBox fx:id="t_hbox_citybox_start" />
                                                                </children>
                                                             </VBox>
+                                                            <Label text="Godzina*" />
+                                                            <TextField fx:id="t_textfield_hour_start" />
                                                          </children>
-                                                      </HBox>
+                                                      </VBox>
                                                    </children>
-                                                </VBox>
-                                                <VBox HBox.hgrow="ALWAYS">
+                                                   <padding>
+                                                      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                                   </padding>
+                                                </HBox>
+                                             </content>
+                                          </TitledPane>
+                                          <TitledPane expanded="false" text="Koniec">
+                                             <content>
+                                                <HBox spacing="10.0">
                                                    <children>
-                                                      <Label text="Szacowany koszt" />
-                                                      <WebView fx:id="t_webview_calcprice" prefHeight="100.0" prefWidth="100.0" />
+                                                      <VBox HBox.hgrow="ALWAYS">
+                                                         <children>
+                                                            <VBox>
+                                                               <children>
+                                                                  <Label text="Państwo*" />
+                                                                  <HBox fx:id="t_hbox_countrybox_end" />
+                                                               </children>
+                                                            </VBox>
+                                                            <Label text="Data*" />
+                                                            <DatePicker fx:id="t_datepicker_end" />
+                                                         </children>
+                                                      </VBox>
+                                                      <VBox HBox.hgrow="ALWAYS">
+                                                         <children>
+                                                            <VBox>
+                                                               <children>
+                                                                  <Label text="Miasto*" />
+                                                                  <HBox fx:id="t_hbox_citybox_end" />
+                                                               </children>
+                                                            </VBox>
+                                                            <Label text="Godzina*" />
+                                                            <TextField fx:id="t_textfield_hour_end" />
+                                                         </children>
+                                                      </VBox>
                                                    </children>
-                                                </VBox>
-                                             </children>
-                                             <padding>
-                                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                                             </padding>
-                                          </HBox>
-                                       </content>
-                                    </TitledPane>
-                                    <TitledPane text="Moje uwagi">
-                                       <content>
-                                          <TextArea fx:id="t_textarea_notes" prefHeight="200.0" prefWidth="200.0" />
-                                       </content>
-                                    </TitledPane>
-                                 </panes>
-                                 <padding>
-                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                                 </padding>
-                              </Accordion>
+                                                   <padding>
+                                                      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                                   </padding>
+                                                </HBox>
+                                             </content>
+                                          </TitledPane>
+                                          <TitledPane expanded="false" text="Opłaty">
+                                             <content>
+                                                <HBox spacing="10.0">
+                                                   <children>
+                                                      <VBox HBox.hgrow="ALWAYS">
+                                                         <HBox.margin>
+                                                            <Insets />
+                                                         </HBox.margin>
+                                                         <children>
+                                                            <Label text="Wybierz rodzaj transportu" />
+                                                            <ComboBox fx:id="t_combobox_transport_category" prefWidth="150.0" />
+                                                            <HBox>
+                                                               <children>
+                                                                  <VBox HBox.hgrow="ALWAYS">
+                                                                     <children>
+                                                                        <Label text="Cena l. benzyny / biletu*" />
+                                                                        <TextField fx:id="t_textfield_price" maxWidth="100.0" />
+                                                                     </children>
+                                                                  </VBox>
+                                                                  <VBox HBox.hgrow="ALWAYS">
+                                                                     <children>
+                                                                        <Label text="Waluta*" />
+                                                                        <HBox fx:id="t_hbox_currencybox" />
+                                                                     </children>
+                                                                  </VBox>
+                                                               </children>
+                                                            </HBox>
+                                                         </children>
+                                                      </VBox>
+                                                      <VBox HBox.hgrow="ALWAYS">
+                                                         <children>
+                                                            <Label text="Szacowany koszt" />
+                                                            <WebView fx:id="t_webview_calcprice" prefHeight="100.0" prefWidth="100.0" />
+                                                         </children>
+                                                      </VBox>
+                                                   </children>
+                                                   <padding>
+                                                      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                                   </padding>
+                                                </HBox>
+                                             </content>
+                                          </TitledPane>
+                                          <TitledPane text="Moje uwagi">
+                                             <content>
+                                                <TextArea fx:id="t_textarea_notes" prefHeight="200.0" prefWidth="200.0" />
+                                             </content>
+                                          </TitledPane>
+                                       </panes>
+                                       <padding>
+                                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                       </padding>
+                                    </Accordion>
+                                    <Label text="* - Pole obowiązkowe" />
+                                 </children>
+                              </VBox>
                               <VBox alignment="TOP_RIGHT" spacing="10.0" HBox.hgrow="ALWAYS">
                                  <children>
                                     <VBox fx:id="t_vbox_mapbox">

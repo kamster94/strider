@@ -184,16 +184,11 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
     public void setupInitialValues()
     {
     	long daysnum = TravelFramework.getInstance().getTravel().getDaysNumber();
-    	LocalDateTime startdate = TravelFramework.getInstance().getTravel().getStartDate();
-    	LocalDateTime enddate = TravelFramework.getInstance().getTravel().getEndDate();
+    	LocalDate startdate = TravelFramework.getInstance().getTravel().getStartDate().toLocalDate();
+    	curdate = startdate.plusDays((int)slider_tripday.getValue() - 1);
     	
     	slider_tripday.setMax(daysnum);
-  
-    	System.out.println("Numdays in travel: " + TravelFramework.getInstance().getTravel().getDaysNumber());
-    	
-		int countryid = DatabaseHandlerCommon.getInstance().getCountryId(t_countrybox_start.getSelectionModel().getSelectedItem());
-		int selectedcityid = DatabaseHandlerCommon.getInstance().getCityId(t_citybox_start.getSelectionModel().getSelectedItem());
-	
+
 		t_countrybox_start.getSelectionModel().select(User.getInstance().getCountryId());
 		t_citybox_start.getItems().setAll(DatabaseHandlerCommon.getInstance().getCities(User.getInstance().getCountryId()));
     	t_citybox_start.getSelectionModel().select(User.getInstance().getCityId());
@@ -204,15 +199,52 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
     	h_countrybox.getSelectionModel().select(t_countrybox_start.getSelectionModel().getSelectedIndex());
     	h_citybox.getSelectionModel().select(t_citybox_start.getSelectionModel().getSelectedIndex());
 
-    	updateDates();
+    	t_datepicker_start.setValue(curdate);
+    	h_datepicker_start.setValue(curdate);
     }
+    
+    public void clearComponents()
+    {
+    	a_textfield_name.setText("");
+    	a_textfield_street.setText("");
+    	a_textfield_zipcode.setText("");
+    	a_textfield_number.setText("");
+    	a_textfield_openfrom.setText("");
+    	a_textfield_opentill.setText("");
+    	a_textfield_price.setText("");
+    	a_currencybox.getSelectionModel().clearSelection();
+    	a_textarea_notes.setText("");
+    	h_textfield_name.setText("");
+    	h_textfield_street.setText("");
+    	h_textfield_zipcode.setText("");
+    	h_textfield_number.setText("");
+    	h_textfield_hour_start.setText("");
+    	h_datepicker_end.setValue(null);
+    	h_textfield_hour_end.setText("");
+    	h_textfield_price.setText("");
+    	h_currencybox.getSelectionModel().clearSelection();
+    	h_textarea_notes.setText("");
+    	t_textfield_hour_start.setText("");
+    	t_countrybox_end.getSelectionModel().clearSelection();
+    	t_citybox_end.getSelectionModel().clearSelection();
+    	t_textfield_hour_end.setText("");
+    	//t_choicebox_transport_category.getSelectionModel().clearSelection();
+    	t_textfield_price.setText("");
+    	t_textarea_notes.setText("");
+    }
+    
+    public boolean shouldUpdateTravelPlaces()
+    {
+    	if((t_countrybox_start.getSelectionModel().getSelectedItem() == t_countrybox_end.getSelectionModel().getSelectedItem()) &&
+        		(t_citybox_start.getSelectionModel().getSelectedItem() == t_citybox_end.getSelectionModel().getSelectedItem()))return false;
+    	if(t_countrybox_end.getSelectionModel().isEmpty() && t_citybox_end.getSelectionModel().isEmpty())return false;
+    	return true;
+    }
+    
     
     public void updateDates()
     {
     	
-    	String stagecountry = TravelFramework.getInstance().getTravel().getLatestCountryInTravel();
-    	String stagecity = TravelFramework.getInstance().getTravel().getLatestCityInTravel();
-    	System.out.println("Latest country : " + stagecountry);
     	
     	LocalDate startdate = TravelFramework.getInstance().getTravel().getStartDate().toLocalDate();
     	LocalDate enddate = TravelFramework.getInstance().getTravel().getEndDate().toLocalDate();
@@ -221,6 +253,26 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 
     	t_datepicker_start.setValue(curdate);
     	h_datepicker_start.setValue(curdate);
+    	
+    	if(shouldUpdateTravelPlaces() == true)
+    	{
+    		String stagecountry = TravelFramework.getInstance().getTravel().getLatestCountryInTravel();
+    		String stagecity = TravelFramework.getInstance().getTravel().getLatestCityInTravel();
+    	
+    		int countryid = DatabaseHandlerCommon.getInstance().getCountryId(stagecountry);
+    		int selectedcityid = DatabaseHandlerCommon.getInstance().getCityId(stagecity);
+	
+    		t_countrybox_start.getSelectionModel().select(countryid);
+    		t_citybox_start.getItems().setAll(DatabaseHandlerCommon.getInstance().getCities(countryid));
+    		t_citybox_start.getSelectionModel().select(selectedcityid);
+    		
+    	   	a_countrybox.getSelectionModel().select(t_countrybox_start.getSelectionModel().getSelectedIndex());
+        	a_citybox.getSelectionModel().select(t_citybox_start.getSelectionModel().getSelectedIndex());
+
+        	h_countrybox.getSelectionModel().select(t_countrybox_start.getSelectionModel().getSelectedIndex());
+        	h_citybox.getSelectionModel().select(t_citybox_start.getSelectionModel().getSelectedIndex());
+    	}
+
     }
     
 	@Override
@@ -238,7 +290,9 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 		a_currencybox = WindowMain.getCurrencyBox();
 		
 		h_countrybox = WindowMain.getCountryBox();
+		h_countrybox.setDisable(true);
 		h_citybox = WindowMain.getCityBox();
+		h_citybox.setDisable(true);
 		h_currencybox = WindowMain.getCurrencyBox();
 		
 		t_countrybox_start = WindowMain.getCountryBox();
@@ -307,7 +361,7 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 				//t_citybox_start.getItems().setAll(DatabaseHandlerCommon.getInstance().getCities(selectedcountryid));
 				t_citybox_start.getSelectionModel().select(selectedcityid);
 				
-				System.out.println(selectedcityid);
+
 				
 			//	a_countrybox.getSelectionModel().select(selectedcountryid);
 				//a_citybox.getItems().setAll(DatabaseHandlerCommon.getInstance().getCities(selectedcountryid));
