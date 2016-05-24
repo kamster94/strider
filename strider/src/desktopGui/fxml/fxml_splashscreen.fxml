@@ -16,32 +16,38 @@
    <children>
       <VBox alignment="CENTER" spacing="10.0" StackPane.alignment="CENTER">
          <children>
-            <ImageView fx:id="imageviewlogo" fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@PZ%20-%20Travel%20Advisor/ta_palms.png" />
-               </image>
-            </ImageView>
-            <ImageView fx:id="imageviewlogotitle" fitHeight="154.0" fitWidth="418.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@PZ%20-%20Travel%20Advisor/ta_title.png" />
-               </image>
-            </ImageView>
-            <Label fx:id="labelkektext" />
-            <Separator maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="25.0" visible="false" />
-            <HBox alignment="CENTER" spacing="10.0" VBox.vgrow="NEVER">
+            <VBox alignment="CENTER" VBox.vgrow="ALWAYS">
                <children>
-                  <Label alignment="CENTER" minWidth="80.0" nodeOrientation="LEFT_TO_RIGHT" text="Email" />
-                  <TextField fx:id="textfieldemail" />
+                  <ImageView fx:id="imageviewlogo" fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@PZ%20-%20Travel%20Advisor/ta_palms.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="imageviewlogotitle" fitHeight="154.0" fitWidth="418.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@PZ%20-%20Travel%20Advisor/ta_title.png" />
+                     </image>
+                  </ImageView>
+                  <Label fx:id="labelkektext" />
                </children>
-            </HBox>
-            <HBox alignment="CENTER" spacing="10.0" VBox.vgrow="NEVER">
+            </VBox>
+            <VBox VBox.vgrow="NEVER">
                <children>
-                  <Label alignment="CENTER" minWidth="80.0" text="Hasło" />
-                  <PasswordField fx:id="passwordfieldpassword" />
+                  <HBox alignment="CENTER" spacing="10.0">
+                     <children>
+                        <Label alignment="CENTER" minWidth="80.0" nodeOrientation="LEFT_TO_RIGHT" text="Email" />
+                        <TextField fx:id="textfieldemail" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" spacing="10.0">
+                     <children>
+                        <Label alignment="CENTER" minWidth="80.0" text="Hasło" />
+                        <PasswordField fx:id="passwordfieldpassword" />
+                     </children>
+                  </HBox>
                </children>
-            </HBox>
-            <Separator maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="25.0" visible="false" />
-            <HBox alignment="CENTER" spacing="10.0">
+            </VBox>
+            <HBox alignment="CENTER" spacing="10.0" VBox.vgrow="NEVER">
                <children>
                   <Button fx:id="buttoncreatenewaccount" mnemonicParsing="false" text="Nowe konto" />
                   <Separator visible="false" HBox.hgrow="ALWAYS" />

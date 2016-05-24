@@ -80,8 +80,6 @@ public class ScreensController extends StackPane
 				ft.play();
 				
 				getChildren().add(0, screens.get(name));
-				getScene().getWindow().sizeToScene();
-				WindowMain.refreshWindowContents();
 			} 
 			else 
 			{
@@ -91,7 +89,6 @@ public class ScreensController extends StackPane
 				ft.setToValue(1.0);
 				ft.play();
 				getChildren().add(screens.get(name));
-				//getScene().getWindow().sizeToScene();
 			}
 			return true;
 		} 

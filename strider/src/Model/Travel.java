@@ -43,6 +43,22 @@ public class Travel
 		}
 	}
 	
+	public void setHotelToDay(LocalDateTime date, Hotel hot)
+	{
+		for(int i = 0; i < days.size(); i++)
+		{
+			if(days.get(i).date.equals(date))days.get(i).hotel = hot;
+		}
+	}
+	
+	public void setTransportToDay(LocalDateTime date, Transport trans)
+	{
+		for(int i = 0; i < days.size(); i++)
+		{
+			if(days.get(i).date.equals(date))days.get(i).transport = trans;
+		}
+	}
+	
 	public void printDays()
 	{
 		for(Day d : days)

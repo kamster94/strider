@@ -52,6 +52,9 @@ public class DatabaseHandlerLogin {
 			user.setCityId(cityId);
 			user.setCountryId(countryId);
 		}
+		
+		//System.out.println(dbConnection.getSingeStringFromDb("SELECT UserPassword FROM DBA.UserData WHERE IDUser = 1", "UserPassword"));
+		
 		return status;
 	}
 }

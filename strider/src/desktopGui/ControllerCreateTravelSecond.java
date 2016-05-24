@@ -22,6 +22,8 @@ import com.lynden.gmapsfx.service.directions.DirectionsServiceCallback;
 import com.lynden.gmapsfx.service.directions.TravelModes;
 
 import Model.Attraction;
+import Model.Hotel;
+import Model.Transport;
 import Model.TravelFramework;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -72,7 +74,7 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
     @FXML
     private HBox h_hbox_countrybox;
     @FXML
-    private TextField h_textfield_country;
+    private TextField h_textfield_name;
     @FXML
     private HBox h_hbox_citybox;
     @FXML
@@ -134,10 +136,33 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
     /////////////////////////////////////
     @FXML
     private ComboBox<String> a_countrybox;
+    @FXML
     private ComboBox<String> a_citybox;
+    @FXML
     private ComboBox<String> a_currencybox;
+    @FXML
+    private ComboBox<String> h_countrybox;
+    @FXML
+    private ComboBox<String> h_citybox;
+    @FXML
+    private ComboBox<String> h_currencybox;
+    @FXML
+    private ComboBox<String> t_countrybox_start;
+    @FXML
+    private ComboBox<String> t_citybox_start;
+    @FXML
+    private ComboBox<String> t_countrybox_end;
+    @FXML
+    private ComboBox<String> t_citybox_end;
+    @FXML
+    private ComboBox<String> t_currencybox;
+    
+    
     private Button a_button_findcities;
     private Button a_button_findattractions;
+    private Button h_button_findcities;
+    private Button t_button_findcities;
+    
     
     public static  MapOptions mapOptions;
     public static GoogleMapView mapView;
@@ -147,6 +172,9 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 	protected DirectionsPane directions;
 	protected DirectionsService ds;
 	protected DirectionsRequest dr;
+	
+	LocalDate curdate;
+	
     DirectionsRenderer renderer;
     
     public void setupInitialValues()
@@ -165,7 +193,7 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
     	LocalDate startdate = TravelFramework.getInstance().getTravel().getStartDate().toLocalDate();
     	LocalDate enddate = TravelFramework.getInstance().getTravel().getEndDate().toLocalDate();
     	
-    	LocalDate curdate = startdate.plusDays((int)slider_tripday.getValue() - 1);
+    	curdate = startdate.plusDays((int)slider_tripday.getValue() - 1);
 
     	t_datepicker_start.setValue(curdate);
     	h_datepicker_start.setValue(curdate);
@@ -177,6 +205,19 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 		a_countrybox = WindowMain.getCountryBox();
 		a_citybox = WindowMain.getCityBox();
 		a_currencybox = WindowMain.getCityBox();
+		
+		h_countrybox = WindowMain.getCountryBox();
+		h_citybox = WindowMain.getCityBox();
+		h_currencybox = WindowMain.getCurrencyBox();
+		
+		t_countrybox_start = WindowMain.getCountryBox();
+		t_citybox_start = WindowMain.getCityBox();
+		t_countrybox_end = WindowMain.getCountryBox();
+		t_citybox_end = WindowMain.getCityBox();
+		
+		
+		
+		
 		a_button_findcities = new Button();
 		a_button_findcities.setText("Znajdü miasta");
 		a_button_findattractions = new Button();
@@ -188,6 +229,25 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 		a_hbox_citybox.getChildren().add(a_button_findattractions);
 		a_hbox_currencybox.getChildren().add(a_currencybox);
 
+		h_button_findcities = new Button();
+		h_button_findcities.setText("Znajdü miasta");
+		
+		h_hbox_countrybox.getChildren().add(h_countrybox);
+		h_hbox_countrybox.getChildren().add(h_button_findcities);
+		h_hbox_citybox.getChildren().add(h_citybox);
+		
+		t_button_findcities = new Button();
+		t_button_findcities.setText("Znajdü miasta");
+		
+		t_hbox_countrybox_start.getChildren().add(t_countrybox_start);
+		t_hbox_citybox_start.getChildren().add(t_citybox_start);
+		t_hbox_countrybox_end.getChildren().add(t_countrybox_end);
+		t_hbox_countrybox_end.getChildren().add(t_button_findcities);
+		t_hbox_citybox_end.getChildren().add(t_citybox_end);
+		
+		
+		
+		
 		button_summary.setOnAction(this);
 
 		
@@ -198,7 +258,8 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 		t_vbox_mapbox.getChildren().add(mapView);
 		
 		a_button_addattraction.setOnAction(this);
-		
+		h_button_addhotel.setOnAction(this);
+		t_button_addtransport.setOnAction(this);
 		
 		
 		slider_tripday.valueProperty().addListener(new ChangeListener<Number>()
@@ -207,10 +268,10 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 			public void changed(ObservableValue<? extends Number> arg0, Number arg1, Number arg2) 
 			{
 				//This ensures that the shit underneath gets called ONLY when the value finally sets.
-				if(slider_tripday.isValueChanging() == false)
-				{
+				//if(slider_tripday.isValueChanging() == false)
+				//{
 					updateDates();
-				}
+				//}
 			}
 		});
 		setupInitialValues();
@@ -243,14 +304,47 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 			at.currency = a_currencybox.getSelectionModel().getSelectedItem();
 			at.notes = a_textarea_notes.getText();
 			at.price = Float.parseFloat(a_textfield_price.getText());
-			
-			//TravelFramework.getInstance().getTravel().addStage(at);
-			TravelFramework.getInstance().getTravel().addAttractionToDay(at.datetime, at);
+
+			TravelFramework.getInstance().getTravel().addAttractionToDay(LocalDateTime.of(curdate,LocalTime.MIN), at);
 			
 			//selectRoute("Warszawa", "KrakÛw");
 		}
-		
-		
+		else if(event.getSource() == h_button_addhotel)
+		{
+			Hotel hot = new Hotel();
+			hot.country = h_countrybox.getSelectionModel().getSelectedItem();
+			hot.city = h_citybox.getSelectionModel().getSelectedItem();
+			hot.name = h_textfield_name.getText();
+			hot.street = h_textfield_street.getText();
+			hot.zipcode = h_textfield_zipcode.getText();
+			hot.number = h_textfield_number.getText();
+			hot.accomodation_startdate = LocalDateTime.of(h_datepicker_start.getValue(), LocalTime.MIN);
+			hot.accomodation_enddate = LocalDateTime.of(h_datepicker_end.getValue(), LocalTime.MIN);
+			hot.pricepernite = Float.parseFloat(h_textfield_price.getText());
+			hot.currency = h_currencybox.getSelectionModel().getSelectedItem();
+			hot.notes = h_textarea_notes.getText();
+			
+			TravelFramework.getInstance().getTravel().setHotelToDay(LocalDateTime.of(curdate,LocalTime.MIN), hot);
+			
+			
+		}
+		else if(event.getSource() == t_button_addtransport)
+		{
+			Transport trans = new Transport();
+			trans.country_start = t_countrybox_start.getSelectionModel().getSelectedItem();
+			trans.city_start = t_citybox_start.getSelectionModel().getSelectedItem();
+			trans.country_end = t_countrybox_end.getSelectionModel().getSelectedItem();
+			trans.city_end = t_citybox_end.getSelectionModel().getSelectedItem();
+			trans.startdatetime = LocalDateTime.of(t_datepicker_start.getValue(), LocalTime.MIN);
+			trans.enddatetime = LocalDateTime.of(t_datepicker_end.getValue(), LocalTime.MIN);
+			trans.transportcategory = t_choicebox_transport_category.getSelectionModel().getSelectedItem();
+			trans.price = Float.parseFloat(a_textfield_price.getText());
+			trans.currency = t_currencybox.getSelectionModel().getSelectedItem();
+			trans.notes = a_textarea_notes.getText();
+			
+			TravelFramework.getInstance().getTravel().setTransportToDay(LocalDateTime.of(curdate, LocalTime.MIN), trans);
+			
+		}
 		
 		
 		else if(event.getSource() == button_summary)
@@ -311,9 +405,8 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 	            .streetViewControl(false)
 	            .zoomControl(false)
 	            .zoom(12);
-
-	    map = mapView.createMap(mapOptions);
+	    
+	    map = mapView.createMap(mapOptions, true);
 	    directions = mapView.getDirec();
-	    renderer = new DirectionsRenderer(true, map, directions);
 	}
 }

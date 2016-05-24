@@ -63,10 +63,12 @@ public class DbAccess{
 		try {
 			connectionString = "jdbc:sqlanywhere:uid="+login +";pwd="+password+";eng=traveladvisordb";
 			
-			
+			//weed
 			connection = DriverManager.getConnection(connectionString);
+
 			return true;
 		} catch (SQLException e) {
+
 			connectionLogger.log(Level.SEVERE, e.toString());
 			return false;
 		}
@@ -74,13 +76,13 @@ public class DbAccess{
 	
 	private void connectToDb() throws SQLException{
 		connectionString = "jdbc:sqlanywhere:uid="+login+";pwd="+password+";eng=traveladvisordb;database=traveladvisordb;host=5.134.69.28:15244";
-		//connectionString = "jdbc:sqlanywhere:uid="+login+";pwd="+password;
+		//connectionString = "jdbc:sqlanywhere:uid="+login+";pwd="+password+";eng=traveladvisordb;";
 		connection = DriverManager.getConnection(connectionString); 
 	}
 	
 	public List<String> getStringsFromDb(String sql, List<String> columns){
 		try {
-			connectToDb();
+			testConnection();
 			PreparedStatement statement = connection.prepareStatement(sql);
 	        ResultSet result = statement.executeQuery();
 	        List<String> values = new ArrayList<String>();
@@ -101,7 +103,7 @@ public class DbAccess{
 	
 	public List<Float> getFloatsFromDb(String sql, List<String> columns){
 		try {
-			connectToDb();
+			testConnection();
 			PreparedStatement statement = connection.prepareStatement(sql);
 	        ResultSet result = statement.executeQuery();
 	        List<Float> values = new ArrayList<Float>();
@@ -122,7 +124,7 @@ public class DbAccess{
 	
 	public List<Integer> getIntegersFromDb(String sql, List<String> columns){
 		try {
-			connectToDb();
+			testConnection();
 			PreparedStatement statement = connection.prepareStatement(sql);
 	        ResultSet result = statement.executeQuery();
 	        List<Integer> values = new ArrayList<Integer>();
@@ -143,7 +145,7 @@ public class DbAccess{
 	
 	public boolean pushToDb(String sql){
 		try {
-			connectToDb();
+			testConnection();
 			PreparedStatement statement = connection.prepareStatement(sql);
 			connectionLogger.log(Level.SEVERE, sql);
 			statement.executeUpdate(sql);
@@ -157,7 +159,7 @@ public class DbAccess{
 	
 	public boolean checkBoolInDb(String sql, List<String> params){
 		try {
-			connectToDb();
+			testConnection();
 			PreparedStatement statement = connection.prepareStatement(sql);
 			int index = 1;
 			for (String param : params){
@@ -178,7 +180,7 @@ public class DbAccess{
 	
 	public int getIntFromDb(String sql){
 		try {
-			connectToDb();
+			testConnection();
 			PreparedStatement statement = connection.prepareStatement(sql);
 	        ResultSet result = statement.executeQuery();
 	        int value = -1;
@@ -197,7 +199,7 @@ public class DbAccess{
 	
 	public float getFloatFromDb(String sql){
 		try {
-			connectToDb();
+			testConnection();
 			PreparedStatement statement = connection.prepareStatement(sql);
 	        ResultSet result = statement.executeQuery();
 	        float value = -1;
@@ -216,7 +218,7 @@ public class DbAccess{
 	
 	public String getSingeStringFromDb(String sql, String wiersz){
 		try {
-			connectToDb();
+			testConnection();
 			PreparedStatement statement = connection.prepareStatement(sql);
 	        ResultSet result = statement.executeQuery();
 	        String value = "";
@@ -235,7 +237,7 @@ public class DbAccess{
 	
 	public ObservableList getStringsFromDbAsObservableList(String sql, String column){
 		try {
-			connectToDb();
+			testConnection();
 			PreparedStatement statement = connection.prepareStatement(sql);
 	        ResultSet result = statement.executeQuery();
 	        ObservableList values = FXCollections.observableArrayList();

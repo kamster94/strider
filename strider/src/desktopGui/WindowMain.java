@@ -17,6 +17,7 @@ import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Control;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
@@ -80,6 +81,8 @@ public class WindowMain extends Application
 		
 		//Nie ma sensu ³adowaæ tego ¿eby u¿ytkownik mia³ krzaka, bo i tak sie nie zaloguje skoro nie ma po³¹czenia z baz¹ ;3
 		
+		//mainContainer.loadScreenAndSet(WindowMain.MAIN_SCREEN, WindowMain.MAIN_SCREEN_FXML);
+		
 		if(DbAccess.getInstance().testConnection() == true)
 		{
 			mainContainer.loadScreenAndSet(WindowMain.SPLASH_SCREEN, WindowMain.SPLASH_SCREEN_FXML);
@@ -95,6 +98,7 @@ public class WindowMain extends Application
 		}
 		
 		root = new StackPane();
+
 		root.getChildren().addAll(mainContainer);
 		Scene scene = new Scene(root);
 

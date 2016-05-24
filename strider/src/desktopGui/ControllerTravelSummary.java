@@ -2,6 +2,7 @@ package desktopGui;
 
 
 import java.net.URL;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -64,10 +65,7 @@ public class ControllerTravelSummary implements Initializable, ControlledScreen,
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) 
 	{
-	  	accordionstages = new Accordion();
-	  	VBox.setVgrow(accordionstages, Priority.ALWAYS);
-	  	mainvbox.getChildren().add(accordionstages);
-	  	mainvbox.getChildren().get(1).toBack();
+
 		button_back.setOnAction(this);
 		
     	//windowtype = arg;
@@ -80,6 +78,8 @@ public class ControllerTravelSummary implements Initializable, ControlledScreen,
     		List<Day> traveldays = TravelFramework.getInstance().getTravel().days;
     		
     		int daynum = 1;
+    		
+    		accordionstages.getPanes().setAll(new LinkedList<TitledPane>());
     		
     		for(Day day : traveldays)
     		{
@@ -104,11 +104,47 @@ public class ControllerTravelSummary implements Initializable, ControlledScreen,
     				attrvbox.getChildren().add(athours);
     				if(at.price > 0)attrvbox.getChildren().add(price);
     				
-    				
     				tp.setContent(attrvbox);
     				dayvbox.getChildren().add(tp);
     				
     			}
+    			
+    			if(day.hotel != null)
+    			{
+    				TitledPane tp = new TitledPane();
+    				tp.setText("HOTEL | " + day.hotel.name);
+    				VBox hotbox = new VBox();
+    				
+    				Label hotname = new Label("Nazwa: " + day.hotel.name);
+    				Label price = new Label("Cena za dobê: " + day.hotel.pricepernite);
+    				
+    				hotbox.getChildren().add(hotname);
+    				hotbox.getChildren().add(price);
+    				if(day.hotel.pricepernite > 0)hotbox.getChildren().add(price);
+    				
+    				tp.setContent(hotbox);
+    				dayvbox.getChildren().add(tp);
+    				
+    			}
+    			
+    			if(day.transport != null)
+    			{
+    				TitledPane tp = new TitledPane();
+    				tp.setText("TRANSPORT | " + day.transport.country_start + "(" + day.transport.city_start + ") --> " + day.transport.country_end + "(" + day.transport.city_end + ")");
+    				VBox transbox = new VBox();
+    				
+    				Label hotname = new Label("Nazwa: " + day.hotel.name);
+    				Label price = new Label("Cena za dobê: " + day.hotel.pricepernite);
+    				
+    				transbox.getChildren().add(hotname);
+    				transbox.getChildren().add(price);
+    				if(day.hotel.pricepernite > 0)transbox.getChildren().add(price);
+    				
+    				tp.setContent(transbox);
+    				dayvbox.getChildren().add(tp);
+    				
+    			}
+    			
     			
     			accordionstages.getPanes().add(daytp);
     			daynum++;

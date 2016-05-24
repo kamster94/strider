@@ -8,8 +8,8 @@ public class Day
 {
 	public List<Attraction> attractions;
 	public LocalDateTime date;
-	//Hotel hotel;
-	//Transport transport;
+	public Hotel hotel;
+	public Transport transport;
 	
 	public Day(LocalDateTime datex) 
 	{
