@@ -79,7 +79,7 @@ public class ResultsInformation {
 	}
 	
 	
-	private double getFuelCost()
+	public double getFuelCost()
 	{
 		
 		if(this.selectedFuel.equals("e95"))
