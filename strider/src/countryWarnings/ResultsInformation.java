@@ -73,7 +73,12 @@ public class ResultsInformation {
 		
 		StringBuilder resultsInformation = new StringBuilder();
 		   
-		resultsInformation.append("Koszt paliwa [z³]: " + getFuelCost());		
+		String text = String.valueOf(getFuelCost());
+		int i = 0;
+		while(!text.substring(i,i+1).equals("."))
+			i++;
+		text = text.substring(0, i+3);
+		resultsInformation.append("Koszt paliwa [z³]: " + text);		
 		
 		return resultsInformation;
 	}
