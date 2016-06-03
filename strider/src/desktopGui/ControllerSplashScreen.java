@@ -70,17 +70,17 @@ public class ControllerSplashScreen implements Initializable, ClearableScreen, C
 		{
 			textfieldemail.getText();
 			passwordfieldpassword.getText();
-			DatabaseHandlerLogin dhl = new DatabaseHandlerLogin();
+
 			
-			int dataverification = dhl.verifyDataValidity(textfieldemail.getText(), passwordfieldpassword.getText());
+			int dataverification = DatabaseHandlerLogin.getInstance().verifyDataValidity(textfieldemail.getText(), passwordfieldpassword.getText());
 			
 			if(dataverification == 0)
 			{
-				boolean userexists = dhl.checkEmailAvailability(textfieldemail.getText());
+				boolean userexists = DatabaseHandlerLogin.getInstance().checkEmailAvailability(textfieldemail.getText());
 				
 				if(userexists == true)
 				{
-					int loginstatus = dhl.loginUser(textfieldemail.getText(), passwordfieldpassword.getText());
+					int loginstatus = DatabaseHandlerLogin.getInstance().loginUser(textfieldemail.getText(), passwordfieldpassword.getText());
 					
 					if(loginstatus == 1)
 					{

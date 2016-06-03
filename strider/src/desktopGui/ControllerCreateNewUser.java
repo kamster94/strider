@@ -3,7 +3,6 @@ package desktopGui;
 import java.net.URL;
 import java.util.ResourceBundle;
 import Model.NewUser;
-import Model.User;
 import dbHandlers.DatabaseHandlerCommon;
 import dbHandlers.DatabaseHandlerLogin;
 import dbHandlers.DatabaseHandlerRegister;
@@ -20,7 +19,6 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 
 public class ControllerCreateNewUser implements Initializable, ClearableScreen, ControlledScreen, EventHandler<ActionEvent>
 {
@@ -161,8 +159,8 @@ public class ControllerCreateNewUser implements Initializable, ClearableScreen, 
 						alert.setContentText("Poprawnie utworzono konto");
 						alert.showAndWait();
 						
-						DatabaseHandlerLogin dhl = new DatabaseHandlerLogin();
-						dhl.loginUser(nu.getEmail(), nu.getPassword());
+					
+						DatabaseHandlerLogin.getInstance().loginUser(nu.getEmail(), nu.getPassword());
 						
 						clearComponents();
 						myController.loadScreenAndSet(WindowMain.MAIN_SCREEN, WindowMain.MAIN_SCREEN_FXML);

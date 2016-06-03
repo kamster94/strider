@@ -1,5 +1,6 @@
 package Model;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class Attraction
@@ -12,7 +13,7 @@ public class Attraction
 	public String zipcode;
 	public String openfrom;
 	public String opento;
-	public LocalDateTime datetime;
+	public LocalDate date;
 	public String currency;
 	public String notes;
 	public float price;

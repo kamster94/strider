@@ -3,7 +3,7 @@ package dbHandlers;
 import java.sql.Date;
 import java.util.Arrays;
 import java.util.List;
-import Model.TransportDetails;
+
 import Model.TravelFramework;
 import Model.User;
 import dbConnection.DbAccess;
@@ -12,7 +12,7 @@ public class DatabaseHandlerTransportAdder {
 	
 	private static DatabaseHandlerTransportAdder myinstance;
 	private DbAccess dbConnection;
-	private TransportDetails transport;
+	//private TransportDetails transport;
 	private User user;
 	private TravelFramework travel;
 	
@@ -28,11 +28,13 @@ public class DatabaseHandlerTransportAdder {
 		return myinstance;
 	}
 	
+	/*
 	public void setTransportDetails(TransportDetails td)
 	{
 		transport = td;
 	}
-	
+	*/
+	/*
 	public boolean pushTransportDetails(){
 		String sql = "SELECT DBA.fAddTransportDetails (" + user.getId() + ", " + travel.getCurrentTravel().getId() + ", "
 				+ transport.getIdCurrency() + ", " + transport.getIdTransportCategory() + ", " + transport.getIdTransport() + ", " + transport.getIdCountryArrival() + ", "
@@ -43,6 +45,7 @@ public class DatabaseHandlerTransportAdder {
 		if (status == 1) return true;
 		else return false;
 	}
+	*/
 	
 	public List<String> getProviders(int category){
 		return dbConnection.getStringsFromDb("SELECT TransportName FROM DBA.Transport WHERE IDTransportCategory = " + category, Arrays.asList("TransportName"));	

@@ -2,6 +2,7 @@ package Model;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -11,15 +12,15 @@ public class Travel
 {
 	private int id;
 	private String name;
-	private LocalDateTime startdate;
-	private LocalDateTime enddate;
+	private LocalDate startdate;
+	private LocalDate enddate;
 	private int id_country_origin;
 	private int id_city_origin;
 	private int companionsnumber;
 	public List<Day> days;
 	
 	
-	public Travel(String namex, LocalDateTime startdatex, LocalDateTime enddatex) 
+	public Travel(String namex, LocalDate startdatex, LocalDate enddatex) 
 	{
 		name = namex;
 		startdate = startdatex;
@@ -34,34 +35,38 @@ public class Travel
 
 	public String getLatestCountryInTravel()
 	{
-		String countryname = "";
-		int iter = days.size() - 1;
+		String country = null;
 		
-		while(countryname == "" && iter >= 0)
+		for(int i = 0; i < days.size(); i++)
 		{
-			if(days.get(iter).transport != null)countryname = days.get(iter).transport.country_end;
-			iter--;
+			if(days.get(i).transport != null)country = days.get(i).transport.country_end;
 		}
-		return countryname;
+		return country;
 	}
 	
 	public String getLatestCityInTravel()
 	{
-		String cityname = "";
-		int iter = days.size() - 1;
+		String city = null;
 		
-		while(cityname == "" && iter >= 0)
+		for(int i = 0; i < days.size(); i++)
 		{
-			if(days.get(iter).transport != null)cityname = days.get(iter).transport.city_end;
-			iter--;
+			if(days.get(i).transport != null)city = days.get(i).transport.city_end;
 		}
-		return cityname;
+		return city;
 	}
 	
 	
+	public Day getDayByDate(LocalDate date)
+	{
+		Day foundday = null;
+		for(Day d : days)
+		{
+			if(d.date.equals(date))foundday = d;
+		}
+		return foundday;
+	}
 	
-	
-	public void addAttractionToDay(LocalDateTime date, Attraction attr)
+	public void addAttractionToDay(LocalDate date, Attraction attr)
 	{
 		for(int i = 0; i < days.size(); i++)
 		{
@@ -69,7 +74,7 @@ public class Travel
 		}
 	}
 	
-	public void setHotelToDay(LocalDateTime date, Hotel hot)
+	public void setHotelToDay(LocalDate date, Hotel hot)
 	{
 		for(int i = 0; i < days.size(); i++)
 		{
@@ -77,7 +82,7 @@ public class Travel
 		}
 	}
 	
-	public void setTransportToDay(LocalDateTime date, Transport trans)
+	public void setTransportToDay(LocalDate date, Transport trans)
 	{
 		for(int i = 0; i < days.size(); i++)
 		{
@@ -93,8 +98,7 @@ public class Travel
 		}
 	}
 
-	
-	
+
 	
 	
 	public void setId(int idx)
@@ -105,11 +109,11 @@ public class Travel
 	{
 		name = namex;
 	}
-	public void setStartDate(LocalDateTime startdatex)
+	public void setStartDate(LocalDate startdatex)
 	{
 		startdate = startdatex;
 	}
-	public void setEndDate(LocalDateTime enddatex)
+	public void setEndDate(LocalDate enddatex)
 	{
 		enddate = enddatex;
 	}
@@ -134,11 +138,11 @@ public class Travel
 	{
 		return name;
 	}
-	public LocalDateTime getStartDate()
+	public LocalDate getStartDate()
 	{
 		return startdate;
 	}
-	public LocalDateTime getEndDate()
+	public LocalDate getEndDate()
 	{
 		return enddate;
 	}

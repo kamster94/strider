@@ -5,13 +5,20 @@ import java.util.Arrays;
 import Model.User;
 import dbConnection.DbAccess;
 
-public class DatabaseHandlerLogin {
-	
+public class DatabaseHandlerLogin 
+{
+	private static DatabaseHandlerLogin myinst;
 	public static DbAccess dbConnection;
 	public User user;
 	
-	public DatabaseHandlerLogin(){
+	private DatabaseHandlerLogin(){
 		dbConnection = DbAccess.getInstance();
+	}
+	
+	public static DatabaseHandlerLogin getInstance()
+	{
+		if(myinst == null)myinst = new DatabaseHandlerLogin();
+		return myinst;
 	}
 	
 	public int verifyDataValidity(String email, String password)
@@ -25,6 +32,15 @@ public class DatabaseHandlerLogin {
 	public boolean checkEmailAvailability(String email){
 		return !dbConnection.checkBoolInDb("SELECT DBA.fCheckIfExist(?)", Arrays.asList(email));
 	}
+	
+	public boolean updateUserPreferences(int countryid, int cityid, int currencyid)
+	{
+		boolean status = dbConnection.pushToDb("UPDATE DBA.PersonalUsersData SET IDCountry = " + countryid + ", IDCity = " + cityid + ", IDCurrency = " + currencyid + " WHERE IDUser = " + User.getInstance().getId());
+		return status;
+	}
+	
+	
+	
 	
 	public int loginUser(String email, String password){
 		int status = dbConnection.getIntFromDb("SELECT DBA.fCheckUser('" + email + "', '" + password + "')");

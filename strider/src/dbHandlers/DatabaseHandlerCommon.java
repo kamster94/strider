@@ -23,6 +23,11 @@ public class DatabaseHandlerCommon {
 		return dbConnection.getStringsFromDb("SELECT CountryName FROM DBA.Country", Arrays.asList("CountryName"));
 	}
 	
+	public List<String> getHotelsList()
+	{
+		return dbConnection.getStringsFromDb("SELECT HotelName from DBA.Hotel", Arrays.asList("HotelName"));
+	}
+	
 	public int getCountryId(String name){
 		return dbConnection.getIntFromDb("SELECT IDCountry FROM DBA.Country WHERE CountryName = '" + name + "'");
 	}

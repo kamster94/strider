@@ -3,8 +3,6 @@ package dbHandlers;
 import java.sql.Date;
 import java.util.Arrays;
 import java.util.List;
-
-import Model.HotelDetails;
 import Model.TravelFramework;
 import Model.User;
 import dbConnection.DbAccess;
@@ -13,7 +11,6 @@ public class DatabaseHandlerHotelAdder {
 	
 	private static DatabaseHandlerHotelAdder myinstance;
 	private DbAccess dbConnection;
-	private HotelDetails hotel;
 	private User user;
 	private TravelFramework travel;
 	
@@ -29,6 +26,7 @@ public class DatabaseHandlerHotelAdder {
 		return myinstance;
 	}
 	
+	/*
 	public void setHotel(HotelDetails hotel){
 		this.hotel = hotel;
 	}
@@ -44,7 +42,7 @@ public class DatabaseHandlerHotelAdder {
 		if (status == 1) return true;
 		else return false;
 	}
-	
+	*/
 	public int getHotelId(String name){
 		return dbConnection.getIntFromDb("SELECT IDHotel FROM DBA.Hotel WHERE HotelName = '" + name + "'");
 	}

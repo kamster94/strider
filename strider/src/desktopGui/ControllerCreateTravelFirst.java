@@ -105,10 +105,8 @@ public class ControllerCreateTravelFirst implements Initializable, ClearableScre
 		{
 			if(checkInputCompletion() == true)
 			{
-				LocalDateTime startdate = LocalDateTime.of(datepicker_start.getValue(), LocalTime.MIN);
-				LocalDateTime enddate = LocalDateTime.of(datepicker_end.getValue(), LocalTime.MIN);
-				
-				long difference = ChronoUnit.DAYS.between(startdate, enddate);
+
+				long difference = ChronoUnit.DAYS.between(datepicker_start.getValue(), datepicker_end.getValue());
 				
 				if(difference > 28)
 				{
@@ -120,7 +118,7 @@ public class ControllerCreateTravelFirst implements Initializable, ClearableScre
 				}
 				else
 				{
-					Travel trav = new Travel(textfield_tripname.getText(), startdate, enddate);
+					Travel trav = new Travel(textfield_tripname.getText(), datepicker_start.getValue(), datepicker_end.getValue());
 				
 					TravelFramework.getInstance().setTravel(trav);
 

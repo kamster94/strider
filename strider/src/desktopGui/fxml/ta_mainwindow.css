@@ -14,8 +14,9 @@
 
 .label
 {
-	-fx-background-color: dodgerblue;
-	-fx-text-fill: white;
+	-fx-background-color: white;
+	-fx-font-weight: bold;
+	-fx-text-fill: dodgerblue;
 }
 
 
@@ -52,10 +53,6 @@
 	-fx-background-color: white;
 }
 
-
-
-
-
 /*****************/
 /*****BUTTONS*****/
 /*****************/
@@ -79,15 +76,50 @@
 	-fx-background-color: white;
 	-fx-text-fill:dodgerblue;
 }
+.ratingbox
+{
+		-fx-background-color: white;
+		-fx-border-color: transparent;
+}
+
+.toggle-button
+{
+	-fx-background-color: white;
+	-fx-border-color: transparent;
+	-fx-background-image: url("../textures/star_unselected.png");
+	-fx-background-size: 20px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
 
 
-
+.toggle-button:hover
+{
+    -fx-background-image: url("../textures/star_hover.png");
+    -fx-background-size: 25px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
 
 .toggle-button:selected
 {
-	-fx-background-color: cornflowerblue;
-	-fx-border-color: cornflowerblue;
-	-fx-text-fill: white;
+	-fx-background-image: url("../textures/star_selected.png");
+    -fx-background-size: 20px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+
+.toggle-button:hover:selected
+{
+	-fx-background-image: url("../textures/star_selected.png");
+    -fx-background-size: 25px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+
+.toggle-button:disabled, .toggle-button:disabled > *
+{
+ 	-fx-opacity: 1.0 ;
 }
 
 /********************/

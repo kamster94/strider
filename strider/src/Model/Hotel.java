@@ -15,6 +15,7 @@ public class Hotel
 	public float pricepernite;
 	public String currency;
 	public String notes;
+	public String filepath;
 	
 	public Hotel() 
 	{

@@ -22,6 +22,9 @@ public class ControllerMain implements Initializable, ControlledScreen, EventHan
 
     @FXML
     private Button button_createtravel;
+    
+    @FXML
+    private Button button_changeusersettings;
 
     @FXML
     private Button button_viewcurtravel;
@@ -34,6 +37,9 @@ public class ControllerMain implements Initializable, ControlledScreen, EventHan
     
     @FXML
     private Button button_exit;
+    
+    @FXML
+    private Button button_ratehotel;
 	
     @FXML
     private ImageView imageviewlogotext;
@@ -54,10 +60,12 @@ public class ControllerMain implements Initializable, ControlledScreen, EventHan
 		imageviewlogotext.setImage(imglogotext);
 		imageviewlogobottom.setImage(imglogopalms);
 	
-		
+		button_travelhistory.setOnAction(this);
+		button_ratehotel.setOnAction(this);
 		button_exit.setOnAction(this);
 		button_additionalinfo.setOnAction(this);
 		button_createtravel.setOnAction(this);
+		button_changeusersettings.setOnAction(this);
 	}
 	
 	@Override
@@ -77,6 +85,18 @@ public class ControllerMain implements Initializable, ControlledScreen, EventHan
 		else if(arg0.getSource() == button_createtravel)
 		{
 			myController.loadScreenAndSet(WindowMain.NEWTRAVELFIRST, WindowMain.NEWTRAVELFIRST_FXML);
+		}
+		else if(arg0.getSource() == button_ratehotel)
+		{
+			myController.loadScreenAndSet(WindowMain.RATE_HOTEL, WindowMain.RATE_HOTEL_FXML);
+		}
+		else if(arg0.getSource() == button_changeusersettings)
+		{
+			myController.loadScreenAndSet(WindowMain.OPTIONS, WindowMain.OPTIONS_FXML);
+		}
+		else if(arg0.getSource() == button_travelhistory)
+		{
+			myController.loadScreenAndSet(WindowMain.TRAVEL_HISTORY, WindowMain.TRAVEL_HISTORY_FXML);
 		}
 		else if(arg0.getSource() == button_exit)
 		{

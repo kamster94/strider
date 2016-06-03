@@ -53,16 +53,11 @@ public class DbAccess{
 	}
 	
 	public boolean testConnection(){
-		try {
-			connectToDb();
-			return true;
-		} catch (SQLException e) {
-			connectionLogger.log(Level.SEVERE, e.toString());
-			return connectToLocal();
-		}
+return connectToLocal();
+	
     }
 	
-	private boolean connectToLocal(){
+	public boolean connectToLocal(){
 		try {
 			connectionString = "jdbc:sqlanywhere:uid="+login +";pwd="+password+";eng=traveladvisordb";
 			connection = DriverManager.getConnection(connectionString);

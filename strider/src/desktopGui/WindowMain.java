@@ -52,6 +52,15 @@ public class WindowMain extends Application
 	public static final String TRAVEL_SUMMARY = "travelsummary";
 	public static final String TRAVEL_SUMMARY_FXML = "fxml/fxml_travelsummary.fxml";
 	
+	public static final String RATE_HOTEL = "ratehotel";
+	public static final String RATE_HOTEL_FXML = "fxml/fxml_ratehotel.fxml";
+	
+	public static final String OPTIONS = "options";
+	public static final String OPTIONS_FXML = "fxml/fxml_changeuseroptions.fxml";
+	
+	public static final String TRAVEL_HISTORY = "travelhistory";
+	public static final String TRAVEL_HISTORY_FXML = "fxml/fxml_travelhistory.fxml";
+	
 	public static Logger guiLog = Logger.getLogger("guiLog"); 
 	
 	@Override
@@ -73,7 +82,8 @@ public class WindowMain extends Application
 	        e.printStackTrace();  
 	    } 
 		catch (IOException e) 
-		{  
+		{  
+
 	        e.printStackTrace();  
 	    }
 		
@@ -83,6 +93,9 @@ public class WindowMain extends Application
 		
 		//mainContainer.loadScreenAndSet(WindowMain.MAIN_SCREEN, WindowMain.MAIN_SCREEN_FXML);
 		
+		DbAccess.getInstance().connectToLocal();
+		mainContainer.loadScreenAndSet(WindowMain.SPLASH_SCREEN, WindowMain.SPLASH_SCREEN_FXML);
+		/*
 		if(DbAccess.getInstance().testConnection() == true)
 		{
 			mainContainer.loadScreenAndSet(WindowMain.SPLASH_SCREEN, WindowMain.SPLASH_SCREEN_FXML);
@@ -96,7 +109,7 @@ public class WindowMain extends Application
 			alert.setContentText("Couldn't establish connection to the database.");
 			alert.showAndWait();
 		}
-		
+		*/
 		root = new StackPane();
 
 		root.getChildren().addAll(mainContainer);

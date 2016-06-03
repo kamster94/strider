@@ -11,10 +11,12 @@ public class Transport
 	public String city_end;
 	public LocalDateTime enddatetime;
 	public String transportcategory;
-	public float price;
+	public String provider;
+	public double price;
 	public String currency;
 	public String notes;
-	
+	public float distance;
+	public float calcdcost;
 	
 	
 	
