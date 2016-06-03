@@ -97,6 +97,11 @@ public class DatabaseHandlerTripAdder
 		return false;
 	}
 	
+	public List<String> getTravelList()
+	{
+		int userid = User.getInstance().getId();
+		return dbConnection.getStringsFromDb("SELECT TransportName FROM DBA.Transport WHERE IDTransportCategory = " + category, Arrays.asList("TransportName"));	
+	}
 	
 	
 	

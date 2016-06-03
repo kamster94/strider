@@ -16,6 +16,7 @@ public class VisitedAttractions {
 		this.countryId = countryId;
 		this.cityId = cityId;
 		this.attractionId = attractionId;
+		System.out.println("SELECT AttractionName FROM DBA.Attraction WHERE IDCountry = " + countryId + " AND IDCity = " + cityId + " AND IDAttraction = " + attractionId);
 		this.attractionName = dbConnection.getSingeStringFromDb("SELECT AttractionName FROM DBA.Attraction WHERE IDCountry = " + countryId + " AND IDCity = " + cityId + " AND IDAttraction = " + attractionId, "AttractionName");
 	}
 	

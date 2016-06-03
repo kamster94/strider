@@ -61,7 +61,7 @@ public class DatabaseHandlerAttractionAdder
 		List<VisitedAttractions> visitedAttractions = new ArrayList<VisitedAttractions>();
 		if (ids.size()==0) return null;
 		for (int i = 0; i <= ids.size()-1; i+=3){
-			VisitedAttractions visited = new VisitedAttractions(ids.get(i), ids.get(i+1), ids.get(i+1));
+			VisitedAttractions visited = new VisitedAttractions(ids.get(i), ids.get(i+1), ids.get(i+2));
 			visitedAttractions.add(visited);
 		}
 		return visitedAttractions;

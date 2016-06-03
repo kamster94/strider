@@ -33,13 +33,17 @@ import Model.Hotel;
 import Model.Transport;
 import Model.TravelFramework;
 import Model.User;
+import Model.VisitedAttractions;
+import Model.VisitedHotels;
 import cWHandlers.CountryWarningsHandlerCommon;
 import countryWarnings.CityInformation;
 import countryWarnings.MapController;
 import countryWarnings.ResultsInformation;
 import countryWarnings.SampleController;
 import countryWarnings.WeatherInformation;
+import dbHandlers.DatabaseHandlerAttractionAdder;
 import dbHandlers.DatabaseHandlerCommon;
+import dbHandlers.DatabaseHandlerHotelAdder;
 import dbHandlers.DatabaseHandlerTransportAdder;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -52,6 +56,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -66,6 +71,10 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 	
 	RatingBox hotelrating;
 	
+	@FXML
+	private ListView<String> a_myattractions;
+	@FXML
+	private ListView<String> h_myhotels;
 	@FXML
 	private TextField h_textfield_reservation;
 	@FXML
@@ -338,16 +347,37 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
     
     public void clearTransportComponents()
     {
-    	
-    	
-    	
-    	
-    	
+
     }
+    
+    public void populateVisitedHotels()
+    {
+    	List<VisitedHotels> hotelsfromdb = DatabaseHandlerHotelAdder.getInstance().getVisitedHotels();
+    	for(VisitedHotels vh : hotelsfromdb)
+    	{
+    		h_myhotels.getItems().add(vh.getHotelName());
+    	}
+    }
+    
+    public void populateVisitedAttractions()
+    {
+		List<VisitedAttractions> attractionsfromdb = DatabaseHandlerAttractionAdder.getInstance().getVisitedAttractions();
+		for(VisitedAttractions va : attractionsfromdb)
+		{
+			System.out.println("Attrname: " + va.getAttractionName());
+			a_myattractions.getItems().add(va.getAttractionName());
+		}
+    }
+    
     
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) 
 	{
+
+		
+		
+		 populateVisitedAttractions();
+		 populateVisitedHotels();
 		
 		hotelrating = new RatingBox();
 		hotelrating.setDisable(true);

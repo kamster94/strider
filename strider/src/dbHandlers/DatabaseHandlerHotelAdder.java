@@ -65,7 +65,7 @@ public class DatabaseHandlerHotelAdder {
 		List<VisitedHotels> visitedHotels = new ArrayList<VisitedHotels>();
 		if (ids.size()==0) return null;
 		for (int i = 0; i <= ids.size()-1; i+=3){
-			VisitedHotels visited = new VisitedHotels(ids.get(i), ids.get(i+1), ids.get(i+1));
+			VisitedHotels visited = new VisitedHotels(ids.get(i), ids.get(i+1), ids.get(i+2));
 			visitedHotels.add(visited);
 		}
 		return visitedHotels;

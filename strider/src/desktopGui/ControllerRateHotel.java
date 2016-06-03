@@ -6,6 +6,8 @@ import java.util.ResourceBundle;
 import dbHandlers.DatabaseHandlerCommon;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -16,7 +18,7 @@ import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.TextFlow;
 
-public class ControllerRateHotel implements Initializable, ControlledScreen
+public class ControllerRateHotel implements Initializable, ControlledScreen, EventHandler<ActionEvent>
 {
 	ScreensController myController;
 
@@ -84,11 +86,10 @@ public class ControllerRateHotel implements Initializable, ControlledScreen
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) 
 	{
+		button_cancel.setOnAction(this);
+		
 		//Wype³niæ hotelami z HotelDetails (z tych hoteli w których by³ u¿ytkownik) na zasadzie Pañstwo | Miasto | Nazwa hotelu
 		combobox_hotel.getItems().setAll(DatabaseHandlerCommon.getInstance().getHotelsList());
-		
-		
-		
 		
 		rating_clean = new RatingBox();
 		rating_comfort = new RatingBox();
@@ -195,8 +196,16 @@ public class ControllerRateHotel implements Initializable, ControlledScreen
 			}
 		}
 	
-		
 		rating_average.setDisable(true);
 		rating_average.setValue(calculateAverage());
+	}
+
+	@Override
+	public void handle(ActionEvent arg0) {
+		// TODO Auto-generated method stub
+		if(arg0.getSource() == button_cancel)
+		{
+			myController.setScreen(WindowMain.MAIN_SCREEN);
+		}
 	}
 }
