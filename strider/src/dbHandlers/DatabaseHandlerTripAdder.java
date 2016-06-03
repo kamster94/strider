@@ -100,7 +100,7 @@ public class DatabaseHandlerTripAdder
 	public List<String> getTravelList()
 	{
 		int userid = User.getInstance().getId();
-		return dbConnection.getStringsFromDb("SELECT TransportName FROM DBA.Transport WHERE IDTransportCategory = " + category, Arrays.asList("TransportName"));	
+		return dbConnection.getStringsFromDb("SELECT * FROM DBA.Trip WHERE IDUser = " + userid, Arrays.asList("Trips"));	
 	}
 	
 	

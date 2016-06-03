@@ -57,6 +57,9 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.MultipleSelectionModel;
+import javafx.scene.control.SelectionMode;
+import javafx.scene.control.SelectionModel;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -353,20 +356,67 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
     public void populateVisitedHotels()
     {
     	List<VisitedHotels> hotelsfromdb = DatabaseHandlerHotelAdder.getInstance().getVisitedHotels();
+    	h_myhotels.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+    	
     	for(VisitedHotels vh : hotelsfromdb)
     	{
     		h_myhotels.getItems().add(vh.getHotelName());
     	}
+    	
+    	h_myhotels.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>()
+    	{
+			@Override
+			public void changed(ObservableValue<? extends String> arg0, String arg1, String arg2) 
+			{
+				if(h_myhotels.getSelectionModel().isEmpty() == false)
+				{
+					int id = h_myhotels.getSelectionModel().getSelectedIndex();
+				
+			    	h_textfield_name.setText(hotelsfromdb.get(id).getHotelName());
+			    	h_textfield_street.setText(hotelsfromdb.get(id).getStreetName());
+			    	h_textfield_zipcode.setText(hotelsfromdb.get(id).getZipCode());
+			    	h_textfield_number.setText(hotelsfromdb.get(id).getStreetNumber());
+				}
+			}
+    	});
     }
     
     public void populateVisitedAttractions()
     {
 		List<VisitedAttractions> attractionsfromdb = DatabaseHandlerAttractionAdder.getInstance().getVisitedAttractions();
+		a_myattractions.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+		
 		for(VisitedAttractions va : attractionsfromdb)
 		{
-			System.out.println("Attrname: " + va.getAttractionName());
 			a_myattractions.getItems().add(va.getAttractionName());
 		}
+		
+		a_myattractions.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>()
+    	{
+			@Override
+			public void changed(ObservableValue<? extends String> arg0, String arg1, String arg2) 
+			{
+				if(a_myattractions.getSelectionModel().isEmpty() == false)
+				{
+					int id = a_myattractions.getSelectionModel().getSelectedIndex();
+				
+					a_textfield_name.setText(attractionsfromdb.get(id).getAttractionName());
+		    		a_textfield_street.setText(attractionsfromdb.get(id).getStreetName());
+		    		a_textfield_zipcode.setText(attractionsfromdb.get(id).getZipCode());
+		    		a_textfield_number.setText(attractionsfromdb.get(id).getStreetNumber());
+		    		a_textfield_openfrom.setText(attractionsfromdb.get(id).getOpeningTime());
+		    		a_textfield_opentill.setText(attractionsfromdb.get(id).getClosingTime());
+		    		a_countrybox.getSelectionModel().select(attractionsfromdb.get(id).getCountryId());
+		    		a_citybox.getSelectionModel().select(attractionsfromdb.get(id).getCityId());
+				}
+			}
+    	});
+		
+		
+		
+		
+		
+		
     }
     
     
