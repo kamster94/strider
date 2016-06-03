@@ -1,10 +1,13 @@
 package dbHandlers;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import Model.TravelFramework;
 import Model.User;
+import Model.VisitedAttractions;
+import Model.VisitedHotels;
 import dbConnection.DbAccess;
 
 public class DatabaseHandlerHotelAdder {
@@ -54,5 +57,17 @@ public class DatabaseHandlerHotelAdder {
 	
 	public List<String> getHotels(int cityId, int countryId){
 		return dbConnection.getStringsFromDb("SELECT * FROM DBA.Hotel WHERE IDCity = " + cityId + " AND IDCountry = " + countryId, Arrays.asList("HotelName"));
+	}
+	
+	public List<VisitedHotels> getVisitedHotels(){
+		User user = User.getInstance();
+		List<Integer> ids = dbConnection.getIntegersFromDb("SELECT * FROM DBA.HotelDetail WHERE IDUser = " + user.getId(), Arrays.asList("IDCountry", "IDCity", "IDHotel"));
+		List<VisitedHotels> visitedHotels = new ArrayList<VisitedHotels>();
+		if (ids.size()==0) return null;
+		for (int i = 0; i <= ids.size()-1; i+=3){
+			VisitedHotels visited = new VisitedHotels(ids.get(i), ids.get(i+1), ids.get(i+1));
+			visitedHotels.add(visited);
+		}
+		return visitedHotels;
 	}
 }
