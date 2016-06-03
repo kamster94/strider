@@ -53,30 +53,29 @@ public class DbAccess{
 	}
 	
 	public boolean testConnection(){
-return connectToLocal();
-	
+		try {
+			connectionString = "jdbc:sqlanywhere:uid="+login+";pwd="+password+";eng=traveladvisordb;database=traveladvisordb;host=5.134.69.28:15244";
+			connection = DriverManager.getConnection(connectionString); 
+ 			return true;
+ 		} catch (SQLException e) {
+ 			try {
+ 				connectionString = "jdbc:sqlanywhere:uid="+login +";pwd="+password+";eng=traveladvisordb";
+ 				connection = DriverManager.getConnection(connectionString);
+ 				return true;
+ 			} catch (SQLException e1) {
+ 				connectionLogger.log(Level.SEVERE, e1.toString());
+ 				return false;
+ 			}
+ 		}
     }
 	
-	public boolean connectToLocal(){
-		try {
-			connectionString = "jdbc:sqlanywhere:uid="+login +";pwd="+password+";eng=traveladvisordb";
-			connection = DriverManager.getConnection(connectionString);
-			return true;
-		} catch (SQLException e) {
-
-			connectionLogger.log(Level.SEVERE, e.toString());
-			return false;
-		}
-	}
-	
 	private void connectToDb() throws SQLException{
-		connectionString = "jdbc:sqlanywhere:uid="+login+";pwd="+password+";eng=traveladvisordb;database=traveladvisordb;host=5.134.69.28:15244";
 		connection = DriverManager.getConnection(connectionString); 
 	}
 	
 	public List<String> getStringsFromDb(String sql, List<String> columns){
 		try {
-			testConnection();
+			connectToDb();
 			PreparedStatement statement = connection.prepareStatement(sql);
 	        ResultSet result = statement.executeQuery();
 	        List<String> values = new ArrayList<String>();
@@ -97,7 +96,7 @@ return connectToLocal();
 	
 	public List<Float> getFloatsFromDb(String sql, List<String> columns){
 		try {
-			testConnection();
+			connectToDb();
 			PreparedStatement statement = connection.prepareStatement(sql);
 	        ResultSet result = statement.executeQuery();
 	        List<Float> values = new ArrayList<Float>();
@@ -118,7 +117,7 @@ return connectToLocal();
 	
 	public List<Integer> getIntegersFromDb(String sql, List<String> columns){
 		try {
-			testConnection();
+			connectToDb();
 			PreparedStatement statement = connection.prepareStatement(sql);
 	        ResultSet result = statement.executeQuery();
 	        List<Integer> values = new ArrayList<Integer>();
@@ -139,7 +138,7 @@ return connectToLocal();
 	
 	public boolean pushToDb(String sql){
 		try {
-			testConnection();
+			connectToDb();
 			PreparedStatement statement = connection.prepareStatement(sql);
 			connectionLogger.log(Level.SEVERE, sql);
 			statement.executeUpdate(sql);
@@ -153,7 +152,7 @@ return connectToLocal();
 	
 	public boolean checkBoolInDb(String sql, List<String> params){
 		try {
-			testConnection();
+			connectToDb();
 			PreparedStatement statement = connection.prepareStatement(sql);
 			int index = 1;
 			for (String param : params){
@@ -174,7 +173,7 @@ return connectToLocal();
 	
 	public int getIntFromDb(String sql){
 		try {
-			testConnection();
+			connectToDb();
 			PreparedStatement statement = connection.prepareStatement(sql);
 	        ResultSet result = statement.executeQuery();
 	        int value = -1;
@@ -193,7 +192,7 @@ return connectToLocal();
 	
 	public float getFloatFromDb(String sql){
 		try {
-			testConnection();
+			connectToDb();
 			PreparedStatement statement = connection.prepareStatement(sql);
 	        ResultSet result = statement.executeQuery();
 	        float value = -1;
@@ -212,7 +211,7 @@ return connectToLocal();
 	
 	public String getSingeStringFromDb(String sql, String wiersz){
 		try {
-			testConnection();
+			connectToDb();
 			PreparedStatement statement = connection.prepareStatement(sql);
 	        ResultSet result = statement.executeQuery();
 	        String value = "";
@@ -229,12 +228,12 @@ return connectToLocal();
 		}
 	}
 	
-	public ObservableList getStringsFromDbAsObservableList(String sql, String column){
+	public ObservableList<String> getStringsFromDbAsObservableList(String sql, String column){
 		try {
-			testConnection();
+			connectToDb();
 			PreparedStatement statement = connection.prepareStatement(sql);
 	        ResultSet result = statement.executeQuery();
-	        ObservableList values = FXCollections.observableArrayList();
+	        ObservableList<String> values = FXCollections.observableArrayList();
 	       
 	        while (result.next())
 	   	 	      values.add(result.getString(column));
@@ -251,16 +250,12 @@ return connectToLocal();
 	
 	public boolean testInternetConnection(){
         try {
-            //make a URL to a known source
             URL url = new URL("http://www.google.com");
 
-            //open a connection to that source
             HttpURLConnection urlConnect = (HttpURLConnection)url.openConnection();
 
-            //trying to retrieve data from the source. If there
-            //is no connection, this line will fail
-            Object objData = urlConnect.getContent();
-
+            @SuppressWarnings("unused")
+			Object objData = urlConnect.getContent();
         } catch (UnknownHostException e) {
         	connectionLogger.log(Level.SEVERE, e.toString());
             return false;

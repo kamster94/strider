@@ -76,7 +76,7 @@ public class DatabaseHandlerTripAdder
 	
 	public boolean pushTransportToDatabase(Transport trans)
 	{
-		int userid = User.getInstance().getId();
+		/*int userid = User.getInstance().getId();
 		int tripid = TravelFramework.getInstance().getTravel().getId();
 		int currencyid = DatabaseHandlerCommon.getInstance().getCurrencyId(trans.currency);
 		int transcat = DatabaseHandlerTransportAdder.getInstance().getCategoryId(trans.transportcategory);
@@ -93,7 +93,8 @@ public class DatabaseHandlerTripAdder
 		boolean addstatus = DbAccess.getInstance().pushToDb("CALL DBA.fCompactAddAttractionDetails(" + userid + "," + tripid + "," +
 		currencyid + "," + countryid + "," + cityid + "," + price + ",'"+notes+"','"+visitdate+"','"+streetname+"','"+number + "','" +
 		zipcode+"','"+attractionname+"','"+opentime+"','"+opentill+"')");
-		return addstatus;
+		return addstatus;*/
+		return false;
 	}
 	
 	

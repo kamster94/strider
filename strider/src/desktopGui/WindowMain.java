@@ -90,12 +90,8 @@ public class WindowMain extends Application
 		ScreensController mainContainer = new ScreensController();
 		
 		//Nie ma sensu ³adowaæ tego ¿eby u¿ytkownik mia³ krzaka, bo i tak sie nie zaloguje skoro nie ma po³¹czenia z baz¹ ;3
+		//Ju¿ jest sens ;* k.
 		
-		//mainContainer.loadScreenAndSet(WindowMain.MAIN_SCREEN, WindowMain.MAIN_SCREEN_FXML);
-		
-		DbAccess.getInstance().connectToLocal();
-		mainContainer.loadScreenAndSet(WindowMain.SPLASH_SCREEN, WindowMain.SPLASH_SCREEN_FXML);
-		/*
 		if(DbAccess.getInstance().testConnection() == true)
 		{
 			mainContainer.loadScreenAndSet(WindowMain.SPLASH_SCREEN, WindowMain.SPLASH_SCREEN_FXML);
@@ -109,7 +105,7 @@ public class WindowMain extends Application
 			alert.setContentText("Couldn't establish connection to the database.");
 			alert.showAndWait();
 		}
-		*/
+		
 		root = new StackPane();
 
 		root.getChildren().addAll(mainContainer);
