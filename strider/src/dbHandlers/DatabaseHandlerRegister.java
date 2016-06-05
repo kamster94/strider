@@ -28,10 +28,10 @@ public class DatabaseHandlerRegister {
 		
 	}
 	
-	public boolean checkEmailAvailability()
-	{
-		
-		return !dataBaseAccess.checkBoolInDb("SELECT DBA.fCheckIfExist(?)", Arrays.asList(user.getEmail()));
+	public boolean checkEmailAvailability(){
+		int check = dataBaseAccess.getIntFromDb("SELECT DBA.fCheckIfExist('" + user.getEmail() + "')");
+		if (check == 0) return true;
+		else return false;
 	}
 	
 	public int sendToDb(){
