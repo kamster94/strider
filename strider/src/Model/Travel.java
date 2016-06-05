@@ -36,6 +36,10 @@ public class Travel
 		}
 	}
 
+	public List<Day> getDays() {
+		return days;
+	}
+
 	public String getLatestCountryInTravel()
 	{
 		String country = null;
@@ -59,6 +63,24 @@ public class Travel
 	}
 	
 	
+	
+	
+	public void setTransportcost(float transportcost) {
+		this.transportcost = transportcost;
+	}
+
+	public void setHotelcost(float hotelcost) {
+		this.hotelcost = hotelcost;
+	}
+
+	public void setAttractioncost(float attractioncost) {
+		this.attractioncost = attractioncost;
+	}
+
+	public void setAllcost(float allcost) {
+		this.allcost = allcost;
+	}
+
 	public Day getDayByDate(LocalDate date)
 	{
 		Day foundday = null;
