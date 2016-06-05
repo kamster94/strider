@@ -28,7 +28,9 @@ public class DatabaseHandlerRegister {
 		
 	}
 	
-	public boolean checkEmailAvailability(){
+	public boolean checkEmailAvailability()
+	{
+		
 		return !dataBaseAccess.checkBoolInDb("SELECT DBA.fCheckIfExist(?)", Arrays.asList(user.getEmail()));
 	}
 	

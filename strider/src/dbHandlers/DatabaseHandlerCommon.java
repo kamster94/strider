@@ -39,6 +39,13 @@ public class DatabaseHandlerCommon {
 	public int getCityId(String name){
 		return dbConnection.getIntFromDb("SELECT IDCity FROM DBA.City WHERE CityName = '" + name + "'");
 	}
+	public String getCityName(int countryid, int cityid){
+		return dbConnection.getSingeStringFromDb("SELECT CityName FROM DBA.City WHERE IDCountry = " + countryid + " AND IDCity = " + cityid + "", "cityname");
+	}
+	
+	public String getCountryName(int countryid){
+		return dbConnection.getSingeStringFromDb("SELECT CountryName FROM DBA.Country WHERE IDCountry = " + countryid + "", "countryname");
+	}
 	
 	public List<String> getCurrencies(){
 		return dbConnection.getStringsFromDb("SELECT CurrencyShortcut FROM DBA.Currency ORDER BY CurrencyShortcut", Arrays.asList("CurrencyShortcut"));	
@@ -46,6 +53,11 @@ public class DatabaseHandlerCommon {
 	
 	public int getCurrencyId(String shortcut){
 		return dbConnection.getIntFromDb("SELECT IDCurrency FROM DBA.Currency WHERE CurrencyShortcut = '" + shortcut + "'");
+	}
+	
+	public String getCurrencyName(int id)
+	{
+		return dbConnection.getSingeStringFromDb("SELECT CurrencyShortcut FROM DBA.Currency WHERE IDCurrency = " + id, "CurrencyShortcut");
 	}
 	
 	public String getCurrencyNameForGivenCountry(int countryId)

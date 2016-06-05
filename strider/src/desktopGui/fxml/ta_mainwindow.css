@@ -20,6 +20,49 @@
 }
 
 
+.tab-pane
+{
+	-fx-background-color: white;
+	-fx-border-color: white;
+}
+
+.tab-content-area
+{
+	-fx-background-color: transparent;
+}
+
+.tab .tab-label
+{
+	-fx-background-color: dodgerblue;
+	-fx-border-color: transparent;
+	-fx-text-fill: white;
+	-fx-font-weight: bold;
+}
+
+.tab:selected .tab-label
+{
+	-fx-background-color: white;
+	-fx-text-fill: dodgerblue;
+}
+
+.tab
+{
+	-fx-background-color: dodgerblue;
+}
+
+.tab:selected
+{
+	-fx-background-color: white;
+}
+
+
+
+
+.tab-pane *.tab-header-background 
+{
+	-fx-background-color: white;
+}
+
 /**************/
 /*****VBOX*****/
 /**************/
@@ -42,7 +85,7 @@
 .hbox
 {
 	-fx-background-color: white;
-	-fx-border-color: cornflowerblue;
+	-fx-border-color: dodgerblue;
 }
 
 /********************/

@@ -52,6 +52,22 @@ public class ControllerTravelSummary implements Initializable, ControlledScreen,
     private Button button_back;
     @FXML
     private Button button_apply;
+    
+    @FXML
+    private Label label_transportcost;
+    @FXML
+    private Label label_hotelcost;
+    @FXML
+    private Label label_attractioncost;
+    @FXML
+    private Label label_allcost;
+    @FXML
+    private Label label_numdays;
+    
+    
+    
+    
+    
     @FXML
     private Accordion accordionstages;
     
@@ -81,43 +97,85 @@ public class ControllerTravelSummary implements Initializable, ControlledScreen,
 		return founddaypane;
 	}
 
-	@Override
-	public void initialize(URL arg0, ResourceBundle arg1) 
-	{
-		daypanes = new LinkedList<DayPane>();
-		days = TravelFramework.getInstance().getTravel().days;
-		
-		button_back.setOnAction(this);
-		button_apply.setOnAction(this);
-		
-		accordionstages = new Accordion();
-		mainvbox.getChildren().add(accordionstages);
-		mainvbox.getChildren().get(1).toBack();
-		VBox.setVgrow(accordionstages, Priority.ALWAYS);
-    	int curuser = User.getInstance().getId();
-    	int curtravel = TravelFramework.getInstance().getTravel().getId();
-    	int daynum = 1;
-
-    	for(Day d : days)
+    private float calculateTransportCost()
+    {
+    	float cost = 0;	
+    	for(DayPane dp : daypanes)
     	{
-    		DayPane dp = new DayPane(d);
-    		dp.myday = d;
-    		dp.setText("Dzieñ " + dp.myday.date.getDayOfMonth() + "-" + dp.myday.date.getMonthValue() + "-" + dp.myday.date.getYear());
-    		VBox daypanevbox = new VBox();
-    		dp.myvbox = daypanevbox;
-    		dp.setContent(dp.myvbox);
-    		daypanes.add(dp);
+    		if(dp.myday.transport != null)
+    		{
+    			cost += dp.myday.transport.calcdcost;
+    		}
     	}
- 
-    	accordionstages.getPanes().setAll(daypanes);
-    		
+    	return cost;
+    }
+    
+    private float calculateHotelCost()
+    {
+    	float cost = 0;
+    	for(DayPane dp : daypanes)
+    	{
+    		if(dp.myday.hotel != null)
+    		{
+    			//Rzutowanie z long -> int - bo i tak zak³adamy ¿e najd³u¿szy pobyt w hotelu czy tam d³ugoœc podró¿y to 30 dni.
+    			int numdays = (int)ChronoUnit.DAYS.between(dp.myday.hotel.accomodation_startdate, dp.myday.hotel.accomodation_enddate) + 1;
+    			float subcost = numdays * dp.myday.hotel.pricepernite;
+    			cost += subcost;
+    		}
+    	}
+    	return cost;
+    }
+    
+    private float calculateAttractionCost()
+    {
+    	float cost = 0;
+    	for(DayPane dp : daypanes)
+    	{
+    		if(dp.myday.attractions.isEmpty() == false)
+    		{
+    			for(Attraction a : dp.myday.attractions)cost += a.price;
+    		}
+    	}
+    	return cost;
+    }
+    
+    public void populateContent()
+    {
+    	float transportcost = calculateTransportCost();
+    	float hotelcost = calculateHotelCost();
+    	float attractioncost = calculateAttractionCost();
+    	float allcost = transportcost + hotelcost + attractioncost;
+    	int numdays = daypanes.size();
+    	
+    	label_transportcost.setText("Koszt transportów: " + transportcost);
+    	label_hotelcost.setText("Koszt noclegów: " + hotelcost);
+    	label_attractioncost.setText("Koszt atrakcji: " + attractioncost);
+    	label_allcost.setText("£¹czny koszt: " + allcost);
+    	label_numdays.setText("Czas podró¿y (w dniach): " + numdays);
+    	
+    	for(DayPane dp : daypanes)
+    	{
+    		dp.myvbox.getChildren().removeAll(dp.myvbox.getChildren());
+    	}
+    	
         for(DayPane dp : daypanes)
         {
         	if(dp.myday.transport != null)
         	{
-
-        		Transport trans = dp.myday.transport;
+        		Button button_delete = new Button("Usuñ");
         		
+        		button_delete.setOnAction(new EventHandler<ActionEvent>()
+        		{
+					@Override
+					public void handle(ActionEvent arg0) 
+					{
+						dp.myday.transport = null;
+						populateContent();
+					}
+        			
+        		});
+        		
+        		Transport trans = dp.myday.transport;
         		TitledPane trans_start = new TitledPane();
         		TitledPane trans_end = new TitledPane();
         		String trans_start_name = "Wyjazd z " + trans.country_start + ", " + trans.city_start;
@@ -126,6 +184,8 @@ public class ControllerTravelSummary implements Initializable, ControlledScreen,
         		trans_end.setText("TRANSPORT | " + trans_end_name);
         		VBox vbox_start = new VBox();
         		VBox vbox_end = new VBox();
+        		vbox_start.setSpacing(10);
+        		vbox_end.setSpacing(10);
         		trans_start.setContent(vbox_start);
         		trans_end.setContent(vbox_end);
         		
@@ -134,20 +194,24 @@ public class ControllerTravelSummary implements Initializable, ControlledScreen,
         		Label trans_start_type = new Label("Rodzaj : Wyjazd");
         		Label trans_end_type = new Label("Rodzaj : Przyjazd");
         		Label trans_start_time = new Label("Godzina: " + trans.startdatetime.getHour() + ":" + trans.startdatetime.getMinute());
-        		Label trans_end_time = new Label("Godzina: " + trans.enddatetime.getHour() + ":" + trans.enddatetime.getMinute());
+        		Label trans_end_time = new Label("Godzina: " + trans.enddatetime.toLocalTime().toString());
         		Label trans_start_cost = new Label("Cena: " + trans.price);
         		
         		LocalDate date_start = (trans.startdatetime).toLocalDate();
-        		LocalDate date_end = (trans.enddatetime).toLocalDate();
-        		
-        		
+        		LocalDate date_end = (trans.enddatetime).toLocalDate();	
         		
         		vbox_start.getChildren().add(trans_start_label);
         		vbox_start.getChildren().add(trans_start_type);
         		vbox_start.getChildren().add(trans_start_time);
         		vbox_start.getChildren().add(new Label("Œrodek transportu: " + trans.transportcategory));
         		vbox_start.getChildren().add(trans_start_cost);
-    
+        		vbox_start.getChildren().add(button_delete);
+        		
+        		vbox_end.getChildren().add(trans_end_label);
+        		vbox_end.getChildren().add(trans_end_type);
+        		vbox_end.getChildren().add(trans_end_time);
+        		vbox_end.getChildren().add(new Label("Œrodek transportu: " + trans.transportcategory));
+ 
         		if(getDayPaneByDate(date_start) != null)
         		{			
         			getDayPaneByDate(date_start).myvbox.getChildren().add(trans_start);
@@ -161,6 +225,19 @@ public class ControllerTravelSummary implements Initializable, ControlledScreen,
 
         	if(dp.myday.hotel != null)
         	{
+        		Button button_delete = new Button("Usuñ");
+        		
+        		button_delete.setOnAction(new EventHandler<ActionEvent>()
+        		{
+					@Override
+					public void handle(ActionEvent arg0) 
+					{
+						dp.myday.hotel = null;
+						populateContent();
+					}
+        			
+        		});
+        		
         		Hotel hot = dp.myday.hotel;
         		
         		TitledPane hotelpane_arrival = new TitledPane();
@@ -203,8 +280,9 @@ public class ControllerTravelSummary implements Initializable, ControlledScreen,
         		hotelvbox_arrival.getChildren().add(type_arrival);
         		hotelvbox_arrival.getChildren().add(price_arrival);
         		hotelvbox_arrival.getChildren().add(tpnotes1);
-        		hotelpane_arrival.setContent(hotelvbox_arrival);
-    				
+        		hotelvbox_arrival.getChildren().add(button_delete);
+        		hotelpane_arrival.setContent(hotelvbox_arrival);		
+        		
         		hotelvbox_leaving.getChildren().add(new Label("Nazwa hotelu: " + hot.name));
         		hotelvbox_leaving.getChildren().add(type_leaving);
         		hotelvbox_leaving.getChildren().add(tpnotes2);
@@ -223,6 +301,23 @@ public class ControllerTravelSummary implements Initializable, ControlledScreen,
         	
 			for(Attraction at : dp.myday.attractions)
 			{
+				
+        		Button button_delete = new Button("Usuñ");
+        		
+        		button_delete.setOnAction(new EventHandler<ActionEvent>()
+        		{
+					@Override
+					public void handle(ActionEvent arg0) 
+					{
+						for(Attraction atx : dp.myday.attractions)
+						{
+							if(atx.equals(at))dp.myday.attractions.remove(atx);
+						}
+						populateContent();
+					}
+        			
+        		});
+
 				TitledPane tp = new TitledPane();
 				tp.setText("ATRAKCJA | " + at.name);
 				VBox attrvbox = new VBox();
@@ -243,47 +338,44 @@ public class ControllerTravelSummary implements Initializable, ControlledScreen,
 				attrvbox.getChildren().add(athours);
 				if(at.price > 0)attrvbox.getChildren().add(price);
 				attrvbox.getChildren().add(tpnotes);
+				attrvbox.getChildren().add(button_delete);
 				
 				tp.setContent(attrvbox);
 				dp.myvbox.getChildren().add(tp);
-				
 			}
-        	
-        	
-        	
-        	
-        	
-        	
-        	
-        	
         }
-    	
-    	
-/*
-    			/*
-    			if(day.transport != null)
-    			{
-    				TitledPane tp = new TitledPane();
-    				tp.setText("TRANSPORT | " + day.transport.country_start + "(" + day.transport.city_start + ") --> " + day.transport.country_end + "(" + day.transport.city_end + ")");
-    				VBox transbox = new VBox();
-    				
-  
-    				//Label hotname = new Label("Nazwa: " + day.transport.);
-    				//Label price = new Label("Cena za dobê: " + day.hotel.pricepernite);
-    				
-    				
-    				//transbox.getChildren().add(hotname);
-    				//transbox.getChildren().add(price);
-    				//if(day.hotel.pricepernite > 0)transbox.getChildren().add(price);
-    				
-    				tp.setContent(transbox);
-    				dayvbox.getChildren().add(tp);
-    				
-    			}
-    			*/
-    			
+    }
     
-  
+    
+	@Override
+	public void initialize(URL arg0, ResourceBundle arg1) 
+	{
+		daypanes = new LinkedList<DayPane>();
+		days = TravelFramework.getInstance().getTravel().days;
+		
+		button_back.setOnAction(this);
+		button_apply.setOnAction(this);
+		
+		accordionstages = new Accordion();
+		mainvbox.getChildren().add(accordionstages);
+		//mainvbox.getChildren().get(1).toBack();
+		VBox.setVgrow(accordionstages, Priority.ALWAYS);
+    	int curuser = User.getInstance().getId();
+    	int curtravel = TravelFramework.getInstance().getTravel().getId();
+    	int daynum = 1;
+
+    	for(Day d : days)
+    	{
+    		DayPane dp = new DayPane(d);
+    		dp.myday = d;
+    		dp.setText("Dzieñ " + dp.myday.date.getDayOfMonth() + "-" + dp.myday.date.getMonthValue() + "-" + dp.myday.date.getYear());
+    		VBox daypanevbox = new VBox();
+    		dp.myvbox = daypanevbox;
+    		dp.setContent(dp.myvbox);
+    		daypanes.add(dp);
+    	}
+    	accordionstages.getPanes().setAll(daypanes);
+    	populateContent();
 	}
 	
 	@Override
@@ -301,6 +393,11 @@ public class ControllerTravelSummary implements Initializable, ControlledScreen,
 		}
 		else if(arg0.getSource() == button_apply)
 		{
+			TravelFramework.getInstance().getTravel().attractioncost = calculateAttractionCost();
+			TravelFramework.getInstance().getTravel().hotelcost = calculateHotelCost();
+			TravelFramework.getInstance().getTravel().transportcost = calculateTransportCost();
+			TravelFramework.getInstance().getTravel().allcost = calculateAttractionCost() + calculateHotelCost() + calculateTransportCost();
+			
 			int tripid = DatabaseHandlerTripAdder.getInstance().pushTravelToDatabase();
 			TravelFramework.getInstance().getTravel().setId(tripid);
 			
@@ -309,6 +406,11 @@ public class ControllerTravelSummary implements Initializable, ControlledScreen,
 				if(d.hotel != null)
 				{
 					DatabaseHandlerTripAdder.getInstance().pushHotelToDatabase(d.hotel);
+				}
+				
+				if(d.transport != null)
+				{
+					DatabaseHandlerTripAdder.getInstance().pushTransportToDatabase(d.transport);
 				}
 				
 				for(Attraction a : d.attractions)

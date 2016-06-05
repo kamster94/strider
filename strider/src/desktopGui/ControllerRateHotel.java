@@ -1,9 +1,13 @@
 package desktopGui;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
+import Model.Review;
+import Model.VisitedHotels;
 import dbHandlers.DatabaseHandlerCommon;
+import dbHandlers.DatabaseHandlerHotelAdder;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -13,6 +17,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.SelectionMode;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.VBox;
@@ -52,10 +59,19 @@ public class ControllerRateHotel implements Initializable, ControlledScreen, Eve
     private VBox vbox_ratequalitytoprice;
 
     @FXML
-    private TextFlow textflow_hoteldata;
+    private Label label_hotelname;
 
     @FXML
-    private TextFlow textflow_notes;
+    private Label label_streetnameandnumber;
+
+    @FXML
+    private Label label_zipcitycountry;
+
+    @FXML
+    private Label label_pricepernight;
+
+    @FXML
+    private TextArea textarea_notes;
 
     @FXML
     private VBox vbox_rateaverage;
@@ -88,9 +104,45 @@ public class ControllerRateHotel implements Initializable, ControlledScreen, Eve
 	{
 		button_cancel.setOnAction(this);
 		
-		//Wype³niæ hotelami z HotelDetails (z tych hoteli w których by³ u¿ytkownik) na zasadzie Pañstwo | Miasto | Nazwa hotelu
-		combobox_hotel.getItems().setAll(DatabaseHandlerCommon.getInstance().getHotelsList());
+		label_hotelname.setText("Nazwa:");
+		label_streetnameandnumber.setText("Adres:");
+		label_zipcitycountry.setText("Lokacja:");
+		label_pricepernight.setText("Cena za noc:");
 		
+		//Wype³niæ hotelami z HotelDetails (z tych hoteli w których by³ u¿ytkownik) na zasadzie Pañstwo | Miasto | Nazwa hotelu
+		List<VisitedHotels> hotelsfromdb = DatabaseHandlerHotelAdder.getInstance().getVisitedHotels();
+		
+		for(VisitedHotels vh : hotelsfromdb)
+		{
+			combobox_hotel.getItems().add(vh.getHotelName());
+		}
+
+		combobox_hotel.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>()
+		{
+			@Override
+			public void changed(ObservableValue<? extends String> arg0, String arg1, String arg2) 
+			{
+				if(combobox_hotel.getSelectionModel().isEmpty() == false)
+				{
+					int id = combobox_hotel.getSelectionModel().getSelectedIndex();
+					label_hotelname.setText("Nazwa: " + hotelsfromdb.get(id).getHotelName());
+					label_streetnameandnumber.setText("Adres: " + hotelsfromdb.get(id).getStreetName() + " " + hotelsfromdb.get(id).getStreetNumber());
+					
+					String country = DatabaseHandlerCommon.getInstance().getCountryName(hotelsfromdb.get(id).getCountryId());
+					String city = DatabaseHandlerCommon.getInstance().getCityName(hotelsfromdb.get(id).getCountryId(), hotelsfromdb.get(id).getCityId());
+				
+					label_zipcitycountry.setText("Lokacja: " + hotelsfromdb.get(id).getZipCode() + " " + city + " " + country);
+				}
+				else
+				{
+					label_hotelname.setText("Nazwa:");
+					label_streetnameandnumber.setText("Adres:");
+					label_zipcitycountry.setText("Lokacja:");
+					label_pricepernight.setText("Cena za noc:");
+				}
+			}		
+		});
+
 		rating_clean = new RatingBox();
 		rating_comfort = new RatingBox();
 		rating_localization = new RatingBox();
@@ -206,6 +258,27 @@ public class ControllerRateHotel implements Initializable, ControlledScreen, Eve
 		if(arg0.getSource() == button_cancel)
 		{
 			myController.setScreen(WindowMain.MAIN_SCREEN);
+		}
+		else if(arg0.getSource() == button_rate)
+		{
+			if(combobox_hotel.getSelectionModel().isEmpty() == false)
+			{
+				int ratclean = rating_clean.getValue();
+				int ratcom = rating_comfort.getValue();
+				int ratloc = rating_localization.getValue();
+				int ratamen = rating_udogodnienia.getValue();
+				int ratpers = rating_personel.getValue();
+				int ratvalmone = rating_qualityprice.getValue();
+				int rataverage = rating_average.getValue();
+				String notes = textarea_notes.getText();
+				
+				Review rev = new Review(ratclean, ratcom, ratloc, ratamen, ratpers, ratvalmone, rataverage, notes);
+				
+			}
+			else
+			{
+				//alert - wybierz hotel do oceny
+			}
 		}
 	}
 }

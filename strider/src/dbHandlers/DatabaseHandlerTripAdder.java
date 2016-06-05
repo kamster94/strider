@@ -24,7 +24,8 @@ public class DatabaseHandlerTripAdder
 	private static String Citysql1 = "Select C.IDCity From City where CityName =";
 	private static String Citysql2 = "and IDCountry =";
 	
-	private DatabaseHandlerTripAdder(){
+	private DatabaseHandlerTripAdder()
+	{
 		dataBaseAccess = DbAccess.getInstance();
 	}
 	
@@ -42,7 +43,6 @@ public class DatabaseHandlerTripAdder
 	public boolean pushHotelToDatabase(Hotel hot)
 	{
 		int userid = User.getInstance().getId();
-		
 		int tripid = TravelFramework.getInstance().getTravel().getId();
 		int currencyid = DatabaseHandlerCommon.getInstance().getCurrencyId(hot.currency);
 		int countryid = DatabaseHandlerCommon.getInstance().getCountryId(hot.country);
@@ -66,45 +66,46 @@ public class DatabaseHandlerTripAdder
 	
 	private int getHourFromString(String txt)
 	{
-		return Integer.parseInt(txt.substring(0, 1));
+		return Integer.parseInt(txt.substring(0, 2));
 	}
 	
 	private int getMinutesFromString(String txt)
 	{
-		return Integer.parseInt(txt.substring(3, 4));
+		return Integer.parseInt(txt.substring(3, 5));
 	}
 	
 	public boolean pushTransportToDatabase(Transport trans)
 	{
-		/*int userid = User.getInstance().getId();
+		int userid = User.getInstance().getId();
 		int tripid = TravelFramework.getInstance().getTravel().getId();
 		int currencyid = DatabaseHandlerCommon.getInstance().getCurrencyId(trans.currency);
 		int transcat = DatabaseHandlerTransportAdder.getInstance().getCategoryId(trans.transportcategory);
-		String name = trans.n ?????
+		String transname = trans.provider; //temporary
 		int countryid_target = DatabaseHandlerCommon.getInstance().getCountryId(trans.country_end);
 		int cityid_target = DatabaseHandlerCommon.getInstance().getCityId(trans.city_end);
 		int countryid_start = DatabaseHandlerCommon.getInstance().getCountryId(trans.country_start);
 		int cityid_start = DatabaseHandlerCommon.getInstance().getCityId(trans.city_start);
-		TimeStamp arrivaldatetime = trans.enddatetime;
-		TimeStamp startdatetime = trans.startdatetime;
-		float price = trans.price;
-		
-		
-		boolean addstatus = DbAccess.getInstance().pushToDb("CALL DBA.fCompactAddAttractionDetails(" + userid + "," + tripid + "," +
-		currencyid + "," + countryid + "," + cityid + "," + price + ",'"+notes+"','"+visitdate+"','"+streetname+"','"+number + "','" +
-		zipcode+"','"+attractionname+"','"+opentime+"','"+opentill+"')");
-		return addstatus;*/
-		return false;
+		Timestamp arrivaldatetime = Timestamp.valueOf(trans.enddatetime);
+		Timestamp startdatetime = Timestamp.valueOf(trans.startdatetime);
+		float price = (float)trans.price;
+		float calcprice = trans.calcdcost;
+		String link = "what the fuck is this";
+		String notes = trans.notes;
+
+		boolean addstatus = DbAccess.getInstance().pushToDb("CALL DBA.fCompactAddTransportDetails(" + userid + "," + tripid + "," +
+		currencyid + "," + transcat + ",'" + transname + "'," + countryid_target + ","+cityid_target+","+countryid_start+","+cityid_start+",'"+arrivaldatetime + "','" +
+		startdatetime+"',"+price+",'"+link+"','"+notes+"'," + calcprice + ")");
+		return addstatus;
 	}
 	
-	public List<String> getTravelList()
+	/*
+	public List<Travel> getTravelList()
 	{
 		int userid = User.getInstance().getId();
-		return dbConnection.getStringsFromDb("SELECT * FROM DBA.Trip WHERE IDUser = " + userid, Arrays.asList("Trips"));	
+		//return DbAccess.getInstance().getStringsFromDb("SELECT * FROM DBA.Trip WHERE IDUser = " + userid, Arrays.asList("Trips"));	
 	}
-	
-	
-	
+	*/
+
 	public boolean pushAttractionToDatabase(Attraction att)
 	{
 		int userid = User.getInstance().getId();
@@ -140,7 +141,10 @@ public class DatabaseHandlerTripAdder
 		int cityid_start = TravelFramework.getInstance().getTravel().getCityOriginId();
 		String travelname = TravelFramework.getInstance().getTravel().getName();
 		int compnumber = 0;
-		
+		float cost_transport = TravelFramework.getInstance().getTravel().transportcost;
+		float cost_hotel = TravelFramework.getInstance().getTravel().hotelcost;
+		float cost_attraction = TravelFramework.getInstance().getTravel().attractioncost;
+		float cost_total = TravelFramework.getInstance().getTravel().allcost;
 		
 		Date beginDate = Date.valueOf(TravelFramework.getInstance().getTravel().getStartDate());
 		Date endDate = Date.valueOf(TravelFramework.getInstance().getTravel().getEndDate());
@@ -150,7 +154,7 @@ public class DatabaseHandlerTripAdder
 		"," + countryid_end + "," + cityid_end +
 		"," + countryid_start + "," + cityid_start +
 		",'" + travelname + "','" + beginDate + "','" + endDate +
-		"'," + compnumber + ")");
+		"'," + compnumber + "," + cost_transport + "," + cost_hotel + "," + cost_attraction + "," + cost_total + ")");
 		
 		tripID = DbAccess.getInstance().getIntFromDb("SELECT MAX(IDTrip) FROM DBA.Trip WHERE IDUser = " + userid);
 			

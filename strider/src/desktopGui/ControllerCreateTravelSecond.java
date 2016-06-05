@@ -73,7 +73,8 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 	ScreensController myController;
 	
 	RatingBox hotelrating;
-	
+	@FXML
+	private ComboBox<String> t_comboboxfueltype;
 	@FXML
 	private ListView<String> a_myattractions;
 	@FXML
@@ -350,20 +351,37 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
     
     public void clearTransportComponents()
     {
-
+    	t_countrybox_start.getSelectionModel().clearSelection();
+    	t_citybox_start.getSelectionModel().clearSelection();
+    	t_countrybox_end.getSelectionModel().clearSelection();
+    	t_citybox_end.getSelectionModel().clearSelection();
+    	t_textfield_hour_start.setText("");
+    	t_datepicker_end.setValue(null);
+    	t_textfield_hour_end.setText("");
+    	t_combobox_transport_category.getSelectionModel().clearSelection();
+    	t_combobox_transport_company.getSelectionModel().clearSelection();
+    	t_comboboxfueltype.getSelectionModel().clearSelection();
+    	t_currencybox.getSelectionModel().clearSelection();
+    	t_textfield_price.setText("");
+    	t_label_calcprice.setText("");
+    	t_textarea_notes.setText("");
+    	distance = 0;
+    	calctransportcost = -1;
     }
     
     public void populateVisitedHotels()
     {
     	List<VisitedHotels> hotelsfromdb = DatabaseHandlerHotelAdder.getInstance().getVisitedHotels();
-    	h_myhotels.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-    	
-    	for(VisitedHotels vh : hotelsfromdb)
+    	if(hotelsfromdb != null && hotelsfromdb.isEmpty() == false)
     	{
-    		h_myhotels.getItems().add(vh.getHotelName());
-    	}
+    		h_myhotels.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
     	
-    	h_myhotels.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>()
+    		for(VisitedHotels vh : hotelsfromdb)
+    		{
+    			h_myhotels.getItems().add(vh.getHotelName());
+    		}
+    	
+    		h_myhotels.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>()
     	{
 			@Override
 			public void changed(ObservableValue<? extends String> arg0, String arg1, String arg2) 
@@ -379,19 +397,23 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 				}
 			}
     	});
+    	}
     }
     
     public void populateVisitedAttractions()
     {
 		List<VisitedAttractions> attractionsfromdb = DatabaseHandlerAttractionAdder.getInstance().getVisitedAttractions();
-		a_myattractions.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 		
-		for(VisitedAttractions va : attractionsfromdb)
+		if(attractionsfromdb != null && attractionsfromdb.isEmpty() == false)
 		{
-			a_myattractions.getItems().add(va.getAttractionName());
-		}
+			a_myattractions.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 		
-		a_myattractions.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>()
+			for(VisitedAttractions va : attractionsfromdb)
+			{
+				a_myattractions.getItems().add(va.getAttractionName());
+			}
+		
+			a_myattractions.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>()
     	{
 			@Override
 			public void changed(ObservableValue<? extends String> arg0, String arg1, String arg2) 
@@ -399,7 +421,6 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 				if(a_myattractions.getSelectionModel().isEmpty() == false)
 				{
 					int id = a_myattractions.getSelectionModel().getSelectedIndex();
-				
 					a_textfield_name.setText(attractionsfromdb.get(id).getAttractionName());
 		    		a_textfield_street.setText(attractionsfromdb.get(id).getStreetName());
 		    		a_textfield_zipcode.setText(attractionsfromdb.get(id).getZipCode());
@@ -411,30 +432,24 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 				}
 			}
     	});
-		
-		
-		
-		
-		
-		
-    }
-    
+		}
+	}
     
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) 
 	{
+		calctransportcost = -1;
+		t_comboboxfueltype.getItems().setAll("e95", "s98", "LPG", "ON");
+		
+		a_button_findcities = new Button("Znajdü");
+		h_button_findcities = new Button("Znajdü");
 
-		
-		
-		 populateVisitedAttractions();
-		 populateVisitedHotels();
+		populateVisitedAttractions();
+		populateVisitedHotels();
 		
 		hotelrating = new RatingBox();
 		hotelrating.setDisable(true);
 		h_hbox_ratingbox.getChildren().add(hotelrating);
-		
-		
-		
 		h_button_reservation.setOnAction(this);
 		button_makeroute.setOnAction(this);
 		t_datepicker_start.setOnAction(this);
@@ -456,11 +471,12 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 		t_citybox_end = WindowMain.getCityBox();
 		t_currencybox = WindowMain.getCurrencyBox();
 		a_hbox_countrybox.getChildren().add(a_countrybox);
+		a_hbox_countrybox.getChildren().add(a_button_findcities);
 		a_hbox_citybox.getChildren().add(a_citybox);
 		a_hbox_currencybox.getChildren().add(a_currencybox);
 		t_combobox_transport_category.getItems().setAll(DatabaseHandlerTransportAdder.getInstance().getCategories());
-		
 		h_hbox_countrybox.getChildren().add(h_countrybox);
+		h_hbox_countrybox.getChildren().add(h_button_findcities);
 		h_hbox_citybox.getChildren().add(h_citybox);
 		h_vbox_currencybox.getChildren().add(h_currencybox);
 		t_hbox_countrybox_start.getChildren().add(t_countrybox_start);
@@ -478,17 +494,31 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 		a_button_addattraction.setOnAction(this);
 		h_button_addhotel.setOnAction(this);
 		t_button_addtransport.setOnAction(this);
-
-		
+	
 		t_combobox_transport_category.valueProperty().addListener(new ChangeListener<String>()
 		{
 			@Override
 			public void changed(ObservableValue<? extends String> arg0, String arg1, String arg2) 
 			{
-				int catid = DatabaseHandlerTransportAdder.getInstance().getCategoryId(t_combobox_transport_category.getSelectionModel().getSelectedItem());
+				if(t_combobox_transport_category.getSelectionModel().isEmpty() == false)
+				{
+					int catid = DatabaseHandlerTransportAdder.getInstance().getCategoryId(t_combobox_transport_category.getSelectionModel().getSelectedItem());
+					t_combobox_transport_company.getItems().setAll(DatabaseHandlerTransportAdder.getInstance().getProviders(catid));
+					t_combobox_transport_company.getSelectionModel().clearSelection();
 				
-				t_combobox_transport_company.getItems().setAll(DatabaseHandlerTransportAdder.getInstance().getProviders(catid));
-			}			
+					String selectedcategory = t_combobox_transport_category.getSelectionModel().getSelectedItem();
+				
+					if(selectedcategory.equals("Car"))
+					{
+						t_label_transportpriceconsumptionfuckyou.setText("årednie spalanie");
+					}
+					else
+					{
+						t_label_transportpriceconsumptionfuckyou.setText("Cena biletu");
+					}
+				}			
+				else t_label_transportpriceconsumptionfuckyou.setText("Cena biletu");
+			}
 		});
 		
 		a_countrybox.valueProperty().addListener(new ChangeListener<String>()
@@ -510,24 +540,6 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 				h_citybox.getItems().setAll(DatabaseHandlerCommon.getInstance().getCities(countryid));
 			}			
 		});
-		
-		t_combobox_transport_category.valueProperty().addListener(new ChangeListener<String>()
-		{
-			@Override
-			public void changed(ObservableValue<? extends String> arg0, String arg1, String arg2) 
-			{
-				String selectedcategory = t_combobox_transport_category.getSelectionModel().getSelectedItem();
-				
-				if(selectedcategory.equals("Car"))
-				{
-					t_label_transportpriceconsumptionfuckyou.setText("årednie spalanie");
-				}
-				else
-				{
-					t_label_transportpriceconsumptionfuckyou.setText("Cena biletu");
-				}
-			}		
-		});
 
 		a_citybox.valueProperty().addListener(new ChangeListener<String>()
 		{
@@ -544,7 +556,6 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 			@Override
 			public void changed(ObservableValue<? extends String> arg0, String arg1, String arg2) 
 			{
-				int countryid = DatabaseHandlerCommon.getInstance().getCountryId(t_countrybox_start.getSelectionModel().getSelectedItem());
 				int selectedcityid = DatabaseHandlerCommon.getInstance().getCityId(t_citybox_start.getSelectionModel().getSelectedItem());
 				t_citybox_start.getSelectionModel().select(selectedcityid);
 				a_citybox.getSelectionModel().select(t_citybox_start.getSelectionModel().getSelectedIndex());
@@ -588,7 +599,6 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 	
 	public boolean checkTransportInput()
 	{
-		
 		if(t_countrybox_start.getSelectionModel().isEmpty())return false;
 		if(t_citybox_start.getSelectionModel().isEmpty())return false;
 		if(t_countrybox_end.getSelectionModel().isEmpty())return false;
@@ -599,8 +609,7 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 		if(t_textfield_hour_end.getText().isEmpty())return false;
 		if(t_textfield_price.getText().isEmpty())return false;
 		if(t_currencybox.getSelectionModel().isEmpty())return false;
-		if(t_combobox_transport_category.getSelectionModel().getSelectedItem().equals("Car"))if(t_textfield_calcdprice.getText().isEmpty())return false;
-		
+
 		return true;
 	}
 	
@@ -646,7 +655,6 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 		}
 	}
 	
-	
 	public boolean checkHourInput(TextField field)
 	{
 		if(field.getText().isEmpty() == true)return false;
@@ -661,16 +669,19 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 		}
 	}
 	
+
+	
 	public int getHourFromTextField(TextField field)
 	{
 		String hhmm = field.getText();
-		return Integer.parseInt(hhmm.substring(0, 1));
+	
+		return Integer.parseInt(hhmm.substring(0, 2));
 	}
 	
 	public int getMinutesFromTextField(TextField field)
 	{
 		String hhmm = field.getText();
-		return Integer.parseInt(hhmm.substring(3, 4));
+		return Integer.parseInt(hhmm.substring(3, 5));
 	}
 	
 	@Override
@@ -678,17 +689,27 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 	{
 		if(event.getSource() == t_button_calculate)
 		{
-			if(t_combobox_transport_category.getSelectionModel().getSelectedItem().equals("Car"))
+			if(t_combobox_transport_category.getSelectionModel().isEmpty() == false && t_combobox_transport_category.getSelectionModel().getSelectedItem().equals("Car"))
 			{
 				if(dist != null && dist.isEmpty() == false)
 				{
 					if(t_textfield_price.getText().isEmpty() == false && t_combobox_transport_category.getSelectionModel().getSelectedItem().isEmpty() == false)
 					{
-						System.out.println(dist);
-						double spalanie = Double.parseDouble(t_textfield_price.getText().replaceAll(",", "."));	
-						ResultsInformation information = new ResultsInformation(spalanie, distance, "e95");
-						calctransportcost = information.getFuelCost();
-						t_label_calcprice.setText("" + calctransportcost);
+						if(t_comboboxfueltype.getSelectionModel().isEmpty() == false)
+						{
+							double spalanie = Double.parseDouble(t_textfield_price.getText().replaceAll(",", "."));	
+							ResultsInformation information = new ResultsInformation(spalanie, distance, "e95");
+							calctransportcost = information.getFuelCost();
+							t_label_calcprice.setText("" + calctransportcost);
+						}
+						else
+						{
+							Alert alert = new Alert(AlertType.INFORMATION);
+							alert.setTitle("Wyliczanie ceny transportu");
+							alert.setHeaderText(null);
+							alert.setContentText("Nie wybrano rodzaju benzyny.");
+							alert.showAndWait();
+						}
 					}
 					else
 					{
@@ -710,12 +731,11 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 			}
 			else
 			{
-				if(t_textfield_price.getText().isEmpty() == false && t_combobox_transport_category.getSelectionModel().getSelectedItem().isEmpty() == false)
-				{
-					
-					
-					
-				}
+				Alert alert = new Alert(AlertType.INFORMATION);
+				alert.setTitle("Wyliczanie ceny transportu");
+				alert.setHeaderText(null);
+				alert.setContentText("Szacowany koszt transportu moøna wyliczyÊ tylko dla samochodu osobowego.");
+				alert.showAndWait();
 			}
 		}
 		else if(event.getSource() == t_datepicker_end)
@@ -742,6 +762,14 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 					alert.setContentText("Wybierz miejsce docelowe dla transportu.");
 					alert.showAndWait();
 				}
+			}
+			else
+			{
+				Alert alert = new Alert(AlertType.INFORMATION);
+				alert.setTitle("Wyznaczanie trasy transportu");
+				alert.setHeaderText(null);
+				alert.setContentText("Wybierz miejsce poczπtkowe dla transportu.");
+				alert.showAndWait();
 			}
 		}
 		else if(event.getSource() == t_button_findcities)
@@ -772,8 +800,8 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 				else
 				{
 					Attraction at = new Attraction();
-						at.country = a_countrybox.getSelectionModel().getSelectedItem();
-						at.city = a_citybox.getSelectionModel().getSelectedItem();
+					at.country = a_countrybox.getSelectionModel().getSelectedItem();
+					at.city = a_citybox.getSelectionModel().getSelectedItem();
 					at.name = a_textfield_name.getText();
 					at.street = a_textfield_street.getText();
 					at.number = a_textfield_number.getText();
@@ -785,19 +813,15 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 					at.notes = a_textarea_notes.getText();
 					if(at.notes.equals(""))at.notes = "Brak notatek";
 					at.price = Float.parseFloat(a_textfield_price.getText());
-
 					at.date = curdate;
-					
 					TravelFramework.getInstance().getTravel().addAttractionToDay(curdate, at);
-	
 					clearAttractionComponents();
-				
+	
 					Alert alert = new Alert(AlertType.INFORMATION);
 					alert.setTitle("Dodawanie atrakcji");
 					alert.setHeaderText(null);
 					alert.setContentText("Atrakcja zosta≥a dodana pomyúlnie!");
 					alert.showAndWait();
-
 				}
 			}
 		}
@@ -876,35 +900,60 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 				}
 				else
 				{
-				
-				
 					Transport trans = new Transport();
 					trans.country_start = t_countrybox_start.getSelectionModel().getSelectedItem();
 					trans.city_start = t_citybox_start.getSelectionModel().getSelectedItem();
 					trans.country_end = t_countrybox_end.getSelectionModel().getSelectedItem();
 					trans.city_end = t_citybox_end.getSelectionModel().getSelectedItem();
-					
+				
+				
 					LocalTime starttime = LocalTime.of(getHourFromTextField(t_textfield_hour_start), getMinutesFromTextField(t_textfield_hour_start));
 					LocalTime endtime = LocalTime.of(getHourFromTextField(t_textfield_hour_end), getMinutesFromTextField(t_textfield_hour_end));
+				
+					System.out.println("STARTTIME: " + getHourFromTextField(t_textfield_hour_start) + ":" + getMinutesFromTextField(t_textfield_hour_start));
+					System.out.println("ENDTIME: " + getHourFromTextField(t_textfield_hour_end) + ":" + getMinutesFromTextField(t_textfield_hour_end));
 					
 					trans.startdatetime = LocalDateTime.of(t_datepicker_start.getValue(), starttime);
 					trans.enddatetime = LocalDateTime.of(t_datepicker_end.getValue(), endtime);
 					trans.transportcategory = t_combobox_transport_category.getSelectionModel().getSelectedItem();
 					trans.provider = t_combobox_transport_company.getSelectionModel().getSelectedItem();
-					trans.price = calctransportcost;
 					trans.currency = t_currencybox.getSelectionModel().getSelectedItem();
 					trans.notes = t_textarea_notes.getText();
-			
-					TravelFramework.getInstance().getTravel().setTransportToDay(curdate, trans);
-			
-					clearTransportComponents();
+					trans.price = Float.parseFloat(t_textfield_price.getText());
 					
-					Alert alert = new Alert(AlertType.INFORMATION);
-					alert.setTitle("Dodawanie transportu");
-					alert.setHeaderText(null);
-					alert.setContentText("Transport zosta≥ dodany pomyúlnie!");
-					alert.showAndWait();
-				
+					if(t_combobox_transport_category.getSelectionModel().getSelectedItem().equals("Car"))
+					{
+						if(calctransportcost == -1)
+						{
+							Alert alert = new Alert(AlertType.INFORMATION);
+							alert.setTitle("Dodawanie transportu");
+							alert.setHeaderText(null);
+							alert.setContentText("Nie wyliczono przewidywanego kosztu transportu.");
+							alert.showAndWait();
+						}	
+						else
+						{
+							trans.calcdcost = (float)calctransportcost;
+							TravelFramework.getInstance().getTravel().setTransportToDay(curdate, trans);	
+							clearTransportComponents();
+							Alert alert = new Alert(AlertType.INFORMATION);
+							alert.setTitle("Dodawanie transportu");
+							alert.setHeaderText(null);
+							alert.setContentText("Transport zosta≥ dodany pomyúlnie!");
+							alert.showAndWait();
+						}
+					}
+					else
+					{
+						trans.calcdcost = Float.parseFloat(t_textfield_price.getText());
+						TravelFramework.getInstance().getTravel().setTransportToDay(curdate, trans);
+						clearTransportComponents();
+						Alert alert = new Alert(AlertType.INFORMATION);
+						alert.setTitle("Dodawanie transportu");
+						alert.setHeaderText(null);
+						alert.setContentText("Transport zosta≥ dodany pomyúlnie!");
+						alert.showAndWait();
+					}
 				}
 			}
 		}
@@ -945,8 +994,6 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 		List<DirectionsSteps> lista3 = lista2.get(0).getSteps();
         dist = lista2.get(0).getDistance().getText();
         distance = lista2.get(0).getDistance().getValue();
-		System.out.println(lista3.get(0).getDuration().getText());
-		System.out.println(directions.toString());
 	}
 
 	@Override

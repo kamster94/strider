@@ -1,8 +1,11 @@
 package desktopGui;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
+import Model.Travel;
+import dbHandlers.DatabaseHandlerTripAdder;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -34,6 +37,11 @@ public class ControllerTravelHistory implements ControlledScreen, Initializable,
 	public void initialize(URL arg0, ResourceBundle arg1) 
 	{
 		button_cancel.setOnAction(this);
+		
+		//List<Travel> travellist = DatabaseHandlerTripAdder.getInstance().getTravelList();
+		
+		
+		
 		
 	}
 

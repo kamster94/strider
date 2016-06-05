@@ -68,9 +68,8 @@ public class ControllerChangeUserOptions implements Initializable, ControlledScr
 		countrybox.getSelectionModel().select(User.getInstance().getCountryId());
 		citybox.getItems().setAll(DatabaseHandlerCommon.getInstance().getCities(User.getInstance().getCountryId()));
 		citybox.getSelectionModel().select(User.getInstance().getCityId());
-		currencybox.getSelectionModel().select(User.getInstance().getCurrencyId());
 		
-		
+		currencybox.getSelectionModel().select(DatabaseHandlerCommon.getInstance().getCurrencyName(User.getInstance().getCurrencyId()));
 	}
 
 	@Override

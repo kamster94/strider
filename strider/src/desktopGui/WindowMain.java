@@ -91,6 +91,7 @@ public class WindowMain extends Application
 		
 		//Nie ma sensu ³adowaæ tego ¿eby u¿ytkownik mia³ krzaka, bo i tak sie nie zaloguje skoro nie ma po³¹czenia z baz¹ ;3
 		//Ju¿ jest sens ;* k.
+		//dziêki <3 a.
 		
 		if(DbAccess.getInstance().testConnection() == true)
 		{
@@ -100,9 +101,9 @@ public class WindowMain extends Application
 		{
 			mainContainer.loadScreenAndSet(WindowMain.SPLASH_SCREEN_OFFLINE, WindowMain.SPLASH_SCREEN_OFFLINE_FXML);
 			Alert alert = new Alert(AlertType.INFORMATION);
-			alert.setTitle("Connection error");
+			alert.setTitle("Brak po³¹czenia");
 			alert.setHeaderText(null);
-			alert.setContentText("Couldn't establish connection to the database.");
+			alert.setContentText("Nie mo¿na po³¹czyæ z baz¹ danych.");
 			alert.showAndWait();
 		}
 		

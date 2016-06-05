@@ -149,7 +149,7 @@ public class ControllerCreateNewUser implements Initializable, ClearableScreen, 
 				if(dataval == 0)
 				{
 					boolean isemailfree = dhr.checkEmailAvailability();
-					
+					System.out.println(isemailfree);
 					if(isemailfree == true)
 					{
 						dhr.sendToDb();

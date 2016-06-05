@@ -18,7 +18,10 @@ public class Travel
 	private int id_city_origin;
 	private int companionsnumber;
 	public List<Day> days;
-	
+	public float transportcost;
+	public float hotelcost;
+	public float attractioncost;
+	public float allcost;
 	
 	public Travel(String namex, LocalDate startdatex, LocalDate enddatex) 
 	{

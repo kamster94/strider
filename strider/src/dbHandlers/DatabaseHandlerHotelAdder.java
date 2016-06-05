@@ -4,6 +4,8 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import Model.Review;
 import Model.TravelFramework;
 import Model.User;
 import Model.VisitedAttractions;
@@ -46,6 +48,17 @@ public class DatabaseHandlerHotelAdder {
 		else return false;
 	}
 	*/
+	
+	/*
+	public boolean pushHotelRating(int countryid, int cityid, int hotelid, Review rev)
+	{
+		int userid = User.getInstance().getId();
+		boolean addstatus = DbAccess.getInstance().pushToDb("CALL DBA.fAddHotelReview("userid +          ")");
+		return addstatus;
+	}
+	*/
+	
+	
 	public int getHotelId(String name){
 		return dbConnection.getIntFromDb("SELECT IDHotel FROM DBA.Hotel WHERE HotelName = '" + name + "'");
 	}
