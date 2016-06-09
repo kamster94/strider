@@ -15,6 +15,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -22,6 +23,7 @@ import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleButton;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.TextFlow;
 
@@ -36,6 +38,8 @@ public class ControllerRateHotel implements Initializable, ControlledScreen, Eve
 	RatingBox rating_personel;
 	RatingBox rating_qualityprice;
 	RatingBox rating_average;
+	List<VisitedHotels> hotelsfromdb;
+	
 	
     @FXML
     private ComboBox<String> combobox_hotel;
@@ -98,19 +102,32 @@ public class ControllerRateHotel implements Initializable, ControlledScreen, Eve
 		return (int)avg;
 	}
 	
+	private boolean checkInput()
+	{
+		if(rating_clean.getValue() == 0) return false;
+		if(rating_comfort.getValue() == 0)return false;
+		if(rating_localization.getValue() == 0)return false;
+		if(rating_udogodnienia.getValue() == 0)return false;
+		if(rating_personel.getValue() == 0)return false;
+		if(rating_qualityprice.getValue() == 0)return false;
+		if(rating_average.getValue() == 0)return false;
+		return true;
+	}
+	
+	
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) 
 	{
 		button_cancel.setOnAction(this);
-		
+		button_rate.setOnAction(this);
 		label_hotelname.setText("Nazwa:");
 		label_streetnameandnumber.setText("Adres:");
 		label_zipcitycountry.setText("Lokacja:");
 		label_pricepernight.setText("Cena za noc:");
 		
 		//Wype³niæ hotelami z HotelDetails (z tych hoteli w których by³ u¿ytkownik) na zasadzie Pañstwo | Miasto | Nazwa hotelu
-		List<VisitedHotels> hotelsfromdb = DatabaseHandlerHotelAdder.getInstance().getVisitedHotels();
+		hotelsfromdb = DatabaseHandlerHotelAdder.getInstance().getVisitedHotels();
 		
 		for(VisitedHotels vh : hotelsfromdb)
 		{
@@ -263,21 +280,45 @@ public class ControllerRateHotel implements Initializable, ControlledScreen, Eve
 		{
 			if(combobox_hotel.getSelectionModel().isEmpty() == false)
 			{
-				int ratclean = rating_clean.getValue();
-				int ratcom = rating_comfort.getValue();
-				int ratloc = rating_localization.getValue();
-				int ratamen = rating_udogodnienia.getValue();
-				int ratpers = rating_personel.getValue();
-				int ratvalmone = rating_qualityprice.getValue();
-				int rataverage = rating_average.getValue();
-				String notes = textarea_notes.getText();
+				if(checkInput() == true)
+				{
+					int ratclean = rating_clean.getValue();
+					int ratcom = rating_comfort.getValue();
+					int ratloc = rating_localization.getValue();
+					int ratamen = rating_udogodnienia.getValue();
+					int ratpers = rating_personel.getValue();
+					int ratvalmone = rating_qualityprice.getValue();
+					int rataverage = rating_average.getValue();
+					String notes = textarea_notes.getText();
 				
-				Review rev = new Review(ratclean, ratcom, ratloc, ratamen, ratpers, ratvalmone, rataverage, notes);
-				
+					Review rev = new Review(ratclean, ratcom, ratloc, ratamen, ratpers, ratvalmone, rataverage, notes);
+					DatabaseHandlerHotelAdder.getInstance().pushHotelReview(hotelsfromdb.get(combobox_hotel.getSelectionModel().getSelectedIndex()), rev);
+					
+					Alert alert = new Alert(AlertType.INFORMATION);
+					alert.setTitle("Ocena hotelu");
+					alert.setHeaderText(null);
+					alert.setContentText("Pomyœlnie oceniono wybrany hotel.");
+					alert.showAndWait();
+					
+					
+					myController.setScreen(WindowMain.MAIN_SCREEN);
+				}
+				else
+				{
+					Alert alert = new Alert(AlertType.INFORMATION);
+					alert.setTitle("Ocena hotelu");
+					alert.setHeaderText(null);
+					alert.setContentText("Minimalna ocena dla ka¿dej kategorii to 1 gwiazdka.");
+					alert.showAndWait();
+				}
 			}
 			else
 			{
-				//alert - wybierz hotel do oceny
+				Alert alert = new Alert(AlertType.INFORMATION);
+				alert.setTitle("Ocena hotelu");
+				alert.setHeaderText(null);
+				alert.setContentText("Nie wybrano hotelu do oceny.");
+				alert.showAndWait();
 			}
 		}
 	}

@@ -1,10 +1,12 @@
 package dbHandlers;
 
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import Model.Hotel;
 import Model.Review;
 import Model.TravelFramework;
 import Model.User;
@@ -58,9 +60,36 @@ public class DatabaseHandlerHotelAdder {
 	}
 	*/
 	
+	public boolean pushHotelReview(VisitedHotels hot, Review rev)
+	{
+		int id_user = User.getInstance().getId();
+		int id_country = hot.getCountryId();
+		int id_city = hot.getCityId();
+		int id_hotel = hot.getHotelId();
+		int cleanliness = rev.getCleanlinessRating();
+		int comfort = rev.getComfortRating();
+		int localization = rev.getLocalizationRating();
+		int amenities = rev.getAmenitiesRating();
+		int personel = rev.getPersonelRating();
+		int valmoney = rev.getValueForMoneyRating();
+		int average = rev.getAverageRating();
+		String notes = rev.getReviewNotes();
+		LocalDate revdate = LocalDate.now();
+		
+		
+		boolean revstatus = dbConnection.pushToDb("CALL DBA.fAddHotelReview(" + id_user + "," + id_country + "," + id_city + "," + id_hotel +
+												  "," + cleanliness + "," + comfort + "," + localization + "," + amenities + "," + personel +
+												  "," + valmoney + ",'" + average + "','" + notes +"','" + revdate + "')");
+				  
+				return revstatus;
+	}
+	
+	
+	
+	
 	
 	public int getHotelId(String name){
-		return dbConnection.getIntFromDb("SELECT IDHotel FROM DBA.Hotel WHERE HotelName = '" + name + "'");
+		return dbConnection.getIntFromDb("SELECT IDHotel FROM DBA.Hotel WHEREHotelName = '" + name + "'");
 	}
 	
 	public String getHotelName(int idcity, int idhotel)
