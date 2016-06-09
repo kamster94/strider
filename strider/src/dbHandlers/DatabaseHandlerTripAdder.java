@@ -53,7 +53,7 @@ public class DatabaseHandlerTripAdder
 		String streetnumber = hot.number;
 		String zipcode = hot.zipcode;
 		String hotelname = hot.name;
-		int hotelid = DatabaseHandlerHotelAdder.getInstance().getHotelId(hotelname);
+		int hotelid = DatabaseHandlerHotelAdder.getInstance().getHotelId(countryid, cityid, hotelname);
 		Timestamp arrivaldate = Timestamp.valueOf(hot.accomodation_startdate);
 		Timestamp leavingdate = Timestamp.valueOf(hot.accomodation_enddate);
 		String reservationpath = hot.filepath;
@@ -120,8 +120,15 @@ public class DatabaseHandlerTripAdder
 		String number = att.number;
 		String zipcode = att.zipcode;
 		String attractionname = att.name;
-		LocalTime opentime = LocalTime.of(getHourFromString(att.openfrom), getMinutesFromString(att.openfrom));
-		LocalTime opentill = LocalTime.of(getHourFromString(att.opento), getMinutesFromString(att.opento));
+		LocalTime opentime;
+		LocalTime opentill;
+		
+		
+		if(att.openfrom.isEmpty() == true)opentime = LocalTime.MIN;
+		else opentime = LocalTime.of(getHourFromString(att.openfrom), getMinutesFromString(att.openfrom));
+		if(att.opento.isEmpty() == true)opentill = LocalTime.MIN;
+		else opentill = LocalTime.of(getHourFromString(att.opento), getMinutesFromString(att.opento));
+
 		
 		boolean addstatus = DbAccess.getInstance().pushToDb("CALL DBA.fCompactAddAttractionDetails(" + userid + "," + tripid + "," +
 		currencyid + "," + countryid + "," + cityid + "," + price + ",'"+notes+"','"+visitdate+"','"+streetname+"','"+number + "','" +

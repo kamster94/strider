@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import Model.Travel;
+import dbHandlers.DatabaseHandlerTravelHistory;
 import dbHandlers.DatabaseHandlerTripAdder;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -38,7 +39,12 @@ public class ControllerTravelHistory implements ControlledScreen, Initializable,
 	{
 		button_cancel.setOnAction(this);
 		
-		//List<Travel> travellist = DatabaseHandlerTripAdder.getInstance().getTravelList();
+		List<Travel> travellist = DatabaseHandlerTravelHistory.getInstance().getUserTravels();
+		
+		for(Travel t : travellist)
+		{
+			listviewtravels.getItems().add(t.getName());
+		}
 		
 		
 		

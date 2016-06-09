@@ -40,7 +40,8 @@ public class DatabaseHandlerTravelHistory {
 		if (!ids.isEmpty()){
 			for (int id : ids){
 				String name = dbConnection.getSingeStringFromDb("SELECT TripName FROM DBA.Trip WHERE IDUser = " + user.getId() + " AND IDTrip = " + id, "TripName");
-				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-mm-dd");
+				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+				System.out.println(dbConnection.getSingeStringFromDb("SELECT TripBeginDatetime FROM DBA.Trip WHERE IDUser = " + user.getId() + " AND IDTrip = " + id, "TripBeginDatetime"));
 				LocalDate startDate = LocalDate.parse(dbConnection.getSingeStringFromDb("SELECT TripBeginDatetime FROM DBA.Trip WHERE IDUser = " + user.getId() + " AND IDTrip = " + id, "TripBeginDatetime"), formatter);
 				LocalDate endDate = LocalDate.parse(dbConnection.getSingeStringFromDb("SELECT TripEndDatetime FROM DBA.Trip WHERE IDUser = " + user.getId() + " AND IDTrip = " + id, "TripEndDatetime"), formatter);
 				Travel travel = new Travel(name, startDate, endDate);
@@ -107,6 +108,7 @@ public class DatabaseHandlerTravelHistory {
 							attraction.zipcode = dbConnection.getSingeStringFromDb("SELECT ZipCode FROM DBA.Attraction WHERE IDCountry = " + countryId + " AND IDCity = " + cityId + " AND IDAttraction = " + attractionId, "ZipCode");
 							attraction.openfrom = dbConnection.getSingeStringFromDb("SELECT OpeningTime FROM DBA.Attraction WHERE IDCountry = " + countryId + " AND IDCity = " + cityId + " AND IDAttraction = " + attractionId, "OpeningTime");
 							attraction.opento = dbConnection.getSingeStringFromDb("SELECT ClosingTime FROM DBA.Attraction WHERE IDCountry = " + countryId + " AND IDCity = " + cityId + " AND IDAttraction = " + attractionId, "ClosingTime");
+							System.out.println("SELECT VisitDate FROM DBA.AttractionDetails WHERE IDUser = " + user.getId() + " AND IDTrip = " + id + " AND VisitDate = '" + day.date + "'");
 							attraction.date = LocalDate.parse(dbConnection.getSingeStringFromDb("SELECT VisitDate FROM DBA.AttractionDetails WHERE IDUser = " + user.getId() + " AND IDTrip = " + id + " AND VisitDate = '" + day.date + "'", "VisitDate"));
 							int currencyId = dbConnection.getIntFromDb("SELECT IDCurrency FROM DBA.AttractionDetail WHERE IDUser = " + user.getId() + " AND IDTrip = " + id + " AND VisitDate = '" + day.date + "'");
 							attraction.currency = commons.getCurrencyName(currencyId);

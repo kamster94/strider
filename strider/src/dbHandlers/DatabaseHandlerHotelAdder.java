@@ -84,12 +84,15 @@ public class DatabaseHandlerHotelAdder {
 				return revstatus;
 	}
 	
+	public float getHotelReview(int countryid, int cityid, int hotelid)
+	{
+		return dbConnection.getFloatFromDb("SELECT AverageGrade FROM DBA.HotelReview WHERE IDUser = " + User.getInstance().getId() + " AND IDHotel = " + hotelid + " AND IDCountry = " + countryid + " AND IDCity = " + cityid);
+	}
 	
 	
 	
-	
-	public int getHotelId(String name){
-		return dbConnection.getIntFromDb("SELECT IDHotel FROM DBA.Hotel WHEREHotelName = '" + name + "'");
+	public int getHotelId(int countryid, int cityid, String name){
+		return dbConnection.getIntFromDb("SELECT IDHotel FROM DBA.Hotel WHEREHotelName = '" + name + "' AND IDCountry = " + countryid + " AND IDCity = " + cityid);
 	}
 	
 	public String getHotelName(int idcity, int idhotel)

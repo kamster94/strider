@@ -309,10 +309,10 @@
                               <VBox spacing="10.0" HBox.hgrow="ALWAYS">
                                  <children>
                                     <Label text="W tych hotelach już byłeś" />
-                                    <ListView prefHeight="200.0" prefWidth="200.0" />
+                                    <ListView fx:id="h_myhotels" prefHeight="200.0" prefWidth="200.0" />
                                     <Label text="Moja ocena tego hotelu" />
                                     <HBox fx:id="h_hbox_ratingbox" />
-                                    <ListView fx:id="h_myhotels" prefHeight="200.0" prefWidth="200.0" />
+                                    <Label text="Potwierdzenie rejestracji" />
                                     <TextField fx:id="h_textfield_reservation" />
                                     <Button fx:id="h_button_reservation" mnemonicParsing="false" text="Załącz potwierdzenie rezerwacji" />
                                     <HBox alignment="TOP_RIGHT">

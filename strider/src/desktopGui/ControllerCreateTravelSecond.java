@@ -212,6 +212,8 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
     private ComboBox<String> t_citybox_end;
     @FXML
     private ComboBox<String> t_currencybox;
+    @FXML
+    private Button t_button_findcities_start;
     
     private Button a_button_findcities;
     private Button a_button_findattractions;
@@ -339,7 +341,7 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
     	h_textfield_street.setText("");
     	h_textfield_zipcode.setText("");
     	h_textfield_number.setText("");
-    	h_datepicker_start.setValue(null);
+    	//h_datepicker_start.setValue(null);
     	h_datepicker_end.setValue(null);
     	h_textfield_hour_start.setText("");
     	h_textfield_hour_end.setText("");
@@ -394,6 +396,20 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 			    	h_textfield_street.setText(hotelsfromdb.get(id).getStreetName());
 			    	h_textfield_zipcode.setText(hotelsfromdb.get(id).getZipCode());
 			    	h_textfield_number.setText(hotelsfromdb.get(id).getStreetNumber());
+			    	
+			    	VisitedHotels hot = hotelsfromdb.get(id);
+			    	
+			    	
+			    	int id_country = hot.getCountryId();
+			    	int id_city = hot.getCityId();
+			    	int id_hotel = hot.getHotelId();
+			    	
+			    	//RATING
+			    	hotelrating.setValue((int)DatabaseHandlerHotelAdder.getInstance().getHotelReview(id_country, id_city, id_hotel));
+				}
+				else
+				{
+					hotelrating.setValue(0);
 				}
 			}
     	});
@@ -443,7 +459,12 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 		
 		a_button_findcities = new Button("Znajdü");
 		h_button_findcities = new Button("Znajdü");
-
+		t_button_findcities_start = new Button("Znajdü");
+		
+		a_button_findcities.setOnAction(this);
+		h_button_findcities.setOnAction(this);
+		t_button_findcities_start.setOnAction(this);
+		
 		populateVisitedAttractions();
 		populateVisitedHotels();
 		
@@ -457,7 +478,7 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 		h_datepicker_start.setOnAction(this);
 		h_datepicker_end.setOnAction(this);
 		t_button_findcities = new Button();
-		t_button_findcities.setText("Znajdü miasta");
+		t_button_findcities.setText("Znajdü");
 	   	t_button_findcities.setOnAction(this);
 		a_countrybox = WindowMain.getCountryBox();
 		a_citybox = WindowMain.getCityBox();
@@ -480,6 +501,7 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 		h_hbox_citybox.getChildren().add(h_citybox);
 		h_vbox_currencybox.getChildren().add(h_currencybox);
 		t_hbox_countrybox_start.getChildren().add(t_countrybox_start);
+		t_hbox_countrybox_start.getChildren().add(t_button_findcities_start);
 		t_hbox_citybox_start.getChildren().add(t_citybox_start);
 		t_hbox_countrybox_end.getChildren().add(t_countrybox_end);
 		t_hbox_countrybox_end.getChildren().add(t_button_findcities);
@@ -546,8 +568,11 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 			@Override
 			public void changed(ObservableValue<? extends String> arg0, String arg1, String arg2) 
 			{
-				CityInformation cityinfo = CountryWarningsHandlerCommon.getInstance().getCityInformation(a_citybox.getSelectionModel().getSelectedItem());		
-				a_cityview.getEngine().loadContent(cityinfo.getCityInformationHtml().toString());
+				if(a_citybox.getSelectionModel().isEmpty() == false)
+				{
+					CityInformation cityinfo = CountryWarningsHandlerCommon.getInstance().getCityInformation(a_citybox.getSelectionModel().getSelectedItem());		
+					a_cityview.getEngine().loadContent(cityinfo.getCityInformationHtml().toString());
+				}
 			}			
 		});
 		
@@ -657,14 +682,14 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 	
 	public boolean checkHourInput(TextField field)
 	{
-		if(field.getText().isEmpty() == true)return false;
-		else
-		{
-			String regex = "^\\d\\d:\\d\\d$";
-			Pattern p = Pattern.compile(regex);
-			Matcher match = p.matcher(field.getText());
+		String regex = "^\\d\\d:\\d\\d$";
+		Pattern p = Pattern.compile(regex);
+		Matcher match = p.matcher(field.getText());
 		
-			if(match.find() == true)return true;
+		if(match.find() == true)return true;
+		else 
+		{
+			if(field.getText().isEmpty() == true)return true;
 			else return false;
 		}
 	}
@@ -776,6 +801,21 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 		{
 			int countryid = DatabaseHandlerCommon.getInstance().getCountryId(t_countrybox_end.getSelectionModel().getSelectedItem());
 			t_citybox_end.getItems().setAll(DatabaseHandlerCommon.getInstance().getCities(countryid));
+		}
+		else if(event.getSource() == t_button_findcities_start)
+		{
+			int countryid = DatabaseHandlerCommon.getInstance().getCountryId(t_countrybox_start.getSelectionModel().getSelectedItem());
+			t_citybox_start.getItems().setAll(DatabaseHandlerCommon.getInstance().getCities(countryid));
+		}
+		else if(event.getSource() == a_button_findcities)
+		{
+			int countryid = DatabaseHandlerCommon.getInstance().getCountryId(a_countrybox.getSelectionModel().getSelectedItem());
+			a_citybox.getItems().setAll(DatabaseHandlerCommon.getInstance().getCities(countryid));
+		}
+		else if(event.getSource() == h_button_findcities)
+		{
+			int countryid = DatabaseHandlerCommon.getInstance().getCountryId(h_countrybox.getSelectionModel().getSelectedItem());
+			h_citybox.getItems().setAll(DatabaseHandlerCommon.getInstance().getCities(countryid));
 		}
 		else if(event.getSource() == a_button_addattraction)
 		{

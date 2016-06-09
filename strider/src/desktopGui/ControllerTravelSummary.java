@@ -259,7 +259,8 @@ public class ControllerTravelSummary implements Initializable, ControlledScreen,
         		float hoteloverallprice = hot.pricepernite * (ChronoUnit.DAYS.between(date_arrival, date_leaving) + 1);
         			
         		Label price_arrival = new Label("Cena za pobyt: " + hoteloverallprice + " " + hot.currency);
-        			
+        		Label price_nite = new Label("Cena za noc: " + hot.pricepernite + " " + hot.currency);
+        		
         		TitledPane tpnotes1 = new TitledPane();
         		tpnotes1.setExpanded(false);
         		tpnotes1.setText("Poka¿ notatkê");
@@ -278,6 +279,7 @@ public class ControllerTravelSummary implements Initializable, ControlledScreen,
 
         		hotelvbox_arrival.getChildren().add(new Label("Nazwa hotelu: " + hot.name));
         		hotelvbox_arrival.getChildren().add(type_arrival);
+        		hotelvbox_arrival.getChildren().add(price_nite);
         		hotelvbox_arrival.getChildren().add(price_arrival);
         		hotelvbox_arrival.getChildren().add(tpnotes1);
         		hotelvbox_arrival.getChildren().add(button_delete);
