@@ -1,6 +1,5 @@
 package desktopGui;
 
-import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 import cWHandlers.CountryWarningsHandlerCommon;
@@ -21,10 +20,9 @@ import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
 import javafx.scene.web.WebView;
 
-public class ControllerAdditionalInformations implements Initializable, ClearableScreen, ControlledScreen, EventHandler<ActionEvent>
+public class ControllerAdditionalInformations implements Initializable, ControlledScreen, EventHandler<ActionEvent>
 {
 	ScreensController myController; 
-	
     @FXML
     private HBox hbox_countrybox;
     @FXML
@@ -41,8 +39,6 @@ public class ControllerAdditionalInformations implements Initializable, Clearabl
     private Button button_back;
     @FXML
     private TextArea celsiusTextArea;
-    
-    //Sztuczne
     @FXML
     private Button button_findcountry;
     @FXML
@@ -71,10 +67,7 @@ public class ControllerAdditionalInformations implements Initializable, Clearabl
 		hbox_citybox.getChildren().add(button_findcity);
 		hbox_countrybox.getChildren().add(countrybox);
 		hbox_countrybox.getChildren().add(button_findcountry);
-		
-		
 		SampleController.setOpeningLinksToBrowser(cityWebView);
-		//weatherWebView
 	}
 	
 	@Override
@@ -82,50 +75,56 @@ public class ControllerAdditionalInformations implements Initializable, Clearabl
 	{
 		myController = screenParent; 
 	}
+	
+	public void clearCityComponents()
+	{
+		cityWebView.getEngine().load(null);
+		weatherWebView.getEngine().load(null);
+		celsiusTextArea.setText("");
+	}
+	
+	public void clearCountryComponents()
+	{
+		currencyWebView.getEngine().load(null);
+		countryWebView.getEngine().load(null);
+	}
 
 	@Override
 	public void handle(ActionEvent arg0) 
 	{
 		if(arg0.getSource() == button_back)
 		{
-			clearComponents();
 			myController.setScreen(WindowMain.MAIN_SCREEN);
 		}
 		else if(arg0.getSource() == button_findcountry)
 		{
 			citybox.getSelectionModel().clearSelection();
-			citybox.getItems().setAll(DatabaseHandlerCommon.getInstance().getCities(countrybox.getSelectionModel().getSelectedIndex()));
 			
-			CountryInformation countryinfo = CountryWarningsHandlerCommon.getInstance().getCountryInformation(countrybox.getSelectionModel().getSelectedItem());
-		
-			CurrencyInformation currencyinfo = new CurrencyInformation(countryinfo);
-			currencyWebView.getEngine().loadContent(currencyinfo.getCurrencyInformationHtml().toString());
-			countryWebView.getEngine().load(countryinfo.countryURL);
-	
-			System.out.println(countryinfo.countryURL);
+			if(countrybox.getSelectionModel().isEmpty() == false)
+			{
+				citybox.getItems().setAll(DatabaseHandlerCommon.getInstance().getCities(countrybox.getSelectionModel().getSelectedIndex()));
+				CountryInformation countryinfo = CountryWarningsHandlerCommon.getInstance().getCountryInformation(countrybox.getSelectionModel().getSelectedItem());
+				CurrencyInformation currencyinfo = new CurrencyInformation(countryinfo);
+				currencyWebView.getEngine().loadContent(currencyinfo.getCurrencyInformationHtml().toString());
+				countryWebView.getEngine().load(countryinfo.countryURL);
+			}
+			else
+			{
+				clearCountryComponents();
+				clearCityComponents();
+			}
 		}
 		else if(arg0.getSource() == button_findcity)
 		{
-			CityInformation cityinfo = CountryWarningsHandlerCommon.getInstance().getCityInformation(citybox.getSelectionModel().getSelectedItem());
-			WeatherInformation weatherinfo = new WeatherInformation(cityinfo);
-	
-			cityWebView.getEngine().loadContent(cityinfo.getCityInformationHtml().toString());
-			weatherWebView.getEngine().load(weatherinfo.pictureAdress);
-			
-			//URL weatherurl = getClass().getResource("textures/weather_icon.html");
-			weatherWebView.getEngine().load(weatherinfo.pictureAdress);
-			
-			//weatherWebView.getEngine().load(weatherurl.toExternalForm());
-			//weatherWebView.getEngine().setUserStyleSheetLocation(getClass().getResource("textures/css_weather_sunny.css").toString());
-			//weatherWebView.getEngine().reload();
-			celsiusTextArea.setText(weatherinfo.celsius);
+			if(citybox.getSelectionModel().isEmpty() == false)
+			{
+				CityInformation cityinfo = CountryWarningsHandlerCommon.getInstance().getCityInformation(citybox.getSelectionModel().getSelectedItem());
+				WeatherInformation weatherinfo = new WeatherInformation(cityinfo);
+				cityWebView.getEngine().loadContent(cityinfo.getCityInformationHtml().toString());
+				weatherWebView.getEngine().load(weatherinfo.pictureAdress);
+				celsiusTextArea.setText(weatherinfo.celsius);
+			}
+			else clearCityComponents();
 		}
-		
 	}	
-
-	@Override
-	public void clearComponents() 
-	{
-		
-	}
 }

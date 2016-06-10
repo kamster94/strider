@@ -43,7 +43,7 @@ public class CountryWarningsHandlerCommon
 	{
 		CityInformation ci = new CityInformation(cityname.replaceAll(" ", "_"),false);
 		WeatherInformation weatherInformation = new WeatherInformation(ci);
-		return weatherInformation.getWeatherInformationHtml().toString();
+		return weatherInformation.getWeatherDescription();
 	}
 	
 	public String getCurrencyInformation(String countryname)

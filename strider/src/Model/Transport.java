@@ -17,7 +17,7 @@ public class Transport
 	public String notes;
 	public float distance;
 	public float calcdcost;
-	
+	public String filepath;
 	
 	
 	

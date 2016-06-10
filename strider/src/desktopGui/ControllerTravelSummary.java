@@ -52,7 +52,6 @@ public class ControllerTravelSummary implements Initializable, ControlledScreen,
     private Button button_back;
     @FXML
     private Button button_apply;
-    
     @FXML
     private Label label_transportcost;
     @FXML
@@ -63,14 +62,8 @@ public class ControllerTravelSummary implements Initializable, ControlledScreen,
     private Label label_allcost;
     @FXML
     private Label label_numdays;
-    
-    
-    
-    
-    
     @FXML
     private Accordion accordionstages;
-    
     private List<DayPane> daypanes;
     private List<Day> days;
     
@@ -84,8 +77,6 @@ public class ControllerTravelSummary implements Initializable, ControlledScreen,
     		myday = d;
     	}
     }
-    
-    
     
     private DayPane getDayPaneByDate(LocalDate date)
 	{
@@ -360,7 +351,6 @@ public class ControllerTravelSummary implements Initializable, ControlledScreen,
 		
 		accordionstages = new Accordion();
 		mainvbox.getChildren().add(accordionstages);
-		//mainvbox.getChildren().get(1).toBack();
 		VBox.setVgrow(accordionstages, Priority.ALWAYS);
     	int curuser = User.getInstance().getId();
     	int curtravel = TravelFramework.getInstance().getTravel().getId();
@@ -378,6 +368,11 @@ public class ControllerTravelSummary implements Initializable, ControlledScreen,
     	}
     	accordionstages.getPanes().setAll(daypanes);
     	populateContent();
+    	
+    	
+    	
+    	
+    	
 	}
 	
 	@Override

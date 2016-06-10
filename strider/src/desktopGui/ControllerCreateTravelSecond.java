@@ -1,5 +1,6 @@
 package desktopGui;
 
+import java.io.File;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -67,6 +68,8 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.web.WebView;
+import javafx.stage.DirectoryChooser;
+import javafx.stage.FileChooser;
 
 public class ControllerCreateTravelSecond implements Initializable, ControlledScreen, EventHandler<ActionEvent>, MapComponentInitializedListener, DirectionsServiceCallback
 {
@@ -82,7 +85,11 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 	@FXML
 	private TextField h_textfield_reservation;
 	@FXML
+	private TextField t_textfield_reservation;
+	@FXML
 	private Button h_button_reservation;
+	@FXML
+	private Button t_button_reservation;
 	@FXML
 	private HBox h_hbox_ratingbox;
 	@FXML
@@ -237,6 +244,9 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 	
     DirectionsRenderer renderer;
     
+    String transport_reservation_path;
+    String hotel_reservation_path;
+    
     public void setupInitialValues()
     {
     	long daysnum = TravelFramework.getInstance().getTravel().getDaysNumber();
@@ -349,6 +359,8 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
     	h_currencybox.getSelectionModel().clearSelection();
     	h_textarea_notes.setText("");    	
     	h_textfield_reservation.setText("");
+    	hotel_reservation_path = "";
+    	h_textfield_reservation.setText("");
     }
     
     public void clearTransportComponents()
@@ -369,6 +381,8 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
     	t_textarea_notes.setText("");
     	distance = 0;
     	calctransportcost = -1;
+		transport_reservation_path = "";
+		t_textfield_reservation.setText("");
     }
     
     public void populateVisitedHotels()
@@ -467,6 +481,11 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 		
 		populateVisitedAttractions();
 		populateVisitedHotels();
+		
+		t_button_reservation.setOnAction(this);
+		h_button_reservation.setOnAction(this);
+		
+		
 		
 		hotelrating = new RatingBox();
 		hotelrating.setDisable(true);
@@ -712,7 +731,25 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 	@Override
 	public void handle(ActionEvent event) 
 	{
-		if(event.getSource() == t_button_calculate)
+		if(event.getSource() == t_button_reservation || event.getSource() == h_button_reservation)
+		{
+			FileChooser fc = new FileChooser();
+			File f = fc.showOpenDialog(WindowMain.mystage.getScene().getWindow());
+			if(f != null)
+			{
+				if(event.getSource() == t_button_reservation)
+				{
+					transport_reservation_path = f.getPath();
+					t_textfield_reservation.setText(transport_reservation_path);
+				}
+				else 
+				{
+					hotel_reservation_path = f.getPath();
+					h_textfield_reservation.setText(hotel_reservation_path);	
+				}
+			}
+		}
+		else if(event.getSource() == t_button_calculate)
 		{
 			if(t_combobox_transport_category.getSelectionModel().isEmpty() == false && t_combobox_transport_category.getSelectionModel().getSelectedItem().equals("Car"))
 			{
@@ -960,6 +997,7 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 					trans.currency = t_currencybox.getSelectionModel().getSelectedItem();
 					trans.notes = t_textarea_notes.getText();
 					trans.price = Float.parseFloat(t_textfield_price.getText());
+					trans.filepath = "" + t_textfield_reservation.getText();
 					
 					if(t_combobox_transport_category.getSelectionModel().getSelectedItem().equals("Car"))
 					{

@@ -89,7 +89,7 @@ public class DatabaseHandlerTripAdder
 		Timestamp startdatetime = Timestamp.valueOf(trans.startdatetime);
 		float price = (float)trans.price;
 		float calcprice = trans.calcdcost;
-		String link = "what the fuck is this";
+		String link = trans.filepath;
 		String notes = trans.notes;
 
 		boolean addstatus = DbAccess.getInstance().pushToDb("CALL DBA.fCompactAddTransportDetails(" + userid + "," + tripid + "," +

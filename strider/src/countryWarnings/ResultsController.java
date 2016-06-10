@@ -73,6 +73,10 @@ public class ResultsController implements Initializable, ClearableScreen, Contro
 		pane.getChildren().add(distanceLabel);
 		
 		
+		
+		
+		
+		
 		okButton.setOnAction(new EventHandler<ActionEvent>() 
 		{
 	        @Override
