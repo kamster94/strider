@@ -129,36 +129,39 @@ public class ControllerRateHotel implements Initializable, ControlledScreen, Eve
 		//Wype³niæ hotelami z HotelDetails (z tych hoteli w których by³ u¿ytkownik) na zasadzie Pañstwo | Miasto | Nazwa hotelu
 		hotelsfromdb = DatabaseHandlerHotelAdder.getInstance().getVisitedHotels();
 		
-		for(VisitedHotels vh : hotelsfromdb)
+		if(hotelsfromdb != null && hotelsfromdb.size() > 0)
 		{
-			combobox_hotel.getItems().add(vh.getHotelName());
-		}
-
-		combobox_hotel.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>()
-		{
-			@Override
-			public void changed(ObservableValue<? extends String> arg0, String arg1, String arg2) 
+			for(VisitedHotels vh : hotelsfromdb)
 			{
-				if(combobox_hotel.getSelectionModel().isEmpty() == false)
+				combobox_hotel.getItems().add(vh.getHotelName());
+			}
+
+			combobox_hotel.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>()
+			{
+				@Override
+				public void changed(ObservableValue<? extends String> arg0, String arg1, String arg2) 
 				{
-					int id = combobox_hotel.getSelectionModel().getSelectedIndex();
-					label_hotelname.setText("Nazwa: " + hotelsfromdb.get(id).getHotelName());
-					label_streetnameandnumber.setText("Adres: " + hotelsfromdb.get(id).getStreetName() + " " + hotelsfromdb.get(id).getStreetNumber());
+					if(combobox_hotel.getSelectionModel().isEmpty() == false)
+					{
+						int id = combobox_hotel.getSelectionModel().getSelectedIndex();
+						label_hotelname.setText("Nazwa: " + hotelsfromdb.get(id).getHotelName());
+						label_streetnameandnumber.setText("Adres: " + hotelsfromdb.get(id).getStreetName() + " " + hotelsfromdb.get(id).getStreetNumber());
 					
-					String country = DatabaseHandlerCommon.getInstance().getCountryName(hotelsfromdb.get(id).getCountryId());
-					String city = DatabaseHandlerCommon.getInstance().getCityName(hotelsfromdb.get(id).getCountryId(), hotelsfromdb.get(id).getCityId());
+						String country = DatabaseHandlerCommon.getInstance().getCountryName(hotelsfromdb.get(id).getCountryId());
+						String city = DatabaseHandlerCommon.getInstance().getCityName(hotelsfromdb.get(id).getCountryId(), hotelsfromdb.get(id).getCityId());
 				
-					label_zipcitycountry.setText("Lokacja: " + hotelsfromdb.get(id).getZipCode() + " " + city + " " + country);
-				}
-				else
-				{
-					label_hotelname.setText("Nazwa:");
-					label_streetnameandnumber.setText("Adres:");
-					label_zipcitycountry.setText("Lokacja:");
-					label_pricepernight.setText("Cena za noc:");
-				}
-			}		
-		});
+						label_zipcitycountry.setText("Lokacja: " + hotelsfromdb.get(id).getZipCode() + " " + city + " " + country);
+					}
+					else
+					{
+						label_hotelname.setText("Nazwa:");
+						label_streetnameandnumber.setText("Adres:");
+						label_zipcitycountry.setText("Lokacja:");
+						label_pricepernight.setText("Cena za noc:");
+					}
+				}		
+			});
+		}
 
 		rating_clean = new RatingBox();
 		rating_comfort = new RatingBox();
