@@ -157,7 +157,7 @@ public class ControllerCreateNewUser implements Initializable, ClearableScreen, 
 					}
 					else
 					{
-						Alert alert = new Alert(AlertType.INFORMATION);
+						Alert alert = new Alert(AlertType.ERROR);
 						alert.setTitle("Tworzenie konta");
 						alert.setHeaderText(null);
 						alert.setContentText("Ten adres e-mail jest ju¿ zajêty.");
@@ -166,7 +166,7 @@ public class ControllerCreateNewUser implements Initializable, ClearableScreen, 
 				}
 				else if(dataval == 1)
 				{
-					Alert alert = new Alert(AlertType.INFORMATION);
+					Alert alert = new Alert(AlertType.ERROR);
 					alert.setTitle("Tworzenie konta");
 					alert.setHeaderText(null);
 					alert.setContentText("D³ugoœæ nazwy u¿ytkownika wykracza poza limit 32 znaków.");
@@ -174,7 +174,7 @@ public class ControllerCreateNewUser implements Initializable, ClearableScreen, 
 				}	
 				else if(dataval == 2)
 				{
-					Alert alert = new Alert(AlertType.INFORMATION);
+					Alert alert = new Alert(AlertType.ERROR);
 					alert.setTitle("Tworzenie konta");
 					alert.setHeaderText(null);
 					alert.setContentText("Adres e-mail jest niepoprawny lub wykracza poza limit 32 znaków.");
@@ -182,7 +182,7 @@ public class ControllerCreateNewUser implements Initializable, ClearableScreen, 
 				}
 				else if(dataval == 3)
 				{
-					Alert alert = new Alert(AlertType.INFORMATION);
+					Alert alert = new Alert(AlertType.ERROR);
 					alert.setTitle("Tworzenie konta");
 					alert.setHeaderText(null);
 					alert.setContentText("D³ugoœæ has³a musi zawieraæ siê w przedziale od 6 do 32 znaków.");
@@ -191,7 +191,7 @@ public class ControllerCreateNewUser implements Initializable, ClearableScreen, 
 			}
 			else if(verifyData() == 1)
 			{
-				Alert alert = new Alert(AlertType.INFORMATION);
+				Alert alert = new Alert(AlertType.ERROR);
 				alert.setTitle("Tworzenie konta");
 				alert.setHeaderText(null);
 				alert.setContentText("Wszystkie pola oprócz Pañstwa, Miasta i Waluty s¹ obowi¹zkowe.");
@@ -199,7 +199,7 @@ public class ControllerCreateNewUser implements Initializable, ClearableScreen, 
 			}
 			else if(verifyData() == 2)
 			{
-				Alert alert = new Alert(AlertType.INFORMATION);
+				Alert alert = new Alert(AlertType.ERROR);
 				alert.setTitle("Tworzenie konta");
 				alert.setHeaderText(null);
 				alert.setContentText("Wpisane has³a nie s¹ sobie równe.");
@@ -207,7 +207,7 @@ public class ControllerCreateNewUser implements Initializable, ClearableScreen, 
 			}
 			else if(verifyData() == 3)
 			{
-				Alert alert = new Alert(AlertType.INFORMATION);
+				Alert alert = new Alert(AlertType.ERROR);
 				alert.setTitle("Tworzenie konta");
 				alert.setHeaderText(null);
 				alert.setContentText("D³ugoœæ has³a musi zawieraæ siê w przedziale od 6 do 32 znaków.");

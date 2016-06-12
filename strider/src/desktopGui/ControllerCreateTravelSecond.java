@@ -487,13 +487,9 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 		String regex = "^\\d+\\.?\\d+$";
 		Pattern p = Pattern.compile(regex);
 		Matcher match = p.matcher(text);
-		
 		if(match.find() == true)return true;
 		else return false;
     }
-    
-    
-    
     
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) 
@@ -798,7 +794,7 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 								}
 								else
 								{
-									Alert alert = new Alert(AlertType.INFORMATION);
+									Alert alert = new Alert(AlertType.ERROR);
 									alert.setTitle("Wyliczanie ceny transportu");
 									alert.setHeaderText(null);
 									alert.setContentText("Cena wype³niona w niepoprawnym formacie.");
@@ -807,7 +803,7 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 							}
 							else
 							{
-								Alert alert = new Alert(AlertType.INFORMATION);
+								Alert alert = new Alert(AlertType.ERROR);
 								alert.setTitle("Wyliczanie ceny transportu");
 								alert.setHeaderText(null);
 								alert.setContentText("Nie wybrano waluty.");
@@ -816,7 +812,7 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 						}
 						else
 						{
-							Alert alert = new Alert(AlertType.INFORMATION);
+							Alert alert = new Alert(AlertType.ERROR);
 							alert.setTitle("Wyliczanie ceny transportu");
 							alert.setHeaderText(null);
 							alert.setContentText("Nie wybrano rodzaju benzyny.");
@@ -825,7 +821,7 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 					}
 					else
 					{
-						Alert alert = new Alert(AlertType.INFORMATION);
+						Alert alert = new Alert(AlertType.ERROR);
 						alert.setTitle("Wyliczanie ceny transportu");
 						alert.setHeaderText(null);
 						alert.setContentText("Nie wype³niono wszystkich wymaganych pól.");
@@ -834,7 +830,7 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 				}
 				else
 				{
-					Alert alert = new Alert(AlertType.INFORMATION);
+					Alert alert = new Alert(AlertType.ERROR);
 					alert.setTitle("Wyliczanie ceny transportu");
 					alert.setHeaderText(null);
 					alert.setContentText("Wyznacz trasê dla transportu.");
@@ -868,7 +864,7 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 				}
 				else
 				{
-					Alert alert = new Alert(AlertType.INFORMATION);
+					Alert alert = new Alert(AlertType.ERROR);
 					alert.setTitle("Wyznaczanie trasy transportu");
 					alert.setHeaderText(null);
 					alert.setContentText("Wybierz miejsce docelowe dla transportu.");
@@ -877,7 +873,7 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 			}
 			else
 			{
-				Alert alert = new Alert(AlertType.INFORMATION);
+				Alert alert = new Alert(AlertType.ERROR);
 				alert.setTitle("Wyznaczanie trasy transportu");
 				alert.setHeaderText(null);
 				alert.setContentText("Wybierz miejsce pocz¹tkowe dla transportu.");
@@ -908,7 +904,7 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 		{
 			if(checkAttractionInput() == false)
 			{
-				Alert alert = new Alert(AlertType.INFORMATION);
+				Alert alert = new Alert(AlertType.ERROR);
 				alert.setTitle("Dodawanie atrakcji");
 				alert.setHeaderText(null);
 				alert.setContentText("Nie wype³niono wszystkich wymaganych pól.");
@@ -918,7 +914,7 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 			{
 				if(checkHourInput(a_textfield_openfrom) == false || checkHourInput(a_textfield_opentill) == false)
 				{
-					Alert alert = new Alert(AlertType.INFORMATION);
+					Alert alert = new Alert(AlertType.ERROR);
 					alert.setTitle("Dodawanie atrakcji");
 					alert.setHeaderText(null);
 					alert.setContentText("Pola godzinowe wype³nione niepoprawnie.\nDozwolony format to hh:mm");
@@ -958,7 +954,7 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 					}
 					else
 					{
-						Alert alert = new Alert(AlertType.INFORMATION);
+						Alert alert = new Alert(AlertType.ERROR);
 						alert.setTitle("Dodawanie atrakcji");
 						alert.setHeaderText(null);
 						alert.setContentText("Cena wype³niona w niepoprawnym formacie.");
@@ -971,7 +967,7 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 		{
 			if(checkHotelInput() == false)
 			{
-				Alert alert = new Alert(AlertType.INFORMATION);
+				Alert alert = new Alert(AlertType.ERROR);
 				alert.setTitle("Dodawanie hotelu");
 				alert.setHeaderText(null);
 				alert.setContentText("Nie wype³niono wszystkich wymaganych pól.");
@@ -1011,7 +1007,7 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 				}
 				else
 				{
-					Alert alert = new Alert(AlertType.INFORMATION);
+					Alert alert = new Alert(AlertType.ERROR);
 					alert.setTitle("Dodawanie hotelu");
 					alert.setHeaderText(null);
 					alert.setContentText("Cena wype³niona w niepoprawnym formacie.");
@@ -1023,7 +1019,7 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 		{
 			if(checkTransportInput() == false)
 			{
-				Alert alert = new Alert(AlertType.INFORMATION);
+				Alert alert = new Alert(AlertType.ERROR);
 				alert.setTitle("Dodawanie transportu");
 				alert.setHeaderText(null);
 				alert.setContentText("Nie wype³niono wszystkich wymaganych pól.");
@@ -1033,7 +1029,7 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 			{
 				if(checkHourInput(t_textfield_hour_start) == false || checkHourInput(t_textfield_hour_end) == false)
 				{
-					Alert alert = new Alert(AlertType.INFORMATION);
+					Alert alert = new Alert(AlertType.ERROR);
 					alert.setTitle("Dodawanie transportu");
 					alert.setHeaderText(null);
 					alert.setContentText("Pola godzinowe wype³nione niepoprawnie.\nDozwolony format to hh:mm");
@@ -1041,38 +1037,52 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 				}
 				else
 				{
-					Transport trans = new Transport();
-					trans.country_start = t_countrybox_start.getSelectionModel().getSelectedItem();
-					trans.city_start = t_citybox_start.getSelectionModel().getSelectedItem();
-					trans.country_end = t_countrybox_end.getSelectionModel().getSelectedItem();
-					trans.city_end = t_citybox_end.getSelectionModel().getSelectedItem();
-				
-					LocalTime starttime = LocalTime.of(getHourFromTextField(t_textfield_hour_start), getMinutesFromTextField(t_textfield_hour_start));
-					LocalTime endtime = LocalTime.of(getHourFromTextField(t_textfield_hour_end), getMinutesFromTextField(t_textfield_hour_end));
-
-					trans.startdatetime = LocalDateTime.of(t_datepicker_start.getValue(), starttime);
-					trans.enddatetime = LocalDateTime.of(t_datepicker_end.getValue(), endtime);
-					trans.transportcategory = t_combobox_transport_category.getSelectionModel().getSelectedItem();
-					trans.provider = t_combobox_transport_company.getSelectionModel().getSelectedItem();
-					trans.currency = t_currencybox.getSelectionModel().getSelectedItem();
-					trans.notes = t_textarea_notes.getText();
-					trans.price = Double.parseDouble(t_textfield_price.getText());
-					trans.filepath = "" + t_textfield_reservation.getText();
-					
-					if(t_combobox_transport_category.getSelectionModel().getSelectedItem().equals("Car"))
+					if(checkPriceInput(t_textfield_price.getText()) == true)
 					{
-						if(calctransportcost == -1)
+						Transport trans = new Transport();
+						trans.country_start = t_countrybox_start.getSelectionModel().getSelectedItem();
+						trans.city_start = t_citybox_start.getSelectionModel().getSelectedItem();
+						trans.country_end = t_countrybox_end.getSelectionModel().getSelectedItem();
+						trans.city_end = t_citybox_end.getSelectionModel().getSelectedItem();
+					
+						LocalTime starttime = LocalTime.of(getHourFromTextField(t_textfield_hour_start), getMinutesFromTextField(t_textfield_hour_start));
+						LocalTime endtime = LocalTime.of(getHourFromTextField(t_textfield_hour_end), getMinutesFromTextField(t_textfield_hour_end));
+
+						trans.startdatetime = LocalDateTime.of(t_datepicker_start.getValue(), starttime);
+						trans.enddatetime = LocalDateTime.of(t_datepicker_end.getValue(), endtime);
+						trans.transportcategory = t_combobox_transport_category.getSelectionModel().getSelectedItem();
+						trans.provider = t_combobox_transport_company.getSelectionModel().getSelectedItem();
+						trans.currency = t_currencybox.getSelectionModel().getSelectedItem();
+						trans.notes = t_textarea_notes.getText();
+						trans.price = Double.parseDouble(t_textfield_price.getText());
+						trans.filepath = "" + t_textfield_reservation.getText();
+					
+						if(t_combobox_transport_category.getSelectionModel().getSelectedItem().equals("Car"))
 						{
-							Alert alert = new Alert(AlertType.INFORMATION);
-							alert.setTitle("Dodawanie transportu");
-							alert.setHeaderText(null);
-							alert.setContentText("Nie wyliczono przewidywanego kosztu transportu.");
-							alert.showAndWait();
-						}	
+							if(calctransportcost == -1)
+							{
+								Alert alert = new Alert(AlertType.ERROR);
+								alert.setTitle("Dodawanie transportu");
+								alert.setHeaderText(null);
+								alert.setContentText("Nie wyliczono przewidywanego kosztu transportu.");
+								alert.showAndWait();
+							}	
+							else
+							{
+								trans.calcdcost = calctransportcost;
+								TravelFramework.getInstance().getTravel().setTransportToDay(curdate, trans);	
+								clearTransportComponents();
+								Alert alert = new Alert(AlertType.INFORMATION);
+								alert.setTitle("Dodawanie transportu");
+								alert.setHeaderText(null);
+								alert.setContentText("Transport zosta³ dodany pomyœlnie!");
+								alert.showAndWait();
+							}
+						}
 						else
 						{
-							trans.calcdcost = calctransportcost;
-							TravelFramework.getInstance().getTravel().setTransportToDay(curdate, trans);	
+							trans.calcdcost = Double.parseDouble(t_textfield_price.getText());
+							TravelFramework.getInstance().getTravel().setTransportToDay(curdate, trans);
 							clearTransportComponents();
 							Alert alert = new Alert(AlertType.INFORMATION);
 							alert.setTitle("Dodawanie transportu");
@@ -1083,13 +1093,10 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 					}
 					else
 					{
-						trans.calcdcost = Double.parseDouble(t_textfield_price.getText());
-						TravelFramework.getInstance().getTravel().setTransportToDay(curdate, trans);
-						clearTransportComponents();
-						Alert alert = new Alert(AlertType.INFORMATION);
+						Alert alert = new Alert(AlertType.ERROR);
 						alert.setTitle("Dodawanie transportu");
 						alert.setHeaderText(null);
-						alert.setContentText("Transport zosta³ dodany pomyœlnie!");
+						alert.setContentText("Cena wype³niona w niepoprawnym formacie.");
 						alert.showAndWait();
 					}
 				}

@@ -107,6 +107,7 @@ public class DatabaseHandlerTravelHistory
 						transport.currency = commons.getCurrencyName(currencyId);
 						transport.notes = dbConnection.getSingeStringFromDb("SELECT TransportNotes FROM DBA.TransportDetail WHERE IDUser = " + user.getId() + " AND IDTrip = " + id + " AND TransportLeavingDatetime LIKE '" + day.date + " %'", "TransportNotes");
 						transport.calcdcost = dbConnection.getFloatFromDb("SELECT EstimatedTransportPrice FROM DBA.TransportDetail WHERE IDUser = " + user.getId() + " AND IDTrip = " + id + " AND TransportLeavingDatetime LIKE '" + day.date + " %'");
+						transport.filepath = dbConnection.getSingeStringFromDb("SELECT TransportLink FROM DBA.TransportDetail WHERE IDUser = " + user.getId() + " AND IDTrip = " + id + " AND TransportLeavingDatetime LIKE '" + day.date + " %'", "TransportLink");
 						day.transport = transport;
 					}
 					//Atrakcje

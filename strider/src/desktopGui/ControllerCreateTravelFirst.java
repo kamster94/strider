@@ -76,7 +76,7 @@ public class ControllerCreateTravelFirst implements Initializable, ControlledScr
 				
 				if(difference > 28)
 				{
-					Alert alert = new Alert(AlertType.INFORMATION);
+					Alert alert = new Alert(AlertType.ERROR);
 					alert.setTitle("Tworzenie podró¿y");
 					alert.setHeaderText(null);
 					alert.setContentText("Podró¿ jest zbyt d³uga (maksimum 28 dni).");
@@ -91,7 +91,7 @@ public class ControllerCreateTravelFirst implements Initializable, ControlledScr
 			}
 			else
 			{
-				Alert alert = new Alert(AlertType.INFORMATION);
+				Alert alert = new Alert(AlertType.ERROR);
 				alert.setTitle("Tworzenie podró¿y");
 				alert.setHeaderText(null);
 				alert.setContentText("Nale¿y wype³niæ wszystkie pola.");

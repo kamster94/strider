@@ -279,7 +279,7 @@ public class ControllerRateHotel implements Initializable, ControlledScreen, Eve
 				}
 				else
 				{
-					Alert alert = new Alert(AlertType.INFORMATION);
+					Alert alert = new Alert(AlertType.ERROR);
 					alert.setTitle("Ocena hotelu");
 					alert.setHeaderText(null);
 					alert.setContentText("Nie oceniono wszystkich kryteriów (Minimalna ocena to 1).");
@@ -288,7 +288,7 @@ public class ControllerRateHotel implements Initializable, ControlledScreen, Eve
 			}
 			else
 			{
-				Alert alert = new Alert(AlertType.INFORMATION);
+				Alert alert = new Alert(AlertType.ERROR);
 				alert.setTitle("Ocena hotelu");
 				alert.setHeaderText(null);
 				alert.setContentText("Nie wybrano hotelu do oceny.");

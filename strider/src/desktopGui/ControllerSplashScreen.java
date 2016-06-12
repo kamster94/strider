@@ -85,7 +85,7 @@ public class ControllerSplashScreen implements Initializable, ClearableScreen, C
 					}
 					else if(loginstatus == 0)
 					{
-						Alert alert = new Alert(AlertType.INFORMATION);
+						Alert alert = new Alert(AlertType.ERROR);
 						alert.setTitle("Zaloguj");
 						alert.setHeaderText(null);
 						alert.setContentText("Nie istnieje u¿ytkownik dla podanego adresu e-mail.");
@@ -93,7 +93,7 @@ public class ControllerSplashScreen implements Initializable, ClearableScreen, C
 					}
 					else if(loginstatus == -1)
 					{
-						Alert alert = new Alert(AlertType.INFORMATION);
+						Alert alert = new Alert(AlertType.ERROR);
 						alert.setTitle("Zaloguj");
 						alert.setHeaderText(null);
 						alert.setContentText("Podano z³e has³o dla u¿ytkownika " + textfieldemail.getText());
@@ -102,7 +102,7 @@ public class ControllerSplashScreen implements Initializable, ClearableScreen, C
 				}
 				else
 				{
-					Alert alert = new Alert(AlertType.INFORMATION);
+					Alert alert = new Alert(AlertType.ERROR);
 					alert.setTitle("Zaloguj");
 					alert.setHeaderText(null);
 					alert.setContentText("Nie istnieje u¿ytkownik dla podanego adresu e-mail.");
@@ -111,7 +111,7 @@ public class ControllerSplashScreen implements Initializable, ClearableScreen, C
 			}
 			else if(dataverification == 1)
 			{
-				Alert alert = new Alert(AlertType.INFORMATION);
+				Alert alert = new Alert(AlertType.ERROR);
 				alert.setTitle("Zaloguj");
 				alert.setHeaderText(null);
 				alert.setContentText("Niepoprawny adres e-mail.");
@@ -119,7 +119,7 @@ public class ControllerSplashScreen implements Initializable, ClearableScreen, C
 			}
 			else if(dataverification == 2)
 			{
-				Alert alert = new Alert(AlertType.INFORMATION);
+				Alert alert = new Alert(AlertType.ERROR);
 				alert.setTitle("Zaloguj");
 				alert.setHeaderText(null);
 				alert.setContentText("D³ugoœæ has³a musi zawieraæ siê w przedziale od 6 do 32 znaków.");

@@ -403,7 +403,7 @@ public class ControllerTravelSummary implements Initializable, ControlledScreen,
 				} 
 				catch (IOException | IllegalArgumentException e ) 
 				{
-					Alert alert = new Alert(AlertType.INFORMATION);
+					Alert alert = new Alert(AlertType.ERROR);
 					alert.setTitle("Potwierdzenie rezerwacji");
 					alert.setHeaderText(null);
 					alert.setContentText("Wyst¹pi³ problem przy otwarciu pliku.");
@@ -412,7 +412,7 @@ public class ControllerTravelSummary implements Initializable, ControlledScreen,
 			}
 			else
 			{
-				Alert alert = new Alert(AlertType.INFORMATION);
+				Alert alert = new Alert(AlertType.ERROR);
 				alert.setTitle("Potwierdzenie rezerwacji");
 				alert.setHeaderText(null);
 				alert.setContentText("Nie wybrano pliku do otwarcia.");
@@ -451,11 +451,18 @@ public class ControllerTravelSummary implements Initializable, ControlledScreen,
 					}
 				}
 				TravelFramework.getInstance().setTravel(null);
+				
+				Alert alert = new Alert(AlertType.INFORMATION);
+				alert.setTitle("Dodawanie podró¿y");
+				alert.setHeaderText(null);
+				alert.setContentText("Podró¿ zosta³a pomyœlnie utworzona.");
+				alert.showAndWait();
+				
 				myController.setScreen(WindowMain.MAIN_SCREEN);
 			}
 			else
 			{
-				Alert alert = new Alert(AlertType.INFORMATION);
+				Alert alert = new Alert(AlertType.ERROR);
 				alert.setTitle("Dodawanie podró¿y");
 				alert.setHeaderText(null);
 				alert.setContentText("Nie mo¿na dodaæ pustej podró¿y.");

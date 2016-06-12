@@ -1,5 +1,8 @@
 package desktopGui;
 
+import java.awt.Desktop;
+import java.io.File;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.net.URL;
@@ -24,11 +27,14 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Accordion;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TitledPane;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.VBox;
 
 public class ControllerTravelHistory implements ControlledScreen, Initializable, EventHandler<ActionEvent>
@@ -49,11 +55,16 @@ public class ControllerTravelHistory implements ControlledScreen, Initializable,
     private Accordion accordionsummary;
     @FXML
     private Button button_cancel;
-
+    @FXML
+    private ComboBox<String> combobox_file;
+    @FXML
+    private Button button_open;
+    
     private ScreensController myController; 
     private List<Travel> travellist;
     private List<DayPane> daypanes;
     private List<Day> days;
+    private List<String> pathlist;
     
 	@Override
 	public void setScreenParent(ScreensController screenPage) 
@@ -64,58 +75,86 @@ public class ControllerTravelHistory implements ControlledScreen, Initializable,
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) 
 	{
-		
+		button_open.setOnAction(this);
 		button_cancel.setOnAction(this);
 		travellist = DatabaseHandlerTravelHistory.getInstance().getUserTravels();
 		
 		String tname = "";
 		
-		for(Travel t : travellist)
+		if(travellist != null && travellist.size() > 0)
 		{
-			tname = t.getStartDate() + " do " + t.getEndDate() + " | " + t.getName();
-			listviewtravels.getItems().add(tname);
-		}
-		
-		listviewtravels.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>()
-    	{
-			@Override
-			public void changed(ObservableValue<? extends String> arg0, String arg1, String arg2) 
+			for(Travel t : travellist)
 			{
-				if(listviewtravels.getSelectionModel().isEmpty())
-				{
-					accordionsummary.getPanes().clear();
-				}
-				else
-				{
-					daypanes = new LinkedList<DayPane>();
-					Travel selected = travellist.get(listviewtravels.getSelectionModel().getSelectedIndex());
-					days = selected.days;
-			    	for(Day d : days)
-			    	{
-			    		DayPane dp = new DayPane(d);
-			    		dp.myday = d;
-			    		dp.setText("Dzieñ " + dp.myday.date.getDayOfMonth() + "-" + dp.myday.date.getMonthValue() + "-" + dp.myday.date.getYear());
-			    		VBox daypanevbox = new VBox();
-			    		dp.myvbox = daypanevbox;
-			    		dp.setContent(dp.myvbox);
-			    		daypanes.add(dp);
-			    	}
-			    	accordionsummary.getPanes().setAll(daypanes);
-					populateSummary();
-				}
+				tname = t.getStartDate() + " do " + t.getEndDate() + " | " + t.getName();
+				listviewtravels.getItems().add(tname);
 			}
-			
-    	});
 		
-		
-		
-		
+			listviewtravels.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>()
+			{
+				@Override
+				public void changed(ObservableValue<? extends String> arg0, String arg1, String arg2) 
+				{
+					if(listviewtravels.getSelectionModel().isEmpty())
+					{
+						accordionsummary.getPanes().clear();
+					}
+					else
+					{
+						combobox_file.getItems().clear();
+						
+						daypanes = new LinkedList<DayPane>();
+						Travel selected = travellist.get(listviewtravels.getSelectionModel().getSelectedIndex());
+						pathlist = selected.getFilePathList();
+						combobox_file.getItems().setAll(pathlist);
+						days = selected.days;
+						for(Day d : days)
+						{
+							DayPane dp = new DayPane(d);
+							dp.myday = d;
+							dp.setText("Dzieñ " + dp.myday.date.getDayOfMonth() + "-" + dp.myday.date.getMonthValue() + "-" + dp.myday.date.getYear());
+							VBox daypanevbox = new VBox();
+							dp.myvbox = daypanevbox;
+							dp.setContent(dp.myvbox);
+							daypanes.add(dp);
+						}
+						accordionsummary.getPanes().setAll(daypanes);
+						populateSummary();
+					}	
+				}
+			});
+		}
 	}
 
 	@Override
 	public void handle(ActionEvent arg0) 
 	{
-		if(arg0.getSource() == button_cancel)
+		if(arg0.getSource() == button_open)
+		{
+			if(combobox_file.getSelectionModel().isEmpty() == false)
+			{
+				try 
+				{
+					Desktop.getDesktop().open(new File(pathlist.get(combobox_file.getSelectionModel().getSelectedIndex())));
+				} 
+				catch (IOException | IllegalArgumentException e ) 
+				{
+					Alert alert = new Alert(AlertType.ERROR);
+					alert.setTitle("Potwierdzenie rezerwacji");
+					alert.setHeaderText(null);
+					alert.setContentText("Wyst¹pi³ problem przy otwarciu pliku.");
+					alert.showAndWait();
+				}
+			}
+			else
+			{
+				Alert alert = new Alert(AlertType.ERROR);
+				alert.setTitle("Potwierdzenie rezerwacji");
+				alert.setHeaderText(null);
+				alert.setContentText("Nie wybrano pliku do otwarcia.");
+				alert.showAndWait();
+			}
+		}
+		else if(arg0.getSource() == button_cancel)
 		{
 			myController.loadScreenAndSet(WindowMain.MAIN_SCREEN, WindowMain.MAIN_SCREEN_FXML);
 		}
@@ -217,22 +256,6 @@ public class ControllerTravelHistory implements ControlledScreen, Initializable,
         {
         	if(dp.myday.transport != null)
         	{
-        		
-        		/*
-        		Button button_delete = new Button("Usuñ");
-        		
-        		button_delete.setOnAction(new EventHandler<ActionEvent>()
-        		{
-					@Override
-					public void handle(ActionEvent arg0) 
-					{
-						dp.myday.transport = null;
-						populateContent();
-					}
-        			
-        		});
-        		*/
-        		
         		Transport trans = dp.myday.transport;
         		TitledPane trans_start = new TitledPane();
         		TitledPane trans_end = new TitledPane();
@@ -256,6 +279,7 @@ public class ControllerTravelHistory implements ControlledScreen, Initializable,
         		
         		double recalculated_cost = (CurrencyInformation.getUserCurrencyCost(trans.calcdcost, trans.currency, usercurrency));
         		recalculated_cost = new BigDecimal(recalculated_cost).setScale(2, RoundingMode.HALF_UP).doubleValue();
+        		trans.calcdcost = new BigDecimal(trans.calcdcost).setScale(2, RoundingMode.HALF_UP).doubleValue();
         		Label trans_start_cost = new Label("Cena: " + trans.calcdcost + " " + trans.currency + " (" + recalculated_cost + " " + usercurrency + ")");
         		
         		LocalDate date_start = (trans.startdatetime).toLocalDate();
@@ -266,7 +290,6 @@ public class ControllerTravelHistory implements ControlledScreen, Initializable,
         		vbox_start.getChildren().add(trans_start_time);
         		vbox_start.getChildren().add(new Label("Œrodek transportu: " + trans.transportcategory));
         		vbox_start.getChildren().add(trans_start_cost);
-        		//vbox_start.getChildren().add(button_delete);
         		
         		vbox_end.getChildren().add(trans_end_label);
         		vbox_end.getChildren().add(trans_end_type);
@@ -286,21 +309,6 @@ public class ControllerTravelHistory implements ControlledScreen, Initializable,
 
         	if(dp.myday.hotel != null)
         	{
-        		/*
-        		Button button_delete = new Button("Usuñ");
-        		
-        		button_delete.setOnAction(new EventHandler<ActionEvent>()
-        		{
-					@Override
-					public void handle(ActionEvent arg0) 
-					{
-						dp.myday.hotel = null;
-						populateContent();
-					}
-        			
-        		});
-        		*/
-        		
         		Hotel hot = dp.myday.hotel;
         		
         		TitledPane hotelpane_arrival = new TitledPane();
@@ -348,7 +356,6 @@ public class ControllerTravelHistory implements ControlledScreen, Initializable,
         		hotelvbox_arrival.getChildren().add(price_nite);
         		hotelvbox_arrival.getChildren().add(price_arrival);
         		hotelvbox_arrival.getChildren().add(tpnotes1);
-        		//hotelvbox_arrival.getChildren().add(button_delete);
         		hotelpane_arrival.setContent(hotelvbox_arrival);		
         		
         		hotelvbox_leaving.getChildren().add(new Label("Nazwa hotelu: " + hot.name));
@@ -369,24 +376,6 @@ public class ControllerTravelHistory implements ControlledScreen, Initializable,
         	
 			for(Attraction at : dp.myday.attractions)
 			{
-				/*
-        		Button button_delete = new Button("Usuñ");
-        		
-        		button_delete.setOnAction(new EventHandler<ActionEvent>()
-        		{
-					@Override
-					public void handle(ActionEvent arg0) 
-					{
-						for(Attraction atx : dp.myday.attractions)
-						{
-							if(atx.equals(at))dp.myday.attractions.remove(atx);
-						}
-						populateContent();
-					}
-        			
-        		});
-				 */
-				
 				TitledPane tp = new TitledPane();
 				tp.setText("ATRAKCJA | " + at.name);
 				VBox attrvbox = new VBox();
@@ -409,7 +398,6 @@ public class ControllerTravelHistory implements ControlledScreen, Initializable,
 				attrvbox.getChildren().add(athours);
 				if(at.price > 0)attrvbox.getChildren().add(price);
 				attrvbox.getChildren().add(tpnotes);
-				//attrvbox.getChildren().add(button_delete);
 				
 				tp.setContent(attrvbox);
 				dp.myvbox.getChildren().add(tp);
