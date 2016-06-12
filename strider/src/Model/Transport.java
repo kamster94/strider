@@ -19,10 +19,5 @@ public class Transport
 	public double calcdcost;
 	public String filepath;
 	
-	
-	
-	public Transport() {
-		// TODO Auto-generated constructor stub
-	}
-
+	public Transport() { }
 }

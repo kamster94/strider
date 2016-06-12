@@ -3,7 +3,6 @@ package desktopGui;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
-
 import Model.Review;
 import Model.VisitedHotels;
 import dbHandlers.DatabaseHandlerCommon;
@@ -19,72 +18,51 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.TextFlow;
 
 public class ControllerRateHotel implements Initializable, ControlledScreen, EventHandler<ActionEvent>
 {
-	ScreensController myController;
-
-	RatingBox rating_clean;
-	RatingBox rating_comfort;
-	RatingBox rating_localization;
-	RatingBox rating_udogodnienia;
-	RatingBox rating_personel;
-	RatingBox rating_qualityprice;
-	RatingBox rating_average;
-	List<VisitedHotels> hotelsfromdb;
-	
-	
     @FXML
     private ComboBox<String> combobox_hotel;
-
     @FXML
     private VBox vbox_rateclean;
-
     @FXML
     private VBox vbox_ratecomfort;
-
     @FXML
     private VBox vbox_ratelocalization;
-
     @FXML
     private VBox vbox_rateudogothings;
-
     @FXML
     private VBox vbox_ratepersonel;
-
     @FXML
     private VBox vbox_ratequalitytoprice;
-
     @FXML
     private Label label_hotelname;
-
     @FXML
     private Label label_streetnameandnumber;
-
     @FXML
     private Label label_zipcitycountry;
-
-    @FXML
-    private Label label_pricepernight;
-
     @FXML
     private TextArea textarea_notes;
-
     @FXML
     private VBox vbox_rateaverage;
-
     @FXML
     private Button button_cancel;
-
     @FXML
     private Button button_rate;
+    
+	private ScreensController myController;
+	private RatingBox rating_clean;
+	private RatingBox rating_comfort;
+	private RatingBox rating_localization;
+	private RatingBox rating_udogodnienia;
+	private RatingBox rating_personel;
+	private RatingBox rating_qualityprice;
+	private RatingBox rating_average;
+	private List<VisitedHotels> hotelsfromdb;
 
 	@Override
 	public void setScreenParent(ScreensController screenPage) 
@@ -95,7 +73,6 @@ public class ControllerRateHotel implements Initializable, ControlledScreen, Eve
 	private int calculateAverage()
 	{
 		double avg = 0;
-		
 		avg = rating_clean.getValue() + rating_comfort.getValue() + rating_localization.getValue() + rating_personel.getValue() + rating_qualityprice.getValue() + rating_udogodnienia.getValue();
 		avg = avg / 6;
 		System.out.println("AVG : " + avg);
@@ -114,8 +91,6 @@ public class ControllerRateHotel implements Initializable, ControlledScreen, Eve
 		return true;
 	}
 	
-	
-	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) 
 	{
@@ -124,9 +99,7 @@ public class ControllerRateHotel implements Initializable, ControlledScreen, Eve
 		label_hotelname.setText("Nazwa:");
 		label_streetnameandnumber.setText("Adres:");
 		label_zipcitycountry.setText("Lokacja:");
-		label_pricepernight.setText("Cena za noc:");
 		
-		//Wype³niæ hotelami z HotelDetails (z tych hoteli w których by³ u¿ytkownik) na zasadzie Pañstwo | Miasto | Nazwa hotelu
 		hotelsfromdb = DatabaseHandlerHotelAdder.getInstance().getVisitedHotels();
 		
 		if(hotelsfromdb != null && hotelsfromdb.size() > 0)
@@ -157,7 +130,6 @@ public class ControllerRateHotel implements Initializable, ControlledScreen, Eve
 						label_hotelname.setText("Nazwa:");
 						label_streetnameandnumber.setText("Adres:");
 						label_zipcitycountry.setText("Lokacja:");
-						label_pricepernight.setText("Cena za noc:");
 					}
 				}		
 			});
@@ -273,8 +245,8 @@ public class ControllerRateHotel implements Initializable, ControlledScreen, Eve
 	}
 
 	@Override
-	public void handle(ActionEvent arg0) {
-		// TODO Auto-generated method stub
+	public void handle(ActionEvent arg0) 
+	{
 		if(arg0.getSource() == button_cancel)
 		{
 			myController.setScreen(WindowMain.MAIN_SCREEN);
@@ -302,7 +274,6 @@ public class ControllerRateHotel implements Initializable, ControlledScreen, Eve
 					alert.setHeaderText(null);
 					alert.setContentText("Pomyœlnie oceniono wybrany hotel.");
 					alert.showAndWait();
-					
 					
 					myController.setScreen(WindowMain.MAIN_SCREEN);
 				}

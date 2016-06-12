@@ -1,30 +1,22 @@
 package dbHandlers;
 
-import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import Model.Hotel;
 import Model.Review;
-import Model.TravelFramework;
 import Model.User;
-import Model.VisitedAttractions;
 import Model.VisitedHotels;
 import dbConnection.DbAccess;
 
-public class DatabaseHandlerHotelAdder {
-	
+public class DatabaseHandlerHotelAdder 
+{
 	private static DatabaseHandlerHotelAdder myinstance;
 	private DbAccess dbConnection;
-	private User user;
-	private TravelFramework travel;
 	
-	private DatabaseHandlerHotelAdder(){
+	private DatabaseHandlerHotelAdder()
+	{
 		dbConnection = DbAccess.getInstance();
-		user = User.getInstance();
-		travel = TravelFramework.getInstance();
 	}
 	
 	public static DatabaseHandlerHotelAdder getInstance()
@@ -32,33 +24,6 @@ public class DatabaseHandlerHotelAdder {
 		if(myinstance == null)myinstance = new DatabaseHandlerHotelAdder();
 		return myinstance;
 	}
-	
-	/*
-	public void setHotel(HotelDetails hotel){
-		this.hotel = hotel;
-	}
-	
-	public boolean pushHotelDetails()
-	{
-		String sql = "SELECT DBA.fAddHotelDetails (" + user.getId() + ", " + hotel.getHotelId() + ", " + travel.getCurrentTravel().getId() + ", "
-				+ hotel.getCountryId() + ", " + hotel.getCityId() + ", " + hotel.getCountryId() + ", " + hotel.getCityId() + ", "
-				+ hotel.getCurrencyId() + ", '" + Date.valueOf(hotel.getArrivalDate()) + "', '" + Date.valueOf(hotel.getLeavingDate()) + "', "
-				+ hotel.getPrice() + ", '" + hotel.getLink() + "', '" + hotel.getNotes() + "')";
-		System.out.println(sql);
-		int status = dbConnection.getIntFromDb(sql);
-		if (status == 1) return true;
-		else return false;
-	}
-	*/
-	
-	/*
-	public boolean pushHotelRating(int countryid, int cityid, int hotelid, Review rev)
-	{
-		int userid = User.getInstance().getId();
-		boolean addstatus = DbAccess.getInstance().pushToDb("CALL DBA.fAddHotelReview("userid +          ")");
-		return addstatus;
-	}
-	*/
 	
 	public boolean pushHotelReview(VisitedHotels hot, Review rev)
 	{
@@ -76,12 +41,10 @@ public class DatabaseHandlerHotelAdder {
 		String notes = rev.getReviewNotes();
 		LocalDate revdate = LocalDate.now();
 		
-		
 		boolean revstatus = dbConnection.pushToDb("CALL DBA.fAddHotelReview(" + id_user + "," + id_country + "," + id_city + "," + id_hotel +
 												  "," + cleanliness + "," + comfort + "," + localization + "," + amenities + "," + personel +
-												  "," + valmoney + ",'" + average + "','" + notes +"','" + revdate + "')");
-				  
-				return revstatus;
+												  "," + valmoney + ",'" + average + "','" + notes +"','" + revdate + "')");  
+		return revstatus;
 	}
 	
 	public float getHotelReview(int countryid, int cityid, int hotelid)
@@ -89,9 +52,8 @@ public class DatabaseHandlerHotelAdder {
 		return dbConnection.getFloatFromDb("SELECT AverageGrade FROM DBA.HotelReview WHERE IDUser = " + User.getInstance().getId() + " AND IDHotel = " + hotelid + " AND IDCountry = " + countryid + " AND IDCity = " + cityid);
 	}
 	
-	
-	
-	public int getHotelId(int countryid, int cityid, String name){
+	public int getHotelId(int countryid, int cityid, String name)
+	{
 		return dbConnection.getIntFromDb("SELECT IDHotel FROM DBA.Hotel WHERE HotelName = '" + name + "' AND IDCountry = " + countryid + " AND IDCity = " + cityid);
 	}
 	

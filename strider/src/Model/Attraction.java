@@ -1,7 +1,6 @@
 package Model;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 public class Attraction
 {
@@ -19,9 +18,5 @@ public class Attraction
 	public double price;
 	public boolean iscustom;
 	
-	public Attraction() 
-	{
-		// TODO Auto-generated constructor stub
-	}
-
+	public Attraction() { }
 }

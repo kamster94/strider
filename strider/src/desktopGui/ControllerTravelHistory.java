@@ -8,18 +8,15 @@ import java.time.temporal.ChronoUnit;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
-
 import Model.Attraction;
 import Model.Day;
 import Model.Hotel;
 import Model.Transport;
 import Model.Travel;
-
 import Model.User;
 import countryWarnings.CurrencyInformation;
 import dbHandlers.DatabaseHandlerCommon;
 import dbHandlers.DatabaseHandlerTravelHistory;
-
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -32,25 +29,32 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TitledPane;
-import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
 public class ControllerTravelHistory implements ControlledScreen, Initializable, EventHandler<ActionEvent>
 {
-	ScreensController myController; 
-	List<Travel> travellist;
-    private List<DayPane> daypanes;
-    private List<Day> days;
-    
+    @FXML
+    private Label label_transportcost;
+    @FXML
+    private Label label_hotelcost;
+    @FXML
+    private Label label_attractioncost;
+    @FXML
+    private Label label_allcost;
+    @FXML
+    private Label label_numdays;
     @FXML
     private ListView<String> listviewtravels;
-
     @FXML
     private Accordion accordionsummary;
-
     @FXML
     private Button button_cancel;
 
+    private ScreensController myController; 
+    private List<Travel> travellist;
+    private List<DayPane> daypanes;
+    private List<Day> days;
+    
 	@Override
 	public void setScreenParent(ScreensController screenPage) 
 	{
@@ -60,8 +64,8 @@ public class ControllerTravelHistory implements ControlledScreen, Initializable,
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) 
 	{
-		button_cancel.setOnAction(this);
 		
+		button_cancel.setOnAction(this);
 		travellist = DatabaseHandlerTravelHistory.getInstance().getUserTravels();
 		
 		String tname = "";
@@ -196,13 +200,13 @@ public class ControllerTravelHistory implements ControlledScreen, Initializable,
     	double allcost = transportcost + hotelcost + attractioncost;
     	int numdays = daypanes.size();
     	
-    	/*
+    	
     	label_transportcost.setText("Koszt transportów: " + transportcost + " " + usercurrency);
     	label_hotelcost.setText("Koszt noclegów: " + hotelcost + " " + usercurrency);
     	label_attractioncost.setText("Koszt atrakcji: " + attractioncost + " " + usercurrency);
     	label_allcost.setText("£¹czny koszt: " + allcost + " " + usercurrency);
     	label_numdays.setText("Czas podró¿y (w dniach): " + numdays);
-    	*/
+    	
     	
     	for(DayPane dp : daypanes)
     	{

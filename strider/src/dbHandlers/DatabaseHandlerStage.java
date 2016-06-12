@@ -1,7 +1,5 @@
 package dbHandlers;
 
-import java.sql.Date;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -26,10 +24,8 @@ public class DatabaseHandlerStage
 	public List<Integer> getStageIdentifiers(int iduser, int idtravel)
 	{
 		List<Integer> stageids = new ArrayList<Integer>();
-		
 		String sql = "SELECT IDStage FROM DBA.Stage WHERE IDUser = " + iduser + " AND IDTrip = " + idtravel;
 		stageids = dbConnection.getIntegersFromDb(sql, Arrays.asList("IDStage"));
-
 		return stageids;
 	}
 	
@@ -39,14 +35,6 @@ public class DatabaseHandlerStage
 		int stagetype = dbConnection.getIntFromDb(sql);
 		return stagetype;
 	}
-	
-	/*
-	public Stage getStage(int stageid)
-	{
-		Stage stg;
-		
-	}
-	*/
 	
 	public int getAttractionDetailsId(int idtrip, int idstage)
 	{

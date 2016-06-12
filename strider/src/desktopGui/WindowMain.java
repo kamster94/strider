@@ -4,9 +4,7 @@ import java.io.IOException;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
-
 import com.lynden.gmapsfx.javascript.object.LatLong;
-
 import countryWarnings.AutoCompleteComboBoxListener;
 import dbConnection.DbAccess;
 import dbHandlers.DatabaseHandlerCommon;
@@ -17,7 +15,6 @@ import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.Control;
 import javafx.scene.image.Image;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.StackPane;

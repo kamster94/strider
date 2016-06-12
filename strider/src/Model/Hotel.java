@@ -18,9 +18,6 @@ public class Hotel
 	public String filepath;
 	public boolean iscustom;
 	
-	public Hotel() 
-	{
-		// TODO Auto-generated constructor stub
-	}
+	public Hotel() { }
 
 }

@@ -1,7 +1,7 @@
 package Model;
 
-public class User {
-	
+public class User 
+{
 	private String email;
 	private String userName;
 	private int id;
@@ -11,61 +11,71 @@ public class User {
 	
 	private static User self;
 	
-	private User(){
-	}
+	private User() { }
 	
-	public static User getInstance(){
+	public static User getInstance()
+	{
 		if (self == null) self = new User();
 		return self;
 	}
 	
-	public String getEmail() {
+	public String getEmail() 
+	{
 		return email;
 	}
 	
-	public void setEmail(String email) {
+	public void setEmail(String email) 
+	{
 		this.email = email;
 	}
 	
-	public String getUserName() {
+	public String getUserName() 
+	{
 		return userName;
 	}
 	
-	public void setUserName(String userName) {
+	public void setUserName(String userName) 
+	{
 		this.userName = userName;
 	}
 
-	public int getId() {
+	public int getId() 
+	{
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(int id) 
+	{
 		this.id = id;
 	}
 
-	public int getCurrencyId() {
+	public int getCurrencyId() 
+	{
 		return currencyId;
 	}
 
-	public void setCurrencyId(int currencyId) {
+	public void setCurrencyId(int currencyId) 
+	{
 		this.currencyId = currencyId;
 	}
 
-	public int getCityId() {
+	public int getCityId() 
+	{
 		return cityId;
 	}
 
-	public void setCityId(int cityId) {
+	public void setCityId(int cityId) 
+	{
 		this.cityId = cityId;
 	}
 
-	public int getCountryId() {
+	public int getCountryId()
+	{
 		return countryId;
 	}
 
-	public void setCountryId(int countryId) {
+	public void setCountryId(int countryId) 
+	{
 		this.countryId = countryId;
 	}
-
-	
 }

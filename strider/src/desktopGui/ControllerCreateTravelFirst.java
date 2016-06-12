@@ -2,32 +2,10 @@ package desktopGui;
 
 import java.net.URL;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
-import java.util.List;
 import java.util.ResourceBundle;
-
-import com.lynden.gmapsfx.GoogleMapView;
-import com.lynden.gmapsfx.MapComponentInitializedListener;
-import com.lynden.gmapsfx.javascript.object.DirectionsPane;
-import com.lynden.gmapsfx.javascript.object.GoogleMap;
-import com.lynden.gmapsfx.javascript.object.LatLong;
-import com.lynden.gmapsfx.javascript.object.MapOptions;
-import com.lynden.gmapsfx.javascript.object.MapTypeIdEnum;
-import com.lynden.gmapsfx.service.directions.DirectionStatus;
-import com.lynden.gmapsfx.service.directions.DirectionsLeg;
-import com.lynden.gmapsfx.service.directions.DirectionsRenderer;
-import com.lynden.gmapsfx.service.directions.DirectionsRequest;
-import com.lynden.gmapsfx.service.directions.DirectionsResult;
-import com.lynden.gmapsfx.service.directions.DirectionsRoute;
-import com.lynden.gmapsfx.service.directions.DirectionsService;
-import com.lynden.gmapsfx.service.directions.DirectionsServiceCallback;
-import com.lynden.gmapsfx.service.directions.DirectionsSteps;
-
 import Model.Travel;
 import Model.TravelFramework;
-import countryWarnings.MapController;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -38,27 +16,20 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 
-
-public class ControllerCreateTravelFirst implements Initializable, ClearableScreen, ControlledScreen, EventHandler<ActionEvent>
+public class ControllerCreateTravelFirst implements Initializable, ControlledScreen, EventHandler<ActionEvent>
 {
-	ScreensController myController;
-
     @FXML
     private TextField textfield_tripname;
-
     @FXML
     private Button button_cancel;
-
     @FXML
     private Button button_next;
-    
     @FXML
     private DatePicker datepicker_start;
-
     @FXML
     private DatePicker datepicker_end;
-    
 
+    private ScreensController myController;
     
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) 
@@ -66,13 +37,10 @@ public class ControllerCreateTravelFirst implements Initializable, ClearableScre
 		textfield_tripname.setPromptText("Nazwa podró¿y");
 		datepicker_start.setPromptText("Pierwszy dzieñ");
 		datepicker_end.setPromptText("Ostatni dzieñ");
-		
 		button_cancel.setOnAction(this);
 		button_next.setOnAction(this);
-		
 		datepicker_start.setOnAction(this);
 		datepicker_end.setOnAction(this);
-		
 		datepicker_start.setValue(LocalDate.now());
 		datepicker_end.setValue(LocalDate.now().plusDays(1));
 	}
@@ -91,7 +59,6 @@ public class ControllerCreateTravelFirst implements Initializable, ClearableScre
 		{
 			datepicker_start.setValue(LocalDate.now());
 		}
-
 		if(datepicker_end.getValue().compareTo(datepicker_start.getValue()) < 0)
 		{
 			datepicker_end.setValue(datepicker_start.getValue().plusDays(1));
@@ -105,7 +72,6 @@ public class ControllerCreateTravelFirst implements Initializable, ClearableScre
 		{
 			if(checkInputCompletion() == true)
 			{
-
 				long difference = ChronoUnit.DAYS.between(datepicker_start.getValue(), datepicker_end.getValue());
 				
 				if(difference > 28)
@@ -119,13 +85,8 @@ public class ControllerCreateTravelFirst implements Initializable, ClearableScre
 				else
 				{
 					Travel trav = new Travel(textfield_tripname.getText(), datepicker_start.getValue(), datepicker_end.getValue());
-				
-					TravelFramework.getInstance().setTravel(trav);
-
-					TravelFramework.getInstance().getTravel().printDays();					
-					
-					myController.loadScreen(WindowMain.NEWTRAVELSECOND, WindowMain.NEWTRAVELSECOND_FXML);
-					myController.setScreen(WindowMain.NEWTRAVELSECOND);
+					TravelFramework.getInstance().setTravel(trav);					
+					myController.loadScreenAndSet(WindowMain.NEWTRAVELSECOND, WindowMain.NEWTRAVELSECOND_FXML);
 				}
 			}
 			else
@@ -150,16 +111,6 @@ public class ControllerCreateTravelFirst implements Initializable, ClearableScre
 	@Override
 	public void setScreenParent(ScreensController screenParent)
 	{
-		// TODO Auto-generated method stub
 		myController = screenParent; 
 	}
-	
-	@Override
-	public void clearComponents()
-	{
-
-		
-	}
-
-
 }

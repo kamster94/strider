@@ -3,41 +3,23 @@ package dbHandlers;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.time.LocalTime;
-import java.util.Arrays;
-import java.util.List;
-
 import Model.Attraction;
 import Model.Hotel;
 import Model.Transport;
-import Model.Travel;
 import Model.TravelFramework;
 import Model.User;
 import dbConnection.DbAccess;
-import javafx.scene.control.TextField;
 
 public class DatabaseHandlerTripAdder 
 {
-	private Travel curtravel;
 	private static DatabaseHandlerTripAdder myinstance;
-	public static DbAccess dataBaseAccess;
-	private static String Countrysql = "Select IDCountry From Country where CountryName =";
-	private static String Citysql1 = "Select C.IDCity From City where CityName =";
-	private static String Citysql2 = "and IDCountry =";
-	
-	private DatabaseHandlerTripAdder()
-	{
-		dataBaseAccess = DbAccess.getInstance();
-	}
+
+	private DatabaseHandlerTripAdder() { }
 	
 	public static DatabaseHandlerTripAdder getInstance()
 	{
 		if(myinstance == null)myinstance = new DatabaseHandlerTripAdder();
 		return myinstance;
-	}
-	
-	public void setTravel(Travel trav)
-	{
-		curtravel = trav;
 	}
 	
 	public boolean pushHotelToDatabase(Hotel hot)
@@ -61,14 +43,12 @@ public class DatabaseHandlerTripAdder
 		
 		if(hot.iscustom == true)
 		{
-			System.out.println("adding custom hotel");
 			addstatus = DbAccess.getInstance().pushToDb("CALL DBA.fCompactAddHotelDetails(" + userid + "," + tripid + "," +
 			currencyid + "," + countryid + "," + cityid + "," + price + ",'" + notes + "','" + street +"','" + streetnumber +
 			"','" + zipcode +"','" + hotelname +"','" + arrivaldate + "','" + leavingdate +"','" + reservationpath + "')");
 		}
 		else
 		{
-			System.out.println("hotelid = " + hotelid);
 			addstatus = DbAccess.getInstance().pushToDb("CALL DBA.fAddHotelDetails(" + userid + "," + hotelid + "," + tripid + "," +
 			countryid + "," + cityid + "," + currencyid + ",'" + arrivaldate + "','" + leavingdate + "'," + price + ",'" + 
 			reservationpath + "','" + notes + "')");
@@ -92,7 +72,6 @@ public class DatabaseHandlerTripAdder
 		int tripid = TravelFramework.getInstance().getTravel().getId();
 		int currencyid = DatabaseHandlerCommon.getInstance().getCurrencyId(trans.currency);
 		int transcat = DatabaseHandlerTransportAdder.getInstance().getCategoryId(trans.transportcategory);
-		String transname = trans.provider; //temporary
 		int transid = DatabaseHandlerCommon.getInstance().getTransportId(transcat, trans.provider);
 		int countryid_target = DatabaseHandlerCommon.getInstance().getCountryId(trans.country_end);
 		int cityid_target = DatabaseHandlerCommon.getInstance().getCityId(trans.city_end);
@@ -104,23 +83,10 @@ public class DatabaseHandlerTripAdder
 		double calcprice = trans.calcdcost;
 		String link = trans.filepath;
 		String notes = trans.notes;
-		System.out.println("categoryid = " + transcat);
-		System.out.println("providername = " + trans.provider);
-		System.out.println("transportid = " + transid);
-		
-		boolean addstatus = false;
-	
-		addstatus = DbAccess.getInstance().pushToDb("CALL DBA.fAddTransportDetails(" + userid + "," + tripid + "," +
+
+		boolean addstatus = DbAccess.getInstance().pushToDb("CALL DBA.fAddTransportDetails(" + userid + "," + tripid + "," +
 		currencyid + "," + transcat + "," + transid + "," + countryid_target + ","+cityid_target+","+countryid_start+","+cityid_start + 
 		",'" + arrivaldatetime + "','" + startdatetime + "'," + price + ",'" + link + "','" + notes + "'," + calcprice + ")");
-		
-
-			/*
-			addstatus = DbAccess.getInstance().pushToDb("CALL DBA.fCompactAddTransportDetails(" + userid + "," + tripid + "," +
-			currencyid + "," + transcat + ",'" + transname + "'," + countryid_target + ","+cityid_target+","+countryid_start+","+cityid_start+",'"+arrivaldatetime + "','" +
-			startdatetime+"',"+price+",'"+link+"','"+notes+"'," + calcprice + ")");
-			 */
-		
 		
 		return addstatus;
 	}
@@ -161,16 +127,12 @@ public class DatabaseHandlerTripAdder
 			currencyid + "," + countryid + "," + cityid + "," + price + ",'"+notes+"','"+visitdate+"','"+streetname+"','"+number + "','" +
 			zipcode+"','"+attractionname+"','"+opentime+"','"+opentill+"')");	
 		}
-		
-
 		return addstatus;
 	}
-	
 	
 	public int pushTravelToDatabase()
 	{
 		int tripID = 0;
-		
 		int userid = User.getInstance().getId();
 		int countryid_end = TravelFramework.getInstance().getTravel().getCountryDestinationId();
 		int cityid_end = TravelFramework.getInstance().getTravel().getCityDestinationId();
@@ -181,22 +143,17 @@ public class DatabaseHandlerTripAdder
 		double cost_transport = TravelFramework.getInstance().getTravel().transportcost;
 		double cost_hotel = TravelFramework.getInstance().getTravel().hotelcost;
 		double cost_attraction = TravelFramework.getInstance().getTravel().attractioncost;
-		double cost_total = TravelFramework.getInstance().getTravel().allcost;
-		
+		double cost_total = TravelFramework.getInstance().getTravel().allcost;		
 		Date beginDate = Date.valueOf(TravelFramework.getInstance().getTravel().getStartDate());
 		Date endDate = Date.valueOf(TravelFramework.getInstance().getTravel().getEndDate());
-
 		
-		boolean addstatus = DbAccess.getInstance().pushToDb("CALL DBA.fAddTrip(" + userid +
+		DbAccess.getInstance().pushToDb("CALL DBA.fAddTrip(" + userid +
 		"," + countryid_end + "," + cityid_end +
 		"," + countryid_start + "," + cityid_start +
 		",'" + travelname + "','" + beginDate + "','" + endDate +
 		"'," + compnumber + "," + cost_transport + "," + cost_hotel + "," + cost_attraction + "," + cost_total + ")");
 		
 		tripID = DbAccess.getInstance().getIntFromDb("SELECT MAX(IDTrip) FROM DBA.Trip WHERE IDUser = " + userid);
-			
-		System.out.println(addstatus);
-		
 		return tripID;
 	}
 }

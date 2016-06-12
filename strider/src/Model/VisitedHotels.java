@@ -2,8 +2,8 @@ package Model;
 
 import dbConnection.DbAccess;
 
-public class VisitedHotels {
-	
+public class VisitedHotels 
+{
 	private int countryId;
 	private int cityId;
 	private int hotelId;
@@ -23,7 +23,6 @@ public class VisitedHotels {
 		this.streetName = dbConnection.getSingeStringFromDb("SELECT StreetName FROM DBA.Hotel WHERE IDCountry = " + countryId + " AND IDCity = " + cityId + " AND IDHotel = " + hotelId, "StreetName");
 		this.streetNumber = dbConnection.getSingeStringFromDb("SELECT StreetNumber FROM DBA.Hotel WHERE IDCountry = " + countryId + " AND IDCity = " + cityId + " AND IDHotel = " + hotelId, "StreetNumber");
 		this.zipCode = dbConnection.getSingeStringFromDb("SELECT ZipCode FROM DBA.Hotel WHERE IDCountry = " + countryId + " AND IDCity = " + cityId + " AND IDHotel = " + hotelId, "ZipCode");
-		
 	}
 	
 	public int getCountryId() {
@@ -53,5 +52,4 @@ public class VisitedHotels {
 	public String getZipCode() {
 		return zipCode;
 	}
-
 }

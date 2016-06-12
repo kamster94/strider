@@ -1,7 +1,5 @@
 package Model;
 
-import java.time.LocalDate;
-
 public class TravelFramework 
 {
 	private static TravelFramework tfinstance;

@@ -21,7 +21,6 @@ public class VisitedAttractions {
 		this.countryId = countryId;
 		this.cityId = cityId;
 		this.attractionId = attractionId;
-		System.out.println("SELECT AttractionName FROM DBA.Attraction WHERE IDCountry = " + countryId + " AND IDCity = " + cityId + " AND IDAttraction = " + attractionId);
 		this.attractionName = dbConnection.getSingeStringFromDb("SELECT AttractionName FROM DBA.Attraction WHERE IDCountry = " + countryId + " AND IDCity = " + cityId + " AND IDAttraction = " + attractionId, "AttractionName");
 		this.streetName = dbConnection.getSingeStringFromDb("SELECT StreetName FROM DBA.Attraction WHERE IDCountry = " + countryId + " AND IDCity = " + cityId + " AND IDAttraction = " + attractionId, "StreetName");
 		this.streetNumber = dbConnection.getSingeStringFromDb("SELECT StreetNumber FROM DBA.Attraction WHERE IDCountry = " + countryId + " AND IDCity = " + cityId + " AND IDAttraction = " + attractionId, "StreetNumber");
@@ -69,6 +68,4 @@ public class VisitedAttractions {
 	public DbAccess getDbConnection() {
 		return dbConnection;
 	}
-
-	
 }

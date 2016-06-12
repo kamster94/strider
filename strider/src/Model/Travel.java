@@ -1,10 +1,7 @@
 package Model;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -54,7 +51,6 @@ public class Travel
 		return files;
 	}
 	
-	
 	public boolean checkIfHasContent()
 	{
 		for(Day d : days)
@@ -73,7 +69,6 @@ public class Travel
 	public String getLatestCountryInTravel()
 	{
 		String country = null;
-		
 		for(int i = 0; i < days.size(); i++)
 		{
 			if(days.get(i).transport != null)country = days.get(i).transport.country_end;
@@ -84,16 +79,12 @@ public class Travel
 	public String getLatestCityInTravel()
 	{
 		String city = null;
-		
 		for(int i = 0; i < days.size(); i++)
 		{
 			if(days.get(i).transport != null)city = days.get(i).transport.city_end;
 		}
 		return city;
 	}
-	
-	
-	
 	
 	public void setTransportcost(float transportcost) {
 		this.transportcost = transportcost;
@@ -152,9 +143,6 @@ public class Travel
 			System.out.println("Day : " + d.date);
 		}
 	}
-
-
-	
 	
 	public void setId(int idx)
 	{
@@ -225,5 +213,4 @@ public class Travel
 	{
 		return ChronoUnit.DAYS.between(startdate, enddate) + 1;
 	}
-	
 }

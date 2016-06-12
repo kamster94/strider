@@ -1,6 +1,5 @@
 package desktopGui;
 
-
 import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
@@ -12,47 +11,32 @@ import java.time.temporal.ChronoUnit;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
-
 import Model.Attraction;
-
 import Model.Day;
 import Model.Hotel;
 import Model.Transport;
 import Model.TravelFramework;
 import Model.User;
 import countryWarnings.CurrencyInformation;
-import dbHandlers.DatabaseHandlerAttractionAdder;
 import dbHandlers.DatabaseHandlerCommon;
-import dbHandlers.DatabaseHandlerHotelAdder;
-import dbHandlers.DatabaseHandlerStage;
 import dbHandlers.DatabaseHandlerTripAdder;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.Spinner;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
-import javafx.scene.web.WebView;
 
 public class ControllerTravelSummary implements Initializable, ControlledScreen, EventHandler<ActionEvent>
 {
-	static ScreensController myController;
-	
     @FXML
     private VBox mainvbox;
     @FXML
@@ -73,9 +57,10 @@ public class ControllerTravelSummary implements Initializable, ControlledScreen,
     private ComboBox<String> combobox_file;
     @FXML
     private Button button_open;
-    
     @FXML
     private Accordion accordionstages;
+    
+    private ScreensController myController;
     private List<DayPane> daypanes;
     private List<Day> days;
     private List<String> pathlist;
@@ -376,9 +361,6 @@ public class ControllerTravelSummary implements Initializable, ControlledScreen,
 		button_open.setOnAction(this);
 		pathlist = TravelFramework.getInstance().getTravel().getFilePathList();
 		combobox_file.getItems().setAll(pathlist);
-		
-		
-		
 		daypanes = new LinkedList<DayPane>();
 		days = TravelFramework.getInstance().getTravel().days;
 		button_back.setOnAction(this);
@@ -386,9 +368,6 @@ public class ControllerTravelSummary implements Initializable, ControlledScreen,
 		accordionstages = new Accordion();
 		mainvbox.getChildren().add(accordionstages);
 		VBox.setVgrow(accordionstages, Priority.ALWAYS);
-    	int curuser = User.getInstance().getId();
-    	int curtravel = TravelFramework.getInstance().getTravel().getId();
-    	int daynum = 1;
 
     	for(Day d : days)
     	{
@@ -400,6 +379,7 @@ public class ControllerTravelSummary implements Initializable, ControlledScreen,
     		dp.setContent(dp.myvbox);
     		daypanes.add(dp);
     	}
+    	
     	accordionstages.getPanes().setAll(daypanes);
     	populateContent();
 	}

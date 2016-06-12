@@ -8,12 +8,8 @@ import dbConnection.DbAccess;
 public class DatabaseHandlerLogin 
 {
 	private static DatabaseHandlerLogin myinst;
-	public static DbAccess dbConnection;
-	public User user;
 	
-	private DatabaseHandlerLogin(){
-		dbConnection = DbAccess.getInstance();
-	}
+	private DatabaseHandlerLogin() { }
 	
 	public static DatabaseHandlerLogin getInstance()
 	{
@@ -26,51 +22,38 @@ public class DatabaseHandlerLogin
 		if (!email.contains("@") || email.length() > 32) return 1;
 		if (password.length() < 6 || password.length() > 32) return 2;
 		return 0;
-		
 	}
 	
-	public boolean checkEmailAvailability(String email){
-		return !dbConnection.checkBoolInDb("SELECT DBA.fCheckIfExist(?)", Arrays.asList(email));
+	public boolean checkEmailAvailability(String email)
+	{
+		return !DbAccess.getInstance().checkBoolInDb("SELECT DBA.fCheckIfExist(?)", Arrays.asList(email));
 	}
 	
 	public boolean updateUserPreferences(int countryid, int cityid, int currencyid)
 	{
-		boolean status = dbConnection.pushToDb("UPDATE DBA.PersonalUsersData SET IDCountry = " + countryid + ", IDCity = " + cityid + ", IDCurrency = " + currencyid + " WHERE IDUser = " + User.getInstance().getId());
+		boolean status = DbAccess.getInstance().pushToDb("UPDATE DBA.PersonalUsersData SET IDCountry = " + countryid + ", IDCity = " + cityid + ", IDCurrency = " + currencyid + " WHERE IDUser = " + User.getInstance().getId());
 		return status;
 	}
 	
-	
-	
-	
-	public int loginUser(String email, String password){
-		int status = dbConnection.getIntFromDb("SELECT DBA.fCheckUser('" + email + "', '" + password + "')");
+	public int loginUser(String email, String password)
+	{
+		int status = DbAccess.getInstance().getIntFromDb("SELECT DBA.fCheckUser('" + email + "', '" + password + "')");
 		
-		if (status == 1) {
-			user = User.getInstance();
-			user.setEmail(email);
-			String userName = dbConnection.getSingeStringFromDb("SELECT UserName FROM DBA.UserData WHERE UserData.Email = '" + email + "'", "UserName");
-			int userId = dbConnection.getIntFromDb("SELECT IDUser FROM DBA.UserData WHERE UserData.Email = '" + email + "'");
-
-			/* Chappi: What the christ
-			int currencyId = dbConnection.getIntFromDb("SELECT IDCurrency FROM DBA.UserData WHERE UserData.Email = '" + email + "'");;
-			int cityId = dbConnection.getIntFromDb("SELECT IDCity FROM DBA.UserData WHERE UserData.Email = '" + email + "'");;
-			int countryId = dbConnection.getIntFromDb("SELECT IDCountry FROM DBA.UserData WHERE UserData.Email = '" + email + "'");;
-			 */
+		if (status == 1) 
+		{
+			User.getInstance().setEmail(email);
+			String userName = DbAccess.getInstance().getSingeStringFromDb("SELECT UserName FROM DBA.UserData WHERE UserData.Email = '" + email + "'", "UserName");
+			int userId = DbAccess.getInstance().getIntFromDb("SELECT IDUser FROM DBA.UserData WHERE UserData.Email = '" + email + "'");
+			int currencyId = DbAccess.getInstance().getIntFromDb("SELECT IDCurrency FROM DBA.PersonalUsersData WHERE PersonalUsersData.IDUser = " + userId);
+			int cityId = DbAccess.getInstance().getIntFromDb("SELECT IDCity FROM DBA.PersonalUsersData WHERE PersonalUsersData.IDUser = " + userId);
+			int countryId = DbAccess.getInstance().getIntFromDb("SELECT IDCountry FROM DBA.PersonalUsersData WHERE PersonalUsersData.IDUser = " + userId);
 			
-			//Fixed
-			int currencyId = dbConnection.getIntFromDb("SELECT IDCurrency FROM DBA.PersonalUsersData WHERE PersonalUsersData.IDUser = " + userId);
-			int cityId = dbConnection.getIntFromDb("SELECT IDCity FROM DBA.PersonalUsersData WHERE PersonalUsersData.IDUser = " + userId);
-			int countryId = dbConnection.getIntFromDb("SELECT IDCountry FROM DBA.PersonalUsersData WHERE PersonalUsersData.IDUser = " + userId);
-			
-			user.setId(userId);
-			user.setUserName(userName);
-			user.setCurrencyId(currencyId);
-			user.setCityId(cityId);
-			user.setCountryId(countryId);
+			User.getInstance().setId(userId);
+			User.getInstance().setUserName(userName);
+			User.getInstance().setCurrencyId(currencyId);
+			User.getInstance().setCityId(cityId);
+			User.getInstance().setCountryId(countryId);
 		}
-		
-		//System.out.println(dbConnection.getSingeStringFromDb("SELECT UserPassword FROM DBA.UserData WHERE IDUser = 1", "UserPassword"));
-		
 		return status;
 	}
 }

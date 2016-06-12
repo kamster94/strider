@@ -18,11 +18,6 @@ import javafx.scene.image.ImageView;
 
 public class ControllerSplashScreen implements Initializable, ClearableScreen, ControlledScreen, EventHandler<ActionEvent>
 {
-	ScreensController myController;
-	
-	final Image imglogotext = new Image("desktopGui/textures/ta_title.png");
-	final Image imglogopalms = new Image("desktopGui/textures/ta_palms.png");
-	
     @FXML
     private ImageView imageviewlogo;
     @FXML
@@ -38,21 +33,21 @@ public class ControllerSplashScreen implements Initializable, ClearableScreen, C
     @FXML
     private Label labelkektext;
     
+	private ScreensController myController;
+	private final Image imglogotext = new Image("desktopGui/textures/ta_title.png");
+	private final Image imglogopalms = new Image("desktopGui/textures/ta_palms.png");
+    
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) 
 	{
 		textfieldemail.setText("adriankepa@exception.com");
 		passwordfieldpassword.setText("dankmemes");
-		
 		imageviewlogo.setImage(imglogopalms);
 		imageviewlogotitle.setImage(imglogotext);
-		
 		buttonlogin.setOnAction(this);
 		buttoncreatenewaccount.setOnAction(this);
-		
 		textfieldemail.setPromptText("default@email.com");
 		passwordfieldpassword.setPromptText("Password");
-		
 		labelkektext.setText("\"This is the best thing since sliced bread.\" - George W. Bush");
 	}
 	
@@ -69,18 +64,14 @@ public class ControllerSplashScreen implements Initializable, ClearableScreen, C
 		{
 			textfieldemail.getText();
 			passwordfieldpassword.getText();
-
-			
 			int dataverification = DatabaseHandlerLogin.getInstance().verifyDataValidity(textfieldemail.getText(), passwordfieldpassword.getText());
 			
 			if(dataverification == 0)
 			{
 				boolean userexists = DatabaseHandlerLogin.getInstance().checkEmailAvailability(textfieldemail.getText());
-				
 				if(userexists == true)
 				{
 					int loginstatus = DatabaseHandlerLogin.getInstance().loginUser(textfieldemail.getText(), passwordfieldpassword.getText());
-					
 					if(loginstatus == 1)
 					{
 						Alert alert = new Alert(AlertType.INFORMATION);
@@ -90,9 +81,7 @@ public class ControllerSplashScreen implements Initializable, ClearableScreen, C
 						alert.showAndWait();
 						
 						clearComponents();
-						//myController.setScreen(WindowMain.MAIN_SCREEN);
 						myController.loadScreenAndSet(WindowMain.MAIN_SCREEN, WindowMain.MAIN_SCREEN_FXML);
-						
 					}
 					else if(loginstatus == 0)
 					{

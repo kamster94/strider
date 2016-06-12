@@ -9,10 +9,8 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import com.lynden.gmapsfx.GoogleMapView;
 import com.lynden.gmapsfx.MapComponentInitializedListener;
 import com.lynden.gmapsfx.javascript.object.DirectionsPane;
@@ -28,7 +26,6 @@ import com.lynden.gmapsfx.service.directions.DirectionsResult;
 import com.lynden.gmapsfx.service.directions.DirectionsRoute;
 import com.lynden.gmapsfx.service.directions.DirectionsService;
 import com.lynden.gmapsfx.service.directions.DirectionsServiceCallback;
-import com.lynden.gmapsfx.service.directions.DirectionsSteps;
 import com.lynden.gmapsfx.service.directions.TravelModes;
 import Model.Attraction;
 import Model.Hotel;
@@ -39,10 +36,8 @@ import Model.VisitedAttractions;
 import Model.VisitedHotels;
 import cWHandlers.CountryWarningsHandlerCommon;
 import countryWarnings.CityInformation;
-import countryWarnings.MapController;
 import countryWarnings.ResultsInformation;
 import countryWarnings.SampleController;
-import countryWarnings.WeatherInformation;
 import dbHandlers.DatabaseHandlerAttractionAdder;
 import dbHandlers.DatabaseHandlerCommon;
 import dbHandlers.DatabaseHandlerHotelAdder;
@@ -59,9 +54,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.scene.control.MultipleSelectionModel;
 import javafx.scene.control.SelectionMode;
-import javafx.scene.control.SelectionModel;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -69,14 +62,10 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.web.WebView;
-import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 
 public class ControllerCreateTravelSecond implements Initializable, ControlledScreen, EventHandler<ActionEvent>, MapComponentInitializedListener, DirectionsServiceCallback
 {
-	ScreensController myController;
-	
-	RatingBox hotelrating;
 	@FXML
 	private ComboBox<String> t_comboboxfueltype;
 	@FXML
@@ -151,10 +140,8 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
     private TextField h_textfield_hour_end;
     @FXML
     private TextField h_textfield_price;
-    
     @FXML
     private Label t_label_calcprice;
-    
     @FXML
     private VBox h_vbox_currencybox;
     @FXML
@@ -197,7 +184,6 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
     private VBox t_vbox_mapbox;
     @FXML
     private WebView a_cityview;
-    /////////////////////////////////////
     @FXML
     private ComboBox<String> a_countrybox;
     @FXML
@@ -223,30 +209,30 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
     @FXML
     private Button t_button_findcities_start;
     
-    private Button a_button_findcities;
-    private Button a_button_findattractions;
-    private Button h_button_findcities;
-    private Button t_button_findcities;
+    @FXML
+    private VBox a_vbox_price;
     
-    public static  MapOptions mapOptions;
-    public static GoogleMapView mapView;
-    public static double distance;
-	public static GoogleMap map;
-	private static int counter = 0;
+    
+    
+    private ScreensController myController;
+	private RatingBox hotelrating;
+	private Button a_button_findcities;
+	private Button h_button_findcities;
+	private Button t_button_findcities;
+	private static  MapOptions mapOptions;
+	private static GoogleMapView mapView;
+	private static double distance;
+	private static GoogleMap map;
 	protected DirectionsPane directions;
 	protected DirectionsService ds;
 	protected DirectionsRequest dr;
-	
 	private double calctransportcost;
-	String dist;
-	
-	LocalDate curdate;
-	LocalDate maxdate;
-	
-    DirectionsRenderer renderer;
-    
-    String transport_reservation_path;
-    String hotel_reservation_path;
+	private String dist;
+	private LocalDate curdate;
+	private LocalDate maxdate;
+	private DirectionsRenderer renderer;
+	private String transport_reservation_path;
+	private String hotel_reservation_path;
     
     public void setupInitialValues()
     {
@@ -314,8 +300,6 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
     public void updateDates()
     {
     	LocalDate startdate = TravelFramework.getInstance().getTravel().getStartDate();
-    	LocalDate enddate = TravelFramework.getInstance().getTravel().getEndDate();
-    	
     	curdate = startdate.plusDays((int)slider_tripday.getValue() - 1);
 
     	t_datepicker_start.setValue(curdate);
@@ -327,7 +311,6 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
     	{
     	   	a_countrybox.getSelectionModel().select(t_countrybox_end.getSelectionModel().getSelectedIndex());
         	a_citybox.getSelectionModel().select(t_citybox_end.getSelectionModel().getSelectedIndex());
-
         	h_countrybox.getSelectionModel().select(t_countrybox_end.getSelectionModel().getSelectedIndex());
         	h_citybox.getSelectionModel().select(t_citybox_end.getSelectionModel().getSelectedIndex());
     	}
@@ -353,7 +336,6 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
     	h_textfield_street.setText("");
     	h_textfield_zipcode.setText("");
     	h_textfield_number.setText("");
-    	//h_datepicker_start.setValue(null);
     	h_datepicker_end.setValue(null);
     	h_textfield_hour_start.setText("");
     	h_textfield_hour_end.setText("");
@@ -457,71 +439,77 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 			}
 		
 			a_myattractions.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>()
-    	{
-			@Override
-			public void changed(ObservableValue<? extends String> arg0, String arg1, String arg2) 
 			{
-				if(a_myattractions.getSelectionModel().isEmpty() == false)
+				@Override
+				public void changed(ObservableValue<? extends String> arg0, String arg1, String arg2) 
 				{
-					int id = a_myattractions.getSelectionModel().getSelectedIndex();
-					a_textfield_name.setText(attractionsfromdb.get(id).getAttractionName());
-		    		a_textfield_street.setText(attractionsfromdb.get(id).getStreetName());
-		    		a_textfield_zipcode.setText(attractionsfromdb.get(id).getZipCode());
-		    		a_textfield_number.setText(attractionsfromdb.get(id).getStreetNumber());
-		    		a_textfield_openfrom.setText(attractionsfromdb.get(id).getOpeningTime().substring(0, 5));
-		    		a_textfield_opentill.setText(attractionsfromdb.get(id).getClosingTime().substring(0, 5));
-		    		a_countrybox.getSelectionModel().select(attractionsfromdb.get(id).getCountryId());
-		    		a_citybox.getSelectionModel().select(attractionsfromdb.get(id).getCityId());
+					if(a_myattractions.getSelectionModel().isEmpty() == false)
+					{
+						int id = a_myattractions.getSelectionModel().getSelectedIndex();
+						a_textfield_name.setText(attractionsfromdb.get(id).getAttractionName());
+						a_textfield_street.setText(attractionsfromdb.get(id).getStreetName());
+						a_textfield_zipcode.setText(attractionsfromdb.get(id).getZipCode());
+						a_textfield_number.setText(attractionsfromdb.get(id).getStreetNumber());
+						a_textfield_openfrom.setText(attractionsfromdb.get(id).getOpeningTime().substring(0, 5));
+						a_textfield_opentill.setText(attractionsfromdb.get(id).getClosingTime().substring(0, 5));
+						a_countrybox.getSelectionModel().select(attractionsfromdb.get(id).getCountryId());
+						a_citybox.getSelectionModel().select(attractionsfromdb.get(id).getCityId());
 		    		
-		    		a_countrybox.setDisable(true);
-		    		a_citybox.setDisable(true);
-		    		a_button_findcities.setDisable(true);
-		    		a_textfield_name.setDisable(true);
-		    		a_textfield_street.setDisable(true);
-		    		a_textfield_zipcode.setDisable(true);
-		    		a_textfield_number.setDisable(true);
-		    		a_textfield_openfrom.setDisable(true);
-		    		a_textfield_opentill.setDisable(true);
+						a_countrybox.setDisable(true);
+						a_citybox.setDisable(true);
+						a_button_findcities.setDisable(true);
+						a_textfield_name.setDisable(true);
+						a_textfield_street.setDisable(true);
+						a_textfield_zipcode.setDisable(true);
+						a_textfield_number.setDisable(true);
+						a_textfield_openfrom.setDisable(true);
+						a_textfield_opentill.setDisable(true);
+					}
+					else
+					{
+						a_countrybox.setDisable(false);
+						a_citybox.setDisable(false);
+		    			a_button_findcities.setDisable(false);
+		    			a_textfield_name.setDisable(false);
+		    			a_textfield_street.setDisable(false);
+		    			a_textfield_zipcode.setDisable(false);
+		    			a_textfield_number.setDisable(false);
+		    			a_textfield_openfrom.setDisable(false);
+		    			a_textfield_opentill.setDisable(false);
+					}
 				}
-				else
-				{
-		    		a_countrybox.setDisable(false);
-		    		a_citybox.setDisable(false);
-		    		a_button_findcities.setDisable(false);
-		    		a_textfield_name.setDisable(false);
-		    		a_textfield_street.setDisable(false);
-		    		a_textfield_zipcode.setDisable(false);
-		    		a_textfield_number.setDisable(false);
-		    		a_textfield_openfrom.setDisable(false);
-		    		a_textfield_opentill.setDisable(false);
-				}
-			}
-    	});
+			});
 		}
 	}
+    
+    public boolean checkPriceInput(String text)
+    {
+		String regex = "^\\d+\\.?\\d+$";
+		Pattern p = Pattern.compile(regex);
+		Matcher match = p.matcher(text);
+		
+		if(match.find() == true)return true;
+		else return false;
+    }
+    
+    
+    
     
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) 
 	{
 		calctransportcost = -1;
 		t_comboboxfueltype.getItems().setAll("e95", "s98", "LPG", "ON");
-		
 		a_button_findcities = new Button("Znajdü");
 		h_button_findcities = new Button("Znajdü");
 		t_button_findcities_start = new Button("Znajdü");
-		
 		a_button_findcities.setOnAction(this);
 		h_button_findcities.setOnAction(this);
 		t_button_findcities_start.setOnAction(this);
-		
 		populateVisitedAttractions();
 		populateVisitedHotels();
-		
 		t_button_reservation.setOnAction(this);
 		h_button_reservation.setOnAction(this);
-		
-		
-		
 		hotelrating = new RatingBox();
 		hotelrating.setDisable(true);
 		h_hbox_ratingbox.getChildren().add(hotelrating);
@@ -571,6 +559,7 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 		h_button_addhotel.setOnAction(this);
 		t_button_addtransport.setOnAction(this);
 		t_comboboxfueltype.setDisable(true);
+		
 		t_combobox_transport_category.valueProperty().addListener(new ChangeListener<String>()
 		{
 			@Override
@@ -599,8 +588,6 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 					}
 				}			
 				else t_label_transportpriceconsumptionfuckyou.setText("Cena biletu");
-				//t_comboboxfueltype.getSelectionModel().clearSelection();
-				//t_comboboxfueltype.setDisable(true);
 			}
 		});
 		
@@ -653,7 +640,7 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 			@Override
 			public void changed(ObservableValue<? extends Number> arg0, Number arg1, Number arg2) 
 			{
-					updateDates();
+				updateDates();
 			}
 		});
 		
@@ -695,7 +682,6 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 		if(t_textfield_hour_end.getText().isEmpty())return false;
 		if(t_textfield_price.getText().isEmpty())return false;
 		if(t_currencybox.getSelectionModel().isEmpty())return false;
-
 		return true;
 	}
 	
@@ -713,7 +699,6 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 			{
 				t_datepicker_start.setValue(curdate);
 			}
-
 			if(t_datepicker_end.getValue().compareTo(t_datepicker_start.getValue()) < 0)
 			{
 				t_datepicker_end.setValue(t_datepicker_start.getValue());
@@ -733,7 +718,6 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 			{
 				h_datepicker_end.setValue(h_datepicker_start.getValue());
 			}
-			
 			if(h_datepicker_end.getValue().compareTo(maxdate) > 0)
 			{
 				h_datepicker_end.setValue(maxdate);
@@ -754,11 +738,9 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 			else return false;
 		}
 	}
-	
 	public int getHourFromTextField(TextField field)
 	{
 		String hhmm = field.getText();
-	
 		return Integer.parseInt(hhmm.substring(0, 2));
 	}
 	
@@ -806,11 +788,22 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 						{
 							if(t_currencybox.getSelectionModel().isEmpty() == false)
 							{
-								double spalanie = Double.parseDouble(t_textfield_price.getText().replaceAll(",", "."));	
-								ResultsInformation information = new ResultsInformation(spalanie, distance, t_comboboxfueltype.getSelectionModel().getSelectedItem());
-								calctransportcost = information.getFuelCost();
-								calctransportcost = new BigDecimal(calctransportcost).setScale(2, RoundingMode.HALF_UP).doubleValue();
-								t_label_calcprice.setText("" + calctransportcost + " " + t_currencybox.getSelectionModel().getSelectedItem());
+								if(checkPriceInput(t_textfield_price.getText()) == true)
+								{
+									double spalanie = Double.parseDouble(t_textfield_price.getText().replaceAll(",", "."));	
+									ResultsInformation information = new ResultsInformation(spalanie, distance, t_comboboxfueltype.getSelectionModel().getSelectedItem());
+									calctransportcost = information.getFuelCost();
+									calctransportcost = new BigDecimal(calctransportcost).setScale(2, RoundingMode.HALF_UP).doubleValue();
+									t_label_calcprice.setText("" + calctransportcost + " " + t_currencybox.getSelectionModel().getSelectedItem());
+								}
+								else
+								{
+									Alert alert = new Alert(AlertType.INFORMATION);
+									alert.setTitle("Wyliczanie ceny transportu");
+									alert.setHeaderText(null);
+									alert.setContentText("Cena wype≥niona w niepoprawnym formacie.");
+									alert.showAndWait();	
+								}
 							}
 							else
 							{
@@ -933,33 +926,44 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 				}
 				else
 				{
-					Attraction at = new Attraction();
-					at.country = a_countrybox.getSelectionModel().getSelectedItem();
-					at.city = a_citybox.getSelectionModel().getSelectedItem();
-					at.name = a_textfield_name.getText();
-					at.street = a_textfield_street.getText();
-					at.number = a_textfield_number.getText();
-					at.zipcode = a_textfield_zipcode.getText();
-					at.openfrom = a_textfield_openfrom.getText();
-					at.opento = a_textfield_opentill.getText();
-					at.date = t_datepicker_start.getValue();
-					at.currency = a_currencybox.getSelectionModel().getSelectedItem();
-					at.notes = a_textarea_notes.getText();
-					if(at.notes.equals(""))at.notes = "Brak notatek";
-					at.price = Float.parseFloat(a_textfield_price.getText());
-					at.date = curdate;
+					if(checkPriceInput(a_textfield_price.getText()) == true)
+					{
+						Attraction at = new Attraction();
+						at.country = a_countrybox.getSelectionModel().getSelectedItem();
+						at.city = a_citybox.getSelectionModel().getSelectedItem();
+						at.name = a_textfield_name.getText();
+						at.street = a_textfield_street.getText();
+						at.number = a_textfield_number.getText();
+						at.zipcode = a_textfield_zipcode.getText();
+						at.openfrom = a_textfield_openfrom.getText();
+						at.opento = a_textfield_opentill.getText();
+						at.date = t_datepicker_start.getValue();
+						at.currency = a_currencybox.getSelectionModel().getSelectedItem();
+						at.notes = a_textarea_notes.getText();
+						if(at.notes.equals(""))at.notes = "Brak notatek";
+						at.price = Double.parseDouble(a_textfield_price.getText());
+						at.date = curdate;
 					
-					if(a_myattractions.getSelectionModel().isEmpty())at.iscustom = true;
-					else at.iscustom = false;
+						if(a_myattractions.getSelectionModel().isEmpty())at.iscustom = true;
+						else at.iscustom = false;
 					
-					TravelFramework.getInstance().getTravel().addAttractionToDay(curdate, at);
-					clearAttractionComponents();
-	
-					Alert alert = new Alert(AlertType.INFORMATION);
-					alert.setTitle("Dodawanie atrakcji");
-					alert.setHeaderText(null);
-					alert.setContentText("Atrakcja zosta≥a dodana pomyúlnie!");
-					alert.showAndWait();
+						TravelFramework.getInstance().getTravel().addAttractionToDay(curdate, at);
+						clearAttractionComponents();
+					
+						Alert alert = new Alert(AlertType.INFORMATION);
+						alert.setTitle("Dodawanie atrakcji");
+						alert.setHeaderText(null);
+						alert.setContentText("Atrakcja zosta≥a dodana pomyúlnie!");
+						alert.showAndWait();
+					}
+					else
+					{
+						Alert alert = new Alert(AlertType.INFORMATION);
+						alert.setTitle("Dodawanie atrakcji");
+						alert.setHeaderText(null);
+						alert.setContentText("Cena wype≥niona w niepoprawnym formacie.");
+						alert.showAndWait();
+					}
 				}
 			}
 		}
@@ -975,18 +979,8 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 			}
 			else
 			{
-				/*
-				if(checkHourInput(h_textfield_hour_start) == false || checkHourInput(h_textfield_hour_end) == false)
+				if(checkPriceInput(h_textfield_price.getText()) == true)
 				{
-					Alert alert = new Alert(AlertType.INFORMATION);
-					alert.setTitle("Dodawanie hotelu");
-					alert.setHeaderText(null);
-					alert.setContentText("Pola godzinowe wype≥nione niepoprawnie.\nDozwolony format to hh:mm");
-					alert.showAndWait();
-				}
-				else
-				{
-				*/
 					Hotel hot = new Hotel();
 					hot.country = h_countrybox.getSelectionModel().getSelectedItem();
 					hot.city = h_citybox.getSelectionModel().getSelectedItem();
@@ -996,12 +990,9 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 					hot.number = h_textfield_number.getText();
 					hot.filepath = "" + h_textfield_reservation.getText();
 					
-					//LocalTime starttime = LocalTime.of(getHourFromTextField(h_textfield_hour_start), getMinutesFromTextField(h_textfield_hour_start));
-					//LocalTime endtime = LocalTime.of(getHourFromTextField(h_textfield_hour_end), getMinutesFromTextField(h_textfield_hour_end));
-					
 					hot.accomodation_startdate = LocalDateTime.of(h_datepicker_start.getValue(), LocalTime.MIN);
 					hot.accomodation_enddate = LocalDateTime.of(h_datepicker_end.getValue(), LocalTime.MIN);
-					hot.pricepernite = Float.parseFloat(h_textfield_price.getText());
+					hot.pricepernite = Double.parseDouble(h_textfield_price.getText());
 					hot.currency = h_currencybox.getSelectionModel().getSelectedItem();
 					hot.notes = h_textarea_notes.getText();
 					
@@ -1018,7 +1009,15 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 					alert.setContentText("Hotel zosta≥ dodany pomyúlnie!");
 					alert.showAndWait();
 				}
-			//}
+				else
+				{
+					Alert alert = new Alert(AlertType.INFORMATION);
+					alert.setTitle("Dodawanie hotelu");
+					alert.setHeaderText(null);
+					alert.setContentText("Cena wype≥niona w niepoprawnym formacie.");
+					alert.showAndWait();	
+				}
+			}
 		}
 		else if(event.getSource() == t_button_addtransport)
 		{
@@ -1048,20 +1047,16 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 					trans.country_end = t_countrybox_end.getSelectionModel().getSelectedItem();
 					trans.city_end = t_citybox_end.getSelectionModel().getSelectedItem();
 				
-				
 					LocalTime starttime = LocalTime.of(getHourFromTextField(t_textfield_hour_start), getMinutesFromTextField(t_textfield_hour_start));
 					LocalTime endtime = LocalTime.of(getHourFromTextField(t_textfield_hour_end), getMinutesFromTextField(t_textfield_hour_end));
-				
-					System.out.println("STARTTIME: " + getHourFromTextField(t_textfield_hour_start) + ":" + getMinutesFromTextField(t_textfield_hour_start));
-					System.out.println("ENDTIME: " + getHourFromTextField(t_textfield_hour_end) + ":" + getMinutesFromTextField(t_textfield_hour_end));
-					
+
 					trans.startdatetime = LocalDateTime.of(t_datepicker_start.getValue(), starttime);
 					trans.enddatetime = LocalDateTime.of(t_datepicker_end.getValue(), endtime);
 					trans.transportcategory = t_combobox_transport_category.getSelectionModel().getSelectedItem();
 					trans.provider = t_combobox_transport_company.getSelectionModel().getSelectedItem();
 					trans.currency = t_currencybox.getSelectionModel().getSelectedItem();
 					trans.notes = t_textarea_notes.getText();
-					trans.price = Float.parseFloat(t_textfield_price.getText());
+					trans.price = Double.parseDouble(t_textfield_price.getText());
 					trans.filepath = "" + t_textfield_reservation.getText();
 					
 					if(t_combobox_transport_category.getSelectionModel().getSelectedItem().equals("Car"))
@@ -1076,7 +1071,7 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 						}	
 						else
 						{
-							trans.calcdcost = (float)calctransportcost;
+							trans.calcdcost = calctransportcost;
 							TravelFramework.getInstance().getTravel().setTransportToDay(curdate, trans);	
 							clearTransportComponents();
 							Alert alert = new Alert(AlertType.INFORMATION);
@@ -1088,7 +1083,7 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 					}
 					else
 					{
-						trans.calcdcost = Float.parseFloat(t_textfield_price.getText());
+						trans.calcdcost = Double.parseDouble(t_textfield_price.getText());
 						TravelFramework.getInstance().getTravel().setTransportToDay(curdate, trans);
 						clearTransportComponents();
 						Alert alert = new Alert(AlertType.INFORMATION);
@@ -1118,7 +1113,6 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
        	{     
        		dr = new DirectionsRequest( start, end, TravelModes.DRIVING);
        		ds.getRoute(dr, this, renderer);   
-              
        		renderer.setMap(map);
        		renderer.setPanel(directions);       
        	}
@@ -1134,7 +1128,6 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 		mapView.getMap().showDirectionsPane();
 		List<DirectionsRoute> lista = results.getRoutes();
 		List<DirectionsLeg> lista2 = lista.get(0).getLegs();
-		List<DirectionsSteps> lista3 = lista2.get(0).getSteps();
         dist = lista2.get(0).getDistance().getText();
         distance = lista2.get(0).getDistance().getValue();
 	}
@@ -1142,7 +1135,6 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 	@Override
 	public void mapInitialized() 
 	{
-	    //Set the initial properties of the map.
 	    mapOptions = new MapOptions();       
 	    mapOptions.center(new LatLong(52.232222, 21.008333))
 	            .mapType(MapTypeIdEnum.ROADMAP)

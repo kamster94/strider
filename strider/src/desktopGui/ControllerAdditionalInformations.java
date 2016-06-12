@@ -13,9 +13,11 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
 import javafx.scene.web.WebView;
@@ -102,16 +104,29 @@ public class ControllerAdditionalInformations implements Initializable, Controll
 			
 			if(countrybox.getSelectionModel().isEmpty() == false)
 			{
+				clearCountryComponents();
+				clearCityComponents();
+				
 				citybox.getItems().setAll(DatabaseHandlerCommon.getInstance().getCities(countrybox.getSelectionModel().getSelectedIndex()));
 				CountryInformation countryinfo = CountryWarningsHandlerCommon.getInstance().getCountryInformation(countrybox.getSelectionModel().getSelectedItem());
 				CurrencyInformation currencyinfo = new CurrencyInformation(countryinfo);
 				currencyWebView.getEngine().loadContent(currencyinfo.getCurrencyInformationHtml().toString());
 				countryWebView.getEngine().load(countryinfo.countryURL);
-			}
-			else
-			{
-				clearCountryComponents();
-				clearCityComponents();
+				
+				if(countrybox.getSelectionModel().getSelectedItem().equals("Polska"))
+				{
+					
+					countryWebView.setDisable(true);
+					Alert alert = new Alert(AlertType.INFORMATION);
+					alert.setTitle("Informacje szczegó³owe");
+					alert.setHeaderText(null);
+					alert.setContentText("Ministerstwo Spraw Zagranicznych nie udostêpnia informacji o Polsce.");
+					alert.showAndWait();
+				}
+				else
+				{
+					countryWebView.setDisable(false);
+				}
 			}
 		}
 		else if(arg0.getSource() == button_findcity)

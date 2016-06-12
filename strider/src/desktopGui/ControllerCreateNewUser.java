@@ -22,8 +22,6 @@ import javafx.scene.layout.HBox;
 
 public class ControllerCreateNewUser implements Initializable, ClearableScreen, ControlledScreen, EventHandler<ActionEvent>
 {
-	private ScreensController myController;
-
 	@FXML
 	private TextField textfieldusername;
 	@FXML
@@ -42,8 +40,6 @@ public class ControllerCreateNewUser implements Initializable, ClearableScreen, 
 	private Button button_cancel;
 	@FXML
 	private Button button_create;
-    
-    //Sztuczne
 	@FXML
 	private Button button_findcities;
 	@FXML
@@ -52,6 +48,8 @@ public class ControllerCreateNewUser implements Initializable, ClearableScreen, 
 	private ComboBox<String> citybox;
 	@FXML
 	private ComboBox<String> currencybox;
+	
+	private ScreensController myController;
 	
 	@Override
 	public void setScreenParent(ScreensController screenParent) 
@@ -64,8 +62,6 @@ public class ControllerCreateNewUser implements Initializable, ClearableScreen, 
 	{
 		String DEFAULT_COUNTRY = "Polska";
 		String DEFAULT_CITY = "Warszawa";
-		
-		
 		
 		button_findcities = new Button();
 		button_findcities.setText("Znajdü");
@@ -115,7 +111,6 @@ public class ControllerCreateNewUser implements Initializable, ClearableScreen, 
 		if(passwordfieldrepeat.getText().isEmpty())return 1;
 		if(passwordfield.getText().equals(passwordfieldrepeat.getText()) == false)return 2;
 		if(passwordfield.getText().length() < 6 || passwordfield.getText().length() > 32)return 3;
-		
 		return 0;
 	}
 	
@@ -141,7 +136,6 @@ public class ControllerCreateNewUser implements Initializable, ClearableScreen, 
 				int cityid = DatabaseHandlerCommon.getInstance().getCityId(citybox.getSelectionModel().getSelectedItem());
 				int currencyid = DatabaseHandlerCommon.getInstance().getCurrencyId(currencybox.getSelectionModel().getSelectedItem());
 				
-	
 				NewUser nu = new NewUser(textfieldusername.getText(), cityid, textfieldemail.getText(), countryid, passwordfield.getText(), currencyid);
 				dhr.setUserCandidate(nu);
 				int dataval = dhr.verifyDataValidity();
@@ -149,7 +143,6 @@ public class ControllerCreateNewUser implements Initializable, ClearableScreen, 
 				if(dataval == 0)
 				{
 					boolean isemailfree = dhr.checkEmailAvailability();
-					System.out.println(isemailfree);
 					if(isemailfree == true)
 					{
 						dhr.sendToDb();
@@ -158,10 +151,7 @@ public class ControllerCreateNewUser implements Initializable, ClearableScreen, 
 						alert.setHeaderText(null);
 						alert.setContentText("Poprawnie utworzono konto");
 						alert.showAndWait();
-						
-					
 						DatabaseHandlerLogin.getInstance().loginUser(nu.getEmail(), nu.getPassword());
-						
 						clearComponents();
 						myController.loadScreenAndSet(WindowMain.MAIN_SCREEN, WindowMain.MAIN_SCREEN_FXML);
 					}

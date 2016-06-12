@@ -1,15 +1,8 @@
 package dbHandlers;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
-
-import Model.Attraction;
-import Model.Travel;
-import Model.TravelFramework;
 import Model.User;
 import Model.VisitedAttractions;
 import dbConnection.DbAccess;
@@ -18,7 +11,6 @@ public class DatabaseHandlerAttractionAdder
 {
 	private static DatabaseHandlerAttractionAdder myinstance;
 	private static DbAccess dbConnection;
-	private Attraction attraction;
 
 	private DatabaseHandlerAttractionAdder(){
 		dbConnection = DbAccess.getInstance();
@@ -38,14 +30,15 @@ public class DatabaseHandlerAttractionAdder
 	public String getAttractionName(int cityid, int attrid)
 	{
 		return dbConnection.getSingeStringFromDb("SELECT AttractionName FROM DBA.Attraction WHERE IDCity = " + cityid + " AND IDAttraction = " + attrid, "AttractionName");
-				
 	}
 	
-	public List<String> getAttractions(int cityId, int countryId){
+	public List<String> getAttractions(int cityId, int countryId)
+	{
 		return dbConnection.getStringsFromDb("SELECT * FROM DBA.Attraction WHERE IDCity = " + cityId + " AND IDCountry = " + countryId, Arrays.asList("AttractionName"));
 	}
 	
-	public List<VisitedAttractions> getVisitedAttractions(){
+	public List<VisitedAttractions> getVisitedAttractions()
+	{
 		User user = User.getInstance();
 		List<Integer> ids = dbConnection.getIntegersFromDb("SELECT IDCountry, IDCity, IDAttraction FROM DBA.AttractionDetail WHERE IDUser = " + user.getId() + " GROUP BY IDCountry, IDCity, IDAttraction", Arrays.asList("IDCountry", "IDCity", "IDAttraction"));
 		List<VisitedAttractions> visitedAttractions = new ArrayList<VisitedAttractions>();
@@ -54,9 +47,6 @@ public class DatabaseHandlerAttractionAdder
 			VisitedAttractions visited = new VisitedAttractions(ids.get(i), ids.get(i+1), ids.get(i+2));
 			visitedAttractions.add(visited);
 		}
-		
-		//Set<VisitedAttractions> atset = new LinkedHashSet<VisitedAttractions>(visitedAttractions);
-
 		return visitedAttractions;
 	}
 }

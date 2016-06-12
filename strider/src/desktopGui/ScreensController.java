@@ -1,16 +1,12 @@
 package desktopGui;
 
 import java.util.HashMap;
-
 import javafx.animation.FadeTransition;
-import javafx.beans.property.DoubleProperty;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 import javafx.util.Duration;
-
 
 public class ScreensController extends StackPane
 {

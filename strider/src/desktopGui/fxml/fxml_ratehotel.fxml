@@ -93,7 +93,6 @@
                                     <Label fx:id="label_hotelname" text="Label" />
                                     <Label fx:id="label_streetnameandnumber" text="Label" />
                                     <Label fx:id="label_zipcitycountry" text="Label" />
-                                    <Label fx:id="label_pricepernight" text="Label" />
                                  </children>
                               </VBox>
                            </content>
