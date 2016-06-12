@@ -47,7 +47,7 @@ public class DatabaseHandlerTripAdder
 		int currencyid = DatabaseHandlerCommon.getInstance().getCurrencyId(hot.currency);
 		int countryid = DatabaseHandlerCommon.getInstance().getCountryId(hot.country);
 		int cityid = DatabaseHandlerCommon.getInstance().getCityId(hot.city);
-		float price = hot.pricepernite;
+		double price = hot.pricepernite;
 		String notes = hot.notes;
 		String street = hot.street;
 		String streetnumber = hot.number;
@@ -100,8 +100,8 @@ public class DatabaseHandlerTripAdder
 		int cityid_start = DatabaseHandlerCommon.getInstance().getCityId(trans.city_start);
 		Timestamp arrivaldatetime = Timestamp.valueOf(trans.enddatetime);
 		Timestamp startdatetime = Timestamp.valueOf(trans.startdatetime);
-		float price = (float)trans.price;
-		float calcprice = trans.calcdcost;
+		double price = trans.price;
+		double calcprice = trans.calcdcost;
 		String link = trans.filepath;
 		String notes = trans.notes;
 		System.out.println("categoryid = " + transcat);
@@ -132,7 +132,7 @@ public class DatabaseHandlerTripAdder
 		int currencyid = DatabaseHandlerCommon.getInstance().getCurrencyId(att.currency);
 		int countryid = DatabaseHandlerCommon.getInstance().getCountryId(att.country);
 		int cityid = DatabaseHandlerCommon.getInstance().getCityId(att.city);
-		float price = att.price;
+		double price = att.price;
 		String notes = att.notes;
 		Date visitdate = Date.valueOf(att.date);
 		String streetname = att.street;
@@ -178,10 +178,10 @@ public class DatabaseHandlerTripAdder
 		int cityid_start = TravelFramework.getInstance().getTravel().getCityOriginId();
 		String travelname = TravelFramework.getInstance().getTravel().getName();
 		int compnumber = 0;
-		float cost_transport = TravelFramework.getInstance().getTravel().transportcost;
-		float cost_hotel = TravelFramework.getInstance().getTravel().hotelcost;
-		float cost_attraction = TravelFramework.getInstance().getTravel().attractioncost;
-		float cost_total = TravelFramework.getInstance().getTravel().allcost;
+		double cost_transport = TravelFramework.getInstance().getTravel().transportcost;
+		double cost_hotel = TravelFramework.getInstance().getTravel().hotelcost;
+		double cost_attraction = TravelFramework.getInstance().getTravel().attractioncost;
+		double cost_total = TravelFramework.getInstance().getTravel().allcost;
 		
 		Date beginDate = Date.valueOf(TravelFramework.getInstance().getTravel().getStartDate());
 		Date endDate = Date.valueOf(TravelFramework.getInstance().getTravel().getEndDate());

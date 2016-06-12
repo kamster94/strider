@@ -16,7 +16,7 @@ public class Attraction
 	public LocalDate date;
 	public String currency;
 	public String notes;
-	public float price;
+	public double price;
 	public boolean iscustom;
 	
 	public Attraction() 

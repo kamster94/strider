@@ -1,6 +1,8 @@
 package desktopGui;
 
 import java.io.File;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -720,8 +722,6 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 		}
 	}
 	
-
-	
 	public int getHourFromTextField(TextField field)
 	{
 		String hhmm = field.getText();
@@ -769,9 +769,9 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 							if(t_currencybox.getSelectionModel().isEmpty() == false)
 							{
 								double spalanie = Double.parseDouble(t_textfield_price.getText().replaceAll(",", "."));	
-								ResultsInformation information = new ResultsInformation(spalanie, distance, "e95");
+								ResultsInformation information = new ResultsInformation(spalanie, distance, t_comboboxfueltype.getSelectionModel().getSelectedItem());
 								calctransportcost = information.getFuelCost();
-								
+								calctransportcost = new BigDecimal(calctransportcost).setScale(2, RoundingMode.HALF_UP).doubleValue();
 								t_label_calcprice.setText("" + calctransportcost + " " + t_currencybox.getSelectionModel().getSelectedItem());
 							}
 							else

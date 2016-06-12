@@ -1,5 +1,7 @@
 package desktopGui;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
@@ -62,9 +64,12 @@ public class ControllerTravelHistory implements ControlledScreen, Initializable,
 		
 		travellist = DatabaseHandlerTravelHistory.getInstance().getUserTravels();
 		
+		String tname = "";
+		
 		for(Travel t : travellist)
 		{
-			listviewtravels.getItems().add(t.getName());
+			tname = t.getStartDate() + " do " + t.getEndDate() + " | " + t.getName();
+			listviewtravels.getItems().add(tname);
 		}
 		
 		listviewtravels.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>()
@@ -133,23 +138,23 @@ public class ControllerTravelHistory implements ControlledScreen, Initializable,
 		return founddaypane;
 	}
 
-    private float calculateTransportCost()
+    private double calculateTransportCost()
     {
-    	float cost = 0;	
+    	double cost = 0;	
     	String usercurrency = DatabaseHandlerCommon.getInstance().getCurrencyName(User.getInstance().getCurrencyId());
     	for(DayPane dp : daypanes)
     	{
     		if(dp.myday.transport != null)
     		{
-    			cost += (float)(CurrencyInformation.getUserCurrencyCost(dp.myday.transport.calcdcost, dp.myday.transport.currency, usercurrency));
+    			cost += (CurrencyInformation.getUserCurrencyCost(dp.myday.transport.calcdcost, dp.myday.transport.currency, usercurrency));
     		}
     	}
     	return cost;
     }
     
-    private float calculateHotelCost()
+    private double calculateHotelCost()
     {
-    	float cost = 0;
+    	double cost = 0;
     	String usercurrency = DatabaseHandlerCommon.getInstance().getCurrencyName(User.getInstance().getCurrencyId());
     	for(DayPane dp : daypanes)
     	{
@@ -157,16 +162,16 @@ public class ControllerTravelHistory implements ControlledScreen, Initializable,
     		{
     			//Rzutowanie z long -> int - bo i tak zak³adamy ¿e najd³u¿szy pobyt w hotelu czy tam d³ugoœc podró¿y to 30 dni.
     			int numdays = (int)ChronoUnit.DAYS.between(dp.myday.hotel.accomodation_startdate, dp.myday.hotel.accomodation_enddate) + 1;
-    			float subcost = numdays * dp.myday.hotel.pricepernite;
-    			cost += (float)(CurrencyInformation.getUserCurrencyCost(subcost, dp.myday.hotel.currency, usercurrency));
+    			double subcost = numdays * dp.myday.hotel.pricepernite;
+    			cost += (CurrencyInformation.getUserCurrencyCost(subcost, dp.myday.hotel.currency, usercurrency));
     		}
     	}
     	return cost;
     }
     
-    private float calculateAttractionCost()
+    private double calculateAttractionCost()
     {
-    	float cost = 0;
+    	double cost = 0;
     	String usercurrency = DatabaseHandlerCommon.getInstance().getCurrencyName(User.getInstance().getCurrencyId());
     	
     	for(DayPane dp : daypanes)
@@ -175,7 +180,7 @@ public class ControllerTravelHistory implements ControlledScreen, Initializable,
     		{
     			for(Attraction a : dp.myday.attractions)
     			{
-    				cost += (float)(CurrencyInformation.getUserCurrencyCost(a.price, a.currency, usercurrency));
+    				cost += (CurrencyInformation.getUserCurrencyCost(a.price, a.currency, usercurrency));
     			}
     		}
     	}
@@ -185,10 +190,10 @@ public class ControllerTravelHistory implements ControlledScreen, Initializable,
 	public void populateSummary()
 	{
 		String usercurrency = DatabaseHandlerCommon.getInstance().getCurrencyName(User.getInstance().getCurrencyId());
-    	float transportcost = calculateTransportCost();
-    	float hotelcost = calculateHotelCost();
-    	float attractioncost = calculateAttractionCost();
-    	float allcost = transportcost + hotelcost + attractioncost;
+		double transportcost = calculateTransportCost();
+    	double hotelcost = calculateHotelCost();
+    	double attractioncost = calculateAttractionCost();
+    	double allcost = transportcost + hotelcost + attractioncost;
     	int numdays = daypanes.size();
     	
     	/*
@@ -245,9 +250,9 @@ public class ControllerTravelHistory implements ControlledScreen, Initializable,
         		Label trans_start_time = new Label("Godzina: " + trans.startdatetime.getHour() + ":" + trans.startdatetime.getMinute());
         		Label trans_end_time = new Label("Godzina: " + trans.enddatetime.toLocalTime().toString());
         		
-        		float recalculated_cost = (float)(CurrencyInformation.getUserCurrencyCost(trans.price, trans.currency, usercurrency));
-        		
-        		Label trans_start_cost = new Label("Cena: " + trans.price + " " + trans.currency + " (" + recalculated_cost + " " + usercurrency + ")");
+        		double recalculated_cost = (CurrencyInformation.getUserCurrencyCost(trans.calcdcost, trans.currency, usercurrency));
+        		recalculated_cost = new BigDecimal(recalculated_cost).setScale(2, RoundingMode.HALF_UP).doubleValue();
+        		Label trans_start_cost = new Label("Cena: " + trans.calcdcost + " " + trans.currency + " (" + recalculated_cost + " " + usercurrency + ")");
         		
         		LocalDate date_start = (trans.startdatetime).toLocalDate();
         		LocalDate date_end = (trans.enddatetime).toLocalDate();	
@@ -310,10 +315,10 @@ public class ControllerTravelHistory implements ControlledScreen, Initializable,
         		Label type_arrival = new Label("Rodzaj : Przyjazd do hotelu.");
         		Label type_leaving = new Label("Rodzaj : Wyjazd z hotelu.");
         			
-        		float hoteloverallprice = hot.pricepernite * (ChronoUnit.DAYS.between(date_arrival, date_leaving) + 1);
+        		double hoteloverallprice = hot.pricepernite * (ChronoUnit.DAYS.between(date_arrival, date_leaving) + 1);
         			
-        		float recalculated_overallprice = (float)(CurrencyInformation.getUserCurrencyCost(hoteloverallprice, hot.currency, usercurrency));
-        		float recalculated_niteprice = (float)(CurrencyInformation.getUserCurrencyCost(hot.pricepernite, hot.currency, usercurrency));
+        		double recalculated_overallprice = (CurrencyInformation.getUserCurrencyCost(hoteloverallprice, hot.currency, usercurrency));
+        		double recalculated_niteprice = (CurrencyInformation.getUserCurrencyCost(hot.pricepernite, hot.currency, usercurrency));
         		
         		Label price_arrival = new Label("Cena za pobyt: " + hoteloverallprice + " " + hot.currency + " (" + recalculated_overallprice + " " + usercurrency + ")");
         		Label price_nite = new Label("Cena za noc: " + hot.pricepernite + " " + hot.currency + " (" + recalculated_niteprice + " " + usercurrency + ")");
@@ -385,8 +390,7 @@ public class ControllerTravelHistory implements ControlledScreen, Initializable,
 				Label atname = new Label("Nazwa atrakcji: " + at.name);
 				Label athours = new Label("Godziny otwarcia: od " + at.openfrom + " do " + at.opento);
 				
-        		float recalculated_cost = (float)(CurrencyInformation.getUserCurrencyCost(at.price, at.currency, usercurrency));
-
+        		double recalculated_cost = (CurrencyInformation.getUserCurrencyCost(at.price, at.currency, usercurrency));
 				Label price = new Label("Cena: " + at.price + " " + at.currency + " (" + recalculated_cost + " " + usercurrency + ")");
 
 				TitledPane tpnotes = new TitledPane();

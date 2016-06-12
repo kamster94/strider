@@ -18,6 +18,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Control;
+import javafx.scene.image.Image;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
@@ -112,6 +113,8 @@ public class WindowMain extends Application
 		root.getChildren().addAll(mainContainer);
 		Scene scene = new Scene(root);
 
+		primaryStage.setTitle("Travel Advisor");
+		primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("textures/app_icon.png")));
 		primaryStage.setScene(scene);
 		primaryStage.getScene().getStylesheets().add(getClass().getResource("fxml/ta_mainwindow.css").toExternalForm());
 		primaryStage.setMinWidth(800);

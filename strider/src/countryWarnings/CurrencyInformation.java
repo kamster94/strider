@@ -93,7 +93,6 @@ String getCurrencyURL(){
 				Elements users = document.select(("span[class=ccOutputRslt]")); 
 				
 				if(!foreign.text().equals("0.00 --- =")){
-				System.out.println(users.text().replaceAll(" ", "").replaceAll("[A-Z]", ""));
 				String str = users.text().replaceAll(" ", "").replaceAll("[A-Z]", "");
 				int i = 0;
 				while(!str.substring(i,i+1).equals("."))
@@ -101,8 +100,10 @@ String getCurrencyURL(){
 						
 				str = str.substring(0, i+3);
 				
+				//Adrianek: Ten kalkulator dopierdala przecinki oddzielajace tysiace i sie spierdala jak podroz duzo kosztuje, to fixuje
+				str = str.replaceAll(",", "");
+				
 				usersCost = Double.valueOf(str);
-				System.out.println(usersCost);
 				}
 				else
 				usersCost = 0;
