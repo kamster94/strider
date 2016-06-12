@@ -30,7 +30,6 @@ import com.lynden.gmapsfx.service.directions.DirectionsService;
 import com.lynden.gmapsfx.service.directions.DirectionsServiceCallback;
 import com.lynden.gmapsfx.service.directions.DirectionsSteps;
 import com.lynden.gmapsfx.service.directions.TravelModes;
-
 import Model.Attraction;
 import Model.Hotel;
 import Model.Transport;
@@ -345,6 +344,7 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
     	a_textfield_price.setText("");
     	a_textarea_notes.setText("");
     	a_currencybox.getSelectionModel().clearSelection();
+    	a_myattractions.getSelectionModel().clearSelection();
     }
     
     public void clearHotelComponents()
@@ -363,6 +363,7 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
     	h_textfield_reservation.setText("");
     	hotel_reservation_path = "";
     	h_textfield_reservation.setText("");
+    	h_myhotels.getSelectionModel().clearSelection();
     }
     
     public void clearTransportComponents()
@@ -400,35 +401,45 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
     		}
     	
     		h_myhotels.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>()
-    	{
-			@Override
-			public void changed(ObservableValue<? extends String> arg0, String arg1, String arg2) 
-			{
-				if(h_myhotels.getSelectionModel().isEmpty() == false)
-				{
-					int id = h_myhotels.getSelectionModel().getSelectedIndex();
-				
-			    	h_textfield_name.setText(hotelsfromdb.get(id).getHotelName());
-			    	h_textfield_street.setText(hotelsfromdb.get(id).getStreetName());
-			    	h_textfield_zipcode.setText(hotelsfromdb.get(id).getZipCode());
-			    	h_textfield_number.setText(hotelsfromdb.get(id).getStreetNumber());
-			    	
-			    	VisitedHotels hot = hotelsfromdb.get(id);
-			    	
-			    	
-			    	int id_country = hot.getCountryId();
-			    	int id_city = hot.getCityId();
-			    	int id_hotel = hot.getHotelId();
-			    	
-			    	//RATING
-			    	hotelrating.setValue((int)DatabaseHandlerHotelAdder.getInstance().getHotelReview(id_country, id_city, id_hotel));
-				}
-				else
-				{
-					hotelrating.setValue(0);
-				}
-			}
-    	});
+    		{
+    			@Override
+    			public void changed(ObservableValue<? extends String> arg0, String arg1, String arg2) 
+    			{
+    				if(h_myhotels.getSelectionModel().isEmpty() == false)
+    				{
+    					int id = h_myhotels.getSelectionModel().getSelectedIndex();
+    					h_countrybox.getSelectionModel().select(hotelsfromdb.get(id).getCountryId());
+    					h_citybox.getSelectionModel().select(hotelsfromdb.get(id).getCityId());
+    					h_textfield_name.setText(hotelsfromdb.get(id).getHotelName());
+    					h_textfield_street.setText(hotelsfromdb.get(id).getStreetName());
+    					h_textfield_zipcode.setText(hotelsfromdb.get(id).getZipCode());
+    					h_textfield_number.setText(hotelsfromdb.get(id).getStreetNumber());
+    					h_countrybox.setDisable(true);
+    					h_citybox.setDisable(true);
+    					h_button_findcities.setDisable(true);
+    					h_textfield_name.setDisable(true);
+    					h_textfield_street.setDisable(true);
+			    		h_textfield_zipcode.setDisable(true);
+			    		h_textfield_number.setDisable(true);
+			    		VisitedHotels hot = hotelsfromdb.get(id);
+			    		int id_country = hot.getCountryId();
+			    		int id_city = hot.getCityId();
+			    		int id_hotel = hot.getHotelId();
+			    		hotelrating.setValue((int)DatabaseHandlerHotelAdder.getInstance().getHotelReview(id_country, id_city, id_hotel));
+    				}
+    				else
+    				{
+    					hotelrating.setValue(0);
+			    		h_countrybox.setDisable(false);
+			    		h_citybox.setDisable(false);
+			    		h_button_findcities.setDisable(false);
+			    		h_textfield_name.setDisable(false);
+			    		h_textfield_street.setDisable(false);
+			    		h_textfield_zipcode.setDisable(false);
+			    		h_textfield_number.setDisable(false);
+    				}
+    			}
+    		});
     	}
     }
     
@@ -457,10 +468,32 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 		    		a_textfield_street.setText(attractionsfromdb.get(id).getStreetName());
 		    		a_textfield_zipcode.setText(attractionsfromdb.get(id).getZipCode());
 		    		a_textfield_number.setText(attractionsfromdb.get(id).getStreetNumber());
-		    		a_textfield_openfrom.setText(attractionsfromdb.get(id).getOpeningTime());
-		    		a_textfield_opentill.setText(attractionsfromdb.get(id).getClosingTime());
+		    		a_textfield_openfrom.setText(attractionsfromdb.get(id).getOpeningTime().substring(0, 5));
+		    		a_textfield_opentill.setText(attractionsfromdb.get(id).getClosingTime().substring(0, 5));
 		    		a_countrybox.getSelectionModel().select(attractionsfromdb.get(id).getCountryId());
 		    		a_citybox.getSelectionModel().select(attractionsfromdb.get(id).getCityId());
+		    		
+		    		a_countrybox.setDisable(true);
+		    		a_citybox.setDisable(true);
+		    		a_button_findcities.setDisable(true);
+		    		a_textfield_name.setDisable(true);
+		    		a_textfield_street.setDisable(true);
+		    		a_textfield_zipcode.setDisable(true);
+		    		a_textfield_number.setDisable(true);
+		    		a_textfield_openfrom.setDisable(true);
+		    		a_textfield_opentill.setDisable(true);
+				}
+				else
+				{
+		    		a_countrybox.setDisable(false);
+		    		a_citybox.setDisable(false);
+		    		a_button_findcities.setDisable(false);
+		    		a_textfield_name.setDisable(false);
+		    		a_textfield_street.setDisable(false);
+		    		a_textfield_zipcode.setDisable(false);
+		    		a_textfield_number.setDisable(false);
+		    		a_textfield_openfrom.setDisable(false);
+		    		a_textfield_opentill.setDisable(false);
 				}
 			}
     	});
@@ -741,7 +774,12 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 		if(event.getSource() == t_button_reservation || event.getSource() == h_button_reservation)
 		{
 			FileChooser fc = new FileChooser();
+			
+			FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Pliki PDF (*.pdf)", "*.pdf");
+            fc.getExtensionFilters().add(extFilter);
+		
 			File f = fc.showOpenDialog(WindowMain.mystage.getScene().getWindow());
+			
 			if(f != null)
 			{
 				if(event.getSource() == t_button_reservation)

@@ -36,6 +36,25 @@ public class Travel
 		}
 	}
 
+	public List<String> getFilePathList()
+	{
+		List<String> files = new LinkedList<String>();
+		
+		for(Day d : days)
+		{
+			if(d.transport != null)
+			{
+				if(d.transport.filepath != null && d.transport.filepath.isEmpty() == false)files.add(d.transport.filepath);
+			}
+			if(d.hotel != null)
+			{
+				if(d.hotel.filepath != null && d.hotel.filepath.isEmpty() == false)files.add(d.hotel.filepath);
+			}
+		}
+		return files;
+	}
+	
+	
 	public boolean checkIfHasContent()
 	{
 		for(Day d : days)

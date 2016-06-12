@@ -1,6 +1,9 @@
 package desktopGui;
 
 
+import java.awt.Desktop;
+import java.io.File;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.net.URL;
@@ -370,19 +373,16 @@ public class ControllerTravelSummary implements Initializable, ControlledScreen,
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) 
 	{
-		pathlist = new LinkedList<String>();
-	
 		button_open.setOnAction(this);
-		
+		pathlist = TravelFramework.getInstance().getTravel().getFilePathList();
+		combobox_file.getItems().setAll(pathlist);
 		
 		
 		
 		daypanes = new LinkedList<DayPane>();
 		days = TravelFramework.getInstance().getTravel().days;
-		
 		button_back.setOnAction(this);
 		button_apply.setOnAction(this);
-		
 		accordionstages = new Accordion();
 		mainvbox.getChildren().add(accordionstages);
 		VBox.setVgrow(accordionstages, Priority.ALWAYS);
@@ -417,16 +417,27 @@ public class ControllerTravelSummary implements Initializable, ControlledScreen,
 		{
 			if(combobox_file.getSelectionModel().isEmpty() == false)
 			{
-				Desktop.getDesktop().open(new File(pathlist.get(combobox_file.getSelectionModel().getSelectedIndex())));
-				
-				
+				try 
+				{
+					Desktop.getDesktop().open(new File(pathlist.get(combobox_file.getSelectionModel().getSelectedIndex())));
+				} 
+				catch (IOException | IllegalArgumentException e ) 
+				{
+					Alert alert = new Alert(AlertType.INFORMATION);
+					alert.setTitle("Potwierdzenie rezerwacji");
+					alert.setHeaderText(null);
+					alert.setContentText("Wyst¹pi³ problem przy otwarciu pliku.");
+					alert.showAndWait();
+				}
 			}
 			else
 			{
-				//WYBIERZ PLIK DEBILU
+				Alert alert = new Alert(AlertType.INFORMATION);
+				alert.setTitle("Potwierdzenie rezerwacji");
+				alert.setHeaderText(null);
+				alert.setContentText("Nie wybrano pliku do otwarcia.");
+				alert.showAndWait();
 			}
-			
-			
 		}
 		else if(arg0.getSource() == button_back)
 		{
