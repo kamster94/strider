@@ -33,6 +33,7 @@ public class DatabaseHandlerCommon {
 	}
 	
 	public int getAttractionId(int country, int city, String name){
+		System.out.println("atid = " + dbConnection.getIntFromDb("SELECT IDAttraction FROM DBA.Attraction WHERE IDCountry = " + country + " AND IDCity = " + city + " AND AttractionName = '" + name + "')"));
 		return dbConnection.getIntFromDb("SELECT IDAttraction FROM DBA.Attraction WHERE IDCountry = " + country + " AND IDCity = " + city + " AND AttractionName = '" + name + "')");
 	}
 	

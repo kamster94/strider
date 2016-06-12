@@ -2,9 +2,11 @@ package dbHandlers;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 import Model.Attraction;
@@ -34,6 +36,67 @@ public class DatabaseHandlerTravelHistory {
 		return self;
 	}
 	
+	public LocalDate makeFuckingLocalDate(String shitsql)
+	{
+		//0123-56-89 
+		//YYYY-MM-DD HH:MM:SS.XXX
+		//2016-06-15 00:00:00.000
+		String year = shitsql.substring(0, 4);
+		String month = shitsql.substring(5,7);
+		String day = shitsql.substring(8,10);
+		LocalDate dat = LocalDate.of(Integer.parseInt(year), Integer.parseInt(month), Integer.parseInt(day));
+		System.out.println("date = " + dat);
+		return dat;
+	}
+	
+	public LocalDateTime makeFuckingLocalDateTime(String shitsql)
+	{
+		//0123-56-89 
+		//YYYY-MM-DD HH:MM:SS.XXX
+		//2016-06-15 00:00:00.000
+		String year = shitsql.substring(0, 4);
+		String month = shitsql.substring(5,7);
+		String day = shitsql.substring(8,10);
+		String hour = shitsql.substring(11, 13);
+		String minute = shitsql.substring(14, 16);
+		String second = shitsql.substring(17, 19);
+		String milisecond = shitsql.substring(20, 23);
+		LocalDateTime dat = LocalDateTime.of(Integer.parseInt(year), Integer.parseInt(month), Integer.parseInt(day), Integer.parseInt(hour), Integer.parseInt(minute));
+		System.out.println("date = " + dat);
+		return dat;
+	}
+	
+	/*
+	public List<Travel> getUserTravelsAdrianek()
+	{
+		int userid = User.getInstance().getId();
+		List<Travel> myfuckingtravels = new LinkedList<Travel>();
+		List<Integer> travelids = dbConnection.getIntegersFromDb("SELECT IDTrip FROM DBA.Trip WHERE IDUser = " + userid, Arrays.asList("IDTrip"));
+		
+		for(Integer i : travelids)
+		{
+			String travelname = dbConnection.getSingeStringFromDb("SELECT TripName FROM DBA.Trip WHERE IDUser = " + userid + " AND IDTrip = " + i, "TripName");
+			String startdatestring = dbConnection.getSingeStringFromDb("SELECT TripBeginDate FROM DBA.Trip WHERE IDUser = " + userid + " AND IDTrip = " + i, "TripBeginDate");
+			String enddatestring = dbConnection.getSingeStringFromDb("SELECT TripEndDate FROM DBA.Trip WHERE IDUser = " + userid + " AND IDTrip = " + i, "TripEndDate");
+			LocalDate tripstartdate = makeFuckingDate(startdatestring);
+			LocalDate tripenddate = makeFuckingDate(enddatestring);
+	
+			Travel t = new Travel(travelname, tripstartdate, tripenddate);
+			
+			
+			
+			
+			
+			
+			myfuckingtravels.add(t);
+		}
+		
+		
+		
+		return myfuckingtravels;
+	}
+	*/
+	
 	public List<Travel> getUserTravels(){
 		List<Integer> ids = dbConnection.getIntegersFromDb("SELECT IDTrip FROM DBA.Trip WHERE IDUser = " + user.getId(), Arrays.asList("IDTrip"));
 		List<Travel> travels = new ArrayList<Travel>();
@@ -42,8 +105,8 @@ public class DatabaseHandlerTravelHistory {
 				String name = dbConnection.getSingeStringFromDb("SELECT TripName FROM DBA.Trip WHERE IDUser = " + user.getId() + " AND IDTrip = " + id, "TripName");
 				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 				System.out.println(dbConnection.getSingeStringFromDb("SELECT TripBeginDate FROM DBA.Trip WHERE IDUser = " + user.getId() + " AND IDTrip = " + id, "TripBeginDate"));
-				LocalDate startDate = LocalDate.parse(dbConnection.getSingeStringFromDb("SELECT TripBeginDate FROM DBA.Trip WHERE IDUser = " + user.getId() + " AND IDTrip = " + id, "TripBeginDate"), formatter);
-				LocalDate endDate = LocalDate.parse(dbConnection.getSingeStringFromDb("SELECT TripEndDate FROM DBA.Trip WHERE IDUser = " + user.getId() + " AND IDTrip = " + id, "TripEndDate"), formatter);
+				LocalDate startDate = makeFuckingLocalDate(dbConnection.getSingeStringFromDb("SELECT TripBeginDate FROM DBA.Trip WHERE IDUser = " + user.getId() + " AND IDTrip = " + id, "TripBeginDate"));
+				LocalDate endDate = makeFuckingLocalDate(dbConnection.getSingeStringFromDb("SELECT TripEndDate FROM DBA.Trip WHERE IDUser = " + user.getId() + " AND IDTrip = " + id, "TripEndDate"));
 				Travel travel = new Travel(name, startDate, endDate);
 				for (Day day : travel.days){ //Trzeba daæ kurwa komentarze, bo siê zgubiê
 					//Hotel
@@ -59,8 +122,9 @@ public class DatabaseHandlerTravelHistory {
 						hotel.zipcode = dbConnection.getSingeStringFromDb("SELECT ZipCode FROM DBA.Hotel WHERE IDCountry = " + countryId + " AND IDCity = " + cityId + " AND IDHotel = " + hotelId, "ZipCode");
 						hotel.number = dbConnection.getSingeStringFromDb("SELECT StreetNumber FROM DBA.Hotel WHERE IDCountry = " + countryId + " AND IDCity = " + cityId + " AND IDHotel = " + hotelId, "StreetNumber");
 						System.out.println("DUPA" + dbConnection.getSingeStringFromDb("SELECT ArrivalDate FROM DBA.HotelDetail WHERE IDUser = " + user.getId() + " AND IDTrip = " + id + " AND ArrivalDate LIKE '" + day.date + " %'", "ArrivalDate"));
-						hotel.accomodation_startdate = LocalDateTime.parse(dbConnection.getSingeStringFromDb("SELECT ArrivalDate FROM DBA.HotelDetail WHERE IDUser = " + user.getId() + " AND IDTrip = " + id + " AND ArrivalDate LIKE '" + day.date + " %'", "ArrivalDate"));
-						hotel.accomodation_enddate = LocalDateTime.parse(dbConnection.getSingeStringFromDb("SELECT LeavingDate FROM DBA.HotelDetail WHERE IDUser = " + user.getId() + " AND IDTrip = " + id + " AND ArrivalDate LIKE '" + day.date + " %'", "LeavingDate"));
+						
+						hotel.accomodation_startdate = makeFuckingLocalDateTime(dbConnection.getSingeStringFromDb("SELECT ArrivalDate FROM DBA.HotelDetail WHERE IDUser = " + user.getId() + " AND IDTrip = " + id + " AND ArrivalDate LIKE '" + day.date + " %'", "ArrivalDate"));
+						hotel.accomodation_enddate = makeFuckingLocalDateTime(dbConnection.getSingeStringFromDb("SELECT LeavingDate FROM DBA.HotelDetail WHERE IDUser = " + user.getId() + " AND IDTrip = " + id + " AND ArrivalDate LIKE '" + day.date + " %'", "LeavingDate"));
 						hotel.pricepernite = dbConnection.getFloatFromDb("SELECT HotelPrice FROM DBA.HotelDetail WHERE IDUser = " + user.getId() + " AND IDTrip = " + id + " AND ArrivalDate LIKE '" + day.date + " %'");
 						int currencyId = dbConnection.getIntFromDb("SELECT IDCurrency FROM DBA.HotelDetail WHERE IDUser = " + user.getId() + " AND IDTrip = " + id + " AND ArrivalDate LIKE '" + day.date + " %'");
 						hotel.currency = commons.getCurrencyName(currencyId);
@@ -81,8 +145,8 @@ public class DatabaseHandlerTravelHistory {
 						transport.country_end = commons.getCountryName(countryArrivalId);
 						transport.city_start = commons.getCityName(countryLeavingId, cityLeavingId);
 						transport.city_end = commons.getCityName(countryArrivalId, cityArrivalId);
-						transport.startdatetime = LocalDateTime.parse(dbConnection.getSingeStringFromDb("SELECT TransportLeavingDatetime FROM DBA.TransportDetail WHERE IDUser = " + user.getId() + " AND IDTrip = " + id + " AND TransportLeavingDatetime LIKE '" + day.date + " %'", "TransportLeavingDatetime"));
-						transport.enddatetime = LocalDateTime.parse(dbConnection.getSingeStringFromDb("SELECT TransportArrivalDatetime FROM DBA.TransportDetail WHERE IDUser = " + user.getId() + " AND IDTrip = " + id + " AND TransportLeavingDatetime LIKE '" + day.date + " %'", "TransportArrivalDatetime"));
+						transport.startdatetime = makeFuckingLocalDateTime(dbConnection.getSingeStringFromDb("SELECT TransportLeavingDatetime FROM DBA.TransportDetail WHERE IDUser = " + user.getId() + " AND IDTrip = " + id + " AND TransportLeavingDatetime LIKE '" + day.date + " %'", "TransportLeavingDatetime"));
+						transport.enddatetime = makeFuckingLocalDateTime(dbConnection.getSingeStringFromDb("SELECT TransportArrivalDatetime FROM DBA.TransportDetail WHERE IDUser = " + user.getId() + " AND IDTrip = " + id + " AND TransportLeavingDatetime LIKE '" + day.date + " %'", "TransportArrivalDatetime"));
 						int transportCategoryId = dbConnection.getIntFromDb("SELECT IDTransportCategory FROM DBA.TransportDetail WHERE IDUser = " + user.getId() + " AND IDTrip = " + id + " AND TransportLeavingDatetime LIKE '" + day.date + " %'");
 						transport.transportcategory = dbConnection.getSingeStringFromDb("SELECT TransportCategoryName FROM DBA.TransportCategory WHERE IDTransportCategory = " + transportCategoryId, "TransportCategoryName");
 						transport.provider = dbConnection.getSingeStringFromDb("SELECT TransportName FROM DBA.Transport WHERE IDTransport = " + transportId + " AND IDTransportCategory = " + transportCategoryId, "TransportName");
@@ -111,7 +175,7 @@ public class DatabaseHandlerTravelHistory {
 							attraction.openfrom = dbConnection.getSingeStringFromDb("SELECT OpeningTime FROM DBA.Attraction WHERE IDCountry = " + countryId + " AND IDCity = " + cityId + " AND IDAttraction = " + attractionId, "OpeningTime");
 							attraction.opento = dbConnection.getSingeStringFromDb("SELECT ClosingTime FROM DBA.Attraction WHERE IDCountry = " + countryId + " AND IDCity = " + cityId + " AND IDAttraction = " + attractionId, "ClosingTime");
 							System.out.println("SELECT VisitDate FROM DBA.AttractionDetail WHERE IDUser = " + user.getId() + " AND IDTrip = " + id + " AND VisitDate = '" + day.date + "'");
-							attraction.date = LocalDate.parse(dbConnection.getSingeStringFromDb("SELECT VisitDate FROM DBA.AttractionDetail WHERE IDUser = " + user.getId() + " AND IDTrip = " + id + " AND VisitDate = '" + day.date + "'", "VisitDate"));
+							attraction.date = makeFuckingLocalDate(dbConnection.getSingeStringFromDb("SELECT VisitDate FROM DBA.AttractionDetail WHERE IDUser = " + user.getId() + " AND IDTrip = " + id + " AND VisitDate = '" + day.date + "'", "VisitDate"));
 							int currencyId = dbConnection.getIntFromDb("SELECT IDCurrency FROM DBA.AttractionDetail WHERE IDUser = " + user.getId() + " AND IDTrip = " + id + " AND VisitDate = '" + day.date + "'");
 							attraction.currency = commons.getCurrencyName(currencyId);
 							attraction.notes = dbConnection.getSingeStringFromDb("SELECT AttractionNotes FROM DBA.AttractionDetail WHERE IDUser = " + user.getId() + " AND IDTrip = " + id + " AND VisitDate = '" + day.date + "'", "AttractionNotes");

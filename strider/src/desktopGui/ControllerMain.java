@@ -27,9 +27,6 @@ public class ControllerMain implements Initializable, ControlledScreen, EventHan
     private Button button_changeusersettings;
 
     @FXML
-    private Button button_viewcurtravel;
-
-    @FXML
     private Button button_additionalinfo;
 
     @FXML

@@ -3,7 +3,9 @@ package dbHandlers;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 import Model.Attraction;
 import Model.Travel;
@@ -28,18 +30,6 @@ public class DatabaseHandlerAttractionAdder
 		return myinstance;
 	}
 	
-	public boolean pushAttractionToDatabase()
-	{
-		/*boolean addstatus = dbConnection.pushToDb("CALL DBA.fAddAttractionDetails(" + User.getInstance().getId() + 
-				"," + TravelFramework.getInstance().getTravel().getId() + "," + attraction.getAttractionId() + 
-				"," + attraction.getCountryId() + "," + attraction.getCityId()  + "," + attraction.getCountryId()  + 
-				"," + attraction.getCityId()  + "," + attraction.getCurrencyId() +
-				"," +  attraction.getPrice()  + ",'" + attraction.getNotes() + "')");
-		
-		return addstatus;*/
-		return false;
-	}
-	
 	public int getAttractionId(int cityid, String name)
 	{
 		return dbConnection.getIntFromDb("SELECT IDAttraction FROM DBA.Attraction WHERE IDCity = " + cityid + " AND AttractionName = '" + name + "'");
@@ -58,8 +48,6 @@ public class DatabaseHandlerAttractionAdder
 	public List<VisitedAttractions> getVisitedAttractions(){
 		User user = User.getInstance();
 		List<Integer> ids = dbConnection.getIntegersFromDb("SELECT * FROM DBA.AttractionDetail WHERE IDUser = " + user.getId(), Arrays.asList("IDCountry", "IDCity", "IDAttraction"));
-		System.out.println("ids size : " + ids.size());
-		
 		List<VisitedAttractions> visitedAttractions = new ArrayList<VisitedAttractions>();
 		if (ids.size()==0) return null;
 		for (int i = 0; i <= ids.size()-1; i+=3){
@@ -67,6 +55,8 @@ public class DatabaseHandlerAttractionAdder
 			visitedAttractions.add(visited);
 		}
 		
+		//Set<VisitedAttractions> atset = new LinkedHashSet<VisitedAttractions>(visitedAttractions);
+
 		return visitedAttractions;
 	}
 }

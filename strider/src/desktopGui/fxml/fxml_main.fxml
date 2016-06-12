@@ -37,12 +37,7 @@
                                           <Font size="20.0" />
                                        </font>
                                     </Button>
-                                    <Button fx:id="button_edittravel" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" text="Edytuj zaplanowaną podróż" VBox.vgrow="ALWAYS">
-                                       <font>
-                                          <Font size="20.0" />
-                                       </font>
-                                    </Button>
-                                    <Button fx:id="button_travelhistory" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" text="Przeglądaj historię podróży" VBox.vgrow="ALWAYS">
+                                    <Button fx:id="button_travelhistory" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" text="Przeglądaj podróże" VBox.vgrow="ALWAYS">
                                        <font>
                                           <Font size="20.0" />
                                        </font>
