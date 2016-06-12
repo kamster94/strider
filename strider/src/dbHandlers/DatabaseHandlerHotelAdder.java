@@ -106,7 +106,7 @@ public class DatabaseHandlerHotelAdder {
 	
 	public List<VisitedHotels> getVisitedHotels(){
 		User user = User.getInstance();
-		List<Integer> ids = dbConnection.getIntegersFromDb("SELECT * FROM DBA.HotelDetail WHERE IDUser = " + user.getId(), Arrays.asList("IDCountry", "IDCity", "IDHotel"));
+		List<Integer> ids = dbConnection.getIntegersFromDb("SELECT IDCountry, IDCity, IDHotel FROM DBA.HotelDetail WHERE IDUser = " + user.getId() + " GROUP BY IDCountry, IDCity, IDHotel", Arrays.asList("IDCountry", "IDCity", "IDHotel"));
 		List<VisitedHotels> visitedHotels = new ArrayList<VisitedHotels>();
 		if (ids.size()==0) return null;
 		for (int i = 0; i <= ids.size()-1; i+=3){
