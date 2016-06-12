@@ -79,6 +79,7 @@ String getCurrencyURL(){
 
 	public static double getUserCurrencyCost(double cost, String currency, String usersCurrency){
 	
+		
 	double usersCost = 0;
 	String url = "";
 	dataBaseConnection = DbAccess.getInstance();
