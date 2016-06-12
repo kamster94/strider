@@ -81,21 +81,8 @@ String getCurrencyURL(){
 	
 		
 	double usersCost = 0;
-	String url = "";
-	dataBaseConnection = DbAccess.getInstance();
-	System.out.println(currency +" " + usersCurrency); 
-	
-	String currencySQL = "Select * from DBA.Currency where CurrencyFullName = '" + currency + "'";
-	String usersCurrencySQL = "Select * from DBA.Currency where CurrencyFullName = '" + usersCurrency + "'";
-	
-	String currencyShortcut = dataBaseConnection.getSingeStringFromDb(currencySQL, "CurrencyShortcut");
-	String usersCurrencyShortcut = dataBaseConnection.getSingeStringFromDb(usersCurrencySQL, "CurrencyShortcut");
-	
-	System.out.println(currencyShortcut +" " + usersCurrencyShortcut); 
-	
-	url = "http://www.x-rates.com/calculator/?from=" + currencyShortcut + "&to=" + usersCurrencyShortcut + "&amount=" +cost;
-	
-	
+	String url = "http://www.x-rates.com/calculator/?from=" + currency + "&to=" + usersCurrency + "&amount=" +cost;
+		
 	try{
 		Document document = Jsoup.connect(url)
 				.userAgent("Mozilla/5.0 (Windows; U; WindowsNT 5.1; en-US; rv1.8.1.6) Gecko/20070725 Firefox/2.0.0.6")
@@ -118,7 +105,7 @@ String getCurrencyURL(){
 				System.out.println(usersCost);
 				}
 				else
-				System.out.println("chuj");
+				usersCost = 0;
 				
 		}catch(Exception e1){
 			e1.printStackTrace();
