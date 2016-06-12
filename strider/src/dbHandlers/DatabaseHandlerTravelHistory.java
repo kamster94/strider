@@ -108,8 +108,8 @@ public class DatabaseHandlerTravelHistory {
 							attraction.zipcode = dbConnection.getSingeStringFromDb("SELECT ZipCode FROM DBA.Attraction WHERE IDCountry = " + countryId + " AND IDCity = " + cityId + " AND IDAttraction = " + attractionId, "ZipCode");
 							attraction.openfrom = dbConnection.getSingeStringFromDb("SELECT OpeningTime FROM DBA.Attraction WHERE IDCountry = " + countryId + " AND IDCity = " + cityId + " AND IDAttraction = " + attractionId, "OpeningTime");
 							attraction.opento = dbConnection.getSingeStringFromDb("SELECT ClosingTime FROM DBA.Attraction WHERE IDCountry = " + countryId + " AND IDCity = " + cityId + " AND IDAttraction = " + attractionId, "ClosingTime");
-							System.out.println("SELECT VisitDate FROM DBA.AttractionDetails WHERE IDUser = " + user.getId() + " AND IDTrip = " + id + " AND VisitDate = '" + day.date + "'");
-							attraction.date = LocalDate.parse(dbConnection.getSingeStringFromDb("SELECT VisitDate FROM DBA.AttractionDetails WHERE IDUser = " + user.getId() + " AND IDTrip = " + id + " AND VisitDate = '" + day.date + "'", "VisitDate"));
+							System.out.println("SELECT VisitDate FROM DBA.AttractionDetail WHERE IDUser = " + user.getId() + " AND IDTrip = " + id + " AND VisitDate = '" + day.date + "'");
+							attraction.date = LocalDate.parse(dbConnection.getSingeStringFromDb("SELECT VisitDate FROM DBA.AttractionDetail WHERE IDUser = " + user.getId() + " AND IDTrip = " + id + " AND VisitDate = '" + day.date + "'", "VisitDate"));
 							int currencyId = dbConnection.getIntFromDb("SELECT IDCurrency FROM DBA.AttractionDetail WHERE IDUser = " + user.getId() + " AND IDTrip = " + id + " AND VisitDate = '" + day.date + "'");
 							attraction.currency = commons.getCurrencyName(currencyId);
 							attraction.notes = dbConnection.getSingeStringFromDb("SELECT AttractionNotes FROM DBA.AttractionDetail WHERE IDUser = " + user.getId() + " AND IDTrip = " + id + " AND VisitDate = '" + day.date + "'", "AttractionNotes");

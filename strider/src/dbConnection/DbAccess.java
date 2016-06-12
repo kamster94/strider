@@ -224,7 +224,7 @@ public class DbAccess{
 	        return value;
 		} catch (SQLException e) {
 			connectionLogger.log(Level.SEVERE, e.toString());
-			return "";
+			return "err";
 		}
 	}
 	
