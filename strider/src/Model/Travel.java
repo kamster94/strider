@@ -18,10 +18,10 @@ public class Travel
 	private int id_city_origin;
 	private int companionsnumber;
 	public List<Day> days;
-	public float transportcost;
-	public float hotelcost;
-	public float attractioncost;
-	public float allcost;
+	public double transportcost;
+	public double hotelcost;
+	public double attractioncost;
+	public double allcost;
 	
 	public Travel(String namex, LocalDate startdatex, LocalDate enddatex) 
 	{
@@ -34,6 +34,17 @@ public class Travel
 		{
 			days.add(new Day(startdate.plusDays(i)));
 		}
+	}
+
+	public boolean checkIfHasContent()
+	{
+		for(Day d : days)
+		{
+			if(d.transport != null)return true;
+			if(d.hotel != null)return true;
+			if(d.attractions.size() > 0)return true;
+		}
+		return false;
 	}
 
 	public List<Day> getDays() {

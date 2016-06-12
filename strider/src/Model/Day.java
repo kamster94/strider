@@ -10,8 +10,6 @@ public class Day
 	public LocalDate date;
 	public Hotel hotel;
 	public Transport transport;
-	public String country;
-	public String city;
 	
 	public Day(LocalDate datex) 
 	{

@@ -12,7 +12,7 @@ public class Hotel
 	public String number;
 	public LocalDateTime accomodation_startdate;
 	public LocalDateTime accomodation_enddate;
-	public float pricepernite;
+	public double pricepernite;
 	public String currency;
 	public String notes;
 	public String filepath;
