@@ -16,6 +16,7 @@ public class Hotel
 	public String currency;
 	public String notes;
 	public String filepath;
+	public boolean iscustom;
 	
 	public Hotel() 
 	{

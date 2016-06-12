@@ -92,7 +92,7 @@ public class DatabaseHandlerHotelAdder {
 	
 	
 	public int getHotelId(int countryid, int cityid, String name){
-		return dbConnection.getIntFromDb("SELECT IDHotel FROM DBA.Hotel WHEREHotelName = '" + name + "' AND IDCountry = " + countryid + " AND IDCity = " + cityid);
+		return dbConnection.getIntFromDb("SELECT IDHotel FROM DBA.Hotel WHERE HotelName = '" + name + "' AND IDCountry = " + countryid + " AND IDCity = " + cityid);
 	}
 	
 	public String getHotelName(int idcity, int idhotel)

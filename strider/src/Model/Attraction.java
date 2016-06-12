@@ -17,6 +17,7 @@ public class Attraction
 	public String currency;
 	public String notes;
 	public float price;
+	public boolean iscustom;
 	
 	public Attraction() 
 	{

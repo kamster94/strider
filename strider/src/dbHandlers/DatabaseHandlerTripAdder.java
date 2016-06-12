@@ -57,10 +57,22 @@ public class DatabaseHandlerTripAdder
 		Timestamp arrivaldate = Timestamp.valueOf(hot.accomodation_startdate);
 		Timestamp leavingdate = Timestamp.valueOf(hot.accomodation_enddate);
 		String reservationpath = hot.filepath;
+		boolean addstatus = false;
 		
-		boolean addstatus = DbAccess.getInstance().pushToDb("CALL DBA.fCompactAddHotelDetails(" + userid + "," + tripid + "," +
-		currencyid + "," + countryid + "," + cityid + "," + price + ",'" + notes + "','" + street +"','" + streetnumber +
-		"','" + zipcode +"','" + hotelname +"','" + arrivaldate + "','" + leavingdate +"','" + reservationpath + "')");
+		if(hot.iscustom == true)
+		{
+			System.out.println("adding custom hotel");
+			addstatus = DbAccess.getInstance().pushToDb("CALL DBA.fCompactAddHotelDetails(" + userid + "," + tripid + "," +
+			currencyid + "," + countryid + "," + cityid + "," + price + ",'" + notes + "','" + street +"','" + streetnumber +
+			"','" + zipcode +"','" + hotelname +"','" + arrivaldate + "','" + leavingdate +"','" + reservationpath + "')");
+		}
+		else
+		{
+			System.out.println("hotelid = " + hotelid);
+			addstatus = DbAccess.getInstance().pushToDb("CALL DBA.fAddHotelDetails(" + userid + "," + hotelid + "," + tripid + "," +
+			countryid + "," + cityid + "," + currencyid + ",'" + arrivaldate + "','" + leavingdate + "'," + price + ",'" + 
+			reservationpath + "','" + notes + "')");
+		}
 		return addstatus;
 	}
 	
@@ -81,6 +93,7 @@ public class DatabaseHandlerTripAdder
 		int currencyid = DatabaseHandlerCommon.getInstance().getCurrencyId(trans.currency);
 		int transcat = DatabaseHandlerTransportAdder.getInstance().getCategoryId(trans.transportcategory);
 		String transname = trans.provider; //temporary
+		int transid = DatabaseHandlerCommon.getInstance().getTransportId(transcat, trans.provider);
 		int countryid_target = DatabaseHandlerCommon.getInstance().getCountryId(trans.country_end);
 		int cityid_target = DatabaseHandlerCommon.getInstance().getCityId(trans.city_end);
 		int countryid_start = DatabaseHandlerCommon.getInstance().getCountryId(trans.country_start);
@@ -91,21 +104,27 @@ public class DatabaseHandlerTripAdder
 		float calcprice = trans.calcdcost;
 		String link = trans.filepath;
 		String notes = trans.notes;
+		System.out.println("categoryid = " + transcat);
+		System.out.println("providername = " + trans.provider);
+		System.out.println("transportid = " + transid);
+		
+		boolean addstatus = false;
+	
+		addstatus = DbAccess.getInstance().pushToDb("CALL DBA.fAddTransportDetails(" + userid + "," + tripid + "," +
+		currencyid + "," + transcat + "," + transid + "," + countryid_target + ","+cityid_target+","+countryid_start+","+cityid_start + 
+		",'" + arrivaldatetime + "','" + startdatetime + "'," + price + ",'" + link + "','" + notes + "'," + calcprice + ")");
+		
 
-		boolean addstatus = DbAccess.getInstance().pushToDb("CALL DBA.fCompactAddTransportDetails(" + userid + "," + tripid + "," +
-		currencyid + "," + transcat + ",'" + transname + "'," + countryid_target + ","+cityid_target+","+countryid_start+","+cityid_start+",'"+arrivaldatetime + "','" +
-		startdatetime+"',"+price+",'"+link+"','"+notes+"'," + calcprice + ")");
+			/*
+			addstatus = DbAccess.getInstance().pushToDb("CALL DBA.fCompactAddTransportDetails(" + userid + "," + tripid + "," +
+			currencyid + "," + transcat + ",'" + transname + "'," + countryid_target + ","+cityid_target+","+countryid_start+","+cityid_start+",'"+arrivaldatetime + "','" +
+			startdatetime+"',"+price+",'"+link+"','"+notes+"'," + calcprice + ")");
+			 */
+		
+		
 		return addstatus;
 	}
 	
-	/*
-	public List<Travel> getTravelList()
-	{
-		int userid = User.getInstance().getId();
-		//return DbAccess.getInstance().getStringsFromDb("SELECT * FROM DBA.Trip WHERE IDUser = " + userid, Arrays.asList("Trips"));	
-	}
-	*/
-
 	public boolean pushAttractionToDatabase(Attraction att)
 	{
 		int userid = User.getInstance().getId();
@@ -122,17 +141,28 @@ public class DatabaseHandlerTripAdder
 		String attractionname = att.name;
 		LocalTime opentime;
 		LocalTime opentill;
-		
+		int attractionid = DatabaseHandlerCommon.getInstance().getAttractionId(countryid, cityid, attractionname);
 		
 		if(att.openfrom.isEmpty() == true)opentime = LocalTime.MIN;
 		else opentime = LocalTime.of(getHourFromString(att.openfrom), getMinutesFromString(att.openfrom));
 		if(att.opento.isEmpty() == true)opentill = LocalTime.MIN;
 		else opentill = LocalTime.of(getHourFromString(att.opento), getMinutesFromString(att.opento));
-
 		
-		boolean addstatus = DbAccess.getInstance().pushToDb("CALL DBA.fCompactAddAttractionDetails(" + userid + "," + tripid + "," +
-		currencyid + "," + countryid + "," + cityid + "," + price + ",'"+notes+"','"+visitdate+"','"+streetname+"','"+number + "','" +
-		zipcode+"','"+attractionname+"','"+opentime+"','"+opentill+"')");
+		boolean addstatus = false;
+		
+		if(att.iscustom == false)
+		{
+			addstatus = DbAccess.getInstance().pushToDb("CALL DBA.fAddAttractionDetails(" + userid + "," + tripid + "," +
+			attractionid + "," + countryid + "," + cityid + "," + currencyid + "," + price + ",'" + notes + "','" + visitdate +"')");
+		}
+		else
+		{
+			addstatus = DbAccess.getInstance().pushToDb("CALL DBA.fCompactAddAttractionDetails(" + userid + "," + tripid + "," +
+			currencyid + "," + countryid + "," + cityid + "," + price + ",'"+notes+"','"+visitdate+"','"+streetname+"','"+number + "','" +
+			zipcode+"','"+attractionname+"','"+opentime+"','"+opentill+"')");	
+		}
+		
+
 		return addstatus;
 	}
 	

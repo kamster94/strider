@@ -41,9 +41,9 @@ public class DatabaseHandlerTravelHistory {
 			for (int id : ids){
 				String name = dbConnection.getSingeStringFromDb("SELECT TripName FROM DBA.Trip WHERE IDUser = " + user.getId() + " AND IDTrip = " + id, "TripName");
 				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-				System.out.println(dbConnection.getSingeStringFromDb("SELECT TripBeginDatetime FROM DBA.Trip WHERE IDUser = " + user.getId() + " AND IDTrip = " + id, "TripBeginDatetime"));
-				LocalDate startDate = LocalDate.parse(dbConnection.getSingeStringFromDb("SELECT TripBeginDatetime FROM DBA.Trip WHERE IDUser = " + user.getId() + " AND IDTrip = " + id, "TripBeginDatetime"), formatter);
-				LocalDate endDate = LocalDate.parse(dbConnection.getSingeStringFromDb("SELECT TripEndDatetime FROM DBA.Trip WHERE IDUser = " + user.getId() + " AND IDTrip = " + id, "TripEndDatetime"), formatter);
+				System.out.println(dbConnection.getSingeStringFromDb("SELECT TripBeginDate FROM DBA.Trip WHERE IDUser = " + user.getId() + " AND IDTrip = " + id, "TripBeginDate"));
+				LocalDate startDate = LocalDate.parse(dbConnection.getSingeStringFromDb("SELECT TripBeginDate FROM DBA.Trip WHERE IDUser = " + user.getId() + " AND IDTrip = " + id, "TripBeginDate"), formatter);
+				LocalDate endDate = LocalDate.parse(dbConnection.getSingeStringFromDb("SELECT TripEndDate FROM DBA.Trip WHERE IDUser = " + user.getId() + " AND IDTrip = " + id, "TripEndDate"), formatter);
 				Travel travel = new Travel(name, startDate, endDate);
 				for (Day day : travel.days){ //Trzeba daæ kurwa komentarze, bo siê zgubiê
 					//Hotel
@@ -58,6 +58,7 @@ public class DatabaseHandlerTravelHistory {
 						hotel.street = dbConnection.getSingeStringFromDb("SELECT StreetName FROM DBA.Hotel WHERE IDCountry = " + countryId + " AND IDCity = " + cityId + " AND IDHotel = " + hotelId, "StreetName");
 						hotel.zipcode = dbConnection.getSingeStringFromDb("SELECT ZipCode FROM DBA.Hotel WHERE IDCountry = " + countryId + " AND IDCity = " + cityId + " AND IDHotel = " + hotelId, "ZipCode");
 						hotel.number = dbConnection.getSingeStringFromDb("SELECT StreetNumber FROM DBA.Hotel WHERE IDCountry = " + countryId + " AND IDCity = " + cityId + " AND IDHotel = " + hotelId, "StreetNumber");
+						System.out.println("DUPA" + dbConnection.getSingeStringFromDb("SELECT ArrivalDate FROM DBA.HotelDetail WHERE IDUser = " + user.getId() + " AND IDTrip = " + id + " AND ArrivalDate LIKE '" + day.date + " %'", "ArrivalDate"));
 						hotel.accomodation_startdate = LocalDateTime.parse(dbConnection.getSingeStringFromDb("SELECT ArrivalDate FROM DBA.HotelDetail WHERE IDUser = " + user.getId() + " AND IDTrip = " + id + " AND ArrivalDate LIKE '" + day.date + " %'", "ArrivalDate"));
 						hotel.accomodation_enddate = LocalDateTime.parse(dbConnection.getSingeStringFromDb("SELECT LeavingDate FROM DBA.HotelDetail WHERE IDUser = " + user.getId() + " AND IDTrip = " + id + " AND ArrivalDate LIKE '" + day.date + " %'", "LeavingDate"));
 						hotel.pricepernite = dbConnection.getFloatFromDb("SELECT HotelPrice FROM DBA.HotelDetail WHERE IDUser = " + user.getId() + " AND IDTrip = " + id + " AND ArrivalDate LIKE '" + day.date + " %'");
@@ -76,6 +77,7 @@ public class DatabaseHandlerTravelHistory {
 						int cityArrivalId = dbConnection.getIntFromDb("SELECT IDCityArrivalTransport FROM DBA.TransportDetail WHERE IDUser = " + user.getId() + " AND IDTrip = " + id + " AND TransportLeavingDatetime LIKE '" + day.date + " %'");
 						Transport transport = new Transport();
 						transport.country_start = commons.getCountryName(countryLeavingId);
+						System.out.println("start = " + transport.country_start);
 						transport.country_end = commons.getCountryName(countryArrivalId);
 						transport.city_start = commons.getCityName(countryLeavingId, cityLeavingId);
 						transport.city_end = commons.getCityName(countryArrivalId, cityArrivalId);
@@ -119,8 +121,9 @@ public class DatabaseHandlerTravelHistory {
 						day.attractions = attractions;
 					}
 					//Kraj i miasto
-					day.country = day.transport.country_start;
-					day.city = day.transport.city_start;
+					//System.out.println("Day transport country start: " + day.transport.country_start);
+					//day.country = day.transport.country_start;
+					//day.city = day.transport.city_start;
 				}
 				//Uzupelnienie travela
 				travel.setId(id);

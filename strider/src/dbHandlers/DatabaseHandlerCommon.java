@@ -32,6 +32,16 @@ public class DatabaseHandlerCommon {
 		return dbConnection.getIntFromDb("SELECT IDCountry FROM DBA.Country WHERE CountryName = '" + name + "'");
 	}
 	
+	public int getAttractionId(int country, int city, String name){
+		return dbConnection.getIntFromDb("SELECT IDAttraction FROM DBA.Attraction WHERE IDCountry = " + country + " AND IDCity = " + city + " AND AttractionName = '" + name + "')");
+	}
+	
+	
+	public int getTransportId(int category, String transportname)
+	{
+		return dbConnection.getIntFromDb("SELECT IDTransport FROM DBA.Transport WHERE TransportName = '" + transportname + "' AND IDTransportCategory = " + category);
+	}
+	
 	public List<String> getCities(int countryId){
 		return dbConnection.getStringsFromDb("SELECT CityName FROM DBA.City WHERE IDCountry = " + countryId, Arrays.asList("CityName"));	
 	}

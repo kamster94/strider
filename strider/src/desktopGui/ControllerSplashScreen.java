@@ -41,9 +41,8 @@ public class ControllerSplashScreen implements Initializable, ClearableScreen, C
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) 
 	{
-		
-		textfieldemail.setText("adriank@exception.com");
-		passwordfieldpassword.setText("martyna");
+		textfieldemail.setText("adriankepa@exception.com");
+		passwordfieldpassword.setText("dankmemes");
 		
 		imageviewlogo.setImage(imglogopalms);
 		imageviewlogotitle.setImage(imglogotext);

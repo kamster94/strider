@@ -535,7 +535,7 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 		a_button_addattraction.setOnAction(this);
 		h_button_addhotel.setOnAction(this);
 		t_button_addtransport.setOnAction(this);
-	
+		t_comboboxfueltype.setDisable(true);
 		t_combobox_transport_category.valueProperty().addListener(new ChangeListener<String>()
 		{
 			@Override
@@ -543,6 +543,7 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 			{
 				if(t_combobox_transport_category.getSelectionModel().isEmpty() == false)
 				{
+					t_combobox_transport_company.getItems().clear();
 					int catid = DatabaseHandlerTransportAdder.getInstance().getCategoryId(t_combobox_transport_category.getSelectionModel().getSelectedItem());
 					t_combobox_transport_company.getItems().setAll(DatabaseHandlerTransportAdder.getInstance().getProviders(catid));
 					t_combobox_transport_company.getSelectionModel().clearSelection();
@@ -552,13 +553,19 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 					if(selectedcategory.equals("Car"))
 					{
 						t_label_transportpriceconsumptionfuckyou.setText("Œrednie spalanie");
+						t_comboboxfueltype.getSelectionModel().clearSelection();
+						t_comboboxfueltype.setDisable(false);
 					}
 					else
 					{
 						t_label_transportpriceconsumptionfuckyou.setText("Cena biletu");
+						t_comboboxfueltype.getSelectionModel().clearSelection();
+						t_comboboxfueltype.setDisable(true);
 					}
 				}			
 				else t_label_transportpriceconsumptionfuckyou.setText("Cena biletu");
+				//t_comboboxfueltype.getSelectionModel().clearSelection();
+				//t_comboboxfueltype.setDisable(true);
 			}
 		});
 		
@@ -759,10 +766,22 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 					{
 						if(t_comboboxfueltype.getSelectionModel().isEmpty() == false)
 						{
-							double spalanie = Double.parseDouble(t_textfield_price.getText().replaceAll(",", "."));	
-							ResultsInformation information = new ResultsInformation(spalanie, distance, "e95");
-							calctransportcost = information.getFuelCost();
-							t_label_calcprice.setText("" + calctransportcost);
+							if(t_currencybox.getSelectionModel().isEmpty() == false)
+							{
+								double spalanie = Double.parseDouble(t_textfield_price.getText().replaceAll(",", "."));	
+								ResultsInformation information = new ResultsInformation(spalanie, distance, "e95");
+								calctransportcost = information.getFuelCost();
+								
+								t_label_calcprice.setText("" + calctransportcost + " " + t_currencybox.getSelectionModel().getSelectedItem());
+							}
+							else
+							{
+								Alert alert = new Alert(AlertType.INFORMATION);
+								alert.setTitle("Wyliczanie ceny transportu");
+								alert.setHeaderText(null);
+								alert.setContentText("Nie wybrano waluty.");
+								alert.showAndWait();	
+							}
 						}
 						else
 						{
@@ -891,6 +910,10 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 					if(at.notes.equals(""))at.notes = "Brak notatek";
 					at.price = Float.parseFloat(a_textfield_price.getText());
 					at.date = curdate;
+					
+					if(a_myattractions.getSelectionModel().isEmpty())at.iscustom = true;
+					else at.iscustom = false;
+					
 					TravelFramework.getInstance().getTravel().addAttractionToDay(curdate, at);
 					clearAttractionComponents();
 	
@@ -943,6 +966,10 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 					hot.pricepernite = Float.parseFloat(h_textfield_price.getText());
 					hot.currency = h_currencybox.getSelectionModel().getSelectedItem();
 					hot.notes = h_textarea_notes.getText();
+					
+					if(h_myhotels.getSelectionModel().isEmpty())hot.iscustom = true;
+					else hot.iscustom = false;
+					
 					TravelFramework.getInstance().getTravel().setHotelToDay(curdate, hot);
 				
 					clearHotelComponents();

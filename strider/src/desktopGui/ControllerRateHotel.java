@@ -311,7 +311,7 @@ public class ControllerRateHotel implements Initializable, ControlledScreen, Eve
 					Alert alert = new Alert(AlertType.INFORMATION);
 					alert.setTitle("Ocena hotelu");
 					alert.setHeaderText(null);
-					alert.setContentText("Minimalna ocena dla ka¿dej kategorii to 1 gwiazdka.");
+					alert.setContentText("Nie oceniono wszystkich kryteriów (Minimalna ocena to 1).");
 					alert.showAndWait();
 				}
 			}
