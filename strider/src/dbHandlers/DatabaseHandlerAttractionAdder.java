@@ -47,7 +47,7 @@ public class DatabaseHandlerAttractionAdder
 	
 	public List<VisitedAttractions> getVisitedAttractions(){
 		User user = User.getInstance();
-		List<Integer> ids = dbConnection.getIntegersFromDb("SELECT * FROM DBA.AttractionDetail WHERE IDUser = " + user.getId(), Arrays.asList("IDCountry", "IDCity", "IDAttraction"));
+		List<Integer> ids = dbConnection.getIntegersFromDb("SELECT IDCountry, IDCity, IDAttraction FROM DBA.AttractionDetail WHERE IDUser = " + user.getId() + " GROUP BY IDCountry, IDCity, IDAttraction", Arrays.asList("IDCountry", "IDCity", "IDAttraction"));
 		List<VisitedAttractions> visitedAttractions = new ArrayList<VisitedAttractions>();
 		if (ids.size()==0) return null;
 		for (int i = 0; i <= ids.size()-1; i+=3){
