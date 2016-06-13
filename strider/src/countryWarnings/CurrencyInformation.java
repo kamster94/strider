@@ -83,40 +83,39 @@ String getCurrencyURL(){
 	double usersCost = 0;
 	String url = "http://www.x-rates.com/calculator/?from=" + currency + "&to=" + usersCurrency + "&amount=" +cost;
 		
-	try{
+	try
+	{
 		Document document = Jsoup.connect(url)
-				.userAgent("Mozilla/5.0 (Windows; U; WindowsNT 5.1; en-US; rv1.8.1.6) Gecko/20070725 Firefox/2.0.0.6")
-				.referrer("http://www.google.com")		
-				.get();
+		.userAgent("Mozilla/5.0 (Windows; U; WindowsNT 5.1; en-US; rv1.8.1.6) Gecko/20070725 Firefox/2.0.0.6")
+		.referrer("http://www.google.com")		
+		.get();
 				
-				Elements foreign = document.select(("span[class=ccOutputTxt]"));
-				Elements users = document.select(("span[class=ccOutputRslt]")); 
+		Elements foreign = document.select(("span[class=ccOutputTxt]"));
+		Elements users = document.select(("span[class=ccOutputRslt]")); 
 				
-				if(!foreign.text().equals("0.00 --- =")){
-				String str = users.text().replaceAll(" ", "").replaceAll("[A-Z]", "");
-				int i = 0;
-				while(!str.substring(i,i+1).equals("."))
-				i++;
+		if(!foreign.text().equals("0.00 --- ="))
+		{
+			String str = users.text().replaceAll(" ", "").replaceAll("[A-Z]", "");
+			int i = 0;
+			
+			while(!str.substring(i,i+1).equals("."))i++;
+				
 						
-				str = str.substring(0, i+3);
+			str = str.substring(0, i+3);
 				
-				//Adrianek: Ten kalkulator dopierdala przecinki oddzielajace tysiace i sie spierdala jak podroz duzo kosztuje, to fixuje
-				str = str.replaceAll(",", "");
+			//Adrianek: Ten kalkulator dopierdala przecinki oddzielajace tysiace i sie spierdala jak podroz duzo kosztuje, to fixuje
+			str = str.replaceAll(",", "");
 				
-				usersCost = Double.valueOf(str);
-				}
-				else
-				usersCost = 0;
-				
-		}catch(Exception e1){
+			usersCost = Double.valueOf(str);
+		}
+		else usersCost = 0;
+		}
+		catch(Exception e1)
+		{
 			e1.printStackTrace();
 			System.out.println("Nie znaleziono przelicznika waluty");
 		}
-	
-	
-	
 	return usersCost;
-		
 }
 	
 	

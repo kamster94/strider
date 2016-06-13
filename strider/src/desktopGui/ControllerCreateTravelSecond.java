@@ -484,7 +484,7 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
     
     public boolean checkPriceInput(String text)
     {
-		String regex = "^\\d+\\.?\\d+$";
+		String regex = "^\\d+(\\.\\d+)?$";
 		Pattern p = Pattern.compile(regex);
 		Matcher match = p.matcher(text);
 		if(match.find() == true)return true;
@@ -651,6 +651,12 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 		if(a_textfield_name.getText().isEmpty())return false;
 		if(a_textfield_price.getText().isEmpty())return false;
 		if(a_currencybox.getSelectionModel().isEmpty())return false;
+		
+		if(a_textfield_name.getText().length() > 100)return false;
+		if(a_textfield_street.getText().length() > 100)return false;
+		if(a_textfield_zipcode.getText().length() > 100)return false;
+		if(a_textfield_number.getText().length() > 100)return false;
+	
 		return true;
 	}
 	
@@ -663,6 +669,12 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 		if(h_datepicker_end.getValue() == null)return false;
 		if(h_textfield_price.getText().isEmpty())return false;
 		if(h_currencybox.getValue().isEmpty())return false;
+
+		if(h_textfield_name.getText().length() > 100)return false;
+		if(h_textfield_zipcode.getText().length() > 100)return false;
+		if(h_textfield_street.getText().length() > 100)return false;
+		if(h_textfield_number.getText().length() > 100)return false;
+
 		return true;
 	}
 	
@@ -727,7 +739,12 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 		Pattern p = Pattern.compile(regex);
 		Matcher match = p.matcher(field.getText());
 		
-		if(match.find() == true)return true;
+		if(match.find() == true)
+		{
+			if(getHourFromTextField(field) < 0 || getHourFromTextField(field) > 23)return false;
+			if(getMinutesFromTextField(field) < 0 || getMinutesFromTextField(field) > 59)return false;
+			return true;
+		}	
 		else 
 		{
 			if(field.getText().isEmpty() == true)return true;
@@ -940,6 +957,11 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 						at.price = Double.parseDouble(a_textfield_price.getText());
 						at.date = curdate;
 					
+						if(at.openfrom.isEmpty() == true)at.openfrom = LocalTime.MIN.toString();
+						else at.openfrom = makeFuckingStringTime(a_textfield_openfrom.getText());
+						if(at.opento.isEmpty() == true)at.opento = LocalTime.MIN.toString();
+						else at.opento = makeFuckingStringTime(a_textfield_opentill.getText());
+						
 						if(a_myattractions.getSelectionModel().isEmpty())at.iscustom = true;
 						else at.iscustom = false;
 					
@@ -1138,7 +1160,17 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
         dist = lista2.get(0).getDistance().getText();
         distance = lista2.get(0).getDistance().getValue();
 	}
-
+	
+	private int getHourFromString(String txt)
+	{
+		return Integer.parseInt(txt.substring(0, 2));
+	}
+	
+	private int getMinutesFromString(String txt)
+	{
+		return Integer.parseInt(txt.substring(3, 5));
+	}
+	
 	@Override
 	public void mapInitialized() 
 	{
@@ -1157,5 +1189,13 @@ public class ControllerCreateTravelSecond implements Initializable, ControlledSc
 	    directions = mapView.getDirec();
 	    renderer = new DirectionsRenderer(true, map, directions);	
 	    mapView.getMap().hideDirectionsPane();
+	}
+	public String makeFuckingStringTime(String shitsql)
+	{
+		String time = "";
+		String hour = shitsql.substring(0, 2);
+		String minute = shitsql.substring(3, 5);
+		time = "" + hour + ":" + minute;
+		return time;
 	}
 }

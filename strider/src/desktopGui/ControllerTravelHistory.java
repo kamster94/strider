@@ -7,6 +7,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.net.URL;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.LinkedList;
 import java.util.List;
@@ -71,7 +72,16 @@ public class ControllerTravelHistory implements ControlledScreen, Initializable,
 	{
 		myController = screenPage;		
 	}
-    
+
+	public String makeFuckingStringTime(String shitsql)
+	{
+		String time = "";
+		String hour = shitsql.substring(11, 13);
+		String minute = shitsql.substring(14, 16);
+		time = "" + hour + ":" + minute;
+		return time;
+	}
+	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) 
 	{
@@ -230,15 +240,23 @@ public class ControllerTravelHistory implements ControlledScreen, Initializable,
     	return cost;
     }
     
+	public String makeFuckingStringTime2(String shitsql)
+	{
+		String time = "";
+		String hour = shitsql.substring(0, 2);
+		String minute = shitsql.substring(3, 5);
+		time = "" + hour + ":" + minute;
+		return time;
+	}
+	
 	public void populateSummary()
 	{
 		String usercurrency = DatabaseHandlerCommon.getInstance().getCurrencyName(User.getInstance().getCurrencyId());
-		double transportcost = calculateTransportCost();
-    	double hotelcost = calculateHotelCost();
-    	double attractioncost = calculateAttractionCost();
-    	double allcost = transportcost + hotelcost + attractioncost;
+		double transportcost = new BigDecimal(calculateTransportCost()).setScale(2, RoundingMode.HALF_UP).doubleValue();
+    	double hotelcost = new BigDecimal(calculateHotelCost()).setScale(2, RoundingMode.HALF_UP).doubleValue();
+    	double attractioncost = new BigDecimal(calculateAttractionCost()).setScale(2, RoundingMode.HALF_UP).doubleValue();
+    	double allcost = new BigDecimal(transportcost + hotelcost + attractioncost).setScale(2, RoundingMode.HALF_UP).doubleValue();
     	int numdays = daypanes.size();
-    	
     	
     	label_transportcost.setText("Koszt transportów: " + transportcost + " " + usercurrency);
     	label_hotelcost.setText("Koszt noclegów: " + hotelcost + " " + usercurrency);
@@ -274,8 +292,8 @@ public class ControllerTravelHistory implements ControlledScreen, Initializable,
         		Label trans_end_label = new Label(trans_end_name);
         		Label trans_start_type = new Label("Rodzaj : Wyjazd");
         		Label trans_end_type = new Label("Rodzaj : Przyjazd");
-        		Label trans_start_time = new Label("Godzina: " + trans.startdatetime.getHour() + ":" + trans.startdatetime.getMinute());
-        		Label trans_end_time = new Label("Godzina: " + trans.enddatetime.toLocalTime().toString());
+        		Label trans_start_time = new Label("Godzina: " + makeFuckingStringTime(trans.startdatetime.toString()));
+        		Label trans_end_time = new Label("Godzina: " + makeFuckingStringTime(trans.enddatetime.toString()));
         		
         		double recalculated_cost = (CurrencyInformation.getUserCurrencyCost(trans.calcdcost, trans.currency, usercurrency));
         		recalculated_cost = new BigDecimal(recalculated_cost).setScale(2, RoundingMode.HALF_UP).doubleValue();
@@ -313,8 +331,8 @@ public class ControllerTravelHistory implements ControlledScreen, Initializable,
         		
         		TitledPane hotelpane_arrival = new TitledPane();
         		TitledPane hotelpane_leaving = new TitledPane();
-        		hotelpane_arrival.setText("HOTEL | " + hot.name + " | Przyjazd");
-        		hotelpane_leaving.setText("HOTEL | " + hot.name + " | Wyjazd");
+        		hotelpane_arrival.setText("HOTEL | " + hot.name + " | Zameldowanie");
+        		hotelpane_leaving.setText("HOTEL | " + hot.name + " | Wymeldowanie");
 
         		LocalDate date_arrival = (hot.accomodation_startdate).toLocalDate();
         		LocalDate date_leaving = (hot.accomodation_enddate).toLocalDate();
@@ -324,16 +342,20 @@ public class ControllerTravelHistory implements ControlledScreen, Initializable,
         		hotelvbox_arrival.setSpacing(10);
         		hotelvbox_leaving.setSpacing(10);
         			
-        		Label type_arrival = new Label("Rodzaj : Przyjazd do hotelu.");
-        		Label type_leaving = new Label("Rodzaj : Wyjazd z hotelu.");
+        		Label type_arrival = new Label("Rodzaj : Zameldowanie.");
+        		Label type_leaving = new Label("Rodzaj : Wymeldowanie.");
         			
         		double hoteloverallprice = hot.pricepernite * (ChronoUnit.DAYS.between(date_arrival, date_leaving) + 1);
-        			
         		double recalculated_overallprice = (CurrencyInformation.getUserCurrencyCost(hoteloverallprice, hot.currency, usercurrency));
         		double recalculated_niteprice = (CurrencyInformation.getUserCurrencyCost(hot.pricepernite, hot.currency, usercurrency));
+        		double pricepernite_cut = new BigDecimal(hot.pricepernite).setScale(2, RoundingMode.HALF_UP).doubleValue();
+        		
+        		hoteloverallprice = new BigDecimal(hoteloverallprice).setScale(2, RoundingMode.HALF_UP).doubleValue();
+        		recalculated_overallprice = new BigDecimal(recalculated_overallprice).setScale(2, RoundingMode.HALF_UP).doubleValue();
+        		recalculated_niteprice = new BigDecimal(recalculated_niteprice).setScale(2, RoundingMode.HALF_UP).doubleValue();
         		
         		Label price_arrival = new Label("Cena za pobyt: " + hoteloverallprice + " " + hot.currency + " (" + recalculated_overallprice + " " + usercurrency + ")");
-        		Label price_nite = new Label("Cena za noc: " + hot.pricepernite + " " + hot.currency + " (" + recalculated_niteprice + " " + usercurrency + ")");
+        		Label price_nite = new Label("Cena za noc: " + pricepernite_cut + " " + hot.currency + " (" + recalculated_niteprice + " " + usercurrency + ")");
         		
         		TitledPane tpnotes1 = new TitledPane();
         		tpnotes1.setExpanded(false);
@@ -381,7 +403,13 @@ public class ControllerTravelHistory implements ControlledScreen, Initializable,
 				VBox attrvbox = new VBox();
 				attrvbox.setSpacing(10);
 				Label atname = new Label("Nazwa atrakcji: " + at.name);
-				Label athours = new Label("Godziny otwarcia: od " + at.openfrom + " do " + at.opento);
+				Label athours = new Label("");
+				
+				at.openfrom = makeFuckingStringTime2(at.openfrom);
+				at.opento = makeFuckingStringTime2(at.opento);
+				
+				if(!(at.openfrom.equals("00:00") && at.opento.equals("00:00")))
+				athours.setText("Godziny otwarcia: od " + at.openfrom + " do " + at.opento);
 				
         		double recalculated_cost = (CurrencyInformation.getUserCurrencyCost(at.price, at.currency, usercurrency));
 				Label price = new Label("Cena: " + at.price + " " + at.currency + " (" + recalculated_cost + " " + usercurrency + ")");

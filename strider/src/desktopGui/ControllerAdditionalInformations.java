@@ -8,6 +8,7 @@ import countryWarnings.CountryInformation;
 import countryWarnings.CurrencyInformation;
 import countryWarnings.SampleController;
 import countryWarnings.WeatherInformation;
+import dbConnection.DbAccess;
 import dbHandlers.DatabaseHandlerCommon;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -100,33 +101,44 @@ public class ControllerAdditionalInformations implements Initializable, Controll
 		}
 		else if(arg0.getSource() == button_findcountry)
 		{
-			citybox.getSelectionModel().clearSelection();
-			
-			if(countrybox.getSelectionModel().isEmpty() == false)
+			if(DbAccess.getInstance().testInternetConnection())
 			{
-				clearCountryComponents();
-				clearCityComponents();
-				
-				citybox.getItems().setAll(DatabaseHandlerCommon.getInstance().getCities(countrybox.getSelectionModel().getSelectedIndex()));
-				CountryInformation countryinfo = CountryWarningsHandlerCommon.getInstance().getCountryInformation(countrybox.getSelectionModel().getSelectedItem());
-				CurrencyInformation currencyinfo = new CurrencyInformation(countryinfo);
-				currencyWebView.getEngine().loadContent(currencyinfo.getCurrencyInformationHtml().toString());
-				countryWebView.getEngine().load(countryinfo.countryURL);
-				
-				if(countrybox.getSelectionModel().getSelectedItem().equals("Polska"))
+				citybox.getSelectionModel().clearSelection();
+			
+				if(countrybox.getSelectionModel().isEmpty() == false)
 				{
+					clearCountryComponents();
+					clearCityComponents();
+				
+					citybox.getItems().setAll(DatabaseHandlerCommon.getInstance().getCities(countrybox.getSelectionModel().getSelectedIndex()));
+					CountryInformation countryinfo = CountryWarningsHandlerCommon.getInstance().getCountryInformation(countrybox.getSelectionModel().getSelectedItem());
+					CurrencyInformation currencyinfo = new CurrencyInformation(countryinfo);
+					currencyWebView.getEngine().loadContent(currencyinfo.getCurrencyInformationHtml().toString());
+					countryWebView.getEngine().load(countryinfo.countryURL);
 					
-					countryWebView.setDisable(true);
-					Alert alert = new Alert(AlertType.INFORMATION);
-					alert.setTitle("Informacje szczegó³owe");
-					alert.setHeaderText(null);
-					alert.setContentText("Ministerstwo Spraw Zagranicznych nie udostêpnia informacji o Polsce.");
-					alert.showAndWait();
+					if(countrybox.getSelectionModel().getSelectedItem().equals("Polska"))
+					{
+						
+						countryWebView.setDisable(true);
+						Alert alert = new Alert(AlertType.INFORMATION);
+						alert.setTitle("Informacje szczegó³owe");
+						alert.setHeaderText(null);
+						alert.setContentText("Ministerstwo Spraw Zagranicznych nie udostêpnia informacji o Polsce.");
+						alert.showAndWait();
+					}
+					else
+					{
+						countryWebView.setDisable(false);
+					}
 				}
-				else
-				{
-					countryWebView.setDisable(false);
-				}
+			}
+			else
+			{
+				Alert alert = new Alert(AlertType.INFORMATION);
+				alert.setTitle("Informacje szczegó³owe");
+				alert.setHeaderText(null);
+				alert.setContentText("Brak po³¹czenia z internetem.");
+				alert.showAndWait();	
 			}
 		}
 		else if(arg0.getSource() == button_findcity)
@@ -140,6 +152,14 @@ public class ControllerAdditionalInformations implements Initializable, Controll
 				celsiusTextArea.setText(weatherinfo.celsius);
 			}
 			else clearCityComponents();
+		}
+		else
+		{
+			Alert alert = new Alert(AlertType.INFORMATION);
+			alert.setTitle("Informacje szczegó³owe");
+			alert.setHeaderText(null);
+			alert.setContentText("Brak po³¹czenia z internetem.");
+			alert.showAndWait();		
 		}
 	}	
 }

@@ -54,7 +54,7 @@ public class DbAccess{
 	
 	public boolean testConnection(){
 		try {
-			connectionString = "jdbc:sqlanywhere:uid="+login+";pwd="+password+";eng=traveladvisordb;database=traveladvisordb;host=5.134.69.28:15244";
+			connectionString = "jdbc:sqlanywhere:uid="+login+";pwd="+password+";eng=traveladvisordb;database=traveladvisordb;host=5.134.69.28kek:15244";
 			connection = DriverManager.getConnection(connectionString); 
  			return true;
  		} catch (SQLException e) {

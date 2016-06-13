@@ -80,6 +80,9 @@ public class ControllerChangeUserOptions implements Initializable, ControlledScr
 				int newcityid = DatabaseHandlerCommon.getInstance().getCityId(citybox.getSelectionModel().getSelectedItem());
 				int newcurrencyid = DatabaseHandlerCommon.getInstance().getCurrencyId(currencybox.getSelectionModel().getSelectedItem());
 				DatabaseHandlerLogin.getInstance().updateUserPreferences(newcountryid, newcityid, newcurrencyid);
+				User.getInstance().setCityId(newcityid);
+				User.getInstance().setCountryId(newcountryid);
+				User.getInstance().setCurrencyId(newcurrencyid);
 				Alert alert = new Alert(AlertType.INFORMATION);
 				alert.setTitle("Zmieñ ustawienia u¿ytkownika");
 				alert.setHeaderText(null);

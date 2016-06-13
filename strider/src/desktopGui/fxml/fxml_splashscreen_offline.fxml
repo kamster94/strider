@@ -25,7 +25,7 @@
             </ImageView>
             <Label fx:id="labelkektext" />
             <Separator maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="25.0" visible="false" />
-            <Label text="Brak połączenia z bazą danych." />
+            <Label text="Brak połączenia z internetem lub bazą danych." />
             <Separator maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="25.0" visible="false" />
             <Button fx:id="button_exit" mnemonicParsing="false" text="Wyjśce" />
          </children>

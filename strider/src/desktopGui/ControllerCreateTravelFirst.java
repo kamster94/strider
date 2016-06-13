@@ -72,21 +72,32 @@ public class ControllerCreateTravelFirst implements Initializable, ControlledScr
 		{
 			if(checkInputCompletion() == true)
 			{
-				long difference = ChronoUnit.DAYS.between(datepicker_start.getValue(), datepicker_end.getValue());
-				
-				if(difference > 28)
+				if(textfield_tripname.getText().length() < 100)
+				{
+					long difference = ChronoUnit.DAYS.between(datepicker_start.getValue(), datepicker_end.getValue());
+					
+					if(difference > 28)
+					{
+						Alert alert = new Alert(AlertType.ERROR);
+						alert.setTitle("Tworzenie podró¿y");
+						alert.setHeaderText(null);
+						alert.setContentText("Podró¿ jest zbyt d³uga (maksimum 28 dni).");
+						alert.showAndWait();
+					}
+					else
+					{
+						Travel trav = new Travel(textfield_tripname.getText(), datepicker_start.getValue(), datepicker_end.getValue());
+						TravelFramework.getInstance().setTravel(trav);					
+						myController.loadScreenAndSet(WindowMain.NEWTRAVELSECOND, WindowMain.NEWTRAVELSECOND_FXML);
+					}
+				}
+				else
 				{
 					Alert alert = new Alert(AlertType.ERROR);
 					alert.setTitle("Tworzenie podró¿y");
 					alert.setHeaderText(null);
-					alert.setContentText("Podró¿ jest zbyt d³uga (maksimum 28 dni).");
+					alert.setContentText("Nazwa podró¿y jest za d³uga (maksimum 100 znaków).");
 					alert.showAndWait();
-				}
-				else
-				{
-					Travel trav = new Travel(textfield_tripname.getText(), datepicker_start.getValue(), datepicker_end.getValue());
-					TravelFramework.getInstance().setTravel(trav);					
-					myController.loadScreenAndSet(WindowMain.NEWTRAVELSECOND, WindowMain.NEWTRAVELSECOND_FXML);
 				}
 			}
 			else

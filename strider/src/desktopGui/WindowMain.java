@@ -80,8 +80,7 @@ public class WindowMain extends Application
 	        e.printStackTrace();  
 	    } 
 		catch (IOException e) 
-		{  
-
+		{  
 	        e.printStackTrace();  
 	    }
 		
@@ -91,7 +90,7 @@ public class WindowMain extends Application
 		//Ju¿ jest sens ;* k.
 		//dziêki <3 a.
 		
-		if(DbAccess.getInstance().testConnection() == true)
+		if(DbAccess.getInstance().testConnection() && DbAccess.getInstance().testInternetConnection())
 		{
 			mainContainer.loadScreenAndSet(WindowMain.SPLASH_SCREEN, WindowMain.SPLASH_SCREEN_FXML);
 		}
@@ -101,7 +100,7 @@ public class WindowMain extends Application
 			Alert alert = new Alert(AlertType.INFORMATION);
 			alert.setTitle("Brak po³¹czenia");
 			alert.setHeaderText(null);
-			alert.setContentText("Nie mo¿na po³¹czyæ z baz¹ danych.");
+			alert.setContentText("Wyst¹pi³ problem podczas próby po³¹czenia z internetem lub baz¹ danych.");
 			alert.showAndWait();
 		}
 		
@@ -160,7 +159,7 @@ public class WindowMain extends Application
 		ft.setFromValue(1.0);
 		ft.setToValue(0.0);
 		ft.play();
-		
+
 		ft.setOnFinished(new EventHandler<ActionEvent>() 
 		{
 			@Override

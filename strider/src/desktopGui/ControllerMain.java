@@ -3,6 +3,7 @@ package desktopGui;
 import java.net.URL;
 import java.util.ResourceBundle;
 import Model.User;
+import dbConnection.DbAccess;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
