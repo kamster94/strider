@@ -56,8 +56,9 @@ public class DatabaseHandlerTravelHistory
 	
 	public List<Travel> getUserTravels(){
 		List<Integer> ids = dbConnection.getIntegersFromDb("SELECT IDTrip FROM DBA.Trip WHERE IDUser = " + user.getId(), Arrays.asList("IDTrip"));
+		System.out.println("Userid: " + user.getId());
 		List<Travel> travels = new ArrayList<Travel>();
-		if (!ids.isEmpty()){
+		if (ids != null && !ids.isEmpty()){
 			for (int id : ids){
 				String name = dbConnection.getSingeStringFromDb("SELECT TripName FROM DBA.Trip WHERE IDUser = " + user.getId() + " AND IDTrip = " + id, "TripName");
 				LocalDate startDate = makeFuckingLocalDate(dbConnection.getSingeStringFromDb("SELECT TripBeginDate FROM DBA.Trip WHERE IDUser = " + user.getId() + " AND IDTrip = " + id, "TripBeginDate"));

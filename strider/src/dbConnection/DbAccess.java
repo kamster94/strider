@@ -35,34 +35,47 @@ public class DbAccess{
 		return self;
 	}
 	
-	private DbAccess(String login, String password){
+	private DbAccess(String login, String password)
+	{
 		this.login = login;
 		this.password = password;
-		try {  
+		try 
+		{  
 			FileHandler fh;  
 	        fh = new FileHandler("./logs/connectionLog.log", true);  
 	        connectionLogger.addHandler(fh);
 	        connectionLogger.setUseParentHandlers(false);
 	        SimpleFormatter formatter = new SimpleFormatter();  
 	        fh.setFormatter(formatter);  
-	    } catch (SecurityException e) {  
+	    } 
+		catch (SecurityException e) 
+		{  
 	        e.printStackTrace();  
-	    } catch (IOException e) {  
+	    } 
+		catch (IOException e) 
+		{  
 	        e.printStackTrace();  
 	    } 
 	}
 	
-	public boolean testConnection(){
-		try {
+	public boolean testConnection()
+	{
+		try 
+		{
 			connectionString = "jdbc:sqlanywhere:uid="+login+";pwd="+password+";eng=traveladvisordb;database=traveladvisordb;host=5.134.69.28kek:15244";
 			connection = DriverManager.getConnection(connectionString); 
  			return true;
- 		} catch (SQLException e) {
- 			try {
+ 		} 
+		catch (SQLException e) 
+		{
+ 			try 
+ 			{
  				connectionString = "jdbc:sqlanywhere:uid="+login +";pwd="+password+";eng=traveladvisordb";
  				connection = DriverManager.getConnection(connectionString);
  				return true;
- 			} catch (SQLException e1) {
+ 			} 
+ 			catch (SQLException e1) 
+ 			{
  				connectionLogger.log(Level.SEVERE, e1.toString());
  				return false;
  			}
@@ -74,7 +87,8 @@ public class DbAccess{
 	}
 	
 	public List<String> getStringsFromDb(String sql, List<String> columns){
-		try {
+		try 
+		{
 			connectToDb();
 			PreparedStatement statement = connection.prepareStatement(sql);
 	        ResultSet result = statement.executeQuery();
@@ -88,14 +102,17 @@ public class DbAccess{
 	        statement.close();
 	        connection.close();
 	        return values;
-		} catch (SQLException e) {
+		} 
+		catch (SQLException e) 
+		{
 			connectionLogger.log(Level.SEVERE, e.toString());
 			return null;
 		}
 	}
 	
 	public List<Float> getFloatsFromDb(String sql, List<String> columns){
-		try {
+		try 
+		{
 			connectToDb();
 			PreparedStatement statement = connection.prepareStatement(sql);
 	        ResultSet result = statement.executeQuery();
@@ -109,20 +126,25 @@ public class DbAccess{
 	        statement.close();
 	        connection.close();
 	        return values;
-		} catch (SQLException e) {
+		} 
+		catch (SQLException e) 
+		{
 			connectionLogger.log(Level.SEVERE, e.toString());
 			return null;
 		}
 	}
 	
 	public List<Integer> getIntegersFromDb(String sql, List<String> columns){
-		try {
+		try 
+		{
 			connectToDb();
 			PreparedStatement statement = connection.prepareStatement(sql);
 	        ResultSet result = statement.executeQuery();
 	        List<Integer> values = new ArrayList<Integer>();
-	        while (result.next()) {
-	        	for (String column : columns) {
+	        while (result.next()) 
+	        {
+	        	for (String column : columns) 
+	        	{
 	    			values.add(result.getInt(column));
 	    		}
 	        }
@@ -130,20 +152,25 @@ public class DbAccess{
 	        statement.close();
 	        connection.close();
 	        return values;
-		} catch (SQLException e) {
+		} 
+		catch (SQLException e) 
+		{
 			connectionLogger.log(Level.SEVERE, e.toString());
 			return null;
 		}
 	}
 	
 	public boolean pushToDb(String sql){
-		try {
+		try 
+		{
 			connectToDb();
 			PreparedStatement statement = connection.prepareStatement(sql);
 			connectionLogger.log(Level.SEVERE, sql);
 			statement.executeUpdate(sql);
 			return true;
-		} catch(SQLException e){
+		} 
+		catch(SQLException e)
+		{
 			connectionLogger.log(Level.SEVERE, e.toString());
 			e.printStackTrace();
 			return false;
@@ -151,85 +178,104 @@ public class DbAccess{
 	}
 	
 	public boolean checkBoolInDb(String sql, List<String> params){
-		try {
+		try 
+		{
 			connectToDb();
 			PreparedStatement statement = connection.prepareStatement(sql);
 			int index = 1;
-			for (String param : params){
+			for (String param : params)
+			{
 				statement.setString(index, param);
 				index++;
 			}
 	        ResultSet result = statement.executeQuery();
-			if (result.next()){
+			if (result.next())
+			{
 				if (result.getInt(0) == 0) return false;
 				else return true;
 			}
 			else return false;
-		} catch(SQLException e){
+		} 
+		catch(SQLException e)
+		{
 			connectionLogger.log(Level.SEVERE, e.toString());
 			return false;
 		}     
 	}
 	
 	public int getIntFromDb(String sql){
-		try {
+		try 
+		{
 			connectToDb();
 			PreparedStatement statement = connection.prepareStatement(sql);
 	        ResultSet result = statement.executeQuery();
 	        int value = -1;
-	        if (result.next()) {
+	        if (result.next()) 
+	        {
 	    		value = result.getInt(1);
 	        }
 	        result.close();
 	        statement.close();
 	        connection.close();
 	        return value;
-		} catch (SQLException | NullPointerException e) {
+		} 
+		catch (SQLException | NullPointerException e) 
+		{
 			connectionLogger.log(Level.SEVERE, e.toString());
 			return -1;
 		}
 	}
 	
-	public float getFloatFromDb(String sql){
-		try {
+	public float getFloatFromDb(String sql)
+	{
+		try 
+		{
 			connectToDb();
 			PreparedStatement statement = connection.prepareStatement(sql);
 	        ResultSet result = statement.executeQuery();
 	        float value = -1;
-	        if (result.next()) {
+	        if (result.next()) 
+	        {
 	    		value = result.getFloat(1);
 	        }
 	        result.close();
 	        statement.close();
 	        connection.close();
 	        return value;
-		} catch (SQLException | NullPointerException e) {
+		} 
+		catch (SQLException | NullPointerException e) 
+		{
 			connectionLogger.log(Level.SEVERE, e.toString());
 			return -1;
 		}
 	}
 	
 	public String getSingeStringFromDb(String sql, String wiersz){
-		try {
+		try 
+		{
 			connectToDb();
 			PreparedStatement statement = connection.prepareStatement(sql);
 	        ResultSet result = statement.executeQuery();
 	        String value = "";
-	        while (result.next()) {
+	        while (result.next()) 
+	        {
 	    		value = result.getString(wiersz);
 	        }
 	        result.close();
 	        statement.close();
 	        connection.close();
 	        return value;
-		} catch (SQLException e) {
+		} 
+		catch (SQLException e) 
+		{
 			connectionLogger.log(Level.SEVERE, e.toString());
 			return "err";
 		}
 	}
 	
 	public ObservableList<String> getStringsFromDbAsObservableList(String sql, String column){
-		try {
+		try 
+		{
 			connectToDb();
 			PreparedStatement statement = connection.prepareStatement(sql);
 	        ResultSet result = statement.executeQuery();
@@ -242,24 +288,32 @@ public class DbAccess{
 	        statement.close();
 	        connection.close();
 	        return values;
-		} catch (SQLException e) {
+		} 
+		catch (SQLException e)
+		{
 			connectionLogger.log(Level.SEVERE, e.toString());
 			return null;
 		}
 	}
 	
-	public boolean testInternetConnection(){
-        try {
+	public boolean testInternetConnection()
+	{
+        try 
+        {
             URL url = new URL("http://www.google.com");
 
             HttpURLConnection urlConnect = (HttpURLConnection)url.openConnection();
 
             @SuppressWarnings("unused")
 			Object objData = urlConnect.getContent();
-        } catch (UnknownHostException e) {
+        } 
+        catch (UnknownHostException e)
+        {
         	connectionLogger.log(Level.SEVERE, e.toString());
             return false;
-        } catch (IOException e) {
+        } 
+        catch (IOException e)
+        {
         	connectionLogger.log(Level.SEVERE, e.toString());
             return false;
         }

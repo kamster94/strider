@@ -118,7 +118,6 @@ public class ControllerAdditionalInformations implements Initializable, Controll
 					
 					if(countrybox.getSelectionModel().getSelectedItem().equals("Polska"))
 					{
-						
 						countryWebView.setDisable(true);
 						Alert alert = new Alert(AlertType.INFORMATION);
 						alert.setTitle("Informacje szczegó³owe");

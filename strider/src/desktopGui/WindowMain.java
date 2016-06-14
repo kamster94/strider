@@ -1,6 +1,7 @@
 package desktopGui;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
@@ -149,7 +150,13 @@ public class WindowMain extends Application
 	{
 		ComboBox<String> currencyBox = new ComboBox<String>();
 		new AutoCompleteComboBoxListener<String>(currencyBox);
-		currencyBox.getItems().setAll(DatabaseHandlerCommon.getInstance().getCurrencies());
+		
+		//IRR, KRW, COP, IDR-> format wyk³adniczy lel
+		
+		
+		
+		currencyBox.getItems().addAll("ARS","BRL","CLP","CZK","HUF","IRR","KRW","MUR","NOK","PLN","SAR","SEK","TTD","USD","DKK","ISK","ILS","KWD","MXN","OMR","QAR","SGD","CHF","AUD","BND","BHD","COP","EUR","INR","JPY","LYD","NPR","PKR","ZAR","TWD","AED","BWP","CAD","IDR","KZT","MYR","NZD","PHP","RUB","LKR","THB","GBP");
+		//currencyBox.getItems().setAll(DatabaseHandlerCommon.getInstance().getCurrencies());
 		return currencyBox;
 	}
 
