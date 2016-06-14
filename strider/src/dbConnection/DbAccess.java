@@ -167,6 +167,8 @@ public class DbAccess{
 			PreparedStatement statement = connection.prepareStatement(sql);
 			connectionLogger.log(Level.SEVERE, sql);
 			statement.executeUpdate(sql);
+			statement.close();
+			connection.close();
 			return true;
 		} 
 		catch(SQLException e)

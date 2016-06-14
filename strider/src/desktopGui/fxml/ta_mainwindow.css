@@ -247,4 +247,9 @@
 	-fx-text-fill: white;
 }
 
+.combo-box
+{
+	-fx-background-color: white;
+	-fx-border-color: dodgerblue;
+}
 
